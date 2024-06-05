@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href=""><img src="/images/icons5.png" class="nav_icon"/>&nbsp;숙박</a>
-        </li>
+        </li> 
         <li class="nav-item">
           <a class="nav-link" href=""><img src="/images/icons6.png" class="nav_icon"/>&nbsp;여행자보험</a>
         </li>
