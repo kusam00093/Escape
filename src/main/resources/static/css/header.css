@@ -1,0 +1,40 @@
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* You can also use 'space-between' or 'space-evenly' */
+  align-items: center;
+  margin : 0 auto;
+  font-size : 18px;
+  padding-left: 10px;
+  margin-bottom: 0;
+  list-style: none;
+  font-weight: bolder;
+  
+}
+
+.nav_icon{
+	height: 30px;
+	width:  30px;
+	
+}
+.nav-item {
+  margin: 0 10px; /* Adjust the margin as needed for spacing */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black; /* Adjust the color as needed */
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px; /* Adjust the padding as needed */
+}
+.form-control {
+  width: 300px; /* Adjust the width as needed */
+  background-color: #fff;
+}
+.navbar navbar-light bg-light{
+	background-color: #fff;
+	
+}
