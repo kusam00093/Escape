@@ -22,5 +22,7 @@
 
 <h2> escape 프로젝트 </h2>
 
+<%@include file="/WEB-INF/include/footer.jsp"%>
 </body>
+
 </html>

@@ -9,7 +9,7 @@
 		<nav class="navbar navbar-light " style="background-color: #fff;">
 		  <div class="container-fluid">
 		    <form class="d-flex">
-		      <input class="form-control " type="search" placeholder="검색어를 입력하세요" aria-label="Search">
+		      <input class="form-control package_search_1" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
 		      <button class="btn btn-outline-success" type="submit">검색</button>
 		    </form>
 		  </div>

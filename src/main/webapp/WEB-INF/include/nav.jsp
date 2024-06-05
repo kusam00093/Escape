@@ -7,7 +7,7 @@
           <a class="nav-link active" aria-current="page" href="/"><img src="/images/icons4.png"  class="nav_icon"/>&nbsp;Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=""><img src="/images/icons2.png" class="nav_icon"/>&nbsp;여행패키지</a>
+          <a class="nav-link" href="/Package/Home"><img src="/images/icons2.png" class="nav_icon"/>&nbsp;여행패키지</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href=""><img src="/images/icons8-2.png" class="nav_icon"/>&nbsp;항공</a>
