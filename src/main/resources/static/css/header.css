@@ -1,0 +1,103 @@
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* You can also use 'space-between' or 'space-evenly' */
+  align-items: center;
+  margin : 0 auto;
+  font-size : 18px;
+  padding-left: 10px;
+  margin-bottom: 0;
+  list-style: none;
+  font-weight: bolder;
+  
+}
+
+.nav_icon{
+	height: 30px;
+	width:  30px;
+	
+}
+.nav-item {
+  margin: 0 10px; /* Adjust the margin as needed for spacing */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black; /* Adjust the color as needed */
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px; /* Adjust the padding as needed */
+}
+.form-control {
+  width: 300px; /* Adjust the width as needed */
+  background-color: #fff;
+}
+.navbar navbar-light bg-light{
+	background-color: #fff;
+	
+}
+
+  .package_search_1 {
+    padding-left: 30px; /* 이미지를 표시할 공간 확보 */
+    background-image: url('/images/icons_search.png');
+    background-repeat: no-repeat;
+    background-position: 5px center; /* 이미지 위치 조정 */
+    background-size: 20px; /* 이미지 크기 조정 */
+  }
+    footer {
+      background-color: #343a40; /* 어두운 배경색 설정 */
+      padding: 20px 0;
+      color: #f8f9fa; /* 텍스트 색상 밝게 설정 */
+      font-size: 14px;
+    }
+    footer .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    footer .info_contents1 {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    footer .info_contents1 > div {
+      flex: 1;
+      min-width: 250px;
+      margin: 10px;
+    }
+    footer h5 {
+      margin-top: 0;
+    }
+    footer a {
+      text-decoration: none;
+      color: #007bff;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    footer .support {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0 0 0;
+    }
+    footer .support li {
+      margin: 0 10px;
+    }
+    footer .support a {
+      text-decoration: none;
+      color: #f8f9fa; /* 텍스트 색상 밝게 설정 */
+    }
+    footer .support a:hover {
+      text-decoration: underline;
+    }
+    footer .bi-youtube {
+      font-size: 24px;
+      color: #ff0000;
+      margin-top: 20px;
+      display: block;
+      text-align: center;
+    }
