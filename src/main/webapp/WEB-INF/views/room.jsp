@@ -19,8 +19,8 @@
 		.container h1{
 			text-align: left;
 			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
+			color: #007BFF;
+			border-left: 3px solid #007BFF;
 			margin-bottom: 20px;
 		}
 		.roomContainer{
@@ -28,20 +28,22 @@
 			width: 500px;
 			height: 500px;
 			overflow: auto;
+			border-radius :10px;
+			
 		}
 		.roomList{
 			border: none;
 		}
 		.roomList th{
-			border: 1px solid #FFBB00;
+			border: 1px solid #007BFF;
 			background-color: #fff;
-			color: #FFBB00;
+			color: #007BFF;
 		}
 		.roomList td{
-			border: 1px solid #FFBB00;
+			border: 1px solid #007BFF;
 			background-color: #fff;
 			text-align: left;
-			color: #FFBB00;
+			color: black;
 		}
 		.roomList .num{
 			width: 75px;
@@ -55,20 +57,48 @@
 			text-align: center;
 		}
 		button{
-			background-color: #FFBB00;
+			/*background-color: #007BFF;*/
+			background-color: white;
 			font-size: 14px;
-			color: #000;
-			border: 1px solid #000;
+			color : black;
+			/*border: 1px solid #000;*/
+			border: none;
 			border-radius: 5px;
-			padding: 3px;
+			padding: 10px 10px;
 			margin: 3px;
+			transition: box-shadow 0.3s;
 		}
+		button:hover {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 호버시 음영 효과를 추가합니다. */
+  background-color: #ADD8E6;
+}
+		
 		.inputTable th{
-			padding: 5px;
+			padding: 3px;
 		}
 		.inputTable input{
 			width: 330px;
 			height: 25px;
+		}
+		.room {
+			border-radius :10px;
+		 }
+		.go {
+			border-radius :10px;
+		}
+		.num {
+			border-radius :10px;
+			padding : 5px;
+		}
+		#roomName {
+			border-radius :10px;
+		}
+		#createRoom {
+			border-radius : 5px;
+			padding : 6px;
+			border : none;
+			background-color : #007BFF;
+			color : white;
 		}
 	</style>
 </head>
@@ -145,7 +175,7 @@
 		<div>
 			<table class="inputTable">
 				<tr>
-					<th>방 제목</th>
+					<th>방제목</th>
 					<th><input type="text" name="roomName" id="roomName"></th>
 					<th><button id="createRoom">방 만들기</button></th>
 				</tr>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.board.mapper.CommentMapper">
+
+
+<select id="getCommentList">
+SELECT BOARD_COMMENT_IDX
+	   ,BOARD_IDX
+       ,CONTENT
+       ,CREATED
+FROM   BOARD_COMMENT_TB
+WHERE  BOARD_IDX = #{ board_idx }
+</select>
+
+
+</mapper>

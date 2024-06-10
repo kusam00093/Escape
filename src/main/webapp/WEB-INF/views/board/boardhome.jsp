@@ -360,7 +360,7 @@ grid-gap: 20px;
     <p class="card-idx">${posting.board_idx}</p>
     <h5 class="card-title"><a href="/Board/FriendView?board_idx=${posting.board_idx}">${posting.title}</a> </h5>
     <p class="card-text">${posting.content}</p>
-    <a href="#" class="btn btn-primary">채팅하기</a>
+    <a href="/room" class="btn btn-primary">채팅하기</a>
   </div>
 </div>
  </c:forEach>
@@ -396,11 +396,12 @@ grid-gap: 20px;
   </div>
 </div>
 
+<!-- ************************************************************************************ -->
 <div class="tab-pane" id="qna" role="tabpanel" aria-labelledby="qna-tab"> 
  <table>
  <h5>Q&A</h5>
 <div><span> 총  <em id="getQcount">${qcount}</em>건의 Q&A</span></div>
-<a class="btn btn-outline-info" href="/Board/QWrite" role="button">문의등록</a>
+<a class="btn btn-outline-info" href="/Board/QandaWriteForm" role="button">문의등록</a>
 <!-- 
  <tr>
  <td>NO.</td>

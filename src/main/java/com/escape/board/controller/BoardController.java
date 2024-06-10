@@ -45,6 +45,8 @@ public class BoardController {
 		List<NoticeVo> noticeList = boardMapper.getNoticeList(noticeVo);
 		int nocount = boardMapper.getNocount();
 		
+		// 뉴스 조회수
+		//boardMapper.incNhit(newsVo);
 		
 		
 		ModelAndView mv = new ModelAndView();
@@ -142,6 +144,9 @@ public class BoardController {
 		BoardVo boardVo = boardMapper.getFriendview(board_idx);
 		//System.out.println("=========================boardView:" +boardView);
 		
+		// 조회수
+		boardMapper.incHit(boardVo);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("board",boardVo);
 		//mv.addObject("boardView",boardView);
@@ -193,5 +198,30 @@ public class BoardController {
 		return mv;
 	}
 	
-	
+	//======================================
+	//======================================
+	//======================================
+	//======================================
+	//======================================
+	//======================================
+	// Qanda 글 작성
+		@RequestMapping(value = "/QandaWriteForm", method = RequestMethod.GET)
+	    public ModelAndView qandaWriteForm() {
+	        ModelAndView mv = new ModelAndView();
+	        mv.setViewName("board/qandaWrite");
+	        return mv;
+	    }
+	    
+	    @RequestMapping(value = "/QandaWrite", method = RequestMethod.POST)
+	    public ModelAndView qandaWrite(QnaVo qnaVo) {
+	    	
+	        System.out.println("Received qnaVo: " + qnaVo); // 디버깅 로그 추가
+	        
+	        boardMapper.insertQandawrite(qnaVo);
+	        
+	        ModelAndView mv = new ModelAndView();
+	        mv.addObject("qnaVo", qnaVo);
+	        mv.setViewName("redirect:/Board/Boardhome");
+	        return mv;
+	    }
 }

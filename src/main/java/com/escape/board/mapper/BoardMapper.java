@@ -38,6 +38,10 @@ public interface BoardMapper {
 	
 	List<BoardVo> getFriendupdate(BoardVo boardVo);
 	void deletefriend(BoardVo boardVo);
+	
+	void incHit(BoardVo boardVo);
+	//void incNhit(NewsVo newsVo);
+	void insertQandawrite(QnaVo qnaVo);
 
 	
 	//int getHit();

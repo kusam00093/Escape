@@ -11,39 +11,95 @@
 			margin:0;
 			padding:0;
 		}
-		.container{
-			width: 500px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		.chating{
-			background-color: #000;
-			width: 500px;
-			height: 500px;
-			overflow: auto;
-		}
-		.chating .me{
-			color: #F6F6F6;
-			text-align: right;
-		}
-		.chating .others{
-			color: #FFE400;
-			text-align: left;
-		}
-		input{
-			width: 330px;
-			height: 25px;
-		}
-		#yourMsg{
-			display: none;
-		}
+  .container {
+    width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 채팅창 제목 스타일 */
+  .container h1 {
+    text-align: left;
+    padding: 10px;
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  /* 채팅창 스타일 */
+  .chating {
+    background-color: #ffffff;
+    width: 100%;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 나의 메시지 스타일 */
+  .chating .me {
+    color: #007bff;
+    text-align: right;
+    margin-bottom: 5px;
+  }
+
+  /* 상대방 메시지 스타일 */
+  .chating .others {
+    color: #333;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .input-container {
+  margin-top: 20px; /* 입력창과 메시지창 사이의 간격 조절 */
+  padding: 10px;
+  border-radius: 20px; /* 입력창과 메시지창을 둥글게 만듦 */
+  background-color: #f0f0f0; /* 배경색 추가 */
+  display: flex; /* 입력창과 버튼을 가로로 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.input-container input {
+  flex: 2; /* 입력창을 최대한 넓게 설정 */
+  height: 30px;
+  padding: 5px;
+  border: none;
+  border-radius: 20px; /* 둥글게 만듦 */
+  outline: none; /* 포커스 효과 제거 */
+}
+
+.input-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px; /* 둥글게 만듦 */
+  margin-left: 10px; /* 버튼과 입력창 사이의 간격 조절 */
+  cursor: pointer;
+}
+
+.input-container button:hover {
+  background-color: #0056b3; /* 호버 색상 변경 */
+}
+	
+#chatting {
+  width: 300px; /* 입력창의 너비를 조절 */
+  height: 40px; /* 입력창의 높이를 조절 */
+  padding: 10px; /* 입력창의 내부 여백을 추가 */
+  border-radius: 20px; /* 입력창을 둥글게 만듦 */
+  border: none; /* 입력창의 테두리를 제거 */
+  outline: none; /* 포커스 효과 제거 */
+  margin-left : 10px;
+}	
+#userName {
+	margin-left : 10px;
+}
+		
 	</style>
 </head>
 
@@ -124,7 +180,7 @@
 		<div id="chating" class="chating">
 		</div>
 		
-		<div id="yourName">
+		<div id="yourName" class="input-container">
 			<table class="inputTable">
 				<tr>
 					<th>사용자명</th>
@@ -133,13 +189,14 @@
 				</tr>
 			</table>
 		</div>
-		<div id="yourMsg">
+		<div id="yourMsg" class="input-container">
 			<table class="inputTable">
 				<tr>
 					<th>메시지</th>
 					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
 					<th><button onclick="send()" id="sendBtn">보내기</button></th>
 				</tr>
+
 			</table>
 		</div>
 	</div>

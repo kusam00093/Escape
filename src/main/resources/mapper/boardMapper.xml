@@ -18,13 +18,13 @@ SELECT COUNT(BOARD_IDX) AS COUNT
 FROM   BOARD_TB
 </select>
 
-<!-- 
-<update id="getHit">
+<update id="incHit">
 UPDATE BOARD_TB
   SET  HIT = hit + 1
  WHERE BOARD_IDX = #{board_idx} 
 </update>
 
+<!-- 
 <update id="incHit">
         UPDATE user_board
         SET
@@ -48,6 +48,8 @@ FROM   NEWS_TB
 SELECT COUNT(NEWS_IDX) AS COUNT
 FROM   NEWS_TB
 </select>
+
+
 
 <select id="getQnaList">
 SELECT QANDA_IDX
@@ -120,5 +122,22 @@ DELETE FROM BOARD_TB
 WHERE  BOARD_IDX = #{board_idx}
 
 </delete>
+
+<!-- Qanda 글쓰기 -->
+<insert id="insertQandawrite">
+INSERT INTO QANDA_TB(
+         QANDA_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED)
+VALUES (
+    	(SELECT NVL(MAX(QANDA_IDX), 0) + 1 FROM QANDA_TB),
+    	#{user_idx},		
+		#{title},
+		#{content},
+		sysdate
+    )
+</insert>
 
 </mapper>
