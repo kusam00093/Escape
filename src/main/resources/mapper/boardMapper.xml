@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.board.mapper.BoardMapper">
+
+
+<select id="getPostingList">
+SELECT BOARD_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+		,HIT
+FROM   BOARD_TB
+</select>
+
+<select id="getCount">
+SELECT COUNT(BOARD_IDX) AS COUNT
+FROM   BOARD_TB
+</select>
+
+<!-- 
+<update id="getHit">
+UPDATE BOARD_TB
+  SET  HIT = hit + 1
+ WHERE BOARD_IDX = #{board_idx} 
+</update>
+
+<update id="incHit">
+        UPDATE user_board
+        SET
+        hit = NVL((SELECT MAX(hit) FROM user_board WHERE board_id = #{board_id}), 0) + 1
+        WHERE
+        board_id = #{board_id}
+    </update>
+ -->
+ 
+<select id="getNewsList">
+SELECT NEWS_IDX
+        ,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+		,HIT
+FROM   NEWS_TB
+</select>
+
+<select id="getNcount">
+SELECT COUNT(NEWS_IDX) AS COUNT
+FROM   NEWS_TB
+</select>
+
+<select id="getQnaList">
+SELECT QANDA_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+FROM   QANDA_TB
+</select>
+
+<select id="getQcount">
+SELECT COUNT(QANDA_IDX) AS COUNT
+FROM   QANDA_TB
+</select>
+
+<select id="getNoticeList">
+SELECT NOTICE
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+FROM   NOTICE_TB 
+</select>
+
+<select id="getNocount">
+SELECT COUNT(NOTICE) AS COUNT
+FROM   NOTICE_TB
+</select>
+
+<!-- 게시판 글쓰기 -->
+<insert id="insertFriendwrite">
+INSERT INTO BOARD_TB(
+         BOARD_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+		,HIT)
+VALUES (
+    	(SELECT NVL(MAX(BOARD_IDX), 0) + 1 FROM BOARD_TB),
+    	#{user_idx},		
+		#{title},
+		#{content},
+		sysdate,
+		0
+    )
+</insert>
+
+<select id="getFriendview">
+SELECT BOARD_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+		,HIT
+FROM   BOARD_TB
+WHERE  BOARD_IDX = #{board_idx}
+
+</select>
+
+<update id="updatefriend">
+UPDATE BOARD_TB
+  SET  TITLE = #{title},
+       CONTENT = #{content}
+WHERE  BOARD_IDX = #{board_idx}  
+</update>
+
+<delete id="deletefriend">
+DELETE FROM BOARD_TB
+WHERE  BOARD_IDX = #{board_idx}
+
+</delete>
+
+</mapper>
