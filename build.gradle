@@ -39,12 +39,9 @@ dependencies {
     implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' // 스프링부트 3.0 이상
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
-<<<<<<< HEAD
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.json:json:20231013'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-=======
->>>>>>> branch 'community' of https://github.com/kusam00093/Escape.git
 
     // junit
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

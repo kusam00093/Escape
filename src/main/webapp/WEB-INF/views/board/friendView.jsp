@@ -75,6 +75,9 @@ h2 {
   background-color: #c82333;
   border-color: #bd2130;
 }
+#comment-form, .container2{
+margin-top: 20px;
+}
 </style>
 </head>
 <body>
@@ -145,129 +148,180 @@ h2 {
 --> 
 
 <!-- 댓글 리스트 -->
-<div class="container2" >
-        <c:forEach var="comment" items="${commentList}" varStatus="status">
-          <div class="form-group">
-                    <label for="created">작성일</label>
-                    <div>${comment.created}</div>
-                </div>
-          <div class="form-group">
-                    <label for="board_comment_idx">댓글 번호</label>
-                    <div>${comment.board_comment_idx}</div>
-                </div>
-          <div class="form-group">
-                    <label for="content">내용</label>
-                    <div>${comment.content}</div>
-                </div>
-        </c:forEach>
+<div class="container2">
+<h6>댓글</h6>
+  <c:forEach var="comment" items="${commentList}" varStatus="status">
+<input type="hidden" class="comment-board-idx" name="board_idx" value="${comment.board_idx }" readonly />
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"  style="font-size: 14px;">댓글 번호: ${comment.board_comment_idx}</h5>
+        <p class="card-text" style="font-size: 25px;">${comment.content}</p>
+        <p class="card-text"><small class="text-muted">작성일: ${comment.created}</small></p>
+
+     <!-- <a href="/Api/Board/${board.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${board.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a> -->  
+       <a href="/Api/Board/${comment.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${comment.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a>
+           
       </div>
-<!-- 댓글 리스트 -->
-<form action="/Api/Board/{board_idx}/commentCreate" method="POST">
-<input type="hidden" name="board_idx" value="${commentVo.board_idx}">
-<div class="form-group">
-      <label for="content">내용</label>
-      <input type="text" class="form-control" id="content" name="content">
- </div>
-<button type="button" class="btn btn-primary" id="comment-create-btn">댓글 작성</button>
+    </div>
+  </c:forEach>
+</div>
+
+      
+<!-- 댓글 쓰기 -->
+<form action="/Api/Board/{board.board_idx}/commentCreate" method="POST" id="comment-form">
+  <input type="hidden" class="comment-board-idx" name="board_idx" value="${board.board_idx }" readonly />
+  <input type="hidden" class="comment-idx" name="comment_idx" value="${commentVo.board_comment_idx}" readonly />
+  <div class="form-group">
+    <label for="content">댓글내용</label>
+    <input type="text" class="form-control" id="content" name="content">
+  </div>
+  
+  <button type="submit" class="btn btn-primary" id="comment-create-btn">댓글 작성</button>
 </form>
+
 
 
 </div>
 
 <script>
-const commentCreateBtnEl = document.getElementById('comment-create-btn');
+document.addEventListener('DOMContentLoaded', () => {
+	  document.getElementById('comment-form').addEventListener('submit', (event) => {
+	    event.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
 
-commentCreateBtnEl.addEventListener('click', ()=> {
-   
-   let board_idx = parseInt(document.querySelector('#new-comment-id').value); 
-   let url = 'http://localhost:9089/Api/Board/{board_idx}/commentCreate';
-   
- const comment = {
+	    let board_idx_element = document.querySelector('.comment-board-idx');
+	    if (!board_idx_element) {
+	      console.error('board-idx element not found');
+	      alert('board-idx element not found.');
+	      return;
+	    }
+	    let board_idx = parseInt(board_idx_element.value, 10);
+	    console.log('board_idx:', board_idx); // 디버깅을 위해 추가
+	    
+	    // Check if board_idx is NaN
+	    if (isNaN(board_idx)) {
+	      console.error('Invalid board_idx:', board_idx);
+	      alert('Invalid board index.');
+	      return;
+	    }
 
-     board_comment_idx : document.querySelector('#new-comment-nickname').value,
+	    let url = `/Api/Board/\${board_idx}/commentCreate`;
 
-     content      : document.querySelector('#new-comment-body').value,
-     // 부모 게시글의 id
-     ccomu_bno  : ccomu_bno // 정수로 변환된 ccomu_bno 값 사용
- };
+	    const commentVo = {
+	    	      content: document.querySelector('#content').value,
+	    	    };
 
- const params = {
-     method  : 'POST',
-     headers : {"Content-Type":"application/json" },
-     body    : JSON.stringify( comment )   
- };
 
-   fetch(url, params)
-         .then(response => response.json()) // 응답 데이터를 JSON 으로 변환
-         .then(data => {
-             if(data) {
-                   alert("댓글이 등록되었습니다");
-                   window.location.reload(); // 성공한 경우 페이지 새로고침
-             } else {
-                  alert("댓글 등록 실패!");
-             }
-         }) 
-       .catch(error => {
-             console.error('댓글 등록 에러:', error);
-             alert("댓글 등록 중 오류가 발생했습니다.");         
-       })
+	    const params = {
+	      method: 'POST',
+	      headers: { "Content-Type": "application/json" },
+	      body: JSON.stringify(commentVo)
+	    };
+
+	    fetch(url, params)
+	      .then(response => response.json()) 
+	      .then(data => {
+	        if (data) {
+	          alert("댓글이 등록되었습니다");
+	          window.location.reload(); 
+	        } else {
+	          alert("댓글 등록 실패!");
+	        }
+	      })
+	      .catch(error => {
+	        console.error('댓글 등록 에러:', error);
+	        alert("댓글 등록 중 오류가 발생했습니다.");
+	      });
+	  });
+	});
+	
+	
+	/*댓글 삭제*/
+    // 삭제 버튼 클릭 이벤트 핸들러
+document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+
+        var boardIdx = this.getAttribute('data-board-idx'); // 게시글 인덱스 가져오기
+        var commentIdx = this.getAttribute('data-comment-idx'); // 댓글 인덱스 가져오기
+
+        fetch(`/Api/Board/\${boardIdx}/\${commentIdx}/commentDelete`, { // 게시글 번호와 댓글 번호를 사용하여 URL 구성
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ board_idx: boardIdx, board_comment_idx: commentIdx }), 
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log('댓글이 삭제되었습니다.');
+            alert("댓글이 삭제되었습니다");
+	        window.location.reload(); 
+           
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+
 });
 
 
+/*답글
 
+const replyButtons = document.querySelectorAll('.reply-button');
 
+  replyButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      
+      // 답글 폼 생성
+      const replyForm = document.createElement('form');
+      replyForm.setAttribute('class', 'comment-form');
+      replyForm.setAttribute('action', '/Api/Board/${board_idx}/commentCreate');
+      replyForm.setAttribute('method', 'POST');
+      replyForm.setAttribute('enctype', 'application/json');
 
+      // 답글 폼 내부 요소 추가
+      const boardIdxInput = document.createElement('input');
+      boardIdxInput.setAttribute('type', 'hidden');
+      boardIdxInput.setAttribute('class', 'comment-board-idx');
+      boardIdxInput.setAttribute('name', 'board_idx');
+      boardIdxInput.setAttribute('value', '\${board.board_idx}');
+      replyForm.appendChild(boardIdxInput);
 
+      const commentIdxInput = document.createElement('input');
+      commentIdxInput.setAttribute('type', 'hidden');
+      commentIdxInput.setAttribute('class', 'comment-idx');
+      commentIdxInput.setAttribute('name', 'comment_idx');
+      commentIdxInput.setAttribute('value', '\${commentVo.board_comment_idx}');
+      replyForm.appendChild(commentIdxInput);
 
-/*
-document.addEventListener('DOMContentLoaded', () => {
+      const contentLabel = document.createElement('label');
+      contentLabel.setAttribute('for', 'content');
+      contentLabel.textContent = '댓글내용';
+      replyForm.appendChild(contentLabel);
 
+      const contentInput = document.createElement('input');
+      contentInput.setAttribute('type', 'text');
+      contentInput.setAttribute('class', 'form-control comment-content');
+      contentInput.setAttribute('id', 'content');
+      contentInput.setAttribute('name', 'content');
+      replyForm.appendChild(contentInput);
 
+      const submitButton = document.createElement('button');
+      submitButton.setAttribute('type', 'submit');
+      submitButton.setAttribute('class', 'btn btn-primary');
+      submitButton.textContent = '댓글 작성';
+      replyForm.appendChild(submitButton);
 
- document.addEventListener("DOMContentLoaded", function() {
-    function commentGet(board_idx) {
-        fetch(`/Api/Board/\${board_idx}/commentGet`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ board_idx})
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch comments');
-            }
-            return response.json();
-        }).then(commentList => {
-            console.log('Server response:', commentList);
-            updateComments(commentList);
-        }).catch(error => console.error('Error fetching comments:', error));
-    }
-}); 
-
-function updateComments(commentList) {
-    const container = document.querySelector('.container2');
-    container.innerHTML = '';
-
-    commentList.forEach(comment => {
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('form-group');
-
-        const createdDiv = document.createElement('div');
-        createdDiv.innerHTML = `<label for="created">작성일</label><div>\${comment.created}</div>`;
-        commentDiv.appendChild(createdDiv);
-
-        const idxDiv = document.createElement('div');
-        idxDiv.innerHTML = `<label for="board_comment_idx">댓글 번호</label><div>\${comment.board_comment_idx}</div>`;
-        commentDiv.appendChild(idxDiv);
-
-        const contentDiv = document.createElement('div');
-        contentDiv.innerHTML = `<label for="content">내용</label><div>\${comment.content}</div>`;
-        commentDiv.appendChild(contentDiv);
-
-        container.appendChild(commentDiv);
+      // 답글 폼을 해당 댓글 아래에 추가
+      const cardBody = button.parentElement;
+      cardBody.appendChild(replyForm);
     });
-}
+  });
 */
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

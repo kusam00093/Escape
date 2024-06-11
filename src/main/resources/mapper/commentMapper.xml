@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.escape.board.mapper.CommentMapper">
 
-
 <select id="getCommentList">
 SELECT BOARD_COMMENT_IDX
 	   ,BOARD_IDX
@@ -21,11 +20,30 @@ INSERT INTO BOARD_COMMENT_TB(
 )
 VALUES(
 (SELECT (NVL(MAX(BOARD_COMMENT_IDX), 0)+1) FROM BOARD_COMMENT_TB ),
-#{board_idx}
+#{board_idx},
 #{content},
 sysdate
 )
-
 </insert>
+
+<delete id="deleteComment">
+DELETE FROM BOARD_COMMENT_TB
+WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
+  AND BOARD_IDX = #{board_idx}
+</delete>
+
+<!-- 
+<delete id="deleteComment" parameterType="CommentVo">
+DELETE FROM BOARD_COMMENT_TB 
+WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
+  AND BOARD_IDX = #{board_idx}
+  AND BOARD_IDX IN (
+    SELECT BOARD_IDX 
+    FROM BOARD_TB 
+    WHERE BOARD_IDX = #{board_idx}
+  )
+</delete>
+-->
+
 
 </mapper>
