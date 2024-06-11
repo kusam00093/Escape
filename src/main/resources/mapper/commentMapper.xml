@@ -12,5 +12,20 @@ FROM   BOARD_COMMENT_TB
 WHERE  BOARD_IDX = #{ board_idx }
 </select>
 
+<insert id="insertComment">
+INSERT INTO BOARD_COMMENT_TB(
+        BOARD_COMMENT_IDX
+       ,BOARD_IDX
+       ,CONTENT
+       ,CREATED
+)
+VALUES(
+(SELECT (NVL(MAX(BOARD_COMMENT_IDX), 0)+1) FROM BOARD_COMMENT_TB ),
+#{board_idx}
+#{content},
+sysdate
+)
+
+</insert>
 
 </mapper>

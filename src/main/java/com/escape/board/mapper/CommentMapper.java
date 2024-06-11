@@ -13,4 +13,6 @@ public interface CommentMapper {
 
 	List<CommentVo> getCommentList(Long board_idx);
 
+	void insertComment(CommentVo commentVo);
+
 }

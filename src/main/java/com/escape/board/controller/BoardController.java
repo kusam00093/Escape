@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.board.domain.BoardVo;
+import com.escape.board.domain.CommentVo;
 import com.escape.board.domain.NewsVo;
 import com.escape.board.domain.NoticeVo;
 import com.escape.board.domain.QnaVo;
 import com.escape.board.mapper.BoardMapper;
+import com.escape.board.mapper.CommentMapper;
 
 @Controller
 @RequestMapping("/Board")
@@ -21,6 +23,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardMapper boardMapper;
+
+	@Autowired
+	private CommentMapper commentMapper;
 
 	
 	@RequestMapping("/Boardhome")
@@ -147,10 +152,15 @@ public class BoardController {
 		// 조회수
 		boardMapper.incHit(boardVo);
 		
+		// 댓글목록조회
+		List<CommentVo> commentList = commentMapper.getCommentList(board_idx);
+		System.out.println("=========================commentList:" +commentList);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("board",boardVo);
 		//mv.addObject("boardView",boardView);
-		//mv.addObject("board_idx",board_idx);
+		mv.addObject("board_idx",board_idx);
+		mv.addObject("commentList",commentList);
 		//mv.addObject("postingList",postingList);
 		mv.setViewName("board/friendView");
 		return mv;	

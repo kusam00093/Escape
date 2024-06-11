@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,6 +144,7 @@ h2 {
 </div>
 --> 
 
+<!-- 댓글 리스트 -->
 <div class="container2" >
         <c:forEach var="comment" items="${commentList}" varStatus="status">
           <div class="form-group">
@@ -159,71 +161,115 @@ h2 {
                 </div>
         </c:forEach>
       </div>
+<!-- 댓글 리스트 -->
+<form action="/Api/Board/{board_idx}/commentCreate" method="POST">
+<input type="hidden" name="board_idx" value="${commentVo.board_idx}">
+<div class="form-group">
+      <label for="content">내용</label>
+      <input type="text" class="form-control" id="content" name="content">
+ </div>
+<button type="button" class="btn btn-primary" id="comment-create-btn">댓글 작성</button>
+</form>
+
 
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const commentList = [
-        <c:forEach var="comment" items="\${commentList}" varStatus="status">
-            {
-                created: "\${comment.created}",
-                board_comment_idx: "\${comment.board_comment_idx}",
-                content: "\${comment.content}"
-            }<c:if test="\${!status.last}">,</c:if>
-        </c:forEach>
-    ];
+const commentCreateBtnEl = document.getElementById('comment-create-btn');
 
-    commentList.forEach(comment => {
-        const created = comment.created;
-        const board_comment_idx = comment.board_comment_idx;
-        const content = comment.content;
-        console.log(board_comment_idx);
-    });
+commentCreateBtnEl.addEventListener('click', ()=> {
+   
+   let board_idx = parseInt(document.querySelector('#new-comment-id').value); 
+   let url = 'http://localhost:9089/Api/Board/{board_idx}/commentCreate';
+   
+ const comment = {
+
+     board_comment_idx : document.querySelector('#new-comment-nickname').value,
+
+     content      : document.querySelector('#new-comment-body').value,
+     // 부모 게시글의 id
+     ccomu_bno  : ccomu_bno // 정수로 변환된 ccomu_bno 값 사용
+ };
+
+ const params = {
+     method  : 'POST',
+     headers : {"Content-Type":"application/json" },
+     body    : JSON.stringify( comment )   
+ };
+
+   fetch(url, params)
+         .then(response => response.json()) // 응답 데이터를 JSON 으로 변환
+         .then(data => {
+             if(data) {
+                   alert("댓글이 등록되었습니다");
+                   window.location.reload(); // 성공한 경우 페이지 새로고침
+             } else {
+                  alert("댓글 등록 실패!");
+             }
+         }) 
+       .catch(error => {
+             console.error('댓글 등록 에러:', error);
+             alert("댓글 등록 중 오류가 발생했습니다.");         
+       })
 });
 
-function commentGet(boardIdx) {
-    fetch(`/Api/Board/${boardIdx}/commentGet`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ board_idx: boardIdx })  // JSON body corrected
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch comments');
-        }
-        return response.json();
-    }).then(commentList => {
-        console.log('Server response:', commentList);
-        updateComments(commentList);  // 화면 갱신 함수 호출
-    }).catch(error => console.error('Error fetching comments:', error));
-}
+
+
+
+
+
+
+/*
+document.addEventListener('DOMContentLoaded', () => {
+
+
+
+ document.addEventListener("DOMContentLoaded", function() {
+    function commentGet(board_idx) {
+        fetch(`/Api/Board/\${board_idx}/commentGet`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ board_idx})
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch comments');
+            }
+            return response.json();
+        }).then(commentList => {
+            console.log('Server response:', commentList);
+            updateComments(commentList);
+        }).catch(error => console.error('Error fetching comments:', error));
+    }
+}); 
 
 function updateComments(commentList) {
     const container = document.querySelector('.container2');
-    container.innerHTML = '';  // 기존 댓글 목록 초기화
-    
+    container.innerHTML = '';
+
     commentList.forEach(comment => {
         const commentDiv = document.createElement('div');
         commentDiv.classList.add('form-group');
-        
+
         const createdDiv = document.createElement('div');
-        createdDiv.innerHTML = `<label for="created">작성일</label><div>${comment.created}</div>`;
+        createdDiv.innerHTML = `<label for="created">작성일</label><div>\${comment.created}</div>`;
         commentDiv.appendChild(createdDiv);
 
         const idxDiv = document.createElement('div');
-        idxDiv.innerHTML = `<label for="board_comment_idx">댓글 번호</label><div>${comment.board_comment_idx}</div>`;
+        idxDiv.innerHTML = `<label for="board_comment_idx">댓글 번호</label><div>\${comment.board_comment_idx}</div>`;
         commentDiv.appendChild(idxDiv);
-        
+
         const contentDiv = document.createElement('div');
-        contentDiv.innerHTML = `<label for="content">내용</label><div>${comment.content}</div>`;
+        contentDiv.innerHTML = `<label for="content">내용</label><div>\${comment.content}</div>`;
         commentDiv.appendChild(contentDiv);
-        
+
         container.appendChild(commentDiv);
     });
 }
+*/
 </script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
