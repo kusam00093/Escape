@@ -160,7 +160,15 @@ margin-top: 20px;
 
      <!-- <a href="/Api/Board/${board.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${board.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a> -->  
        <a href="/Api/Board/${comment.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${comment.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a>
-           
+       
+       <c:choose>
+         <c:when test="${comment.comment_likes == 1}">
+         <button class="like" type="button"  data-posting-id="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"></button>
+         </c:when>
+         <c:otherwise>
+         <button class="like" type="button"  data-posting-id="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"></button>
+         </c:otherwise>
+       </c:choose>    
       </div>
     </div>
   </c:forEach>
@@ -265,8 +273,35 @@ document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
     });
 
 });
+	
+/*------------------------------------------------------------------------*/
+/*-------------------------------댓글 좋아요----------------------------------*/
+/*------------------------------------------------------------------------*/
+document.addEventListener("DOMContentLoaded", function() {
+    const likeButtons = document.querySelectorAll('.like');
+  //  const user_id = ${user.user_id};
+  //  console.log(user_id);
+function addLikes(boardIdx,boardCommentIdx) {
+    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/commentAddlike`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({board_idx: boardIdx, board_comment_idx: boardCommentIdx })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to toggle like');
+        }
+        return response.text(); 
+    }).then(liketext => {
+        console.log('Server response:', liketext);
+    }).catch(error => console.error('Error toggling like:', error));
+}
 
+});
 
+/*------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------*/
 /*답글
 
 const replyButtons = document.querySelectorAll('.reply-button');

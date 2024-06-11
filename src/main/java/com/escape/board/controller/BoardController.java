@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +30,9 @@ public class BoardController {
 
 	
 	@RequestMapping("/Boardhome")
-	public  ModelAndView   boardhome(BoardVo boardVo, NewsVo newsVo, QnaVo qnaVo, NoticeVo noticeVo ) {
+	public  ModelAndView   boardhome(BoardVo boardVo, NewsVo newsVo, QnaVo qnaVo, NoticeVo noticeVo
+		//	,@RequestParam(value="news_idx") Long news_idx
+			) {
 		
 		
 		/*
@@ -43,6 +46,8 @@ public class BoardController {
 		
 		List<NewsVo> newsList = boardMapper.getNewsList(newsVo);
 		int ncount = boardMapper.getNcount();
+		// 뉴스 조회수
+	//	boardMapper.updateNewsHit(newsVo);
 		
 		List<QnaVo> qnaList = boardMapper.getQnaList(qnaVo);
 		int qcount = boardMapper.getQcount();
@@ -50,13 +55,11 @@ public class BoardController {
 		List<NoticeVo> noticeList = boardMapper.getNoticeList(noticeVo);
 		int nocount = boardMapper.getNocount();
 		
-		// 뉴스 조회수
-		//boardMapper.incNhit(newsVo);
 		
 		
 		ModelAndView mv = new ModelAndView();
 		// mv.addObject("user",userVo);
-		// mv.addObject("user_idx", user_idx);
+	//	mv.addObject("news_idx", news_idx);
 		mv.addObject("board",boardVo);
 		mv.addObject("news",newsVo);
 		mv.addObject("qna",qnaVo);
@@ -75,45 +78,7 @@ public class BoardController {
 		mv.setViewName("board/boardhome");
 		return mv;
 	}
-	/*
-	@RequestMapping("/FriendWriteForm")
-	public ModelAndView friendWriteForm(BoardVo boardVo) {
-		Long user_idx = boardVo.getUser_idx();
-		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.addObject("board",boardVo);
-		mv.addObject("user_idx",user_idx);
-		mv.setViewName("board/friendWrite");
-		return mv;
-	}*/
-	/*
-	@RequestMapping("/FriendWrite")
-	public ModelAndView friendWrite(BoardVo boardVo) {
-		
-		boardMapper.insertFriendwrite( boardVo );
-		Long user_idx = boardVo.getUser_idx();
-		System.out.println("user_idx:" + boardVo.getUser_idx());	
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("board",boardVo);
-		mv.addObject("user_idx",user_idx);
-		mv.setViewName("redirect:/Board/FriendWrite");
-		return mv;
-	}
-	*/
-	/*
-	@RequestMapping("/FriendWrite")
-	public ModelAndView friendWrite(@RequestParam(value="board_idx") Long board_idx) {
-		 System.out.println("=========================board_idx:" + board_idx);
-		 BoardVo boardVo = boardMapper.insertFriendwrite(board_idx);
-		
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("board",boardVo);
-		mv.setViewName("redirect:/Board/FriendWrite");
-		return mv;
-	}*/
+	
 	
 	// 친구 구하기 글 작성
 	@RequestMapping(value = "/FriendWriteForm", method = RequestMethod.GET)
@@ -234,4 +199,5 @@ public class BoardController {
 	        mv.setViewName("redirect:/Board/Boardhome");
 	        return mv;
 	    }
+	   
 }

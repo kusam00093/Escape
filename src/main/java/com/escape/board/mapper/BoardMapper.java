@@ -40,8 +40,14 @@ public interface BoardMapper {
 	void deletefriend(BoardVo boardVo);
 	
 	void incHit(BoardVo boardVo);
-	//void incNhit(NewsVo newsVo);
+
 	void insertQandawrite(QnaVo qnaVo);
+	
+	
+	//void updateNewsHit(NewsVo newsVo);
+	
+
+	
 
 	
 	//int getHit();

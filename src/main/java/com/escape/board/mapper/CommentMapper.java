@@ -19,6 +19,14 @@ public interface CommentMapper {
 
 	void deleteComment(CommentVo commentVo);
 
+	int isCommentLiked(CommentVo commentVo);
+
+	CommentVo selectLikes(CommentVo commentVo);
+
+	void updateLikes(CommentVo comment_likes);
+
+	void addLikes(CommentVo commentVo);
+
 
 }
 

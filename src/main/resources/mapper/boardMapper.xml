@@ -51,8 +51,14 @@ SELECT COUNT(NEWS_IDX) AS COUNT
 FROM   NEWS_TB
 </select>
 
-
-
+<!-- 
+<update id="updateNewsHit">
+    UPDATE NEWS_TB 
+    SET    HIT = hit + 1 
+    WHERE  NEWS_IDX = #{news_idx}
+</update>
+ -->
+ 
 <select id="getQnaList">
 SELECT QANDA_IDX
 		,USER_IDX

@@ -3,6 +3,7 @@ package com.escape.board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,5 +86,41 @@ public class CommentController {
        
        return commentList;
     }
+	
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/commentAddlike")
+	@ResponseBody
+	public ResponseEntity<String> AddLike(@RequestBody CommentVo commentVo) {
+		   
+	      
+		CommentVo comment_likes = commentMapper.selectLikes(commentVo);
+	       System.out.println("11111111111111111111111111111111");
+	       System.out.println(comment_likes);
+	       System.out.println(commentVo);
+	       
+	       if(comment_likes != null) {
+	          System.out.println(1 + "북마크가 존재함");
+	          commentMapper.updateLikes(comment_likes); // 그냥 bookmarkVo로 받아도 됨 근데 where문을 하나로 하고싶었음
+	          return ResponseEntity.ok("북마크가 존재함 update");
+	          
+	       }else {
+	          System.out.println(2 + "북마크가 존재안함"); 
+	          commentMapper.addLikes(commentVo); //insert
+	          System.out.println(commentVo);
+	          return ResponseEntity.ok("북마크가 존재안함 insert");
+	       }
+	   }
+	/*
+    public Integer checkcommentAddlike (
+    	       @PathVariable Long board_idx 
+    	      ,@PathVariable Long board_comment_idx
+    	 	  ,@RequestBody CommentVo commentVo
+          )   {
+       
+       // 현재 좋아요 상태 확인
+        int isLiked = commentMapper.isCommentLiked(commentVo);
+        log.info("===========checkcommentLike============");
+ 
+        return isLiked;
+    }*/
 	
 }

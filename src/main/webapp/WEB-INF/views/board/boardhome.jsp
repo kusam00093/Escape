@@ -351,8 +351,9 @@ grid-gap: 20px;
           <tr>
             <td>${news.news_idx}</td>
             <td>${news.user_idx}</td>
-            <td>${news.title}</td>
-            <td><a href="${news.content}">뉴스보기</a></td>
+            <td>${news.title}</td> 
+            <td><a href="${news.content}" class="news-link" data-news-idx="${news.news_idx}" target="_blank">뉴스보기</a></td>
+            
             <td>${news.hit}</td>
           </tr>
         </c:forEach>
@@ -435,7 +436,6 @@ triggerTabList.forEach(function (triggerEl) {
     tabTrigger.show()
   })
 })
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 

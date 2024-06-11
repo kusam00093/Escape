@@ -32,18 +32,38 @@ WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
   AND BOARD_IDX = #{board_idx}
 </delete>
 
-<!-- 
-<delete id="deleteComment" parameterType="CommentVo">
-DELETE FROM BOARD_COMMENT_TB 
-WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
-  AND BOARD_IDX = #{board_idx}
-  AND BOARD_IDX IN (
-    SELECT BOARD_IDX 
-    FROM BOARD_TB 
-    WHERE BOARD_IDX = #{board_idx}
-  )
-</delete>
--->
+<!-- 좋아요 -->
+<select id="selectLikes">
+SELECT
+	BOARD_COMMENT_LIKE_IDX
+    ,BOARD_COMMENT_IDX
+    ,USER_IDX
+    ,COMMENT_LIKES
+FROM
+	BOARD_COMMENT_LIKE_TB
+WHERE
+    BOARD_COMMENT_IDX = #{board_comment_idx}
+</select>
 
+<update id="updateLikes">
+		UPDATE BOARD_COMMENT_LIKE_TB
+		SET
+		    COMMENT_LIKES = 1
+		WHERE
+		   BOARD_COMMENT_IDX = #{board_comment_idx}
+</update>
+
+<insert id="addLikes">
+INSERT INTO BOARD_COMMENT_LIKE_TB (
+     BOARD_COMMENT_LIKE_IDX
+    ,BOARD_COMMENT_IDX
+    ,USER_IDX
+    ,COMMENT_LIKES) 
+VALUES (
+	  #{board_comment_like_idx}
+	 ,#{board_comment_idx}
+	 ,#{user_idx}
+	 ,1
+</insert>
 
 </mapper>
