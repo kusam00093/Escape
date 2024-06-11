@@ -468,6 +468,7 @@ a:hover {
   </select>
 </div>
 <div class="container2">
+ <a href="/Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -475,6 +476,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -482,6 +485,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -489,6 +494,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -496,6 +503,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -503,6 +512,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -510,6 +521,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -517,6 +530,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -524,6 +539,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -531,6 +548,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -538,6 +557,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -545,6 +566,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -552,6 +575,8 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
   <div class="card">
     <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
     <div class="card-content">
@@ -559,6 +584,53 @@ a:hover {
       <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
     </div>
   </div>
+ </a>
+ <a href="Package/Detail">
+  <div class="card">
+    <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+    <div class="card-content">
+      <h3 class="card-title">Card Title</h3>
+      <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
+    </div>
+  </div>
+ </a>
+ <a href="Package/Detail">
+  <div class="card">
+    <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+    <div class="card-content">
+      <h3 class="card-title">Card Title</h3>
+      <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
+    </div>
+  </div>
+ </a>
+ <a href="Package/Detail">
+  <div class="card">
+    <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+    <div class="card-content">
+      <h3 class="card-title">Card Title</h3>
+      <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
+    </div>
+  </div>
+ </a>
+ <a href="Package/Detail">
+  <div class="card">
+    <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+    <div class="card-content">
+      <h3 class="card-title">Card Title</h3>
+      <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
+    </div>
+  </div>
+ </a>
+ <a href="Package/Detail">
+  <div class="card">
+    <img src="https://via.placeholder.com/300x200" alt="Placeholder Image">
+    <div class="card-content">
+      <h3 class="card-title">Card Title</h3>
+      <p class="card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in ligula ac lacus varius vehicula eget at ipsum.</p>
+    </div>
+  </div>
+ </a>
+
 </div>
 
 
