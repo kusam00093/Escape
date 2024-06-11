@@ -19,9 +19,6 @@ public interface CommentMapper {
 
 	void deleteComment(CommentVo commentVo);
 
-	//void deleteComment(Long board_comment_idx);
 
-//	void deleteComment(@Param("comment") CommentVo comment, @Param("board") BoardVo board);
-//	List<CommentVo> getCommentList(Long board_idx);
 }
 

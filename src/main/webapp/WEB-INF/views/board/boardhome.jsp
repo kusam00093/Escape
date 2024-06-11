@@ -61,123 +61,14 @@ grid-gap: 20px;
       margin-top: 10px;
     }
     
-/*뉴스 스타일
-
-  .container-qna {
-      padding: 20px;
-      background-color: #fdfdfd;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
-    }
-
-    .qna-header {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .qna-header h5 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #333333;
-    }
-
-    .qna-header div {
-      font-size: 16px;
-      color: #666666;
-    }
-
-    .qna-count {
-      color: #20B2AA;
-      font-weight: 700;
-    }
-
-    .qna-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
-      margin-bottom: 20px;
-    }
-
-    .qna-table th, .qna-table td {
-      padding: 10px;
-      text-align: left;
-    }
-
-    .qna-table th {
-      background-color: #20B2AA;
-      color: #ffffff;
-      font-weight: 600;
-      border-radius: 10px 10px 0 0;
-    }
-
-    .qna-table td {
-      background-color: #ffffff;
-      color: #333333;
-      border: 1px solid #e6e6e6;
-      border-radius: 10px;
-    }
-
-    .qna-table a {
-      color: #1E90FF;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .qna-table a:hover {
-      text-decoration: underline;
-      color: #008080;;
-    }
-
-    .accordion-flush .accordion-item {
-      border: none;
-      margin-bottom: 10px;
-    }
-
-    .accordion-flush .accordion-header {
-      padding: 0;
-    }
-
-    .accordion-flush .accordion-button {
-      background-color: #ffffff;
-      color: #333333;
-      font-weight: 600;
-      padding: 15px;
-      border: 1px solid #e6e6e6;
-      border-radius: 10px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .accordion-flush .accordion-button:hover {
-      background-color: #20B2AA;;
-      color: #ffffff;
-    }
-
-    .accordion-flush .accordion-body {
-      border: 1px solid #e6e6e6;
-      border-top: none;
-      padding: 15px;
-      border-radius: 0 0 10px 10px;
-    }
-
-    .btn-outline-info {
-      margin-top: 10px;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-weight: 600;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .btn-outline-info:hover {
-      background-color: #20B2AA;;
-      color: #ffffff;
-    }*/
+/*뉴스*/
     .container-news {
       padding: 20px;
       background-color: #fdfdfd;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
+      margin-top: 50px;
+
     }
 
     .news-header {
@@ -237,8 +128,80 @@ grid-gap: 20px;
       color: #008080;
     }
     
+/*qanda*/
+
+#qna {
+    padding: 20px;
+}
+
+#qna h5 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.qna-summary {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.btn-info {
+    background-color: #20B2AA;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-info:hover {
+    background-color: #78e7e1;
+}
+
+.qna-list {
+    margin-top: 20px;
+}
+
+.qna-item {
+    margin-bottom: 20px;
+}
+
+.accordion-button {
+    background-color: #f8f9fa;
+    color: #333;
+    font-size: 18px;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+.accordion-button:hover {
+    background-color: #e9ecef;
+}
+
+.accordion-body {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.accordion-item:last-child .accordion-button {
+    border-bottom: none;
+}
+#DateTime {
+	position : absolute;
+
+	right:3%;
+	font-size : 13px;
+}
     
-    /*공지사항 스타일*/
+    
+ /*공지사항 스타일*/
     .container-notice {
       padding: 20px;
       background-color: #fdfdfd;
@@ -379,6 +342,7 @@ grid-gap: 20px;
           <th scope="col">NO.</th>
           <th scope="col">글쓴이</th>
           <th scope="col">제목</th>
+          <th scope="col">뉴스보기</th>
           <th scope="col">조회수</th>
         </tr>
       </thead>
@@ -387,7 +351,8 @@ grid-gap: 20px;
           <tr>
             <td>${news.news_idx}</td>
             <td>${news.user_idx}</td>
-            <td><a href="#">${news.title}</a></td>
+            <td>${news.title}</td>
+            <td><a href="${news.content}">뉴스보기</a></td>
             <td>${news.hit}</td>
           </tr>
         </c:forEach>
@@ -397,38 +362,38 @@ grid-gap: 20px;
 </div>
 
 <!-- ************************************************************************************ -->
-<div class="tab-pane" id="qna" role="tabpanel" aria-labelledby="qna-tab"> 
- <table>
- <h5>Q&A</h5>
-<div><span> 총  <em id="getQcount">${qcount}</em>건의 Q&A</span></div>
-<a class="btn btn-outline-info" href="/Board/QandaWriteForm" role="button">문의등록</a>
-<!-- 
- <tr>
- <td>NO.</td>
- <td>글쓴이</td>
- <td><a>제목</a></td>
- <td>답변유무</td>
- </tr>
- -->
- </table>
- <table>
- <c:forEach var="qna" items="${qnaList}" varStatus="status">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-      <div class="accordion-item">
-        <h6 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse${qna.qanda_idx}" aria-expanded="false" aria-controls="flush-collapse${qna.qanda_idx}"> ${qna.title}
-          </button>
-        </h6>
-        <div id="flush-collapse${qna.qanda_idx}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body">${qna.content}</div>
-        </div>
-      </div>
-      
-        </div>
-      </div>
- </c:forEach>
- </table>
- </div>
+
+<div class="tab-pane" id="qna" role="tabpanel" aria-labelledby="qna-tab">
+    <h5>Q&A</h5>
+    <div class="qna-summary">총 <em id="getQcount">${qcount}</em>건의 Q&A</div>
+    <a class="btn btn-info" href="/Board/QandaWriteForm" role="button">문의 등록</a>
+
+    <div class="qna-list">
+        <c:forEach var="qna" items="${qnaList}" varStatus="status">
+            <div class="qna-item">
+                <div class="accordion" id="accordion${status.index}">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${status.index}" aria-expanded="true" aria-controls="collapse${status.index}">
+                                ${qna.title}         
+                              <div id="DateTime">${qna.created}</div> <!-- created를 여기로 이동 -->
+                            </button>
+                        </h2>
+                        <div id="collapse${status.index}" class="accordion-collapse collapse" aria-labelledby="heading${status.index}" data-bs-parent="#accordion${status.index}">
+                            <div class="accordion-body">
+
+                                <div>${qna.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+
+
+
 
  
   <div class="tab-pane" id="notice" role="tabpanel" aria-labelledby="notice-tab">
@@ -457,28 +422,6 @@ grid-gap: 20px;
 </div>
 
 </div>
-<!--  
-  <div class="tab-pane" id="notice" role="tabpanel" aria-labelledby="notice-tab">
-<table>
- <h5>공지사항</h5>
-<div><span> 총  <em id="getNocount">${nocount}</em>건</span></div>
- <tr>
- <td>NO.</td>
- <td><a>제목</a></td>
- </tr>
- </table>
- <c:forEach var="notice" items="${noticeList}" varStatus="status">
- <table>
- <tr>
- <td>${notice.notice}</td>
- <td><a href="#">${notice.title}</a></td>
- </tr>
- </table>
- </c:forEach>
-
-</div>
-</div>
--->
 	
 </body>
 

@@ -13,7 +13,7 @@
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
     }
-    h2 {
+    h3 {
       text-align: center;
       margin-bottom: 40px;
       color: #343a40;
@@ -77,7 +77,7 @@
  -->
 
 <div class="form-container">
-  <h2>문의등록</h2>
+  <h3>문의등록</h3>
   <form action="/Board/QandaWrite" method="post">
     <div class="form-group">
       <label for="user_idx">아이디</label>

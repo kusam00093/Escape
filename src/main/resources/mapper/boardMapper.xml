@@ -11,6 +11,7 @@ SELECT BOARD_IDX
 		,CREATED
 		,HIT
 FROM   BOARD_TB
+ORDER BY BOARD_IDX ASC
 </select>
 
 <select id="getCount">
@@ -42,6 +43,7 @@ SELECT NEWS_IDX
 		,CREATED
 		,HIT
 FROM   NEWS_TB
+ORDER BY NEWS_IDX ASC
 </select>
 
 <select id="getNcount">
@@ -58,6 +60,7 @@ SELECT QANDA_IDX
 		,CONTENT
 		,CREATED
 FROM   QANDA_TB
+ORDER BY QANDA_IDX ASC
 </select>
 
 <select id="getQcount">
@@ -72,6 +75,7 @@ SELECT NOTICE
 		,CONTENT
 		,CREATED
 FROM   NOTICE_TB 
+ORDER BY NOTICE ASC
 </select>
 
 <select id="getNocount">
