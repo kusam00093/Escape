@@ -19,61 +19,123 @@
 <%@include file="/WEB-INF/include/header.jsp"%>
 <%@include file="/WEB-INF/include/nav.jsp"%>
 
-	<c:forEach items="${airSearchList}" var="airSearchList">
-	<div>
-		<div>
-			<ul>
-				<li>
-					<div>
+
+	<c:choose>
+	    <c:when test="${not empty returnSearchList}">
+	    	<!-- 왕복일 경우 -->
+	        <c:forEach items="${returnSearchList}" var="flight">
+			        <div>
 						<div>
-							<div>
-								<span>
-									<img src="${ airSearchList.LOGO }" alt="logo">
-								</span>
-								<span>
-									<em>${ airSearchList.AIRPORT_NAME }</em>
-								</span>
-								<span>
-									<span>
-										<span>${ airSearchList.START_TIME }
-											<em>${ airSearchList.DEPCITY_ENAME }
+							<ul>
+								<li>
+									<div>
+										<div>
+											<div>
+												<span>
+													<img src="${ flight.LOGO }" style="width: 150px; height: 150px;" alt="logo">
+												</span>
+												<span>
+													<em>${ flight.AIRLINE_NAME }</em>
+												</span>
 												<span>
 													<span>
-														<span>${ airSearchList.DEPCITY_NAME }</span>
+														<span>${ flight.START_TIME }
+															<em>${ flight.DEPCITY_ENAME }
+																<span>
+																	<span>
+																		<span>${ flight.DEPCITY_NAME }</span>
+																	</span>
+																</span>
+															</em>
+														</span>
 													</span>
 												</span>
-											</em>
-										</span>
-									</span>
-								</span>
-								<span>
-									<span>→</span>
-									<em>${ firstFlight.DURATIONHOUR }시간 ${ firstFlight.DURATIONMINUTE }분</em>
-								</span>
-								<span>
-									<span>
-										<span>${ airSearchList.END_TIME }</span>
-									</span>
-									<span>
-										<em>${ airSearchList.ARRCITY_ENAME }
-											<span>
 												<span>
-													<span>${ airSearchList.ARRCITY_NAME }</span>
+													<span>→</span>
+													<em>${ flight.DURATIONHOUR }시간 ${ flight.DURATIONMINUTE }분</em>
 												</span>
-											</span>
-										</em>
-									</span>
-								</span>
-								<span>직항</span>
-							</div>
+												<span>
+													<span>
+														<span>${ flight.END_TIME }</span>
+													</span>
+													<span>
+														<em>${ flight.ARRCITY_ENAME }
+															<span>
+																<span>
+																	<span>${ flight.ARRCITY_NAME }</span>
+																</span>
+															</span>
+														</em>
+													</span>
+												</span>
+												<span>직항</span>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-	</c:forEach>
-
+	        </c:forEach>
+	    </c:when>
+	    <c:otherwise>
+	        <!-- 편도일 경우 -->
+	        <c:forEach items="${airSearchList}" var="flight">
+			        <div>
+						<div>
+							<ul>
+								<li>
+									<div>
+										<div>
+											<div>
+												<span>
+													<img src="${ flight.LOGO }" style="width: 150px; height: 150px;" alt="logo">
+												</span>
+												<span>
+													<em>${ flight.AIRLINE_NAME }</em>
+												</span>
+												<span>
+													<span>
+														<span>${ flight.START_TIME }
+															<em>${ flight.DEPCITY_ENAME }
+																<span>
+																	<span>
+																		<span>${ flight.DEPCITY_NAME }</span>
+																	</span>
+																</span>
+															</em>
+														</span>
+													</span>
+												</span>
+												<span>
+													<span>→</span>
+													<em>${ flight.DURATIONHOUR }시간 ${ flight.DURATIONMINUTE }분</em>
+												</span>
+												<span>
+													<span>
+														<span>${ flight.END_TIME }</span>
+													</span>
+													<span>
+														<em>${ flight.ARRCITY_ENAME }
+															<span>
+																<span>
+																	<span>${ flight.ARRCITY_NAME }</span>
+																</span>
+															</span>
+														</em>
+													</span>
+												</span>
+												<span>직항</span>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+	        </c:forEach>
+	    </c:otherwise>
+	</c:choose>
 <%@include file="/WEB-INF/include/footer.jsp"%>
 
 </body>

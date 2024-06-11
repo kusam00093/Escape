@@ -16,7 +16,9 @@ public interface AirplaneMapper {
 	List<CityVo> getDepartureInfo(String depCity);
 	List<CityVo> getArrivalInfo(String ariCity);
 
-	List<Map<String, Object>> getTimeList(String depDate, String arrdate, int departure_loc, int arrival_loc);
+	List<Map<String, Object>> getTimeList(String depDate, int departure_loc, int arrival_loc);
+	//List<Map<String, Object>> getTimeList(String depDate, String arrdate, int departure_loc, int arrival_loc);
+	List<Map<String, Object>> getReturnTimeList(String depDate, String arrdate, int departure_loc, int arrival_loc);
 	
 	List<AirportVo> getDepAirportName(AirportVo airportVo, int departure_loc);
 	List<AirportVo> getArrAirportName(AirportVo airportVo, int arrival_loc);

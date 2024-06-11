@@ -87,45 +87,70 @@ public class AirplaneController {
         int arrival_loc = afirstAirplane.getCity_idx();
         System.out.println( "=======arrival_loc: " + arrival_loc );	// 10
 		
-		// 3. 넘어온 value 값 기준 DB 조회 (정보 : 출발날짜, 도착날짜, 출발지, 도착지)
-		List<Map<String, Object>> airSearchList = airplaneMapper.getTimeList(depDate, arrdate, departure_loc, arrival_loc);
-		//List<Map<String, Object>> airSearchList = airplaneMapper.getTimeList(depDate, arrdate, departure_loc, arrival_loc, depCityCode, ariCityCode);
-		System.out.println("=======airSearchList: " + airSearchList);
-		
 		ModelAndView mv = new ModelAndView();
-		
-		// 4. 소요시간 계산
-		if (airSearchList != null && !airSearchList.isEmpty()) {
-			Map<String, Object> firstFlight = airSearchList.get(0);
-			System.out.println("=======firstFlight: " + firstFlight);
-			Object startTimeObj = firstFlight.get("START_TIME");
-			String startTime = startTimeObj != null ? startTimeObj.toString() : null;
-			System.out.println("=======startTime: " + startTime);
-			Object endTimeObj = firstFlight.get("END_TIME");
-			String endTime = endTimeObj != null ? endTimeObj.toString() : null;
-			System.out.println("=======endTime: " + endTime);
-			
-			Duration duration = Duration.between( LocalTime.parse(startTime), LocalTime.parse(endTime) );
-			System.out.println("=======duration: " + duration);
 
-			Long durationHour = duration.toHours();
-			String durationHourStr = durationHour.toString();
-			Long durationMinutes = duration.toMinutes() % 60;
-			String durationMinutesStr = durationMinutes.toString();
-
-			firstFlight.put("DURATIONHOUR", durationHourStr);
-			firstFlight.put("DURATIONMINUTE", durationMinutesStr);
+		// 3. 넘어온 value 값 기준 DB 조회 (정보 : 출발날짜, 도착날짜, 출발지, 도착지)
+		// 왕복 경우
+		if ("RT".equals(initform) && arrdate != null) {
 			
-			mv.addObject("firstFlight", firstFlight);
+			List<Map<String, Object>> returnSearchList = airplaneMapper.getReturnTimeList(depDate, arrdate, departure_loc, arrival_loc);
+			System.out.println("=======returnSearchList: " + returnSearchList);
+			//System.out.println("=======targetAirplaneIdx: " + returnSearchList.get(0).get("AIRPLANE_IDX"));
+			//Object targetAirplaneIdx = returnSearchList.get(0).get("AIRPLANE_IDX");
+			
+			for (Map<String, Object> flight : returnSearchList) {
+
+				Object targetAirplaneIdx = flight.get("AIRPLANE_IDX");
+			    System.out.println("=======targetAirplaneIdx: " + targetAirplaneIdx);
+			    
+			    mv.addObject("targetAirplaneIdx", targetAirplaneIdx);
+			}
+			
+			calculateDuration(returnSearchList);
+			
+			mv.addObject("returnSearchList", returnSearchList);
 			
 		} else {
-		    System.out.println("해당 조건이 없습니다.");
+			
+			// 왕복 아닐 경우
+			List<Map<String, Object>> airSearchList = airplaneMapper.getTimeList(depDate, departure_loc, arrival_loc);
+			System.out.println("=======airSearchList: " + airSearchList);
+			
+			for (Map<String, Object> flight : airSearchList) {
+
+				Object targetAirplaneIdx = flight.get("AIRPLANE_IDX");
+			    System.out.println("=======targetAirplaneIdx: " + targetAirplaneIdx);
+			    
+			    mv.addObject("targetAirplaneIdx", targetAirplaneIdx);
+			}
+			
+			calculateDuration(airSearchList);
+			
+			mv.addObject("airSearchList", airSearchList);
 		}
 		
-		mv.addObject("airSearchList", airSearchList);
 		mv.setViewName("airplane/airplanesearch");
 		return mv;
 		
 	}
+	
+	private void calculateDuration(List<Map<String, Object>> flights) {
+	    for (Map<String, Object> flight : flights) {
+	        Object startTimeObj = flight.get("START_TIME");
+	        String startTime = startTimeObj != null ? startTimeObj.toString() : null;
+	        Object endTimeObj = flight.get("END_TIME");
+	        String endTime = endTimeObj != null ? endTimeObj.toString() : null;
+	        
+	        if (startTime != null && endTime != null) {
+	            Duration duration = Duration.between(LocalTime.parse(startTime), LocalTime.parse(endTime));
+	            Long durationHour = duration.toHours();
+	            Long durationMinutes = duration.toMinutes() % 60;
+	            
+	            flight.put("DURATIONHOUR", durationHour.toString());
+	            flight.put("DURATIONMINUTE", durationMinutes.toString());
+	        }
+	    }
+	}
+
 	
 }
