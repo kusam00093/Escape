@@ -16,6 +16,7 @@ public interface CommentMapper {
 	List<CommentVo> getCommentList(Long board_idx);
 
 	void insertComment(CommentVo commentVo);
+	void insertCommentLike(CommentVo commentVo);
 
 	void deleteComment(CommentVo commentVo);
 
@@ -23,9 +24,20 @@ public interface CommentMapper {
 
 	CommentVo selectLikes(CommentVo commentVo);
 
-	void updateLikes(CommentVo comment_likes);
+	void updateLikes(CommentVo commentVo);
 
 	void addLikes(CommentVo commentVo);
+
+	void deleteLikes(CommentVo commentVo);
+
+
+	//CommentVo selectLikes(CommentVo commentVo);
+
+	//void updateLikes(CommentVo comment_likes);
+
+	//void addLikes(CommentVo commentVo);
+
+	//void deleteLikes(CommentVo comment_likes);
 
 
 }

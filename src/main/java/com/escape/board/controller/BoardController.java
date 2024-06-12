@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,12 +26,24 @@ public class BoardController {
 
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	/*
+	@PostMapping("/Api/{news_idx}/updateNewsHit")
+	@ResponseBody
+	public List<NewsVo> updateNewsHit(@PathVariable Long news_idx
+			 ,@RequestBody NewsVo newsVo){
+		
+		List<NewsVo> newsList = boardMapper.getNewsList(newsVo);
+		newsVo.setNews_idx(news_idx);
+		// 뉴스 조회수
+		boardMapper.updateNewsHit(newsVo);
+		
+		return newsList;
+	}*/
 
 	
 	@RequestMapping("/Boardhome")
-	public  ModelAndView   boardhome(BoardVo boardVo, NewsVo newsVo, QnaVo qnaVo, NoticeVo noticeVo
-		//	,@RequestParam(value="news_idx") Long news_idx
-			) {
+	public  ModelAndView   boardhome(BoardVo boardVo, NewsVo newsVo, QnaVo qnaVo, NoticeVo noticeVo) {
 		
 		
 		/*
@@ -47,7 +58,7 @@ public class BoardController {
 		List<NewsVo> newsList = boardMapper.getNewsList(newsVo);
 		int ncount = boardMapper.getNcount();
 		// 뉴스 조회수
-	//	boardMapper.updateNewsHit(newsVo);
+		//boardMapper.updateNewsHit(newsVo);
 		
 		List<QnaVo> qnaList = boardMapper.getQnaList(qnaVo);
 		int qcount = boardMapper.getQcount();
@@ -74,6 +85,8 @@ public class BoardController {
 		mv.addObject("ncount",ncount);
 		mv.addObject("qcount",qcount);
 		mv.addObject("nocount",nocount);
+		
+		//mv.addObject("news_idx",news_idx);
 		
 		mv.setViewName("board/boardhome");
 		return mv;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ public class CommentController {
 	@GetMapping("/Api/Board/{board_idx}/commentGet")
 	@ResponseBody
 	   public List<CommentVo> commentGet (
-	         @PathVariable Long board_idx // 여기 수상했었음
+	         @PathVariable Long board_idx 
 	        // ,@RequestBody CommentVo commentVo
 	         ){
 	      
@@ -43,6 +44,7 @@ public class CommentController {
 	
 	@PostMapping("/Api/Board/{board_idx}/commentCreate")
 	@ResponseBody
+	@Transactional
 	public List<CommentVo> commentCreate (
 			@PathVariable Long board_idx
 		 ,@RequestBody CommentVo commentVo
@@ -53,7 +55,11 @@ public class CommentController {
 		
 		// 댓글 생성
 		commentVo.setBoard_idx(board_idx);
+		commentVo.setBoard_comment_idx(commentVo.getBoard_comment_idx());
+		commentVo.setBoard_comment_like_idx(commentVo.getBoard_comment_like_idx());
+		
 		commentMapper.insertComment(commentVo);
+		//commentMapper.addLikes(commentVo);
 
 		log.info("================commentList : {}", commentList);
 		return commentList;
@@ -87,40 +93,96 @@ public class CommentController {
        return commentList;
     }
 	
-	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/commentAddlike")
+	
+	//==================댓글 좋아요
+	//==================댓글 좋아요
+	//==================댓글 좋아요
+	//==================댓글 좋아요
+	//==================댓글 좋아요
+	//==================댓글 좋아요
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/addLike")
+	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/addLike")
 	@ResponseBody
-	public ResponseEntity<String> AddLike(@RequestBody CommentVo commentVo) {
+	public ResponseEntity<String> AddLike(@PathVariable Long board_idx 
+	         ,@PathVariable Long board_comment_idx
+	         ,@PathVariable Long board_comment_like_idx
+	 		 ,@RequestBody CommentVo commentVo) {
 		   
-	      
-		CommentVo comment_likes = commentMapper.selectLikes(commentVo);
-	       System.out.println("11111111111111111111111111111111");
-	       System.out.println(comment_likes);
-	       System.out.println(commentVo);
+		//CommentVo comment_likes = commentMapper.selectLikes(commentVo);
+		CommentVo comment = commentMapper.selectLikes(commentVo);
+		log.info("11111111111111111111111111111111");
+		//log.info("=========comment_likes",comment_likes);
+		log.info("=========comment",comment);
+		log.info("=========commentVo",commentVo);
 	       
-	       if(comment_likes != null) {
-	          System.out.println(1 + "북마크가 존재함");
-	          commentMapper.updateLikes(comment_likes); // 그냥 bookmarkVo로 받아도 됨 근데 where문을 하나로 하고싶었음
-	          return ResponseEntity.ok("북마크가 존재함 update");
+	   /*    if(comment_likes != null) {
+	    	   log.info(1 + "북마크가 존재함");
+	          commentMapper.updateLikes(comment_likes);
+	          return ResponseEntity.ok("북마크가 존재함 update");*/
+	          if(comment != null) {
+	        	  log.info(1 + "북마크가 존재함");
+	        	  commentMapper.updateLikes(commentVo);
+	        	  return ResponseEntity.ok("북마크가 존재함 update");
 	          
 	       }else {
-	          System.out.println(2 + "북마크가 존재안함"); 
+	    	   log.info(2 + "북마크가 존재안함"); 
 	          commentMapper.addLikes(commentVo); //insert
-	          System.out.println(commentVo);
+	          log.info("=========commentVo",commentVo);
 	          return ResponseEntity.ok("북마크가 존재안함 insert");
 	       }
 	   }
-	/*
-    public Integer checkcommentAddlike (
-    	       @PathVariable Long board_idx 
-    	      ,@PathVariable Long board_comment_idx
-    	 	  ,@RequestBody CommentVo commentVo
-          )   {
-       
-       // 현재 좋아요 상태 확인
-        int isLiked = commentMapper.isCommentLiked(commentVo);
-        log.info("===========checkcommentLike============");
- 
-        return isLiked;
-    }*/
+
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/updateLike")
+	   
+	   public ResponseEntity<String> UpdateLike(@PathVariable Long board_idx 
+		         ,@PathVariable Long board_comment_idx
+		         ,@PathVariable Long board_comment_like_idx
+		 		 ,@RequestBody CommentVo commentVo) {
+	      
+		//CommentVo comment_likes = commentMapper.selectLikes(commentVo);
+		CommentVo comment = commentMapper.selectLikes(commentVo);
+	      
+	  /*    if(comment_likes != null) {
+	         System.out.println(1 + "북마크가 존재함");
+	         commentMapper.updateLikes(comment_likes); 
+	         return ResponseEntity.ok("북마크가 존재함 update");*/
+	         if(comment != null) {
+	        	 System.out.println(1 + "북마크가 존재함");
+	        	 commentMapper.updateLikes(commentVo); 
+	        	 return ResponseEntity.ok("북마크가 존재함 update");
+	         
+	      }else {
+	         System.out.println(2 + "북마크가 존재안함"); 
+	         commentMapper.addLikes(commentVo);
+	         System.out.println(commentVo);
+	         return ResponseEntity.ok("북마크가 존재안함 insert");
+	      }
+	   }
+	
+
+	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/Deletelike")
+	//@PostMapping("/Api/Board/{board_comment_like_idx}/deleteLike")
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/deleteLike")
+	@ResponseBody
+	   public ResponseEntity<String> DeleteLike(@PathVariable Long board_idx 
+		         ,@PathVariable Long board_comment_idx
+		         ,@PathVariable Long board_comment_like_idx
+		 		 ,@RequestBody CommentVo commentVo) {
+	   
+	   //CommentVo comment_likes = commentMapper.selectLikes(commentVo);	
+	   CommentVo comment = commentMapper.selectLikes(commentVo);	
+	       
+	    /*  if(comment_likes != null) {
+	    	  commentMapper.deleteLikes(comment_likes);
+	         return ResponseEntity.ok("delete");*/
+	         if(comment != null) {
+	        	 commentMapper.deleteLikes(commentVo);
+	        	 return ResponseEntity.ok("delete");
+	         
+	      }else {
+	         return    ResponseEntity.badRequest().body("해당 북마크가 존재하지 않습니다.");
+	      }
+	       
+	   }
 	
 }

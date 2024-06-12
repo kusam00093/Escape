@@ -78,6 +78,18 @@ h2 {
 #comment-form, .container2{
 margin-top: 20px;
 }
+/*
+img {
+    width: 35px; 
+    height: 35px; 
+    cursor: pointer; 
+    background: url('/img/like_off.png') no-repeat; 
+    background-size: cover; 
+}
+.like{
+background-color: white;
+border: none;
+}*/
 </style>
 </head>
 <body>
@@ -163,14 +175,15 @@ margin-top: 20px;
        
        <c:choose>
          <c:when test="${comment.comment_likes == 1}">
-         <button class="like" type="button"  data-posting-id="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"></button>
+         <button class="like" type="button"  data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"><span class="like-count"></span></button>
          </c:when>
          <c:otherwise>
-         <button class="like" type="button"  data-posting-id="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"></button>
+         <button class="like" type="button"  data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"><span class="like-count"></span></button>
          </c:otherwise>
        </c:choose>    
       </div>
     </div>
+    <input type="hidden" name="comment_likes" class="comment_likes"  data-comment-likes="${comment.comment_likes }" />
   </c:forEach>
 </div>
 
@@ -249,8 +262,13 @@ document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
     button.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
 
+        //alert('ㅇㅅㅇ');
+        
         var boardIdx = this.getAttribute('data-board-idx'); // 게시글 인덱스 가져오기
         var commentIdx = this.getAttribute('data-comment-idx'); // 댓글 인덱스 가져오기
+        
+        //console.dir(boardIdx);
+        //console.dir(commentIdx);
 
         fetch(`/Api/Board/\${boardIdx}/\${commentIdx}/commentDelete`, { // 게시글 번호와 댓글 번호를 사용하여 URL 구성
             method: 'POST',
@@ -277,17 +295,45 @@ document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
 /*------------------------------------------------------------------------*/
 /*-------------------------------댓글 좋아요----------------------------------*/
 /*------------------------------------------------------------------------*/
+
 document.addEventListener("DOMContentLoaded", function() {
     const likeButtons = document.querySelectorAll('.like');
-  //  const user_id = ${user.user_id};
-  //  console.log(user_id);
-function addLikes(boardIdx,boardCommentIdx) {
-    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/commentAddlike`, {
+    //const comment_likes = '\${comment.comment_likes}';
+    const commentLikeEl = document.querySelector('.comment_likes');
+    console.dir(commentLikeEl);
+
+    //const comment_likes = commentLikeEl.data('comment-likes');
+    //console.dir(comment_likes);
+    
+function toggleLike(button) {
+    var img = button.querySelector('img');
+    var currentSrc = img.getAttribute('src');
+    var boardCommentLikeIdx = button.getAttribute('data-board-comment-like-idx');
+    var boardIdx = button.getAttribute('data-board-idx'); // board_idx 가져오기
+    
+    if (currentSrc.includes('like_on.png')) {
+        img.setAttribute('src', '/img/like_off.png');
+        console.log('스크랩이 해제되었습니다.');
+        alert('스크랩이 해제되었습니다.');
+        // 이미 스크랩된 상태에서 스크랩 버튼을 클릭한 경우
+        deleteLikes(boardCommentLikeIdx);
+    } else {
+        img.setAttribute('src', '/img/like_on.png');
+        console.log('스크랩 공고 버튼이 클릭되었습니다.');
+        alert('스크랩 되었습니다.');
+        // 스크랩되지 않은 상태에서 스크랩 버튼을 클릭한 경우
+        addLikes(boardCommentLikeIdx);
+    }
+}
+function addLikes(boardCommentLikeIdx) {
+    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/addLike`, {
+    //fetch(`/Api/Board/\${board_comment_like_idx}/addlike`, {
+    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/addLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({board_idx: boardIdx, board_comment_idx: boardCommentIdx })
+        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardcommentIdx, board_comment_like_idx: boardCommentLikeIdx})
     }).then(response => {
         if (!response.ok) {
             throw new Error('Failed to toggle like');
@@ -298,7 +344,41 @@ function addLikes(boardIdx,boardCommentIdx) {
     }).catch(error => console.error('Error toggling like:', error));
 }
 
+
+function deleteLikes(boardCommentLikeIdx) {
+    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/deleteLike`, {
+    //fetch(`/Api/Board/\${board_comment_like_idx}/deletelike`, {
+    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/deletelike`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({board_comment_like_idx: boardCommentLikeIdx, board_idx: boardIdx, board_comment_idx:boardcommentIdx} )
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to toggle like');
+        }
+        return response.text(); 
+    }).then(liketext => {
+        console.log('Server response:', liketext);
+    }).catch(error => console.error('Error toggling like:', error));
+}
+
+likeButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        toggleLike(button);
+        console.log('Button clicked');
+    });
+
 });
+/*
+function updateUI(likeCount, button) {
+    // 좋아요 개수 업데이트
+    button.querySelector('.like-count').innerText = likeCount;
+}*/
+
+});
+
 
 /*------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------*/

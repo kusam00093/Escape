@@ -43,9 +43,6 @@ public interface BoardMapper {
 
 	void insertQandawrite(QnaVo qnaVo);
 	
-	
-	//void updateNewsHit(NewsVo newsVo);
-	
 
 	
 
