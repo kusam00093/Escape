@@ -2861,7 +2861,7 @@ function sendSelectionToController() {
 	    inputArrDate.name = 'depDate2';
 	    inputArrDate.value = arrdateString;
 	    form.appendChild(inputArrDate); */
-	    const arrDatePickers = [$("#txt_arrDt_view"), $("#txt_depDt_view")]; // 여러 날짜 선택기를 배열로 저장
+	    const arrDatePickers = [$("#txt_depDt_view"), $("#txt_arrDt_view")]; // 여러 날짜 선택기를 배열로 저장
 	    arrDatePickers.forEach((datePicker, index) => {
 	        const selectedDate = datePicker.datepicker("getDate");
 	        const arrdateString = $.datepicker.formatDate("yy-mm-dd", selectedDate);

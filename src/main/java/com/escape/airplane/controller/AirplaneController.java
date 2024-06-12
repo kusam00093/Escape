@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,10 @@ import com.escape.airplane.domain.AirplaneVo;
 import com.escape.airplane.domain.AirportVo;
 import com.escape.airplane.domain.CityVo;
 import com.escape.airplane.mapper.AirplaneMapper;
+
+import static java.util.stream.Collectors.*;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/Airplane")
@@ -56,7 +61,6 @@ public class AirplaneController {
 	    String ariCityCode1 = params.get("ariCityCode1");
 	    String ariCityCode2 = params.get("ariCityCode2");
 	    String depDate1 = params.get("depDate1");
-	    //String depDate2 = params.get("depDate2");
 	    String initform = params.get("initform");
 	    String seatClass = params.get("seatClass");
 
@@ -77,108 +81,159 @@ public class AirplaneController {
 		System.out.println("=======depCityCode2: " + depCityCode2);
 		System.out.println("=======ariCityCode2: " + ariCityCode2);
 		System.out.println("=======depDate1: " + depDate1);
-		System.out.println("=======depDates2: " + depDates2);
+		System.out.println("=======depDate2[]: " + depDates2);
 		System.out.println("=======initform: " + initform);
 		System.out.println("=======seatClass: " + seatClass);
 		System.out.println("=======adultCount: " + adultCount);
 		System.out.println("=======childCount: " + childCount);
 		System.out.println("=======infantCount: " + infantCount);
 		
-		// 2. 넘어온 값 DB 조회 위한 값으로 변경 (도시명 → idx / ex. 서울 → 1 , 도쿄 → 10)
-		List<CityVo> departureLoc1 = airplaneMapper.getDepartureInfo( depCity1 );
-		System.out.println( "=======departureLoc1: " + departureLoc1 );	// [CityVo [city_idx=1, country_idx=1, name=서울, ename=SEL]]
-		CityVo dfirstAirplane1 = departureLoc1.get(0);
-		int departure_loc1 = dfirstAirplane1.getCity_idx();
-		System.out.println( "=======departure_loc1: " + departure_loc1 );	// 1
-		 
-        List<CityVo> arrivalLoc1 = airplaneMapper.getArrivalInfo( ariCity1 );
-        System.out.println( "=======arrivalLoc1: " + arrivalLoc1 );	// [CityVo [city_idx=10, country_idx=2, name=도쿄, ename=TYO]]
-        CityVo afirstAirplane1 = arrivalLoc1.get(0);
-        int arrival_loc1 = afirstAirplane1.getCity_idx();
-        System.out.println( "=======arrival_loc1: " + arrival_loc1 );	// 10
-        
-        List<Map<String, Object>> airSearchList = new ArrayList<>();
-        
-        if ("RT".equals(initform) && depDates2 != null) {
+		ModelAndView mv = new ModelAndView();
+		
+		// 2. 넘어온 값 DB 조회 위한 객체배열 생성
+		List<Map<String, Object>> airSearchList = new ArrayList<>();
+
+		// 왕복(RT) 코드
+	    if ("RT".equals(initform) && depDates2 != null) {
+	    	
+	        // 도시 정보를 인덱스로 변경
+	        List<CityVo> departureLoc1 = airplaneMapper.getDepartureInfo(depCity1);
+	        CityVo dfirstAirplane1 = departureLoc1.get(0);
+	        int departure_loc1 = dfirstAirplane1.getCity_idx();
+	        System.out.println("===== departureLoc1 =====: " + departureLoc1);
+	        System.out.println("===== departure_loc1 =====: " + departure_loc1);
+
+	        List<CityVo> arrivalLoc1 = airplaneMapper.getArrivalInfo(ariCity1);
+	        CityVo afirstAirplane1 = arrivalLoc1.get(0);
+	        int arrival_loc1 = afirstAirplane1.getCity_idx();
+	        System.out.println("===== arrivalLoc1 =====: " + arrivalLoc1);
+	        System.out.println("===== arrival_loc1 =====: " + arrival_loc1);
+
+	        List<CityVo> departureLoc2 = airplaneMapper.getDepartureInfo(depCity2);
+	        CityVo dfirstAirplane2 = departureLoc2.get(0);
+	        int departure_loc2 = dfirstAirplane2.getCity_idx();
+	        System.out.println("===== departureLoc2 =====: " + departureLoc2);
+	        System.out.println("===== departure_loc2 =====: " + departure_loc2);
+	        
+	        List<CityVo> arrivalLoc2 = airplaneMapper.getArrivalInfo(ariCity2);
+	        CityVo afirstAirplane2 = arrivalLoc2.get(0);
+	        int arrival_loc2 = afirstAirplane2.getCity_idx();
+	        System.out.println("===== arrivalLoc2 =====: " + arrivalLoc2);
+	        System.out.println("===== arrival_loc2 =====: " + arrival_loc2);
+	        
+	        // depDates2 배열의 각 날짜 처리
 	        for (String depDate2 : depDates2) {
-	        	
-	        	List<CityVo> departureLoc2 = airplaneMapper.getDepartureInfo( depCity2 );
-	    		System.out.println( "=======departureLoc2: " + departureLoc2 );
-	    		CityVo dfirstAirplane2 = departureLoc2.get(0);
-	    		int departure_loc2 = dfirstAirplane2.getCity_idx();
-	    		System.out.println( "=======departure_loc2: " + departure_loc2 );
-	    		
-	    		List<CityVo> arrivalLoc2 = airplaneMapper.getArrivalInfo( ariCity2 );
-	            System.out.println( "=======arrivalLoc2: " + arrivalLoc2 );
-	            CityVo afirstAirplane2 = arrivalLoc2.get(0);
-	            int arrival_loc2 = afirstAirplane2.getCity_idx();
-	            System.out.println( "=======arrival_loc2: " + arrival_loc2 );
-	        	
-	            List<Map<String, Object>> tempList = airplaneMapper.getTimeList(depDate2, departure_loc2, arrival_loc2);
-	            System.out.println( "=======tempList1: " + tempList );
+	            List<Map<String, Object>> tempList;
+	            if (depDate2.equals(depDates2.get(0))) {
+	                // 첫 번째 날짜는 원래 출발지와 도착지 사용
+	                tempList = airplaneMapper.getTimeList(depDate2, departure_loc1, arrival_loc1);
+	                System.out.println("===== tempList1 =====: " + tempList);
+	            } else {
+	                // 두 번째 날짜는 출발지와 도착지를 변경
+	                tempList = airplaneMapper.getTimeList(depDate2, departure_loc2, arrival_loc2);
+	                System.out.println("===== tempList2 =====: " + tempList);
+	            }
 	            airSearchList.addAll(tempList);
+	        }
+	        
+	        calculateDuration(airSearchList);
+	        
+	        // 왕복 항공편 연결
+	        Map<Integer, List<Map<String, Object>>> groupedFlights = airSearchList.stream()
+		    	    .collect(Collectors.groupingBy(flight -> ((BigDecimal) flight.get("AIRPLANE_IDX")).intValue()));
+		    System.out.println("===== groupedFlights =====: " + groupedFlights);
+
+		    List<List<Map<String, Object>>> roundTripFlights = new ArrayList<>();
+		    List<Integer> roundTripPrices = new ArrayList<>();  // 왕복 항공편 가격 목록
+		    
+		    for (List<Map<String, Object>> flights : groupedFlights.values()) {
+		    	
+		        List<Map<String, Object>> roundTrip = new ArrayList<>();
+		        int totalPrice = 0;  // 각 왕복 항공편의 총 가격 초기화
+		        
+		        for (Map<String, Object> flight : flights) {
+		        	
+		            if (roundTrip.size() == 2) break;
+		            if (roundTrip.isEmpty()) {
+		            	
+		                roundTrip.add(flight);
+		                totalPrice += (int) ((BigDecimal) flight.get("PRICE")).intValue();  // 첫 번째 구간의 가격 추가
+		                
+		            } else {
+		            	
+		                Map<String, Object> firstFlight = roundTrip.get(0);
+		                
+		                if (firstFlight.get("DEPARTURE_LOC").equals(flight.get("ARRIVAL_LOC")) &&
+		                    firstFlight.get("ARRIVAL_LOC").equals(flight.get("DEPARTURE_LOC"))) {
+		                	
+		                    roundTrip.add(flight);
+		                    totalPrice += (int) ((BigDecimal) flight.get("PRICE")).intValue();  // 반환 구간의 가격 추가
+		                    
+		                }
+		            }
+		        }
+		        
+		        if (roundTrip.size() == 2) {
+		        	
+		            roundTripFlights.add(roundTrip);
+		            roundTripPrices.add(totalPrice);  // 왕복 항공편의 총 가격 추가
+		            
+		        }
+		        
+		        System.out.println("===== roundTripFlights =====: " + roundTripFlights);
+		        System.out.println("===== roundTripPrices =====: " + roundTripPrices);
+		        mv.addObject("roundTripFlights", roundTripFlights);
+				mv.addObject("roundTripPrices", roundTripPrices);
+		    }
+	        // 왕복 End--------------
+		    
+	    } else {
+	    	
+	        // 편도 코드
+	        List<CityVo> departureLoc1 = airplaneMapper.getDepartureInfo(depCity1);
+	        CityVo dfirstAirplane1 = departureLoc1.get(0);
+	        int departure_loc1 = dfirstAirplane1.getCity_idx();
+
+	        List<CityVo> arrivalLoc1 = airplaneMapper.getArrivalInfo(ariCity1);
+	        CityVo afirstAirplane1 = arrivalLoc1.get(0);
+	        int arrival_loc1 = afirstAirplane1.getCity_idx();
+
+	        List<Map<String, Object>> tempList = airplaneMapper.getTimeList(depDate1, departure_loc1, arrival_loc1);
+	        System.out.println("===== tempList3 =====: " + tempList);
+	        airSearchList.addAll(tempList);
+	        
+	        calculateDuration(airSearchList);
+	        
+	        List<List<Map<String, Object>>> oneWayFlights = new ArrayList<>();
+	        List<Integer> oneWayPrices = new ArrayList<>();  // 편도 항공편 가격 목록
+
+	        for (Map<String, Object> flight : airSearchList) {
+	        	
+	            List<Map<String, Object>> oneWay = new ArrayList<>();
 	            
-	            calculateDuration(airSearchList);
+	            oneWay.add(flight);
+	            oneWayFlights.add(oneWay);
+	            oneWayPrices.add((int) ((BigDecimal) flight.get("PRICE")).intValue());
+	            
+	            System.out.println("===== oneWayFlights =====: " + oneWayFlights);
+	            System.out.println("===== oneWayPrices =====: " + oneWayPrices);
 	            
 	        }
-        } else {
-        	List<Map<String, Object>> tempList = airplaneMapper.getTimeList(depDate1, departure_loc1, arrival_loc1);
-        	System.out.println( "=======tempList2: " + tempList );
-        	airSearchList.addAll(tempList);
-            
-            calculateDuration(airSearchList);
-        }
-		
-        System.out.println( "=======airSearchList: " + airSearchList );
-        
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("airSearchList", airSearchList);
 
-		// 3. 넘어온 value 값 기준 DB 조회 (정보 : 출발날짜, 도착날짜, 출발지, 도착지)
-		// 왕복 경우
-//		if ("RT".equals(initform) && depDate2 != null) {
-//			
-//			List<Map<String, Object>> returnSearchList = airplaneMapper.getReturnTimeList(depDate, arrdate, departure_loc, arrival_loc);
-//			System.out.println("=======returnSearchList: " + returnSearchList);
-//			//System.out.println("=======targetAirplaneIdx: " + returnSearchList.get(0).get("AIRPLANE_IDX"));
-//			//Object targetAirplaneIdx = returnSearchList.get(0).get("AIRPLANE_IDX");
-//			
-//			for (Map<String, Object> flight : returnSearchList) {
-//
-//				Object targetAirplaneIdx = flight.get("AIRPLANE_IDX");
-//			    System.out.println("=======targetAirplaneIdx: " + targetAirplaneIdx);
-//			    
-//			    mv.addObject("targetAirplaneIdx", targetAirplaneIdx);
-//			}
-//			
-//			calculateDuration(returnSearchList);
-//			
-//			mv.addObject("returnSearchList", returnSearchList);
-//			
-//		} else {
-//			
-//			// 왕복 아닐 경우
-//			List<Map<String, Object>> airSearchList = airplaneMapper.getTimeList(depDate, departure_loc, arrival_loc);
-//			System.out.println("=======airSearchList: " + airSearchList);
-//			
-//			for (Map<String, Object> flight : airSearchList) {
-//
-//				Object targetAirplaneIdx = flight.get("AIRPLANE_IDX");
-//			    System.out.println("=======targetAirplaneIdx: " + targetAirplaneIdx);
-//			    
-//			    mv.addObject("targetAirplaneIdx", targetAirplaneIdx);
-//			}
-//			
-//			calculateDuration(airSearchList);
-//			
-//			mv.addObject("airSearchList", airSearchList);
-//		}
+	        mv.addObject("oneWayFlights", oneWayFlights);
+	        mv.addObject("oneWayPrices", oneWayPrices);
+	        
+	    }
 		
+	    System.out.println("===== airSearchList =====: " + airSearchList);
+
+		mv.addObject("airSearchList", airSearchList);
 		mv.setViewName("airplane/airplanesearch");
 		return mv;
 		
 	}
 	
+	// 소요시간 계산
 	private void calculateDuration(List<Map<String, Object>> flights) {
 	    for (Map<String, Object> flight : flights) {
 	        Object startTimeObj = flight.get("START_TIME");
