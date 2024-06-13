@@ -21,7 +21,7 @@
             justify-content: space-between;
             margin-bottom: 20px;
             background-color: #f2f2f2;
-            border-radius: 20px;
+            border-radius: 20px; 
             padding: 10px;
             align-items: center;
             
