@@ -139,6 +139,7 @@ border: none;
  </div>
 <!-- 댓글 추가
  <div class="card mb-2">
+<<<<<<< HEAD
    <div class="card-header bg-light">
            <i class="fa fa-comment fa"></i> 댓글
    </div>
@@ -453,3 +454,4 @@ const replyButtons = document.querySelectorAll('.reply-button');
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

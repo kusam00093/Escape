@@ -124,4 +124,5 @@ WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
 </delete>
 
 
+
 </mapper>

@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
 	id 'war'
-	id 'org.springframework.boot' version '3.1.9'
+	id 'org.springframework.boot' version '3.1.12'
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -50,15 +50,16 @@ dependencies {
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	
 	// 1. spring security 추가
-//    implementation 'org.springframework.boot:spring-boot-starter-security'    
+	// implementation 'org.springframework.boot:spring-boot-starter-security'    
     // 2. 타임리프에서 스프링 시큐리티를 사용하기 위한 의존성 추가
     //implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     // 3. 스프링 시큐리티를 테스트하기 위한 의존성 추가
-//    implementation 'org.springframework.security:spring-security-test'
-    
-//    implementation 'org.springframework.boot:spring-boot-starter-mustache'
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// implementation 'org.springframework.security:spring-security-test'
+	// implementation 'org.springframework.boot:spring-boot-starter-mustache'
+	// implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	
+	// 웹소켓 기능 추가
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 }
 

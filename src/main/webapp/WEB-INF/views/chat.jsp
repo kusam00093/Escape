@@ -197,6 +197,7 @@
 					<th><button onclick="send()" id="sendBtn">보내기</button></th>
 				</tr>
 
+
 			</table>
 		</div>
 	</div>
