@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.airplane.mapper.AirplaneMapper">
+
+
+<select id="getDepartureInfo">
+	SELECT
+	  CITY_IDX,
+	  COUNTRY_IDX,
+	  NAME,
+	  ENAME
+	FROM
+	  CITY_TB
+	WHERE
+	  NAME = #{ depCity }
+</select>
+
+<select id="getArrivalInfo">
+	SELECT
+	  CITY_IDX,
+	  COUNTRY_IDX,
+	  NAME,
+	  ENAME
+	FROM
+	  CITY_TB
+	WHERE
+	  NAME = #{ ariCity }
+</select>
+
+<select id="getTimeList">
+	SELECT
+      AT.AIRPLANE_TIME_IDX,
+      AT.AIRPLANE_IDX,
+      TO_CHAR(AT.START_DATE, 'YYYY-MM-DD') AS START_DATE,
+      TO_CHAR(AT.START_TIME, 'HH24:MI:SS') AS START_TIME,
+      TO_CHAR(AT.END_TIME, 'HH24:MI:SS') AS END_TIME,
+      AT.DEPARTURE_LOC,
+      AT.ARRIVAL_LOC,
+      AT.KNOWN,
+      AP.AIRPLANE_PRICE_IDX,
+      AP.PRICE,
+      AP.PTYPE_IDX,
+      AP.STYPE_IDX,
+      AL.NAME AS AIRLINE_NAME,
+      A.NAME AS AIRPLANE_NAME,
+      CT.NAME AS DEPCITY_NAME,
+      CT2.NAME AS ARRCITY_NAME,
+      CT.ENAME AS DEPCITY_ENAME,
+      CT2.ENAME AS ARRCITY_ENAME,
+      AL.LOGO,
+      CT.COUNTRY_IDX AS COUNTRY_IDX
+	FROM 
+      AIRPLANE_TIME_TB AT
+	JOIN
+      AIRPLANE_PRICE_TB AP ON AT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
+	JOIN
+      AIRPLANE_TB A ON AT.AIRPLANE_IDX = A.AIRPLANE_IDX
+	JOIN
+      CITY_TB CT ON AT.DEPARTURE_LOC = CT.CITY_IDX
+	JOIN
+      CITY2_TB CT2 ON AT.ARRIVAL_LOC = CT2.CITY_IDX    
+	JOIN
+      AIRLINE_TB AL ON A.AIRLINE_IDX = AL.AIRLINE_IDX
+	WHERE 
+      AT.START_DATE = TO_DATE(#{arg0}, 'YYYY-MM-DD')
+	AND
+      AT.DEPARTURE_LOC = #{arg1}
+	AND
+      AT.ARRIVAL_LOC = #{arg2}
+</select>
+
+<select id="getDepAirportName">
+	SELECT
+	  AP.AIRPORT_IDX,
+	  AP.COUNTRY_IDX,
+	  AP.NAME,
+	  AP.ENAME,
+	  CT.CITY_IDX,
+	  CT.NAME,
+	  CT.ENAME
+	FROM
+	  AIRPORT_TB AP
+	JOIN
+	  CITY_TB CT
+	ON
+	  AP.COUNTRY_IDX = CT.COUNTRY_IDX
+	WHERE
+	  CT.CITY_IDX = #{arg1}
+</select>
+
+<select id="getArrAirportName">
+	SELECT
+	  AP.AIRPORT_IDX,
+	  AP.COUNTRY_IDX,
+	  AP.NAME,
+	  AP.ENAME,
+	  CT.CITY_IDX,
+	  CT.NAME,
+	  CT.ENAME
+	FROM
+	  AIRPORT_TB AP
+	JOIN
+	  CITY_TB CT
+	ON
+	  AP.COUNTRY_IDX = CT.COUNTRY_IDX
+	WHERE
+	  CT.CITY_IDX = #{arg1}
+</select>
+
+
+</mapper>

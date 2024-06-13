@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Escape</title> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -58,6 +59,7 @@
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
 	<%@include file="/WEB-INF/include/nav.jsp"%>
+
 
 
 
