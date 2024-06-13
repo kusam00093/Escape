@@ -181,6 +181,11 @@ main {
 
 </style>
 
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-{SDK-latest-version}.js"></script>
+
 </head>
 
 <%@include file="/WEB-INF/include/header.jsp"%>
@@ -327,29 +332,12 @@ main {
 	              <!-- ------------------------------------------------------------------------- -->
 	              <span>
 	                <button type="button" class="payBtn">결제</button>
+	                
+	                <script src="https://cdn.iamport.kr/vl/iamport.js"></script>
+	                <script src="/main.js"></script>
+	                
 	                <div>
 	                  <strong>${oneWayPrices[status.index]} KRW</strong>
-	                </div>
-	                <div class="priceInfo" style="display: none;">
-	                  <div class="priceInfo_wrap">
-	                    <div class="priceInfo_header">
-	                      <h5>요금선택<span class="">성인 1인 요금</span></h5>
-	                    </div>
-	                    <div class="priceInfo_wrap_contents">
-	                      <ul role="">
-	                        <li class="priceInfo_wrap_contents_li">
-	                          <div class="">
-	                            <input type="radio" class="" name="" onclick="" checked="checked">
-	                            <label for="">
-	                              <span class=""></span>
-	                              롯데카드
-	                            </label>
-	                          </div>
-	                          <div class="cardPriceInfo">${oneWayPrices[status.index]} KRW</div>
-	                        </li>
-	                      </ul>
-	                    </div>
-	                  </div>
 	                </div>
 	              </span>
 	              <!-- ------------------------------------------------------------------------- -->
