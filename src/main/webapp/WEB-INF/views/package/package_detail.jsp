@@ -405,7 +405,7 @@ input.form-control::placeholder {
  <div id="container1">
  
   <div class="content1">
- 	<h2>스위스 (K-드라마) 촬영지와 블라우제 호수 투어 (스위스/인터라켄)</h2>
+ 	<h2>${ packageVo.title } 스위스 (K-드라마) 촬영지와 블라우제 호수 투어 (스위스/인터라켄)</h2>
  	<div class="rating" >
     <label class="rating__label rating__label--half" for="starhalf">
         <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
@@ -476,7 +476,9 @@ input.form-control::placeholder {
 <hr>
 
 
-
+<button class="btn btn-primary">${packageVo.start_date }</button>
+<span>${ packageVo.duration }</span>
+<button class="btn btn-primary">${packageVo.end_date }</button>
 
     <button id="select-date-range">기간 선택</button>
     <div id="date-range-picker">
@@ -551,6 +553,7 @@ input.form-control::placeholder {
 스위스 여행에서 한번쯤은 잊지 못할 추억을 남겨보세요.
 </div>
 <button class="button">더보기</button>
+
 <hr>
 
 <div class="detail_rate">
@@ -659,68 +662,22 @@ input.form-control::placeholder {
 
 <hr>
 
+<h3>리뷰</h3>
+
 <div class="reviews">
+<c:forEach var="re" items="${ reviewList }">
 
     <div class="review1">
 		<img src="/package_image/package_paris.jpg" class="review-img">
-        <div class="review-title">제목</div>
-        <div class="reviewer">작성자: 홍길동</div>
-        <div class="rating"> 	<div class="rating" >
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-</div></div>
+        <div class="review-title">${ re.created }</div>
+        <div class="reviewer">${ re.full_name }</div>
+   		<div>&nbsp;</div>
         <div class="review-content">
-            내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
+            ${ re.content }내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
         </div>
     </div>
-    
-    <div class="review1">
-    	<img src="/package_image/package_paris.jpg" class="review-img">
-        <div class="review-title">제목</div>
-        <div class="reviewer">작성자: 박서준</div>
-        <div class="rating">평점: ★★★☆☆</div>
-        <div class="review-content">
-            내용 Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
-        </div>
-    </div>
+ </c:forEach>   
+
 
 </div>
 
