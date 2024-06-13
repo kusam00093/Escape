@@ -60,6 +60,7 @@ public class CommentController {
 		
 		commentMapper.insertComment(commentVo);
 		//commentMapper.addLikes(commentVo);
+		//commentMapper.addLikes(commentVo);
 
 		log.info("================commentList : {}", commentList);
 		return commentList;
@@ -100,8 +101,8 @@ public class CommentController {
 	//==================댓글 좋아요
 	//==================댓글 좋아요
 	//==================댓글 좋아요
-	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/addLike")
-	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/addLike")
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/addLike")
+	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/addLike")
 	@ResponseBody
 	//public ResponseEntity<String> AddLike(@PathVariable Long board_idx 
 	public ResponseEntity<String> AddLike(
@@ -109,6 +110,7 @@ public class CommentController {
 	         ,@PathVariable Long board_comment_idx
 	        // ,@PathVariable Long board_comment_like_idx
 	 		 ,@RequestBody CommentVo commentVo) {
+		
 		commentVo.setBoard_idx(board_idx);
 	    commentVo.setBoard_comment_idx(board_comment_idx);
 		   
@@ -131,7 +133,9 @@ public class CommentController {
 	          
 	       }else {
 	    	   log.info(2 + "북마크가 존재안함"); 
-	          commentMapper.addLikes(commentVo); //insert
+	          /////////////////////////////////////////
+	    	   commentMapper.addLikes(commentVo); //insert
+	         // commentMapper.addCLikes(commentVo); //insert
 	          log.info("=========commentVo",commentVo);
 	          return ResponseEntity.ok("북마크가 존재안함 insert");
 	       }
@@ -167,9 +171,9 @@ public class CommentController {
 	   }
 	
 
-	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/deletelike")
+	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/deletelike")
 	//@PostMapping("/Api/Board/{board_comment_like_idx}/deleteLike")
-	//@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/deleteLike")
+	@PostMapping("/Api/Board/{board_idx}/{board_comment_idx}/{board_comment_like_idx}/deleteLike")
 	@ResponseBody
 	   public ResponseEntity<String> DeleteLike(
 			   @PathVariable Long board_idx 
@@ -187,11 +191,6 @@ public class CommentController {
 	    	  commentMapper.deleteLikes(commentVo);
 	         return ResponseEntity.ok("delete");
 	         
-	       /*  if(comment != null) {
-	         }
-	        	 commentMapper.deleteLikes(commentVo);
-	        	 return ResponseEntity.ok("delete");
-	         */
 	      }else {
 	         return    ResponseEntity.badRequest().body("해당 북마크가 존재하지 않습니다.");
 	      }

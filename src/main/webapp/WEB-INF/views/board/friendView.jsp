@@ -192,6 +192,7 @@ border: none;
 <form action="/Api/Board/{board.board_idx}/commentCreate" method="POST" id="comment-form">
   <input type="hidden" class="comment-board-idx" name="board_idx" value="${board.board_idx }" readonly />
   <input type="hidden" class="comment-idx" name="comment_idx" value="${commentVo.board_comment_idx}" readonly />
+  <input type="hidden" class="comment-like-idx" name="board_comment_like_idx" value="${commentVo.board_comment_like_idx}" readonly />
   <div class="form-group">
     <label for="content">댓글내용</label>
     <input type="text" class="form-control" id="content" name="content">
@@ -215,8 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	      alert('board-idx element not found.');
 	      return;
 	    }
+	    
 	    let board_idx = parseInt(board_idx_element.value, 10);
 	    console.log('board_idx:', board_idx); // 디버깅을 위해 추가
+	    
+	    let likeCountEl = document.querySelector('.like');
+	    console.dir(likeCountEl);
+	    
+	    //et board_comment_like_idx = parseInt(boardCommentLikeEl.value, 10);
+	    //console.dir('board_comment_like_idx:', board_comment_like_idx);
+	    
 	    
 	    // Check if board_idx is NaN
 	    if (isNaN(board_idx)) {
@@ -228,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	    let url = `/Api/Board/\${board_idx}/commentCreate`;
 
 	    const commentVo = {
-	    	      content: document.querySelector('#content').value,
+	    	      content: document.querySelector('#content').value, 
 	    	    };
 
 
@@ -311,9 +320,8 @@ function toggleLike(button) {
     var boardCommentLikeIdx = button.getAttribute('data-board-comment-like-idx');
     var boardIdx = button.getAttribute('data-board-idx'); // board_idx 가져오기
     var boardCommentIdx = button.getAttribute('data-board-comment-idx'); // board_idx 가져오기
-    console.log(boardCommentLikeIdx);
-    console.log(boardCommentIdx);
-    console.log(boardIdx);
+    console.log('boardCommentLikeIdx:',boardCommentLikeIdx);
+    console.log('boardCommentIdx:',boardCommentIdx);
     console.log('boardIdx:', boardIdx);
 
     
@@ -322,24 +330,24 @@ function toggleLike(button) {
         console.log('스크랩이 해제되었습니다.');
         alert('스크랩이 해제되었습니다.');
         // 이미 스크랩된 상태에서 스크랩 버튼을 클릭한 경우
-        deleteLikes(boardIdx,boardCommentIdx);
+        deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx);
     } else {
         img.setAttribute('src', '/img/like_on.png');
         console.log('스크랩 공고 버튼이 클릭되었습니다.');
         alert('스크랩 되었습니다.');
         // 스크랩되지 않은 상태에서 스크랩 버튼을 클릭한 경우
-        addLikes(boardIdx,boardCommentIdx);
+        addLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx);
     }
 }
-function addLikes(boardIdx,boardCommentIdx ) {
-    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/addLike`, {
+function addLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx ) {
+    //fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/addLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/addlike`, {
-    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/addLike`, {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/\${boardCommentLikeIdx}/addLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardcommentIdx, board_comment_like_idx: boardCommentLikeIdx})
+        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardCommentIdx, board_comment_like_idx: boardCommentLikeIdx})
     }).then(response => {
         if (!response.ok) {
             throw new Error('Failed to toggle like');
@@ -351,10 +359,10 @@ function addLikes(boardIdx,boardCommentIdx ) {
 }
 
 
-function deleteLikes(boardIdx,boardCommentIdx) {
-    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/deleteLike`, {
+function deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx) {
+    //fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/deleteLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/deletelike`, {
-    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/deletelike`, {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/\${boardCommentLikeIdx}/deleteLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
