@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Escape</title> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -21,7 +22,7 @@
             justify-content: space-between;
             margin-bottom: 20px;
             background-color: #f2f2f2;
-            border-radius: 20px;
+            border-radius: 20px; 
             padding: 10px;
             align-items: center;
             
@@ -60,6 +61,10 @@
 	<%@include file="/WEB-INF/include/header.jsp"%>
 	<%@include file="/WEB-INF/include/nav.jsp"%>
 
+<div><a href="/Board/Boardhome">메인 공고</a></div>
+
+
+
 
 
 <body>
@@ -97,6 +102,7 @@
         <img src="images/사이판.jpg" alt="여행지3">
     </div>
 
+<%@include file="/WEB-INF/include/footer.jsp"%>
     <script>
         function search() {
             var destination = document.getElementById('destination').value;
@@ -112,4 +118,5 @@
         }
     </script>
 </body>
+
 </html>
