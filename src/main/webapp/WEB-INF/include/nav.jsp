@@ -20,6 +20,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/Board/Boardhome"><img src="/images/icons7.png" class="nav_icon"/>&nbsp;커뮤니티</a>
+   
         </li>
         <li class="nav-item">
           <a class="nav-link" href=""><img src="/images/icons9.png" class="nav_icon"/>&nbsp;마이페이지</a>
