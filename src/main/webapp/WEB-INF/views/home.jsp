@@ -21,7 +21,7 @@
             justify-content: space-between;
             margin-bottom: 20px;
             background-color: #f2f2f2;
-            border-radius: 20px;
+            border-radius: 20px; 
             padding: 10px;
             align-items: center;
             
@@ -96,6 +96,7 @@
         <img src="images/사이판.jpg" alt="여행지3">
     </div>
 
+<%@include file="/WEB-INF/include/footer.jsp"%>
     <script>
         function search() {
             var destination = document.getElementById('destination').value;
@@ -111,4 +112,5 @@
         }
     </script>
 </body>
+
 </html>
