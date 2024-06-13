@@ -78,6 +78,15 @@ h2 {
 #comment-form, .container2{
 margin-top: 20px;
 }
+.like {
+	border : none;
+	background-color : transparent;
+}
+
+button.like:focus {
+outline : none;
+}
+
 /*
 img {
     width: 35px; 
