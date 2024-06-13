@@ -175,15 +175,15 @@ border: none;
        
        <c:choose>
          <c:when test="${comment.comment_likes == 1}">
-         <button class="like" type="button"  data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"><span class="like-count"></span></button>
+    <input type="hidden" name="comment_likes" class="comment_likes"  data-comment-likes="${comment.comment_likes }" />
+         <button class="like" type="button" data-board-idx="${comment.board_idx}" data-board-comment-idx="${ comment.board_comment_idx}" data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"><span class="like-count"></span></button>
          </c:when>
          <c:otherwise>
-         <button class="like" type="button"  data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"><span class="like-count"></span></button>
+         <button class="like" type="button" data-board-idx="${comment.board_idx}" data-board-comment-idx="${ comment.board_comment_idx}" data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"><span class="like-count"></span></button>
          </c:otherwise>
        </c:choose>    
       </div>
     </div>
-    <input type="hidden" name="comment_likes" class="comment_likes"  data-comment-likes="${comment.comment_likes }" />
   </c:forEach>
 </div>
 
@@ -310,25 +310,31 @@ function toggleLike(button) {
     var currentSrc = img.getAttribute('src');
     var boardCommentLikeIdx = button.getAttribute('data-board-comment-like-idx');
     var boardIdx = button.getAttribute('data-board-idx'); // board_idx 가져오기
+    var boardCommentIdx = button.getAttribute('data-board-comment-idx'); // board_idx 가져오기
+    console.log(boardCommentLikeIdx);
+    console.log(boardCommentIdx);
+    console.log(boardIdx);
+    console.log('boardIdx:', boardIdx);
+
     
     if (currentSrc.includes('like_on.png')) {
         img.setAttribute('src', '/img/like_off.png');
         console.log('스크랩이 해제되었습니다.');
         alert('스크랩이 해제되었습니다.');
         // 이미 스크랩된 상태에서 스크랩 버튼을 클릭한 경우
-        deleteLikes(boardCommentLikeIdx);
+        deleteLikes(boardIdx,boardCommentIdx);
     } else {
         img.setAttribute('src', '/img/like_on.png');
         console.log('스크랩 공고 버튼이 클릭되었습니다.');
         alert('스크랩 되었습니다.');
         // 스크랩되지 않은 상태에서 스크랩 버튼을 클릭한 경우
-        addLikes(boardCommentLikeIdx);
+        addLikes(boardIdx,boardCommentIdx);
     }
 }
-function addLikes(boardCommentLikeIdx) {
-    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/addLike`, {
+function addLikes(boardIdx,boardCommentIdx ) {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/addLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/addlike`, {
-    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/addLike`, {
+    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/addLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -345,15 +351,15 @@ function addLikes(boardCommentLikeIdx) {
 }
 
 
-function deleteLikes(boardCommentLikeIdx) {
-    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/deleteLike`, {
+function deleteLikes(boardIdx,boardCommentIdx) {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/deleteLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/deletelike`, {
-    fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/deletelike`, {
+    //fetch(`/Api/Board/\${board_idx}/\${board_comment_idx}/\${board_comment_like_idx}/deletelike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({board_comment_like_idx: boardCommentLikeIdx, board_idx: boardIdx, board_comment_idx:boardcommentIdx} )
+        body: JSON.stringify({board_comment_like_idx: boardCommentLikeIdx, board_idx: boardIdx, board_comment_idx:boardCommentIdx} )
     }).then(response => {
         if (!response.ok) {
             throw new Error('Failed to toggle like');
@@ -378,7 +384,6 @@ function updateUI(likeCount, button) {
 }*/
 
 });
-
 
 /*------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------*/

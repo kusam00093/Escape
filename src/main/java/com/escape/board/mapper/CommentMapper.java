@@ -22,7 +22,7 @@ public interface CommentMapper {
 
 	int isCommentLiked(CommentVo commentVo);
 
-	CommentVo selectLikes(CommentVo commentVo);
+
 
 	void updateLikes(CommentVo commentVo);
 
@@ -30,14 +30,9 @@ public interface CommentMapper {
 
 	void deleteLikes(CommentVo commentVo);
 
+	CommentVo selectLikes(CommentVo commentVo);
 
-	//CommentVo selectLikes(CommentVo commentVo);
 
-	//void updateLikes(CommentVo comment_likes);
-
-	//void addLikes(CommentVo commentVo);
-
-	//void deleteLikes(CommentVo comment_likes);
 
 
 }

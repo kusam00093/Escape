@@ -62,7 +62,8 @@ WHERE
     BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
 </select>
   -->
-<select id="selectLikes">
+<!--  <select id="selectLikes">-->
+<select id="getSelectLikes">
 SELECT 
     BC.BOARD_COMMENT_IDX
     ,BC.BOARD_IDX
@@ -74,6 +75,7 @@ SELECT
 FROM BOARD_COMMENT_TB BC
 LEFT JOIN BOARD_COMMENT_LIKE_TB BCL ON BCL.BOARD_COMMENT_IDX = BC.BOARD_COMMENT_IDX
 WHERE  BCL.BOARD_COMMENT_LIKE_IDX = #{ board_comment_like_idx }
+AND    BC.CONTENT = #{board_idx}
 </select>
 
 
@@ -83,6 +85,7 @@ WHERE  BCL.BOARD_COMMENT_LIKE_IDX = #{ board_comment_like_idx }
 		    COMMENT_LIKES = 1
 		WHERE
 		   BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
+		AND BOARD_IDX = #{board_idx}  
 </update>
 
 <insert id="addLikes"  >
@@ -104,7 +107,7 @@ SET
 	   COMMENT_LIKES = 0
 WHERE
 	   BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
-
+AND BOARD_IDX = #{board_idx}
 </update>
 
 </mapper>
