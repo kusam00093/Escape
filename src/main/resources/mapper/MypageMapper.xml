@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.login.mapper.MypageMapper">
+
+
+
+<select id="getPersonByuser_idx" resultType="com.escape.login.domain.Person">
+SELECT * FROM PERSON_TB
+WHERE USER_IDX = #{user_idx}
+</select>
+
+<select id="getSellerByuser_idx" resultType="com.escape.login.domain.Seller">
+SELECT * FROM SELLER_TB
+WHERE USER_IDX = #{user_idx}
+</select>
+
+<select id="getAirlineByuser_idx" resultType="com.escape.login.domain.Airline">
+SELECT * FROM AIRLINE_TB
+WHERE USER_IDX = #{user_idx}
+</select>
+
+<select id="getApplyByuser_idx" resultType="com.escape.login.domain.Apply">
+SELECT * FROM APPLY_TB
+WHERE USER_IDX = #{user_idx}
+</select>
+
+
+
+<update id="updateUser">
+	UPDATE USER_TB
+		SET 
+	PASSWD = #{passwd},
+	EMAIL = #{email}
+		where user_idx = #{user_idx}
+</update>
+
+<update id="updatePerson">
+	UPDATE PERSON_TB
+		SET 
+	FIRST_NAME = #{first_name},
+	LAST_NAME = #{last_name},
+	SOCIAL_NUM = #{social_num},
+	PHONE = #{phone},
+	ZIP_CODE = #{zip_code},
+	ADDRESS1 = #{address1},
+	ADDRESS2 = #{address2},
+	NICKNAME = #{nickname}
+		where person_idx = #{person_idx}
+</update>
+
+<update id="updateSeller">
+	UPDATE SELLER_TB
+		SET 
+	NAME = #{name},
+	CNUM = #{cnum},
+	PHONE = #{phone},
+	LOGO = #{logo}
+		where user_idx = #{user_idx}
+</update>
+
+<update id="updateAirline">
+	UPDATE AIRLINE_TB
+		SET 
+	NAME = #{name},
+	CNUM = #{cnum},
+	PHONE = #{phone},
+	LOGO = #{logo}
+		where user_idx = #{user_idx}
+</update>
+
+
+
+
+	
+</mapper>

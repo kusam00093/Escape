@@ -53,7 +53,8 @@
             margin: 10px;
         }
         #title {
-        margin-left: 130px;
+        padding: 30px;
+        text-align: center;
         }
     </style>
 </head>
@@ -67,7 +68,7 @@
 
 
 <body>
-    <h2 id="title">Escape 검색하기</h2>
+    <h2 id="title">Escape 경로와 일정 검색하기</h2>
     <!-- 검색란 -->
     <div class="search-box">
         <select id="destination">

@@ -10,7 +10,7 @@
           <a class="nav-link" href="/Package/Home"><img src="/images/icons2.png" class="nav_icon"/>&nbsp;여행패키지</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Airplane/Main"><img src="/images/icons8-2.png" class="nav_icon"/>&nbsp;항공</a>
+          <a class="nav-link" href="/Airplane/Main"><img src="/images/icons8-2.png" class="nav_icon"/>&nbsp;항공</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href=""><img src="/images/icons5.png" class="nav_icon"/>&nbsp;숙박</a>
