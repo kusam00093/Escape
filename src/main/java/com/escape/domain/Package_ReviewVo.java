@@ -14,4 +14,6 @@ public class Package_ReviewVo {
 	int person_idx;
 	String created;
 	String full_name;
+	int rate;
+	int count;
 }

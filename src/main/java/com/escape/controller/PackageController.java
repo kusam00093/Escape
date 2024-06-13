@@ -25,13 +25,13 @@ public class PackageController {
 	
 	@RequestMapping("/Home")
 	public  ModelAndView   home() {
-		//List<CategoryVo> categoryList = packageMapper.getCategory();
+		List<CategoryVo> categoryList = packageMapper.getCategory();
 		
 		
 		
 		ModelAndView mv = new ModelAndView();
 		
-		//mv.addObject("categoryList",categoryList);
+		mv.addObject("categoryList",categoryList);
 		mv.setViewName("package/package_home");
 		return mv;
 	}
@@ -52,11 +52,19 @@ public class PackageController {
 		List<Package_imageVo> package_imageList1 = packageMapper.getPackageImg1(packageVo.getPackage_idx());
 		List<Package_imageVo> package_imageList2 = packageMapper.getPackageImg2(packageVo.getPackage_idx());
 		List<Package_imageVo> package_imageList3 = packageMapper.getPackageImg3(packageVo.getPackage_idx());
+		Package_ReviewVo package_Rate = packageMapper.getAverageRate(packageVo.getPackage_idx());
+		Package_ReviewVo package_Rate_Max = packageMapper.getMaxRate(packageVo.getPackage_idx());
+		Package_ReviewVo package_ReviewCount = packageMapper.getReviewCount(packageVo.getPackage_idx());
+		
+		
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("coList", coList);
 		mv.addObject("packageVo", packageVo);
 		mv.addObject("reviewList", reviewList);
+		mv.addObject("package_ReviewCount", package_ReviewCount);
+		mv.addObject("package_Rate", package_Rate);
+		mv.addObject("package_Rate_Max", package_Rate_Max);
 		mv.addObject("package_imageList1", package_imageList1);
 		mv.addObject("package_imageList2", package_imageList2);
 		mv.addObject("package_imageList3", package_imageList3);

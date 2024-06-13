@@ -112,7 +112,7 @@
 }
 
 .rating__label .star-icon.filled {
-  background-image: url("/img/star_fill.svg");
+  background-image: url("/images/star_fill.svg");
 }
 
 .rating__label--full .star-icon {
@@ -127,6 +127,20 @@
   opacity: 0.7;
   cursor: default;
 }
+.rating__label--half .star-icon {
+    background-position: left;
+}
+
+.rating__label.half-filled .star-icon {
+    background-position: left;
+    width: 30px; /* 반 채워진 별의 너비 설정 */
+}
+
+
+
+
+
+
 
 .table{
 	border : 1px solid #0D0D0D;
@@ -343,6 +357,41 @@ input.form-control::placeholder {
             height: auto;
         }
         
+        
+        
+        
+        .container4 {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .counter {
+            font-size: 1.5em;
+            margin: 0 20px;
+            width: 80px; /* 고정된 너비를 설정 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            transition: color 0.3s;
+        }
+        .button {
+            font-size: 1em;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:active {
+            transform: scale(0.98);
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
 </style> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -402,53 +451,23 @@ input.form-control::placeholder {
 
 	<%@include file="/WEB-INF/include/nav.jsp"%>
 <body>
- <div id="container1">
+ <div id="container1" >
  
-  <div class="content1">
+  <div class="content1" data-rate1="${package_Rate.rate}">
  	<h2>${ packageVo.title } 스위스 (K-드라마) 촬영지와 블라우제 호수 투어 (스위스/인터라켄)</h2>
- 	<div class="rating" >
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-</div>
-
+            <div class="rating" >
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+            </div>
+     <div>(${ package_ReviewCount.count })</div>
 <hr>
 <div class="convenienceList">
 
@@ -480,28 +499,21 @@ input.form-control::placeholder {
 <span>${ packageVo.duration }</span>
 <button class="btn btn-primary">${packageVo.end_date }</button>
 
-    <button id="select-date-range">기간 선택</button>
-    <div id="date-range-picker">
-        <form>
-            <label for="from">시작 날짜:</label>
-            <input type="text" id="from" name="from">
-            <label for="to">종료 날짜:</label>
-            <input type="text" id="to" name="to">
-        </form>
-        <button id="apply-dates">적용</button>
-    </div>
+    
 
 
 <hr>
 
     <div class="container3">
         <div class="row first-row">
-            <img src="/package_image/package_paris.jpg" alt="Paris Package">
+	<c:forEach var="io" items="${package_imageList1  }">
+	<img src="${ io.image }" alt="Paris Package">
+	</c:forEach>
         </div>
         <div class="row second-row">
-            <img src="/package_image/package_paris.jpg" alt="Paris Package">
-            <img src="/package_image/package_paris.jpg" alt="Paris Package">
-            <img src="/package_image/package_paris.jpg" alt="Paris Package" id="more-trigger">
+	<c:forEach var="io" items="${package_imageList2  }" varStatus="status"> 
+	<img src="${io.image}" alt="Paris Package" ${status.last ? 'id="more-trigger"' : ''}>
+	</c:forEach>
         </div>
     </div>
 
@@ -509,11 +521,9 @@ input.form-control::placeholder {
         <span class="close">&times;</span>
         <div class="modal-content">
             <div class="slide-container">
-                <img class="slide active" src="/package_image/package_paris.jpg" alt="Paris Package">
-                <img class="slide active" src="/package_image/package_osaka.jpg" alt="Paris Package">
-                <img class="slide active" src="/package_image/package_danang.jpg" alt="Paris Package">
-                <img class="slide active" src="/package_image/package_epl.jpg" alt="Paris Package">
-                <img class="slide active" src="/package_image/package_paris.jpg" alt="Paris Package">
+	<c:forEach var="io" items="${package_imageList3  }">
+	<img src="${ io.image }" alt="Paris Package" class="slide active">
+	</c:forEach>
             </div>
             <button class="prev">Prev</button>
             <button class="next">Next</button>
@@ -558,50 +568,21 @@ input.form-control::placeholder {
 
 <div class="detail_rate">
 <div class="detail_rate_content1">
-
-<h2>5.0</h2>
-<div class="detail_rate_star">
+<h2>${ package_Rate_Max.rate/2 }</h2>
+<div class="detail_rate_star" data-rate2="${ package_Rate_Max.rate }">
  	<div class="rating" >
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--half" for="starhalf">
-        <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
-    <label class="rating__label rating__label--full" for="star1">
-        <input type="radio" id="star1" class="rating__input" name="rating" value="">
-        <span class="star-icon"></span>
-    </label>
+         <div class="rating" >
+         <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+         <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+     </div>
 </div>
 
 </div>
@@ -665,28 +646,38 @@ input.form-control::placeholder {
 <h3>리뷰</h3>
 
 <div class="reviews">
-<c:forEach var="re" items="${ reviewList }">
-
-    <div class="review1">
-		<img src="/package_image/package_paris.jpg" class="review-img">
-        <div class="review-title">${ re.created }</div>
-        <div class="reviewer">${ re.full_name }</div>
-   		<div>&nbsp;</div>
-        <div class="review-content">
-            ${ re.content }내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
+    <c:forEach var="re" items="${reviewList}">
+        <div class="review1" data-rate="${re.rate}" >
+            <img src="/package_image/package_paris.jpg" class="review-img">
+            <div class="review-title">${re.created}</div>
+            <div class="rating">
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+            </div>
+            <div class="reviewer">${re.full_name}</div>
+            <div>&nbsp;</div>
+            <div class="review-content">
+                ${re.content}내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
+            </div>
         </div>
-    </div>
- </c:forEach>   
-
-
+    </c:forEach>
 </div>
 
   </div>
   <aside class="sidebar1">
     <div class="sidebar-section">
       <h4>금액/제한인원</h4>
-      <p>금액: 100,000원</p>
-      <p>제한 인원: 10명</p>
+      <p>금액: ${ packageVo.price }원</p>
+      <input type="hidden" value="${ packageVo.price }" id="money">
+      <p>제한 인원: ${ packageVo.limited_person }명</p>
     </div>
 
     <div class="sidebar-section">
@@ -698,9 +689,21 @@ input.form-control::placeholder {
         </tr>
       </table>
     </div>
-
+	<div>
+    <div class="container4">
+        <button class="button" id="decrementButton">&lt;</button>
+        <div class="counter" id="counter"><span id="counter-value">1 </span></div>
+        <button class="button" id="incrementButton">&gt;</button>
+    </div>
+	
+	
+	</div>
     <div class="sidebar-section">
-      <button>예약하기</button>
+	  <form action="#" method="post">
+		 <div id="finalmoney"></div>	     
+	     <input type="submit" value="예약하기" id="goApply">
+	  
+	  </form>
       <button>스크랩하기</button>
     </div>
 
@@ -710,6 +713,98 @@ input.form-control::placeholder {
     
   </aside>
 </div>
+<script>
+
+
+
+</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+        let moneyString = document.querySelector('#money').value;
+        let moneyInteger = parseInt(moneyString.replace(/,/g, ""));
+        
+        
+        
+        
+
+        
+        
+        
+        
+        // 1. 맨 처음에 moneyInteger 값을 출력
+        let formattedMoney = formatMoney(moneyInteger);
+        console.log(formattedMoney); // 콘솔에 출력
+
+        var counterValueElement = document.getElementById('counter-value');
+        var incrementButton = document.getElementById('incrementButton');
+        var decrementButton = document.getElementById('decrementButton');
+        var finalMoneyElement = document.getElementById('finalmoney');
+
+        var counterValue = 1;
+
+        // 초기화할 때 moneyInteger 값 출력
+        finalMoneyElement.textContent = formattedMoney;
+
+        incrementButton.addEventListener('click', function() {
+            counterValue++;
+            updateFinalMoney();
+            updateCounterValue();
+        });
+
+        decrementButton.addEventListener('click', function() {
+            if (counterValue > 1) {
+                counterValue--;
+                updateFinalMoney();
+                updateCounterValue();
+            }
+        });
+
+        function updateFinalMoney() {
+            let result = moneyInteger * counterValue;
+            finalMoneyElement.textContent = formatMoney(result);
+        }
+
+        function updateCounterValue() {
+            counterValueElement.textContent = counterValue;
+            if (counterValue > 1) {
+                counterValueElement.style.color = 'green';
+            } else {
+                counterValueElement.style.color = 'red';
+            }
+            setTimeout(function() {
+                counterValueElement.style.color = '';
+            }, 300);
+        }
+
+        // 숫자를 3자리마다 쉼표로 구분하여 포맷하는 함수
+        function formatMoney(value) {
+            let formatted = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return formatted + '원';
+        }
+        
+        
+
+        
+        
+        
+        const applybtn =document.querySelector('#goApply');
+        applybtn.addEventListener('click',(event)=>{
+        	event.preventDefault();
+        	console.log(finalMoneyElement)
+        	        let finalMoneyText = finalMoneyElement.textContent; // '400,000원' 형태의 문자열
+        let finalMoneyValue = parseInt(finalMoneyText.replace(/,/g, "").replace('원', '')); // '400000' 형태의 정수
+        alert(finalMoneyValue); // 값 출력
+        })
+        
+        
+        
+    });
+
+    
+    
+</script>
+
+
 <script>
 $(function () {
 
@@ -810,6 +905,81 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.review1');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate')); // data-rate 값을 정수로 변환
+            console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+            if (rate % 1 !== 0) {
+                starIcons[Math.floor(rate)].classList.add('half-filled');
+            }
+        });
+    });
+</script>
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.content1');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate1')); // data-rate 값을 정수로 변환
+            console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+
+        });
+    });
+</script>
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.detail_rate_star');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate2')); // data-rate 값을 정수로 변환
+            console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+
+        });
+    });
 </script>
 <div>&nbsp;</div>
 <div>&nbsp;</div>

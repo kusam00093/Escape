@@ -37,4 +37,13 @@ public interface PackageMapper {
 	List<Package_imageVo> getPackageImg3(int package_idx);
 
 
+	Package_ReviewVo getAverageRate(int package_idx);
+
+
+	Package_ReviewVo getMaxRate(int package_idx);
+
+
+	Package_ReviewVo getReviewCount(int package_idx);
+
+
 }
