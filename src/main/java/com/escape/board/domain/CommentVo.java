@@ -15,6 +15,5 @@ public class CommentVo {
 	
 	private Long board_comment_like_idx;
 	private Long user_idx;
-	private Long comment_likes;
 
 }

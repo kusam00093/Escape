@@ -139,23 +139,23 @@ border: none;
  </div>
 <!-- 댓글 추가
  <div class="card mb-2">
-	<div class="card-header bg-light">
-	        <i class="fa fa-comment fa"></i> 댓글
-	</div>
-	<div class="card-body">
-		<ul class="list-group list-group-flush">
-		    <li class="list-group-item">
-			<div class="form-inline mb-2">
-				<label for="replyId"><i class="fa fa-user-circle-o fa-2x"></i></label>
-				<input type="text" class="form-control ml-2" placeholder="Enter yourId" id="replyId">
-				<label for="replyPassword" class="ml-4"><i class="fa fa-unlock-alt fa-2x"></i></label>
-				<input type="password" class="form-control ml-2" placeholder="Enter password" id="replyPassword">
-			</div>
-			<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-			<button type="button" class="btn btn-dark mt-3" onClick="javascript:addReply();">댓글완성</button>
-		    </li>
-		</ul>
-	</div>
+   <div class="card-header bg-light">
+           <i class="fa fa-comment fa"></i> 댓글
+   </div>
+   <div class="card-body">
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+         <div class="form-inline mb-2">
+            <label for="replyId"><i class="fa fa-user-circle-o fa-2x"></i></label>
+            <input type="text" class="form-control ml-2" placeholder="Enter yourId" id="replyId">
+            <label for="replyPassword" class="ml-4"><i class="fa fa-unlock-alt fa-2x"></i></label>
+            <input type="password" class="form-control ml-2" placeholder="Enter password" id="replyPassword">
+         </div>
+         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+         <button type="button" class="btn btn-dark mt-3" onClick="javascript:addReply();">댓글완성</button>
+          </li>
+      </ul>
+   </div>
 </div>
 --> 
 
@@ -163,7 +163,8 @@ border: none;
 <div class="container2">
 <h6>댓글</h6>
   <c:forEach var="comment" items="${commentList}" varStatus="status">
-<input type="hidden" class="comment-board-idx" name="board_idx" value="${comment.board_idx }" readonly />
+     <input type="hidden" class="comment-board-idx" name="board_idx" value="${comment.board_idx }" readonly />
+    
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title"  style="font-size: 14px;">댓글 번호: ${comment.board_comment_idx}</h5>
@@ -173,17 +174,11 @@ border: none;
      <!-- <a href="/Api/Board/${board.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${board.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a> -->  
        <a href="/Api/Board/${comment.board_idx}/${comment.board_comment_idx}/commentDelete" class="btn btn-primary delete-comment-btn" data-board-idx="${comment.board_idx}" data-comment-idx="${comment.board_comment_idx}" >삭제</a>
        
-       <c:choose>
-         <c:when test="${comment.comment_likes == 1}">
-    <input type="hidden" name="comment_likes" class="comment_likes"  data-comment-likes="${comment.comment_likes }" />
-         <button class="like" type="button" data-board-idx="${comment.board_idx}" data-board-comment-idx="${ comment.board_comment_idx}" data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_on.png" alt="좋아요"><span class="like-count"></span></button>
-         </c:when>
-         <c:otherwise>
          <button class="like" type="button" data-board-idx="${comment.board_idx}" data-board-comment-idx="${ comment.board_comment_idx}" data-board-comment-like-idx="${comment.board_comment_like_idx}"><img src="/img/like_off.png" alt="좋아요"><span class="like-count"></span></button>
-         </c:otherwise>
-       </c:choose>    
+    <!-- <span> 총  <em id="getLcount">${lcount}</em>건의 글</span> -->  
       </div>
     </div>
+    
   </c:forEach>
 </div>
 
@@ -207,65 +202,65 @@ border: none;
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-	  document.getElementById('comment-form').addEventListener('submit', (event) => {
-	    event.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
+     document.getElementById('comment-form').addEventListener('submit', (event) => {
+       event.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
 
-	    let board_idx_element = document.querySelector('.comment-board-idx');
-	    if (!board_idx_element) {
-	      console.error('board-idx element not found');
-	      alert('board-idx element not found.');
-	      return;
-	    }
-	    
-	    let board_idx = parseInt(board_idx_element.value, 10);
-	    console.log('board_idx:', board_idx); // 디버깅을 위해 추가
-	    
-	    let likeCountEl = document.querySelector('.like');
-	    console.dir(likeCountEl);
-	    
-	    //et board_comment_like_idx = parseInt(boardCommentLikeEl.value, 10);
-	    //console.dir('board_comment_like_idx:', board_comment_like_idx);
-	    
-	    
-	    // Check if board_idx is NaN
-	    if (isNaN(board_idx)) {
-	      console.error('Invalid board_idx:', board_idx);
-	      alert('Invalid board index.');
-	      return;
-	    }
+       let board_idx_element = document.querySelector('.comment-board-idx');
+       if (!board_idx_element) {
+         console.error('board-idx element not found');
+         alert('board-idx element not found.');
+         return;
+       }
+       
+       let board_idx = parseInt(board_idx_element.value, 10);
+       console.log('board_idx:', board_idx); // 디버깅을 위해 추가
+       
+       let likeCountEl = document.querySelector('.like');
+       console.dir(likeCountEl);
+       
+       //et board_comment_like_idx = parseInt(boardCommentLikeEl.value, 10);
+       //console.dir('board_comment_like_idx:', board_comment_like_idx);
+       
+       
+       // Check if board_idx is NaN
+       if (isNaN(board_idx)) {
+         console.error('Invalid board_idx:', board_idx);
+         alert('Invalid board index.');
+         return;
+       }
 
-	    let url = `/Api/Board/\${board_idx}/commentCreate`;
+       let url = `/Api/Board/\${board_idx}/commentCreate`;
 
-	    const commentVo = {
-	    	      content: document.querySelector('#content').value, 
-	    	    };
+       const commentVo = {
+                content: document.querySelector('#content').value, 
+              };
 
 
-	    const params = {
-	      method: 'POST',
-	      headers: { "Content-Type": "application/json" },
-	      body: JSON.stringify(commentVo)
-	    };
+       const params = {
+         method: 'POST',
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(commentVo)
+       };
 
-	    fetch(url, params)
-	      .then(response => response.json()) 
-	      .then(data => {
-	        if (data) {
-	          alert("댓글이 등록되었습니다");
-	          window.location.reload(); 
-	        } else {
-	          alert("댓글 등록 실패!");
-	        }
-	      })
-	      .catch(error => {
-	        console.error('댓글 등록 에러:', error);
-	        alert("댓글 등록 중 오류가 발생했습니다.");
-	      });
-	  });
-	});
-	
-	
-	/*댓글 삭제*/
+       fetch(url, params)
+         .then(response => response.json()) 
+         .then(data => {
+           if (data) {
+             alert("댓글이 등록되었습니다");
+             window.location.reload(); 
+           } else {
+             alert("댓글 등록 실패!");
+           }
+         })
+         .catch(error => {
+           console.error('댓글 등록 에러:', error);
+           alert("댓글 등록 중 오류가 발생했습니다.");
+         });
+     });
+   });
+   
+   
+   /*댓글 삭제*/
     // 삭제 버튼 클릭 이벤트 핸들러
 document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
     button.addEventListener('click', function(event) {
@@ -291,7 +286,7 @@ document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
 
             console.log('댓글이 삭제되었습니다.');
             alert("댓글이 삭제되었습니다");
-	        window.location.reload(); 
+           window.location.reload(); 
            
         })
         .catch((error) => {
@@ -300,27 +295,25 @@ document.querySelectorAll('.delete-comment-btn').forEach(function(button) {
     });
 
 });
-	
+   
 /*------------------------------------------------------------------------*/
 /*-------------------------------댓글 좋아요----------------------------------*/
 /*------------------------------------------------------------------------*/
 
 document.addEventListener("DOMContentLoaded", function() {
+   
     const likeButtons = document.querySelectorAll('.like');
-    //const comment_likes = '\${comment.comment_likes}';
-    const commentLikeEl = document.querySelector('.comment_likes');
-    console.dir(commentLikeEl);
-
-    //const comment_likes = commentLikeEl.data('comment-likes');
-    //console.dir(comment_likes);
     
 function toggleLike(button) {
+   
+   console.dir(button);
+
     var img = button.querySelector('img');
     var currentSrc = img.getAttribute('src');
-    var boardCommentLikeIdx = button.getAttribute('data-board-comment-like-idx');
+    //var boardCommentLikeIdx = button.getAttribute('data-board-comment-like-idx');
     var boardIdx = button.getAttribute('data-board-idx'); // board_idx 가져오기
     var boardCommentIdx = button.getAttribute('data-board-comment-idx'); // board_idx 가져오기
-    console.log('boardCommentLikeIdx:',boardCommentLikeIdx);
+    //console.log('boardCommentLikeIdx:',boardCommentLikeIdx);
     console.log('boardCommentIdx:',boardCommentIdx);
     console.log('boardIdx:', boardIdx);
 
@@ -330,24 +323,26 @@ function toggleLike(button) {
         console.log('스크랩이 해제되었습니다.');
         alert('스크랩이 해제되었습니다.');
         // 이미 스크랩된 상태에서 스크랩 버튼을 클릭한 경우
-        deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx);
+        //deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx);
+        deleteLikes(boardIdx,boardCommentIdx);
     } else {
         img.setAttribute('src', '/img/like_on.png');
         console.log('스크랩 공고 버튼이 클릭되었습니다.');
         alert('스크랩 되었습니다.');
         // 스크랩되지 않은 상태에서 스크랩 버튼을 클릭한 경우
-        addLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx);
+        addLikes(boardIdx,boardCommentIdx);
     }
 }
-function addLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx ) {
-    //fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/addLike`, {
+
+function addLikes(boardIdx,boardCommentIdx ) {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/addLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/addlike`, {
-    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/\${boardCommentLikeIdx}/addLike`, {
+    //fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/\${boardCommentLikeIdx}/addLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardCommentIdx, board_comment_like_idx: boardCommentLikeIdx})
+        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardCommentIdx})
     }).then(response => {
         if (!response.ok) {
             throw new Error('Failed to toggle like');
@@ -359,15 +354,16 @@ function addLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx ) {
 }
 
 
-function deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx) {
+//function deleteLikes(boardIdx,boardCommentIdx,boardCommentLikeIdx) {
+function deleteLikes(boardIdx,boardCommentIdx) {
     //fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/deleteLike`, {
     //fetch(`/Api/Board/\${board_comment_like_idx}/deletelike`, {
-    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/\${boardCommentLikeIdx}/deleteLike`, {
+    fetch(`/Api/Board/\${boardIdx}/\${boardCommentIdx}/deleteLike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({board_comment_like_idx: boardCommentLikeIdx, board_idx: boardIdx, board_comment_idx:boardCommentIdx} )
+        body: JSON.stringify({board_idx: boardIdx, board_comment_idx:boardCommentIdx} )
     }).then(response => {
         if (!response.ok) {
             throw new Error('Failed to toggle like');

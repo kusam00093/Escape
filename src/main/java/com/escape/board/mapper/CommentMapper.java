@@ -24,13 +24,17 @@ public interface CommentMapper {
 
 
 
-	void updateLikes(CommentVo commentVo);
+	//void updateLikes(CommentVo commentVo);
 
 	void addLikes(CommentVo commentVo);
 
 	void deleteLikes(CommentVo commentVo);
 
 	CommentVo selectLikes(CommentVo commentVo);
+
+	//void LikesCount(CommentVo commentVo);
+
+	int getLcount();
 
 
 

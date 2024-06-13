@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.escape.board.mapper.CommentMapper">
 
-<!--  
 <select id="getCommentList">
 SELECT BOARD_COMMENT_IDX
 	   ,BOARD_IDX
@@ -11,7 +10,7 @@ SELECT BOARD_COMMENT_IDX
 FROM   BOARD_COMMENT_TB
 WHERE  BOARD_IDX = #{ board_idx }
 </select>
--->
+<!--  
 <select id="getCommentList">
 SELECT 
     BC.BOARD_COMMENT_IDX
@@ -20,12 +19,17 @@ SELECT
     ,BC.CREATED
     ,BCL.BOARD_COMMENT_LIKE_IDX
     ,BCL.USER_IDX
-    ,BCL.COMMENT_LIKES
-FROM BOARD_COMMENT_TB BC
-LEFT JOIN BOARD_COMMENT_LIKE_TB BCL ON BCL.BOARD_COMMENT_IDX = BC.BOARD_COMMENT_IDX
-WHERE  BC.BOARD_IDX = #{ board_idx }
+FROM
+  BOARD_COMMENT_TB BC
+LEFT JOIN
+  BOARD_COMMENT_LIKE_TB BCL
+ON
+  BCL.BOARD_COMMENT_IDX = BC.BOARD_COMMENT_IDX
+WHERE
+  BC.BOARD_IDX = #{ board_idx }
 
 </select>
+-->
 
 <insert id="insertComment" >
 INSERT INTO BOARD_COMMENT_TB(
@@ -55,11 +59,10 @@ SELECT
 	BOARD_COMMENT_LIKE_IDX
     ,BOARD_COMMENT_IDX
     ,USER_IDX
-    ,COMMENT_LIKES
 FROM
 	BOARD_COMMENT_LIKE_TB
 WHERE
-    BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
+    BOARD_COMMENT_IDX = #{board_comment_idx}
 </select>
 
 <!--  
@@ -76,7 +79,6 @@ FROM BOARD_COMMENT_TB BC
 LEFT JOIN BOARD_COMMENT_LIKE_TB BCL ON BCL.BOARD_COMMENT_IDX = BC.BOARD_COMMENT_IDX
 WHERE  BC.BOARD_IDX = #{board_idx}
 </select>
--->
 
 <update id="updateLikes">
 		UPDATE BOARD_COMMENT_LIKE_TB
@@ -85,21 +87,29 @@ WHERE  BC.BOARD_IDX = #{board_idx}
 		WHERE
 		   BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
 </update>
+-->
+<!--  
+<select id="getLcount">
+SELECT COUNT(BOARD_COMMENT_LIKE_IDX) AS COUNT
+FROM   BOARD_COMMENT_LIKE_TB
+WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
 
+</select>-->
+ 
 <insert id="addLikes"  >
 INSERT INTO BOARD_COMMENT_LIKE_TB (
      BOARD_COMMENT_LIKE_IDX
     ,BOARD_COMMENT_IDX
     ,USER_IDX
-    ,COMMENT_LIKES) 
+    ) 
 VALUES (
-      (SELECT (NVL(MAX(board_comment_like_idx), 0)+1) FROM BOARD_COMMENT_LIKE_TB )
-	 ,#{board_comment_idx}
-	 ,5
-	 ,1
+      (SELECT (NVL(MAX(BOARD_COMMENT_LIKE_IDX), 0)+1) FROM BOARD_COMMENT_LIKE_TB )
+    ,#{board_comment_idx}
+    ,3
+    )
 </insert>
 
-
+<!--  
 <update id="deleteLikes">
 UPDATE BOARD_COMMENT_LIKE_TB
 SET
@@ -107,5 +117,11 @@ SET
 WHERE
 	   BOARD_COMMENT_LIKE_IDX = #{board_comment_like_idx}
 </update>
+-->
+<delete id="deleteLikes">
+DELETE FROM BOARD_COMMENT_LIKE_TB
+WHERE BOARD_COMMENT_IDX = #{board_comment_idx}
+</delete>
+
 
 </mapper>
