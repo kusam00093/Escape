@@ -24,7 +24,7 @@ public interface CommentMapper {
 
 
 
-	void updateLikes(CommentVo commentVo);
+	//void updateLikes(CommentVo commentVo);
 
 	void addLikes(CommentVo commentVo);
 
@@ -32,7 +32,13 @@ public interface CommentMapper {
 
 	CommentVo selectLikes(CommentVo commentVo);
 
+	//void LikesCount(CommentVo commentVo);
+
+	int getLcount();
+
 
 
 
 }
+
+
