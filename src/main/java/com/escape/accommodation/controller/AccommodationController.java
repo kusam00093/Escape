@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/Accommodation")
-public class AccommodationController {
+public class AccommodationC/Accommodationontroller {
 	
 	@RequestMapping("/Home")
 	public ModelAndView home() {
