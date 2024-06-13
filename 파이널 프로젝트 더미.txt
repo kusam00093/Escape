@@ -1,0 +1,515 @@
+-- user_tb
+INSERT INTO user_tb VALUES (1, 'user1', 'passwd1', 'user1@example.com', 1);
+INSERT INTO user_tb VALUES (2, 'user2', 'passwd2', 'user2@example.com', 1);
+INSERT INTO user_tb VALUES (3, 'user3', 'passwd3', 'user3@example.com', 1);
+INSERT INTO user_tb VALUES (4, 'user4', 'passwd4', 'user4@example.com', 1);
+INSERT INTO user_tb VALUES (5, 'user5', 'passwd5', 'user5@example.com', 1);
+INSERT INTO user_tb VALUES (101, 'hotel-seller1', '111', 'user1@example.com', 3);
+INSERT INTO user_tb VALUES (102, 'hotel-seller2', '111', 'user2@example.com', 3);
+INSERT INTO user_tb VALUES (103, 'hotel-seller3', '111', 'user3@example.com', 3);
+INSERT INTO user_tb VALUES (104, 'hotel-seller4', '111', 'user4@example.com', 3);
+INSERT INTO user_tb VALUES (105, 'hotel-seller5', '111', 'user5@example.com', 3);
+
+-- person_tb
+INSERT INTO person_tb VALUES (1, 1, 'John', 'Doe', 1234567890, '123-456-7890', '12345', '123 Main St', 'Apt 1', 'Johnny');
+INSERT INTO person_tb VALUES (2, 2, 'Jane', 'Doe', 1234567891, '123-456-7891', '12345', '123 Main St', 'Apt 2', 'Janey');
+INSERT INTO person_tb VALUES (3, 3, 'Jim', 'Beam', 1234567892, '123-456-7892', '12345', '123 Main St', 'Apt 3', 'Jimmy');
+INSERT INTO person_tb VALUES (4, 4, 'Jack', 'Daniels', 1234567893, '123-456-7893', '12345', '123 Main St', 'Apt 4', 'Jackie');
+INSERT INTO person_tb VALUES (5, 5, 'Johnny', 'Walker', 1234567894, '123-456-7894', '12345', '123 Main St', 'Apt 5', 'Johnny');
+
+-- point_tb
+INSERT INTO point_tb VALUES (1, 1, 100, 1);
+INSERT INTO point_tb VALUES (2, 2, 200, 1);
+INSERT INTO point_tb VALUES (3, 3, 300, 1);
+INSERT INTO point_tb VALUES (4, 4, 400, 1);
+INSERT INTO point_tb VALUES (5, 5, 500, 1);
+
+-- seller_tb
+INSERT INTO seller_tb VALUES (1, 1, 'Seller1', 123, '123-456-7890', 'logo1.png');
+INSERT INTO seller_tb VALUES (2, 2, 'Seller2', 124, '123-456-7891', 'logo2.png');
+INSERT INTO seller_tb VALUES (3, 3, 'Seller3', 125, '123-456-7892', 'logo3.png');
+INSERT INTO seller_tb VALUES (4, 4, 'Seller4', 126, '123-456-7893', 'logo4.png');
+INSERT INTO seller_tb VALUES (5, 5, 'Seller5', 127, '123-456-7894', 'logo5.png');
+INSERT INTO seller_tb VALUES (101, 101, '101유저 호텔셀러 네임', 1230, '1111-456-7890', 'logo1.png');
+INSERT INTO seller_tb VALUES (102, 102, '102유저 호텔셀러 네임', 1240, '1111-456-7891', 'logo2.png');
+INSERT INTO seller_tb VALUES (103, 103, '103유저 호텔셀러 네임', 1250, '1111-456-7892', 'logo3.png');
+INSERT INTO seller_tb VALUES (104, 104, '104유저 호텔셀러 네임', 1260, '1111-456-7893', 'logo4.png');
+INSERT INTO seller_tb VALUES (105, 105, '105유저 호텔셀러 네임', 1270, '1111-456-7894', 'logo5.png');
+
+
+-- airline_tb
+INSERT INTO airline_tb VALUES (1, 1, 'Airline1', 123, '123-456-7890', 'logo1.png');
+INSERT INTO airline_tb VALUES (2, 2, 'Airline2', 124, '123-456-7891', 'logo2.png');
+INSERT INTO airline_tb VALUES (3, 3, 'Airline3', 125, '123-456-7892', 'logo3.png');
+INSERT INTO airline_tb VALUES (4, 4, 'Airline4', 126, '123-456-7893', 'logo4.png');
+INSERT INTO airline_tb VALUES (5, 5, 'Airline5', 127, '123-456-7894', 'logo5.png');
+
+-- admin_tb
+INSERT INTO admin_tb VALUES (1, 1, 'Admin1', '123-456-7890');
+INSERT INTO admin_tb VALUES (2, 2, 'Admin2', '123-456-7891');
+INSERT INTO admin_tb VALUES (3, 3, 'Admin3', '123-456-7892');
+INSERT INTO admin_tb VALUES (4, 4, 'Admin4', '123-456-7893');
+INSERT INTO admin_tb VALUES (5, 5, 'Admin5', '123-456-7894');
+
+-- ptype_tb
+INSERT INTO ptype_tb VALUES (1, 'Type1');
+INSERT INTO ptype_tb VALUES (2, 'Type2');
+INSERT INTO ptype_tb VALUES (3, 'Type3');
+INSERT INTO ptype_tb VALUES (4, 'Type4');
+INSERT INTO ptype_tb VALUES (5, 'Type5');
+
+-- stype_tb
+INSERT INTO stype_tb VALUES (1, 'SType1');
+INSERT INTO stype_tb VALUES (2, 'SType2');
+INSERT INTO stype_tb VALUES (3, 'SType3');
+INSERT INTO stype_tb VALUES (4, 'SType4');
+INSERT INTO stype_tb VALUES (5, 'SType5');
+
+-- package_tb
+INSERT INTO package_tb VALUES (1, 1, 'Package1', 1, SYSDATE, SYSDATE, 10, '100', 'Detail1', 'Detail2', 'Detail3', '12345', '123 Main St', 'Apt 1', 1, 0);
+INSERT INTO package_tb VALUES (2, 2, 'Package2', 2, SYSDATE, SYSDATE, 10, '200', 'Detail1', 'Detail2', 'Detail3', '12345', '123 Main St', 'Apt 2', 2, 0);
+INSERT INTO package_tb VALUES (3, 3, 'Package3', 3, SYSDATE, SYSDATE, 10, '300', 'Detail1', 'Detail2', 'Detail3', '12345', '123 Main St', 'Apt 3', 3, 0);
+INSERT INTO package_tb VALUES (4, 4, 'Package4', 4, SYSDATE, SYSDATE, 10, '400', 'Detail1', 'Detail2', 'Detail3', '12345', '123 Main St', 'Apt 4', 4, 0);
+INSERT INTO package_tb VALUES (5, 5, 'Package5', 5, SYSDATE, SYSDATE, 10, '500', 'Detail1', 'Detail2', 'Detail3', '12345', '123 Main St', 'Apt 5', 5, 0);
+
+-- location_tb
+INSERT INTO location_tb VALUES (1, 'Location1');
+INSERT INTO location_tb VALUES (2, 'Location2');
+INSERT INTO location_tb VALUES (3, 'Location3');
+INSERT INTO location_tb VALUES (4, 'Location4');
+INSERT INTO location_tb VALUES (5, 'Location5');
+
+-- package_location_tb
+INSERT INTO package_location_tb VALUES (1, 1, 1);
+INSERT INTO package_location_tb VALUES (2, 2, 2);
+INSERT INTO package_location_tb VALUES (3, 3, 3);
+INSERT INTO package_location_tb VALUES (4, 4, 4);
+INSERT INTO package_location_tb VALUES (5, 5, 5);
+
+-- package_image
+INSERT INTO package_image VALUES (1, 1, 'image1.png');
+INSERT INTO package_image VALUES (2, 2, 'image2.png');
+INSERT INTO package_image VALUES (3, 3, 'image3.png');
+INSERT INTO package_image VALUES (4, 4, 'image4.png');
+INSERT INTO package_image VALUES (5, 5, 'image5.png');
+
+-- package_review_tb
+INSERT INTO package_review_tb VALUES (1, 1, 'Review content 1', 1, SYSDATE);
+INSERT INTO package_review_tb VALUES (2, 2, 'Review content 2', 2, SYSDATE);
+INSERT INTO package_review_tb VALUES (3, 3, 'Review content 3', 3, SYSDATE);
+INSERT INTO package_review_tb VALUES (4, 4, 'Review content 4', 4, SYSDATE);
+INSERT INTO package_review_tb VALUES (5, 5, 'Review content 5', 5, SYSDATE);
+
+-- package_rate_tb
+INSERT INTO package_rate_tb VALUES (1, 1, 1, 5);
+INSERT INTO package_rate_tb VALUES (2, 2, 2, 4);
+INSERT INTO package_rate_tb VALUES (3, 3, 3, 3);
+INSERT INTO package_rate_tb VALUES (4, 4, 4, 2);
+INSERT INTO package_rate_tb VALUES (5, 5, 5, 1);
+
+-- keyword_tb
+INSERT INTO keyword_tb VALUES (1, 'Keyword1');
+INSERT INTO keyword_tb VALUES (2, 'Keyword2');
+INSERT INTO keyword_tb VALUES (3, 'Keyword3');
+INSERT INTO keyword_tb VALUES (4, 'Keyword4');
+INSERT INTO keyword_tb VALUES (5, 'Keyword5');
+
+-- package_keyword_tb
+INSERT INTO package_keyword_tb VALUES (1, 1, 1);
+INSERT INTO package_keyword_tb VALUES (2, 2, 2);
+INSERT INTO package_keyword_tb VALUES (3, 3, 3);
+INSERT INTO package_keyword_tb VALUES (4, 4, 4);
+INSERT INTO package_keyword_tb VALUES (5, 5, 5);
+
+-- package_review_image_tb
+INSERT INTO package_review_image_tb VALUES (1, 1, 'review_image1.png');
+INSERT INTO package_review_image_tb VALUES (2, 2, 'review_image2.png');
+INSERT INTO package_review_image_tb VALUES (3, 3, 'review_image3.png');
+INSERT INTO package_review_image_tb VALUES (4, 4, 'review_image4.png');
+INSERT INTO package_review_image_tb VALUES (5, 5, 'review_image5.png');
+
+-- convenience_tb
+INSERT INTO convenience_tb VALUES (1, 'Convenience1');
+INSERT INTO convenience_tb VALUES (2, 'Convenience2');
+INSERT INTO convenience_tb VALUES (3, 'Convenience3');
+INSERT INTO convenience_tb VALUES (4, 'Convenience4');
+INSERT INTO convenience_tb VALUES (5, 'Convenience5');
+
+-- package_convenience_tb
+INSERT INTO package_convenience_tb VALUES (1, 1, 1);
+INSERT INTO package_convenience_tb VALUES (2, 2, 2);
+INSERT INTO package_convenience_tb VALUES (3, 3, 3);
+INSERT INTO package_convenience_tb VALUES (4, 4, 4);
+INSERT INTO package_convenience_tb VALUES (5, 5, 5);
+
+-- hotel_tb
+INSERT INTO hotel_tb VALUES (1, 1, 'Hotel1', '123-456-7890', '12345', '123 Main St', 'Apt 1', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (2, 2, 'Hotel2', '123-456-7891', '12345', '123 Main St', 'Apt 2', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (3, 3, 'Hotel3', '123-456-7892', '12345', '123 Main St', 'Apt 3', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (4, 4, 'Hotel4', '123-456-7893', '12345', '123 Main St', 'Apt 4', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (5, 5, 'Hotel5', '123-456-7894', '12345', '123 Main St', 'Apt 5', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (6, 101, '101-하야트호텔', '123-456-7890', '10001', '서울', '영등포', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (7, 102, '102-그랜드호텔', '123-456-7891', '10002', '제주', '제주공항', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (8, 103, '103-그랜호텔', '123-456-7892', '10003', '서울', '시청', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (9, 104, '104-랜호텔', '123-456-7893', '10004', '부산', '서면', 'Detail1', 'Detail2', 'Detail3', 0);
+INSERT INTO hotel_tb VALUES (10, 105, '105-하야호텔', '123-456-7894', '10005', '서울', '용산', 'Detail1', 'Detail2', 'Detail3', 0);
+
+-- hotel_review_tb
+INSERT INTO hotel_review_tb VALUES (1, 6, 'Review content 1', 1, SYSDATE);
+INSERT INTO hotel_review_tb VALUES (2, 6, 'Review content 2', 2, SYSDATE);
+INSERT INTO hotel_review_tb VALUES (3, 6, 'Review content 3', 3, SYSDATE);
+INSERT INTO hotel_review_tb VALUES (4, 6, 'Review content 4', 4, SYSDATE);
+INSERT INTO hotel_review_tb VALUES (5, 6, 'Review content 5', 5, SYSDATE);
+
+-- hotel_rate_tb
+INSERT INTO hotel_rate_tb VALUES (1, 1, 1, 5);
+INSERT INTO hotel_rate_tb VALUES (2, 2, 2, 4);
+INSERT INTO hotel_rate_tb VALUES (3, 3, 3, 3);
+INSERT INTO hotel_rate_tb VALUES (4, 4, 4, 2);
+INSERT INTO hotel_rate_tb VALUES (5, 5, 5, 1);
+
+-- hotel_review_image_tb
+INSERT INTO hotel_review_image_tb VALUES (1, 1, 'review_image1.png');
+INSERT INTO hotel_review_image_tb VALUES (2, 2, 'review_image2.png');
+INSERT INTO hotel_review_image_tb VALUES (3, 3, 'review_image3.png');
+INSERT INTO hotel_review_image_tb VALUES (4, 4, 'review_image4.png');
+INSERT INTO hotel_review_image_tb VALUES (5, 5, 'review_image5.png');
+
+-- facility_tb
+INSERT INTO facility_tb VALUES (1, '온냉방');
+INSERT INTO facility_tb VALUES (2, '편의점');
+INSERT INTO facility_tb VALUES (3, '샤워실');
+INSERT INTO facility_tb VALUES (4, '와이파이');
+INSERT INTO facility_tb VALUES (5, '편의시설5');
+
+-- hotel_facility_tb
+INSERT INTO hotel_facility_tb VALUES (1, 6, 1);
+INSERT INTO hotel_facility_tb VALUES (2, 6, 2);
+INSERT INTO hotel_facility_tb VALUES (3, 6, 3);
+INSERT INTO hotel_facility_tb VALUES (4, 6, 4);
+INSERT INTO hotel_facility_tb VALUES (5, 6, 5);
+
+-- room_tb
+INSERT INTO room_tb VALUES (1, 1, 'Room1', '100', 2, SYSDATE, SYSDATE, SYSDATE, 1);
+INSERT INTO room_tb VALUES (2, 2, 'Room2', '200', 2, SYSDATE, SYSDATE, SYSDATE, 2);
+INSERT INTO room_tb VALUES (3, 3, 'Room3', '300', 2, SYSDATE, SYSDATE, SYSDATE, 3);
+INSERT INTO room_tb VALUES (4, 4, 'Room4', '400', 2, SYSDATE, SYSDATE, SYSDATE, 4);
+INSERT INTO room_tb VALUES (5, 5, 'Room5', '500', 2, SYSDATE, SYSDATE, SYSDATE, 5);
+INSERT INTO room_tb VALUES (6, 6, '하야트호텔-1번객실', '10000', 4, TO_DATE('2024-06-08', 'YYYY-MM-DD'), TO_DATE('2024-08-02', 'YYYY-MM-DD'), SYSDATE, 1);
+INSERT INTO room_tb VALUES (7, 7, '하야트호텔-2번객실', '20000', 4, TO_DATE('2024-06-08', 'YYYY-MM-DD'), TO_DATE('2024-08-02', 'YYYY-MM-DD'), SYSDATE, 1);
+INSERT INTO room_tb VALUES (8, 8, '하야트호텔-3번객실', '30000', 4, TO_DATE('2024-06-08', 'YYYY-MM-DD'), TO_DATE('2024-08-02', 'YYYY-MM-DD'), SYSDATE, 1);
+INSERT INTO room_tb VALUES (9, 9, '하야트호텔-4번객실', '40000', 4, TO_DATE('2024-06-08', 'YYYY-MM-DD'), TO_DATE('2024-08-02', 'YYYY-MM-DD'), SYSDATE, 1);
+INSERT INTO room_tb VALUES (10, 10, '하야트호텔-5번객실', '50000', 4, TO_DATE('2024-06-08', 'YYYY-MM-DD'), TO_DATE('2024-08-02', 'YYYY-MM-DD'), SYSDATE, 1);
+
+-- room_image_tb
+INSERT INTO room_image_tb VALUES (1, 1, 'room_image1.png');
+INSERT INTO room_image_tb VALUES (2, 2, 'room_image2.png');
+INSERT INTO room_image_tb VALUES (3, 3, 'room_image3.png');
+INSERT INTO room_image_tb VALUES (4, 4, 'room_image4.png');
+INSERT INTO room_image_tb VALUES (5, 5, 'room_image5.png');
+
+-- bed_tb
+INSERT INTO bed_tb VALUES (1, 'Bed1');
+INSERT INTO bed_tb VALUES (2, 'Bed2');
+INSERT INTO bed_tb VALUES (3, 'Bed3');
+INSERT INTO bed_tb VALUES (4, 'Bed4');
+INSERT INTO bed_tb VALUES (5, 'Bed5');
+
+-- bed_room_tb
+INSERT INTO bed_room_tb VALUES (1, 1, 1);
+INSERT INTO bed_room_tb VALUES (2, 2, 2);
+INSERT INTO bed_room_tb VALUES (3, 3, 3);
+INSERT INTO bed_room_tb VALUES (4, 4, 4);
+INSERT INTO bed_room_tb VALUES (5, 5, 5);
+
+-- saramsu_tb
+INSERT INTO saramsu_tb VALUES (1, 'Saramsu1');
+INSERT INTO saramsu_tb VALUES (2, 'Saramsu2');
+INSERT INTO saramsu_tb VALUES (3, 'Saramsu3');
+INSERT INTO saramsu_tb VALUES (4, 'Saramsu4');
+INSERT INTO saramsu_tb VALUES (5, 'Saramsu5');
+
+-- saramsu_room_tb
+INSERT INTO saramsu_room_tb VALUES (1, 1, 1);
+INSERT INTO saramsu_room_tb VALUES (2, 2, 2);
+INSERT INTO saramsu_room_tb VALUES (3, 3, 3);
+INSERT INTO saramsu_room_tb VALUES (4, 4, 4);
+INSERT INTO saramsu_room_tb VALUES (5, 5, 5);
+
+-- bathroom_tb
+INSERT INTO bathroom_tb VALUES (1, 'Bathroom1');
+INSERT INTO bathroom_tb VALUES (2, 'Bathroom2');
+INSERT INTO bathroom_tb VALUES (3, 'Bathroom3');
+INSERT INTO bathroom_tb VALUES (4, 'Bathroom4');
+INSERT INTO bathroom_tb VALUES (5, 'Bathroom5');
+
+-- bathroom_room_tb
+INSERT INTO bathroom_room_tb VALUES (1, 1, 1);
+INSERT INTO bathroom_room_tb VALUES (2, 2, 2);
+INSERT INTO bathroom_room_tb VALUES (3, 3, 3);
+INSERT INTO bathroom_room_tb VALUES (4, 4, 4);
+INSERT INTO bathroom_room_tb VALUES (5, 5, 5);
+
+-- air_condition_tb
+INSERT INTO air_condition_tb VALUES (1, 'AirCondition1');
+INSERT INTO air_condition_tb VALUES (2, 'AirCondition2');
+INSERT INTO air_condition_tb VALUES (3, 'AirCondition3');
+INSERT INTO air_condition_tb VALUES (4, 'AirCondition4');
+INSERT INTO air_condition_tb VALUES (5, 'AirCondition5');
+
+-- air_condition_room_tb
+INSERT INTO air_condition_room_tb VALUES (1, 1, 1);
+INSERT INTO air_condition_room_tb VALUES (2, 2, 2);
+INSERT INTO air_condition_room_tb VALUES (3, 3, 3);
+INSERT INTO air_condition_room_tb VALUES (4, 4, 4);
+INSERT INTO air_condition_room_tb VALUES (5, 5, 5);
+
+-- etc_tb
+INSERT INTO etc_tb VALUES (1, 'Etc1');
+INSERT INTO etc_tb VALUES (2, 'Etc2');
+INSERT INTO etc_tb VALUES (3, 'Etc3');
+INSERT INTO etc_tb VALUES (4, 'Etc4');
+INSERT INTO etc_tb VALUES (5, 'Etc5');
+
+-- etc_room_tb
+INSERT INTO etc_room_tb VALUES (1, 1, 1);
+INSERT INTO etc_room_tb VALUES (2, 2, 2);
+INSERT INTO etc_room_tb VALUES (3, 3, 3);
+INSERT INTO etc_room_tb VALUES (4, 4, 4);
+INSERT INTO etc_room_tb VALUES (5, 5, 5);
+
+-- airplane_tb
+INSERT INTO airplane_tb VALUES (1, 1, 'Airplane1');
+INSERT INTO airplane_tb VALUES (2, 2, 'Airplane2');
+INSERT INTO airplane_tb VALUES (3, 3, 'Airplane3');
+INSERT INTO airplane_tb VALUES (4, 4, 'Airplane4');
+INSERT INTO airplane_tb VALUES (5, 5, 'Airplane5');
+
+-- airplane_time_tb
+INSERT INTO airplane_time_tb VALUES (1, 1, SYSDATE, SYSDATE, SYSDATE, SYSDATE, 1, 2, 1);
+INSERT INTO airplane_time_tb VALUES (2, 2, SYSDATE, SYSDATE, SYSDATE, SYSDATE, 2, 3, 1);
+INSERT INTO airplane_time_tb VALUES (3, 3, SYSDATE, SYSDATE, SYSDATE, SYSDATE, 3, 4, 1);
+INSERT INTO airplane_time_tb VALUES (4, 4, SYSDATE, SYSDATE, SYSDATE, SYSDATE, 4, 5, 1);
+INSERT INTO airplane_time_tb VALUES (5, 5, SYSDATE, SYSDATE, SYSDATE, SYSDATE, 5, 1, 1);
+
+-- airplane_price_tb
+INSERT INTO airplane_price_tb VALUES (1, 1, 100, 1, 1);
+INSERT INTO airplane_price_tb VALUES (2, 2, 200, 1, 1);
+INSERT INTO airplane_price_tb VALUES (3, 3, 300, 1, 1);
+INSERT INTO airplane_price_tb VALUES (4, 4, 400, 1, 1);
+INSERT INTO airplane_price_tb VALUES (5, 5, 500, 1, 1);
+
+-- country_tb
+INSERT INTO country_tb VALUES (1, '국내', 'KR');
+INSERT INTO country_tb VALUES (2, '일본', 'JP');
+INSERT INTO country_tb VALUES (3, '아시아', 'AS');
+INSERT INTO country_tb VALUES (4, '미주', 'US');
+INSERT INTO country_tb VALUES (5, '유럽', 'EU');
+INSERT INTO country_tb VALUES (6, '대양주', 'GU');
+INSERT INTO country_tb VALUES (7, '중동', 'AE');
+INSERT INTO country_tb VALUES (8, '중남미', 'BR');
+INSERT INTO country_tb VALUES (9, '아프리카', 'KE');
+INSERT INTO country_tb VALUES (10, '중국', 'CN');
+
+
+-- city_tb
+INSERT INTO city_tb VALUES (1, 1, '서울', 'SEL');
+INSERT INTO city_tb VALUES (2, 1, '김포', 'GMP');
+INSERT INTO city_tb VALUES (3, 1, '제주', 'CJU');
+INSERT INTO city_tb VALUES (4, 1, '부산', 'PUS');
+INSERT INTO city_tb VALUES (5, 1, '광주', 'KWJ');
+INSERT INTO city_tb VALUES (6, 1, '대구', 'TAE');
+INSERT INTO city_tb VALUES (7, 1, '청주', 'CJJ');
+INSERT INTO city_tb VALUES (8, 1, '여수', 'RSU');
+INSERT INTO city_tb VALUES (9, 1, '무안', 'MWX');
+INSERT INTO city_tb VALUES (10, 2, '도쿄', 'TYO');
+INSERT INTO city_tb VALUES (11, 2, '오사카', 'OSA');
+INSERT INTO city_tb VALUES (12, 2, '후쿠오카', 'FUK');
+INSERT INTO city_tb VALUES (13, 2, '삿포로', 'SPK');
+INSERT INTO city_tb VALUES (14, 2, '오키나와', 'OKA');
+INSERT INTO city_tb VALUES (15, 2, '나고야', 'NGO');
+INSERT INTO city_tb VALUES (16, 2, '구마모토', 'KMJ');
+INSERT INTO city_tb VALUES (17, 2, '키타큐슈', 'KKJ');
+INSERT INTO city_tb VALUES (18, 2, '마쓰야마', 'MYJ');
+INSERT INTO city_tb VALUES (19, 2, '요나고', 'YGJ');
+INSERT INTO city_tb VALUES (20, 2, '히로시마', 'HIJ');
+INSERT INTO city_tb VALUES (21, 2, '오이타', 'OIT');
+INSERT INTO city_tb VALUES (22, 3, '다낭', 'DAD');
+INSERT INTO city_tb VALUES (23, 3, '방콕/수완나품', 'BKK');
+INSERT INTO city_tb VALUES (24, 3, '세부', 'CEB');
+INSERT INTO city_tb VALUES (25, 3, '싱가포르', 'SIN');
+INSERT INTO city_tb VALUES (26, 3, '코타키나발루', 'BKI');
+INSERT INTO city_tb VALUES (27, 3, '나트랑/캄란', 'CXR');
+INSERT INTO city_tb VALUES (28, 3, '호치민', 'SGN');
+INSERT INTO city_tb VALUES (29, 3, '대만/타오위안', 'TPE');
+INSERT INTO city_tb VALUES (30, 3, '치앙마이', 'CNX');
+INSERT INTO city_tb VALUES (31, 3, '울란바토르', 'UBN');
+INSERT INTO city_tb VALUES (32, 3, '하노이', 'HAN');
+INSERT INTO city_tb VALUES (33, 3, '푸켓', 'HKT');
+INSERT INTO city_tb VALUES (34, 3, '마닐라', 'MNL');
+INSERT INTO city_tb VALUES (35, 3, '프놈펜', 'PNH');
+INSERT INTO city_tb VALUES (36, 3, '알마티', 'ALA');
+INSERT INTO city_tb VALUES (37, 3, '대만/송산', 'TSA');
+INSERT INTO city_tb VALUES (38, 3, '자카르타/수카르노하타', 'CGK');
+INSERT INTO city_tb VALUES (39, 3, '마카오', 'MFM');
+INSERT INTO city_tb VALUES (40, 3, '쿠알라룸푸르', 'KUL');
+INSERT INTO city_tb VALUES (41, 3, '몰디브/말레', 'MLE');
+INSERT INTO city_tb VALUES (42, 4, '하와이/호놀룰루', 'HNL');
+INSERT INTO city_tb VALUES (43, 4, '로스앤젤레스', 'LAX');
+INSERT INTO city_tb VALUES (44, 4, '뉴욕', 'NYC');
+INSERT INTO city_tb VALUES (45, 4, '샌프란시스코', 'SFO');
+INSERT INTO city_tb VALUES (46, 4, '라스베이거스', 'LAS');
+INSERT INTO city_tb VALUES (47, 4, '댈러스', 'DFW');
+INSERT INTO city_tb VALUES (48, 4, '워싱턴/덜레스', 'IAD');
+INSERT INTO city_tb VALUES (49, 4, '밴쿠버', 'YVR');
+INSERT INTO city_tb VALUES (50, 4, '토론토', 'YTO');
+INSERT INTO city_tb VALUES (51, 5, '파리', 'PAR');
+INSERT INTO city_tb VALUES (52, 5, '런던', 'LON');
+INSERT INTO city_tb VALUES (53, 5, '로마', 'ROM');
+INSERT INTO city_tb VALUES (54, 5, '바르셀로나', 'BCN');
+INSERT INTO city_tb VALUES (55, 5, '프랑크푸르트', 'FRA');
+INSERT INTO city_tb VALUES (56, 5, '프라하', 'PRG');
+INSERT INTO city_tb VALUES (57, 5, '암스테르담', 'AMS');
+INSERT INTO city_tb VALUES (58, 5, '이스탄불', 'IST');
+INSERT INTO city_tb VALUES (59, 5, '헬싱키', 'HEL');
+INSERT INTO city_tb VALUES (60, 5, '취리히', 'ZRH');
+INSERT INTO city_tb VALUES (61, 5, '리스본', 'LIS');
+INSERT INTO city_tb VALUES (62, 5, '밀라노/말펜사', 'MXP');
+INSERT INTO city_tb VALUES (63, 5, '부다페스트', 'BUD');
+INSERT INTO city_tb VALUES (64, 5, '지그레브', 'ZAG');
+INSERT INTO city_tb VALUES (65, 5, '두브로브니크', 'DBV');
+INSERT INTO city_tb VALUES (66, 5, '베니스', 'VCE');
+INSERT INTO city_tb VALUES (67, 5, '비엔나', 'VIE');
+INSERT INTO city_tb VALUES (68, 6, '괌', 'GUM');
+INSERT INTO city_tb VALUES (69, 6, '사이판', 'SPN');
+INSERT INTO city_tb VALUES (70, 6, '시드니', 'SYD');
+INSERT INTO city_tb VALUES (71, 6, '멜버른', 'MEL');
+INSERT INTO city_tb VALUES (72, 7, '아부다비', 'AUH');
+INSERT INTO city_tb VALUES (73, 7, '텔아비브', 'TLV');
+INSERT INTO city_tb VALUES (74, 7, '도하', 'DOH');
+INSERT INTO city_tb VALUES (75, 7, '두바이', 'DXB');
+INSERT INTO city_tb VALUES (76, 8, '상파울로', 'SAO');
+INSERT INTO city_tb VALUES (77, 8, '칸쿤', 'CUN');
+INSERT INTO city_tb VALUES (78, 8, '산티아고', 'SCL');
+INSERT INTO city_tb VALUES (79, 8, '하바나', 'HAV');
+INSERT INTO city_tb VALUES (80, 9, '나이로비', 'NBO');
+INSERT INTO city_tb VALUES (81, 9, '케이프타운', 'CPT');
+INSERT INTO city_tb VALUES (82, 9, '카이로', 'CAI');
+INSERT INTO city_tb VALUES (83, 9, '모리셔스', 'MRU');
+INSERT INTO city_tb VALUES (84, 10, '북경', 'BJS');
+INSERT INTO city_tb VALUES (85, 10, '상해/푸동', 'PVG');
+INSERT INTO city_tb VALUES (86, 10, '청도', 'TAO');
+INSERT INTO city_tb VALUES (87, 10, '성도(솽류)', 'CTU');
+-- airport_tb
+INSERT INTO airport_tb VALUES (1, 1, 'Airport1', 'Eairport1');
+INSERT INTO airport_tb VALUES (2, 2, 'Airport2', 'Eairport2');
+INSERT INTO airport_tb VALUES (3, 3, 'Airport3', 'Eairport3');
+INSERT INTO airport_tb VALUES (4, 4, 'Airport4', 'Eairport4');
+INSERT INTO airport_tb VALUES (5, 5, 'Airport5', 'Eairport5');
+
+-- board_tb
+INSERT INTO board_tb VALUES (1, 1, 'Board1', 'Content1', SYSDATE, 0);
+INSERT INTO board_tb VALUES (2, 2, 'Board2', 'Content2', SYSDATE, 0);
+INSERT INTO board_tb VALUES (3, 3, 'Board3', 'Content3', SYSDATE, 0);
+INSERT INTO board_tb VALUES (4, 4, 'Board4', 'Content4', SYSDATE, 0);
+INSERT INTO board_tb VALUES (5, 5, 'Board5', 'Content5', SYSDATE, 0);
+
+-- board_like_tb
+INSERT INTO board_like_tb VALUES (1, 1, 1);
+INSERT INTO board_like_tb VALUES (2, 2, 2);
+INSERT INTO board_like_tb VALUES (3, 3, 3);
+INSERT INTO board_like_tb VALUES (4, 4, 4);
+INSERT INTO board_like_tb VALUES (5, 5, 5);
+
+-- board_comment_tb
+INSERT INTO board_comment_tb VALUES (1, 1, 'Comment1', SYSDATE);
+INSERT INTO board_comment_tb VALUES (2, 2, 'Comment2', SYSDATE);
+INSERT INTO board_comment_tb VALUES (3, 3, 'Comment3', SYSDATE);
+INSERT INTO board_comment_tb VALUES (4, 4, 'Comment4', SYSDATE);
+INSERT INTO board_comment_tb VALUES (5, 5, 'Comment5', SYSDATE);
+
+-- board_comment_like_tb
+INSERT INTO board_comment_like_tb VALUES (1, 1, 1);
+INSERT INTO board_comment_like_tb VALUES (2, 2, 2);
+INSERT INTO board_comment_like_tb VALUES (3, 3, 3);
+INSERT INTO board_comment_like_tb VALUES (4, 4, 4);
+INSERT INTO board_comment_like_tb VALUES (5, 5, 5);
+
+-- news_tb
+INSERT INTO news_tb VALUES (1, 1, 'News1', 'Content1', SYSDATE, 0);
+INSERT INTO news_tb VALUES (2, 2, 'News2', 'Content2', SYSDATE, 0);
+INSERT INTO news_tb VALUES (3, 3, 'News3', 'Content3', SYSDATE, 0);
+INSERT INTO news_tb VALUES (4, 4, 'News4', 'Content4', SYSDATE, 0);
+INSERT INTO news_tb VALUES (5, 5, 'News5', 'Content5', SYSDATE, 0);
+
+-- news_like_tb
+INSERT INTO news_like_tb VALUES (1, 1, 1);
+INSERT INTO news_like_tb VALUES (2, 2, 2);
+INSERT INTO news_like_tb VALUES (3, 3, 3);
+INSERT INTO news_like_tb VALUES (4, 4, 4);
+INSERT INTO news_like_tb VALUES (5, 5, 5);
+
+-- news_comment_tb
+INSERT INTO news_comment_tb VALUES (1, 1, 'Comment1', SYSDATE);
+INSERT INTO news_comment_tb VALUES (2, 2, 'Comment2', SYSDATE);
+INSERT INTO news_comment_tb VALUES (3, 3, 'Comment3', SYSDATE);
+INSERT INTO news_comment_tb VALUES (4, 4, 'Comment4', SYSDATE);
+INSERT INTO news_comment_tb VALUES (5, 5, 'Comment5', SYSDATE);
+
+-- news_comment_like_tb
+INSERT INTO news_comment_like_tb VALUES (1, 1, 1);
+INSERT INTO news_comment_like_tb VALUES (2, 2, 2);
+INSERT INTO news_comment_like_tb VALUES (3, 3, 3);
+INSERT INTO news_comment_like_tb VALUES (4, 4, 4);
+INSERT INTO news_comment_like_tb VALUES (5, 5, 5);
+
+-- qanda_tb
+INSERT INTO qanda_tb VALUES (1, 1, 'QA1', 'Content1', SYSDATE);
+INSERT INTO qanda_tb VALUES (2, 2, 'QA2', 'Content2', SYSDATE);
+INSERT INTO qanda_tb VALUES (3, 3, 'QA3', 'Content3', SYSDATE);
+INSERT INTO qanda_tb VALUES (4, 4, 'QA4', 'Content4', SYSDATE);
+INSERT INTO qanda_tb VALUES (5, 5, 'QA5', 'Content5', SYSDATE);
+
+-- notice_tb
+INSERT INTO notice_tb VALUES (1, 1, 'Notice1', 'Content1', SYSDATE);
+INSERT INTO notice_tb VALUES (2, 2, 'Notice2', 'Content2', SYSDATE);
+INSERT INTO notice_tb VALUES (3, 3, 'Notice3', 'Content3', SYSDATE);
+INSERT INTO notice_tb VALUES (4, 4, 'Notice4', 'Content4', SYSDATE);
+INSERT INTO notice_tb VALUES (5, 5, 'Notice5', 'Content5', SYSDATE);
+
+-- group_chatting_tb
+INSERT INTO group_chatting_tb VALUES (1, 1, 1, 'GroupChat1', 'Content1');
+INSERT INTO group_chatting_tb VALUES (2, 2, 2, 'GroupChat2', 'Content2');
+INSERT INTO group_chatting_tb VALUES (3, 3, 3, 'GroupChat3', 'Content3');
+INSERT INTO group_chatting_tb VALUES (4, 4, 4, 'GroupChat4', 'Content4');
+INSERT INTO group_chatting_tb VALUES (5, 5, 5, 'GroupChat5', 'Content5');
+
+-- bookmark_tb
+INSERT INTO bookmark_tb VALUES (1, 1, 1, 1, 1, SYSDATE);
+INSERT INTO bookmark_tb VALUES (2, 2, 2, 2, 1, SYSDATE);
+INSERT INTO bookmark_tb VALUES (3, 3, 3, 3, 1, SYSDATE);
+INSERT INTO bookmark_tb VALUES (4, 4, 4, 4, 1, SYSDATE);
+INSERT INTO bookmark_tb VALUES (5, 5, 5, 5, 1, SYSDATE);
+
+-- apply_tb
+INSERT INTO apply_tb VALUES (1, 1, 1, 1, 1, 1, 1, SYSDATE);
+INSERT INTO apply_tb VALUES (2, 2, 2, 2, 2, 2, 1, SYSDATE);
+INSERT INTO apply_tb VALUES (3, 3, 3, 3, 3, 3, 1, SYSDATE);
+INSERT INTO apply_tb VALUES (4, 4, 4, 4, 4, 4, 1, SYSDATE);
+INSERT INTO apply_tb VALUES (5, 5, 5, 5, 5, 5, 1, SYSDATE);
+
+-- discount_tb
+INSERT INTO discount_tb VALUES (1, 1, 1, 1, 1, 1, SYSDATE);
+INSERT INTO discount_tb VALUES (2, 2, 2, 2, 2, 1, SYSDATE);
+INSERT INTO discount_tb VALUES (3, 3, 3, 3, 3, 1, SYSDATE);
+INSERT INTO discount_tb VALUES (4, 4, 4, 4, 4, 1, SYSDATE);
+INSERT INTO discount_tb VALUES (5, 5, 5, 5, 5, 1, SYSDATE);
+
+-- card_tb
+INSERT INTO card_tb VALUES (1, 1, 1, 1, 1, 1, 1, SYSDATE);
+INSERT INTO card_tb VALUES (2, 2, 2, 2, 2, 2, 1, SYSDATE);
+INSERT INTO card_tb VALUES (3, 3, 3, 3, 3, 3, 1, SYSDATE);
+INSERT INTO card_tb VALUES (4, 4, 4, 4, 4, 4, 1, SYSDATE);
+INSERT INTO card_tb VALUES (5, 5, 5, 5, 5, 5, 1, SYSDATE);
+
+commit;

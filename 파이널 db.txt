@@ -1,0 +1,782 @@
+create table user_tb (
+   user_idx number(20) primary key,
+   id varchar2(200) not null unique,
+   passwd varchar2(200) not null,
+    email  varchar2(200) not null,
+   type  number(1) not null
+);
+create table person_tb(
+   person_idx number(20) primary key,
+    user_idx   number(20) not null,      
+    first_name varchar2(30) not null,
+    last_name  varchar2(30) not null,
+    social_num number(20) not null,
+    phone      varchar2(20) not null,
+    zip_code   varchar2(200) not null,
+    address1    varchar2(200) not null,
+    address2    varchar2(200) not null,
+    nickname    varchar2(200),
+    CONSTRAINT fk_user
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+    
+);
+
+create table point_tb(
+    point_idx number(20) primary key,
+    person_idx number(20) ,
+    point    number(20) default 0,
+    state   number(2),
+    CONSTRAINT fk_person_3
+    FOREIGN KEY (person_idx) 
+    REFERENCES person_tb(person_idx)
+    ON DELETE CASCADE
+);
+
+create table seller_tb(
+    seller_idx number(20) primary key,
+    user_idx number(20) not null,      
+    name     varchar2(200) not null,
+    cnum    number(20)   not null,
+    phone   varchar2(200) not null,
+    logo    varchar2(200) not null,
+    CONSTRAINT fk_user_1
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE    
+    
+);
+
+create table airline_tb(
+    airline_idx number(20) primary key,
+    user_idx number(20) not null,     
+    name     varchar2(200) not null,
+    cnum    number(20)   not null,
+    phone   varchar2(200) not null,
+    logo    varchar2(500) not null,
+    CONSTRAINT fk_user_2
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+);
+
+create table admin_tb(
+    admin_idx number(20) primary key,
+    user_idx number(20) not null,      
+    name     varchar2(200) not null,
+    phone   varchar2(200) not null,
+    CONSTRAINT fk_user_3
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+);
+create table ptype_tb(
+    ptype_idx number(20) primary key,
+    name  varchar2(200)
+
+);
+create table stype_tb(
+    stype_idx number(20) primary key,
+    name  varchar2(200)
+);
+
+
+
+
+create table package_tb(
+    package_idx number(20) primary key,
+    user_idx  number(20) not null,    
+    title    varchar2(200) not null,
+    package_category number(20),
+    start_date    date   default sysdate,
+    end_date    date   default sysdate,
+    limited_person  number(20) not null,
+    price     varchar2(10)   not null,
+    detail1   varchar2(2000) not null,   
+    detail2   varchar2(2000) not null,
+    detail3   varchar2(2000) not null,
+    zip_code   varchar2(200) not null,
+    address1    varchar2(200) not null,
+    address2    varchar2(200) not null,
+    ptype_idx       number(20),
+    hit number(20) default 0,
+    CONSTRAINT fk_user_4
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_ptype
+    FOREIGN KEY (ptype_idx) 
+    REFERENCES ptype_tb(ptype_idx)
+    ON DELETE CASCADE
+    
+    );
+create table location_tb(
+    location_idx number(20) primary key,
+    name varchar2(200) not null
+); 
+    
+
+create table package_location_tb(
+    package_location_idx number(20) primary key,
+    package_idx number(20) not null,      
+    location_idx number(20) not null,     
+    CONSTRAINT fk_package
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE,    
+    CONSTRAINT fk_location
+    FOREIGN KEY (location_idx) 
+    REFERENCES location_tb(location_idx)
+    ON DELETE CASCADE       
+) ;   
+
+
+    
+
+create table package_image(
+    package_image_idx number(20) primary key,
+    package_idx number(20) not null ,      
+    image     varchar2(500),
+    CONSTRAINT fk_package_1
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE
+);    
+
+
+create table package_review_tb(
+    package_review_idx number(20) primary key,
+    package_idx  number(20) not null,      
+    content     varchar2(500) not null,
+    person_idx  number(20) not null,      
+    created     date    default sysdate ,
+    CONSTRAINT fk_package_4
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_person
+    FOREIGN KEY (person_idx) 
+    REFERENCES person_tb(person_idx)
+    ON DELETE CASCADE
+);
+
+create table package_rate_tb(
+    package_rate_idx  number(20) primary key,
+    package_review_idx number(20) not null,      
+    user_idx  number(20) not null,      
+    rate     number(2)  ,
+    CONSTRAINT fk_package_review
+    FOREIGN KEY (package_review_idx) 
+    REFERENCES package_review_tb(package_review_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_user_5
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+) ;   
+
+create table keyword_tb(
+    keyword_idx  number(20) primary key,
+    name         varchar2(200) not null 
+)  ; 
+
+create table package_keyword_tb(
+    package_keyword_idx number(20) primary key,
+    package_idx  number(20) not null,      
+    keyword_idx number(20) not null,      
+    CONSTRAINT fk_package_3
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_keyword
+    FOREIGN KEY (keyword_idx) 
+    REFERENCES keyword_tb(keyword_idx)
+    ON DELETE CASCADE
+    
+);
+
+
+
+create table package_review_image_tb(
+    package_review_image_idx number(20) primary key,
+    package_review_idx number(20) not null,      
+    image     varchar2(500),
+    CONSTRAINT fk_package_review_1
+    FOREIGN KEY (package_review_idx) 
+    REFERENCES package_review_tb(package_review_idx)
+    ON DELETE CASCADE
+);
+
+create table convenience_tb (
+    convenience_idx  number(20) primary key,
+    name   varchar2(200) not null 
+);
+
+create table package_convenience_tb(
+    package_convenience_idx number(20) primary key,
+    package_idx  number(20) not null,          
+    convenience_idx number(20) not null,      
+    CONSTRAINT fk_package_5
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_convenience
+    FOREIGN KEY (convenience_idx) 
+    REFERENCES convenience_tb(convenience_idx)
+    ON DELETE CASCADE
+);
+
+create table hotel_tb(
+    hotel_idx  number(20) primary key,
+    user_idx   number(20) not null,      
+    name       varchar2(200) not null,
+    phone      varchar2(50)  not null,
+    zip_code   varchar2(200) not null,
+    address1    varchar2(200) not null,
+    address2    varchar2(200) not null,
+    detail1   varchar2(2000) not null,   
+    detail2   varchar2(2000) not null,
+    detail3   varchar2(2000) not null,
+    hit number(20) default 0,
+    CONSTRAINT fk_user_6
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+);
+
+
+create table hotel_review_tb(
+    hotel_review_idx number(20) primary key,
+    hotel_idx  number(20) not null,      
+    content     varchar2(500) not null,
+    person_idx  number(20) not null,      
+    created     date    default sysdate ,
+    CONSTRAINT fk_hotel
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_person_5
+    FOREIGN KEY (person_idx) 
+    REFERENCES person_tb(person_idx)
+    ON DELETE CASCADE
+);
+
+create table hotel_rate_tb(
+    hotel_rate_idx  number(20) primary key,
+    hotel_review_idx number(20) not null,      
+    user_idx  number(20) not null,      
+    rate     number(2)  ,
+    CONSTRAINT fk_hotel_review_5
+    FOREIGN KEY (hotel_review_idx) 
+    REFERENCES hotel_review_tb(hotel_review_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_user_20
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+) ;   
+
+
+
+create table hotel_review_image_tb(
+    hotel_review_image_idx number(20) primary key,
+    hotel_review_idx number(20) not null,      
+    image     varchar2(500),
+    CONSTRAINT fk_hotel_review_1
+    FOREIGN KEY (hotel_review_idx) 
+    REFERENCES hotel_review_tb(hotel_review_idx)
+    ON DELETE CASCADE
+);
+
+create table facility_tb(
+    facility_idx number(20) primary key,
+    name     varchar2(200) not null
+);
+
+create table hotel_facility_tb(
+    hotel_facility_idx number(20) primary key,
+    hotel_idx number(20) not null,      
+    facility_idx number(20) not null,      
+    CONSTRAINT fk_hotel_20
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_facility
+    FOREIGN KEY (facility_idx) 
+    REFERENCES facility_tb(facility_idx)
+    ON DELETE CASCADE
+    
+);
+
+create table room_tb(
+    room_idx number(20) primary key,
+    hotel_idx  number(20) not null,      
+    title     varchar2(200) not null,
+    price     varchar2(200) not null,
+    max_preson number(5)  not null,
+    check_in   date ,
+    check_out   date ,
+    available_date date default sysdate,
+    ptype_idx number(20),
+    CONSTRAINT fk_ptype_1
+    FOREIGN KEY (ptype_idx) 
+    REFERENCES ptype_tb(ptype_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_hotel_1
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE
+    
+);
+
+create table room_image_tb(
+    room_image_idx number(20) primary key,
+    room_idx   number(20) not null,      
+    image     varchar2(500),
+    CONSTRAINT fk_room
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE
+);
+
+create table bed_tb(
+    bed_idx number(20) primary key,
+    name  varchar2(500) not null
+);
+
+create table bed_room_tb(
+    bed_room_idx number(20) primary key,
+    room_idx  number(20) not null,      
+    bed_idx  number(20) not null,      
+    CONSTRAINT fk_room_1
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_bed
+    FOREIGN KEY (bed_idx) 
+    REFERENCES bed_tb(bed_idx)
+    ON DELETE CASCADE
+);
+
+create table saramsu_tb(
+    saramsu_idx number(20) primary key,
+    name   varchar2(500) 
+);
+
+create table saramsu_room_tb(
+    saramsu_room_idx  number(20) primary key,
+    saramsu_idx number(20) not null,      
+    room_idx number(20) not null,     
+    CONSTRAINT fk_room_2
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_saramsu
+    FOREIGN KEY (saramsu_idx) 
+    REFERENCES saramsu_tb(saramsu_idx)
+    ON DELETE CASCADE
+    
+);    
+
+create table bathroom_tb(
+    bathroom_idx number(20) primary key,
+    name   varchar2(500)
+);
+create table bathroom_room_tb(
+    bathroom_room_idx number(20) primary key,
+    bathroom_idx number(20) not null,      
+    room_idx number(20) not null,      
+    CONSTRAINT fk_room_3
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_bathroom
+    FOREIGN KEY (bathroom_idx) 
+    REFERENCES bathroom_tb(bathroom_idx)
+    ON DELETE CASCADE
+);
+
+create table air_condition_tb(
+    air_condition_idx number(20) primary key,
+    name varchar2(500)
+);
+
+create table air_condition_room_tb(
+    air_condition_room_idx number(20) primary key,
+    air_condition_idx number(20) not null,      
+    room_idx number(20) not null,      
+    CONSTRAINT fk_room_4
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_air_condition
+    FOREIGN KEY (air_condition_idx) 
+    REFERENCES air_condition_tb(air_condition_idx)
+    ON DELETE CASCADE
+    
+);
+
+create table etc_tb(
+    etc_idx number(20) primary key,
+    name varchar2(500)
+);
+
+create table etc_room_tb(
+    etc_room_idx number(20) primary key,
+    etc_idx number(20) not null,      
+    room_idx number(20) not null,      
+    CONSTRAINT fk_room_5
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_etc
+    FOREIGN KEY (etc_idx) 
+    REFERENCES etc_tb(etc_idx)
+    ON DELETE CASCADE
+);
+
+create table airplane_tb(
+    airplane_idx number(20) primary key,
+    airline_idx number(20) not null,      
+
+    name varchar2(50) not null,
+    CONSTRAINT fk_airline
+    FOREIGN KEY (airline_idx) 
+    REFERENCES airline_tb(airline_idx)
+    ON DELETE CASCADE
+);
+
+create table airplane_time_tb(
+    airplane_time_idx number(20) primary key,
+    airplane_idx number(20) not null,      
+    start_date date,
+    end_date date,
+    start_time date ,
+    end_time  date,
+    departure_loc number(20) not null,
+    arrival_loc  number(20) not null,
+    known number(20),
+    
+    CONSTRAINT fk_airplane
+    FOREIGN KEY (airplane_idx) 
+    REFERENCES airplane_tb(airplane_idx)
+    ON DELETE CASCADE
+
+);
+
+create table airplane_price_tb(
+    airplane_price_idx number(20) primary key,
+    airplane_time_idx number(20) not null,
+    price   number(20) not null,
+    ptype_idx   number(2) default 1,  -- 어른/아이/소아/노약자
+    stype_idx   number(2) default 1,   -- 비즈니스/이코노미....
+    CONSTRAINT fk_ptype_2
+    FOREIGN KEY (ptype_idx) 
+    REFERENCES ptype_tb(ptype_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_stype
+    FOREIGN KEY (stype_idx) 
+    REFERENCES stype_tb(stype_idx)
+    ON DELETE CASCADE
+    
+);
+
+
+
+
+
+create table country_tb(
+    country_idx number(20) primary key,
+    name varchar2(200),
+    ename varchar2(200)
+);
+
+create table city_tb(
+    city_idx number(20) primary key,
+    country_idx  number(20),
+    name varchar2(200),
+    ename varchar2(200),
+    CONSTRAINT fk_country
+    FOREIGN KEY (country_idx) 
+    REFERENCES country_tb(country_idx)
+    ON DELETE CASCADE
+
+);
+
+create table airport_tb(
+    airport_idx number(20) primary key,
+    country_idx  number(20),
+    name varchar2(200),
+    ename varchar2(200),
+    CONSTRAINT fk_country_1
+    FOREIGN KEY (country_idx) 
+    REFERENCES country_tb(country_idx)
+    ON DELETE CASCADE
+);
+
+
+
+create table board_tb(
+    board_idx number(20) primary key,
+    user_idx number(20) not null,      
+    title varchar2(200) not null,
+    content varchar2(2000) not  null,
+    created date default sysdate,
+    hit number(20) default 0,
+    CONSTRAINT fk_user_7
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+    
+);
+
+
+
+create table board_like_tb(
+    board_like_idx number(20) primary key,
+    board_idx number(20) not null,      
+    user_idx number(20) not null,      
+    CONSTRAINT fk_user_8
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_board
+    FOREIGN KEY (board_idx) 
+    REFERENCES board_tb(board_idx)
+    ON DELETE CASCADE
+);
+
+create table board_comment_tb(
+    board_comment_idx number(20) primary key,
+    board_idx number(20) not null,      
+    content varchar2(2000) not null,
+    created    date  default sysdate,
+    CONSTRAINT fk_board_1
+    FOREIGN KEY (board_idx) 
+    REFERENCES board_tb(board_idx)
+    ON DELETE CASCADE
+);
+
+create table board_comment_like_tb(
+    board_comment_like_idx number(20) primary key,
+    board_comment_idx number(20) not null,      
+    user_idx number(20) not null,      
+    CONSTRAINT fk_user_9
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_board_comment
+    FOREIGN KEY (board_comment_idx) 
+    REFERENCES board_comment_tb(board_comment_idx)
+    ON DELETE CASCADE    
+    
+);
+
+
+create table news_tb(
+    news_idx number(20) primary key,
+    user_idx number(20) not null,      
+    title varchar2(200) not null,
+    content varchar2(2000) not  null,
+    created date default sysdate,
+    hit number(20) default 0,
+    CONSTRAINT fk_user_10
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE    
+    
+);
+
+create table news_like_tb(
+    news_like_idx number(20) primary key,
+    news_idx number(20) not null,      
+    user_idx number(20) not null,      
+    CONSTRAINT fk_user_11
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_news
+    FOREIGN KEY (news_idx) 
+    REFERENCES news_tb(news_idx)
+    ON DELETE CASCADE    
+);
+
+create table news_comment_tb(
+    news_comment_idx number(20) primary key,
+    news_idx number(20) not null,      
+    content varchar2(2000) not null,
+    created    date  default sysdate,
+    CONSTRAINT fk_news_1
+    FOREIGN KEY (news_idx) 
+    REFERENCES news_tb(news_idx)
+    ON DELETE CASCADE    
+);
+
+create table news_comment_like_tb(
+    news_comment_like_idx number(20) primary key,
+    news_comment_idx number(20) not null,      
+    user_idx number(20) not null,      
+    CONSTRAINT fk_user_12
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_news_comment
+    FOREIGN KEY (news_comment_idx) 
+    REFERENCES news_comment_tb(news_comment_idx)
+    ON DELETE CASCADE
+);
+
+
+
+
+create table qanda_tb (
+    qanda_idx number(20) primary key,
+    user_idx number(20) not null,      
+    title varchar2(200) not null,
+    content varchar2(2000) not null,
+    created  date  default sysdate,
+    CONSTRAINT fk_user_13
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+);
+
+create table notice_tb(
+    notice number(20) primary key,
+    user_idx number(20) not null,      
+    title varchar2(200) not null,
+    content varchar2(2000) not null,
+    created  date  default sysdate,
+    CONSTRAINT fk_user_14
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE
+);
+
+create table group_chatting_tb(
+    group_chatting_idx number(20) primary key,
+    user_idx number(20) not null,       
+    board_idx number(20) not null,     
+    title varchar2(200) not null,
+    content varchar2(2000) not null,
+    CONSTRAINT fk_user_15
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_board_3
+    FOREIGN KEY (board_idx) 
+    REFERENCES board_tb(board_idx)
+    ON DELETE CASCADE
+);
+
+
+create table bookmark_tb(
+    bookmark_idx  number(20) primary key,
+    user_idx  number(20),
+    package_idx number(20),
+    hotel_idx number(20),
+    state number(2),
+    created date default sysdate,
+    CONSTRAINT fk_user_16
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_package_6
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE, 
+    CONSTRAINT fk_hotel_2
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE
+);
+
+
+create table apply_tb(
+    apply_idx  number(20) primary key,
+    user_idx  number(20),
+    package_idx number(20),
+    room_idx number(20),
+    airplane_time_idx number(20),
+    apply_su  number(20),
+    state number(2),
+    created date default sysdate,
+    CONSTRAINT fk_user_17
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_package_7
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE, 
+    CONSTRAINT fk_room_6
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_airplane_time_3
+    FOREIGN KEY (airplane_time_idx) 
+    REFERENCES airplane_time_tb(airplane_time_idx)
+    ON DELETE CASCADE
+);
+
+create table discount_tb(
+    discount_idx  number(20) primary key,
+    user_idx  number(20),
+    package_idx number(20),
+    room_idx number(20),
+    airplane_time_idx number(20),
+    state number(2),
+    created date default sysdate,
+    CONSTRAINT fk_user_18
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_package_8
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE, 
+    CONSTRAINT fk_room_7
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_airplane_time_4
+    FOREIGN KEY (airplane_time_idx) 
+    REFERENCES airplane_time_tb(airplane_time_idx)
+    ON DELETE CASCADE
+);
+
+
+create table card_tb(
+    card_idx number(20) primary key,
+    user_idx  number(20),
+    package_idx number(20),
+    room_idx number(20),
+    airplane_time_idx number(20),
+    apply_idx number(20),
+    state number(2),
+    created date default sysdate,
+    CONSTRAINT fk_user_19
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_package_9
+    FOREIGN KEY (package_idx) 
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE, 
+    CONSTRAINT fk_room_8
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_airplane_time_5
+    FOREIGN KEY (airplane_time_idx) 
+    REFERENCES airplane_time_tb(airplane_time_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_apply_1
+    FOREIGN KEY (apply_idx) 
+    REFERENCES apply_tb(apply_idx)
+    ON DELETE CASCADE
+);
+
+
+
