@@ -16,8 +16,12 @@
 
 <style>
 main {
-	width: 80%;
+	width: 100%;
 	margin-top: 20px;
+	font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 .spanImg {
@@ -34,6 +38,10 @@ main {
 
 .flight-wrapper {
 	margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .flight-header {
@@ -42,16 +50,20 @@ main {
 	width: fit-content;
 	border: 1px solid #ccc;
 	padding: 5px;
+	
+  	justify-content: space-between;
 }
 
 .flight-logo, .time-taken {
 	text-align: center;
 	margin-right: 20px;
+    color: #666;
 }
 
 .flight-logo img, .time-taken img {
 	display: block;
 	margin: 0 auto;
+    margin-right: 10px;
 }
 
 .flight-logo em, .time-taken em, .locSetting em {
@@ -90,7 +102,9 @@ main {
 
 .fontSetting {
 	margin-left: 10px;
-	/* font-size: 20px; */
+	
+	font-size: 14px;
+    color: #333;
 }
 
 .payBtn {
@@ -141,6 +155,30 @@ main {
 	margin-left: 10px;
 }
 
+/* 컨테이너 스타일 설정 */
+.container {
+  display: flex;
+  width: 100%;
+}
+
+/* 사이드바 스타일 설정 */
+.sidebar {
+  width: 20%;
+  background-color: #f8f8f8;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 콘텐츠 영역 스타일 설정 */
+.content {
+  width: 80%;
+  padding: 20px;
+}
+
+.locSetting {
+  font-weight: bold;
+}
+
 </style>
 
 </head>
@@ -149,171 +187,181 @@ main {
 <%@include file="/WEB-INF/include/nav.jsp"%>
 
 <body>
+	
 	<main id="main-container">
 
-		<c:choose>
-			<c:when test="${not empty roundTripFlights}">
+	<div class="container">
+	  <div class="sidebar">
+	    <h2><a href="#" onclick="">출발시간</a></h2>
+	    <div>
+	      <h2>가는날</h2>
+	      <ul>
+	        <li>
+	          <div>
+	            <input type="checkbox" id="ckDep_01" value="" class="" checked="checked">
+	            <label for="ckDep_01"><span class=""></span>"새벽 00:00 ~ 06:00"</label>
+	          </div>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	
+	  <div class="content">
+	    <c:choose>
+	      <c:when test="${not empty roundTripFlights}">
+	        <c:forEach items="${roundTripFlights}" var="roundTrip" varStatus="status">
+	          <div class="flight-wrapper">
+	            <div class="flight-header">
+	              <span class="flight-logo">
+	                <img src="${ roundTrip[0].LOGO }" class="spanImg" alt="logo">
+	                <em>${ roundTrip[0].AIRLINE_NAME }</em>
+	              </span>
+	              <div class="flight-details-wrapper">
+	                <c:forEach items="${roundTrip}" var="flight">
+	                  <div class="flight-details">
+	                    <ul>
+	                      <li>
+	                        <div>
+	                          <span class="fontSetting">
+	                            <span class="locSetting">${ flight.START_TIME }
+	                              <em>${ flight.DEPCITY_ENAME }
+	                                <span>${ flight.DEPCITY_NAME }</span>
+	                              </em>
+	                            </span>
+	                          </span>
+	
+	                          <span class="time-taken">
+	                            <img src="/images/arrow.jpg" class="arrowImg" alt="arrow">
+	                            <em>${ flight.DURATIONHOUR }시간 ${ flight.DURATIONMINUTE }분</em>
+	                          </span>
+	
+	                          <span class="fontSetting">
+	                            <span class="locSetting">${ flight.END_TIME }
+	                              <em>${ flight.ARRCITY_ENAME }
+	                                <span>${ flight.ARRCITY_NAME }</span>
+	                              </em>
+	                            </span>
+	                          </span>
+	
+	                          <span>직항</span>
+	                        </div>
+	                      </li>
+	                    </ul>
+	                  </div>
+	                </c:forEach>
+	              </div>
+	              <!-- ------------------------------------------------------------------------- -->
+	              <span class="price-info">
+	                <button type="button" class="payBtn">결제</button>
+	                <div>
+	                  <strong>${roundTripPrices[status.index]} KRW</strong>
+	                </div>
+	                <div class="priceInfo" style="display: none;">
+	                  <div class="priceInfo_wrap">
+	                    <div class="priceInfo_header">
+	                      <h5>요금선택<span class="">성인 1인 요금</span></h5>
+	                    </div>
+	                    <div class="priceInfo_wrap_contents">
+	                      <ul role="">
+	                        <li class="priceInfo_wrap_contents_li">
+	                          <div class="">
+	                            <input type="radio" class="" name="" onclick="" checked="checked">
+	                            <label for="">
+	                              <span class=""></span>
+	                              롯데카드
+	                            </label>
+	                          </div>
+	                          <div class="cardPriceInfo">${roundTripPrices[status.index]} KRW</div>
+	                        </li>
+	                      </ul>
+	                    </div>
+	                  </div>
+	                </div>
+	              </span>
+	              <!-- ------------------------------------------------------------------------- -->
+	            </div>
+	          </div>
+	          <hr /> <!-- 왕복 항공편 구분선 -->
+	        </c:forEach>
+	      </c:when>
+	      <c:otherwise>
+	        <c:forEach items="${oneWayFlights}" var="oneWay" varStatus="status">
+	          <div class="flight-wrapper">
+	            <div class="flight-header">
+	              <span class="flight-logo">
+	                <img src="${ oneWay[0].LOGO }" class="spanImg" alt="logo">
+	                <em>${ oneWay[0].AIRLINE_NAME }</em>
+	              </span>
+	              <div class="flight-details-wrapper">
+	                <div class="flight-details">
+	                  <ul>
+	                    <li>
+	                      <div>
+	                        <span class="fontSetting">
+	                          <span class="locSetting">${ oneWay[0].START_TIME }
+	                            <em>${ oneWay[0].DEPCITY_ENAME }
+	                              <span>${ oneWay[0].DEPCITY_NAME }</span>
+	                            </em>
+	                          </span>
+	                        </span>
+	
+	                        <span class="time-taken">
+	                          <img src="/images/arrow.jpg" class="arrowImg" alt="arrow">
+	                          <em>${ oneWay[0].DURATIONHOUR }시간 ${ oneWay[0].DURATIONMINUTE }분</em>
+	                        </span>
+	
+	                        <span class="fontSetting">
+	                          <span class="locSetting">${ oneWay[0].END_TIME }
+	                            <em>${ oneWay[0].ARRCITY_ENAME }
+	                              <span>${ oneWay[0].ARRCITY_NAME }</span>
+	                            </em>
+	                          </span>
+	                        </span>
+	
+	                        <span>직항</span>
+	                      </div>
+	                    </li>
+	                  </ul>
+	                </div>
+	              </div>
+	              <!-- ------------------------------------------------------------------------- -->
+	              <span>
+	                <button type="button" class="payBtn">결제</button>
+	                <div>
+	                  <strong>${oneWayPrices[status.index]} KRW</strong>
+	                </div>
+	                <div class="priceInfo" style="display: none;">
+	                  <div class="priceInfo_wrap">
+	                    <div class="priceInfo_header">
+	                      <h5>요금선택<span class="">성인 1인 요금</span></h5>
+	                    </div>
+	                    <div class="priceInfo_wrap_contents">
+	                      <ul role="">
+	                        <li class="priceInfo_wrap_contents_li">
+	                          <div class="">
+	                            <input type="radio" class="" name="" onclick="" checked="checked">
+	                            <label for="">
+	                              <span class=""></span>
+	                              롯데카드
+	                            </label>
+	                          </div>
+	                          <div class="cardPriceInfo">${oneWayPrices[status.index]} KRW</div>
+	                        </li>
+	                      </ul>
+	                    </div>
+	                  </div>
+	                </div>
+	              </span>
+	              <!-- ------------------------------------------------------------------------- -->
+	            </div>
+	          </div>
+	          <hr /> <!-- 편도 항공편 구분선 -->
+	        </c:forEach>
+	      </c:otherwise>
+	    </c:choose>
+	  </div>
+	</div>
 
-				<c:forEach items="${roundTripFlights}" var="roundTrip" varStatus="status">
-					<div class="flight-wrapper">
-						<div class="flight-header">
-							<span class="flight-logo">
-								<img src="${ roundTrip[0].LOGO }" class="spanImg" alt="logo">
-								<em>${ roundTrip[0].AIRLINE_NAME }</em>
-							</span>
-							<div class="flight-details-wrapper">
-								<c:forEach items="${roundTrip}" var="flight">
-									<div class="flight-details">
-										<ul>
-											<li>
-												<div>
-													<span class="fontSetting">
-														<span class="locSetting">${ flight.START_TIME }
-															<em>${ flight.DEPCITY_ENAME }
-																<span>${ flight.DEPCITY_NAME }</span>
-															</em>
-														</span>
-													</span>
-													
-													<span class="time-taken">
-														<img src="/images/arrow.jpg" class="arrowImg" alt="arrow">
-														<em>${ flight.DURATIONHOUR }시간 ${ flight.DURATIONMINUTE }분</em>
-													</span>
-													
-													<span class="fontSetting">
-														<span class="locSetting">${ flight.END_TIME }
-															<em>${ flight.ARRCITY_ENAME }
-																<span>${ flight.ARRCITY_NAME }</span>
-															</em>
-														</span>
-													</span>
-													
-													<span>직항</span>
-
-												</div>
-											</li>
-										</ul>
-									</div>
-								</c:forEach>
-							</div>
-							<!-- ------------------------------------------------------------------------- -->
-							<span class="price-info">
-							
-								<button type="button" class="payBtn">결제</button>
-								
-								<div>
-									<strong>${roundTripPrices[status.index]} KRW</strong>
-								</div>
-								
-								<div class="priceInfo" style="display: none;">
-		                        	<div class="priceInfo_wrap">
-										<div class="priceInfo_header">
-											<h5>요금선택<span class="">성인 1인 요금</span></h5>
-										</div>
-										<div class="priceInfo_wrap_contents">
-											<ul role="">
-												<li class="priceInfo_wrap_contents_li">
-													<div class="">
-														<input type="radio" class="" name="" onclick="" checked="checked">
-														<label for="">
-															<span class=""></span>
-															롯데카드
-														</label>
-													</div>
-													<div class="cardPriceInfo">${roundTripPrices[status.index]} KRW</div>
-												</li>
-											</ul>
-										</div>
-									</div>	
-		                        </div>
-								
-							</span>
-							<!-- ------------------------------------------------------------------------- -->
-						</div>
-					</div>
-					<hr />	<!-- 왕복 항공편 구분선 -->
-				</c:forEach>
-			</c:when>
-			<c:otherwise>
-				<c:forEach items="${oneWayFlights}" var="oneWay" varStatus="status">
-					<div class="flight-wrapper">
-		                <div class="flight-header">
-		                    <span class="flight-logo">
-		                        <img src="${ oneWay[0].LOGO }" class="spanImg" alt="logo">
-		                        <em>${ oneWay[0].AIRLINE_NAME }</em>
-		                    </span>
-		                    <div class="flight-details-wrapper">
-		                        <div class="flight-details">
-		                            <ul>
-		                                <li>
-		                                    <div>
-		                                        <span class="fontSetting">
-		                                            <span class="locSetting">${ oneWay[0].START_TIME }
-		                                                <em>${ oneWay[0].DEPCITY_ENAME }
-		                                                	<span>${ oneWay[0].DEPCITY_NAME }</span>
-		                                                </em>
-		                                            </span>
-		                                        </span>
-		                                        
-		                                        <span class="time-taken">
-		                                            <img src="/images/arrow.jpg" class="arrowImg" alt="arrow">
-		                                            <em>${ oneWay[0].DURATIONHOUR }시간 ${ oneWay[0].DURATIONMINUTE }분</em>
-		                                        </span>
-		                                        
-		                                        <span class="fontSetting">
-		                                            <span class="locSetting">${ oneWay[0].END_TIME }
-		                                            	<em>${ oneWay[0].ARRCITY_ENAME }
-		                                                	<span>${ oneWay[0].ARRCITY_NAME }</span>
-		                                                </em>
-		                                            </span>
-		                                        </span>
-		                                        
-		                                        <span>직항</span>
-		                                        
-		                                    </div>
-		                                </li>
-		                            </ul>
-		                        </div>
-		                    </div>
-		                    <!-- ------------------------------------------------------------------------- -->
-		                    <span>
-		                    
-		                        <button type="button" class="payBtn">결제</button>
-		                        
-		                        <div>
-		                            <strong>${oneWayPrices[status.index]} KRW</strong>
-		                        </div>
-		                        
-		                        <div class="priceInfo" style="display: none;">
-		                        	<div class="priceInfo_wrap">
-										<div class="priceInfo_header">
-											<h5>요금선택<span class="">성인 1인 요금</span></h5>
-										</div>
-										<div class="priceInfo_wrap_contents">
-											<ul role="">
-												<li class="priceInfo_wrap_contents_li">
-													<div class="">
-														<input type="radio" class="" name="" onclick="" checked="checked">
-														<label for="">
-															<span class=""></span>
-															롯데카드
-														</label>
-													</div>
-													<div class="cardPriceInfo">${oneWayPrices[status.index]} KRW</div>
-												</li>
-											</ul>
-										</div>
-									</div>	
-		                        </div>
-		                        
-		                    </span>
-		                    <!-- ------------------------------------------------------------------------- -->
-		                </div>
-		            </div>
-		            <hr/>	<!-- 편도 항공편 구분선 -->
-		        </c:forEach>
-			</c:otherwise>
-		</c:choose>
 	</main>
 
 	<%@include file="/WEB-INF/include/footer.jsp"%>
