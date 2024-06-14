@@ -5,11 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.escape.airplane.domain.AirplaneSearchVo;
-import com.escape.airplane.domain.AirplaneVo;
 import com.escape.airplane.domain.AirportVo;
 import com.escape.airplane.domain.CityVo;
-import com.escape.login.domain.User;
 
 @Mapper
 public interface AirplaneMapper {
@@ -22,7 +19,6 @@ public interface AirplaneMapper {
 
 	List<Map<String, Object>> getTimeList(String depDate, int departure_loc, int arrival_loc);
 
-	int getUserIdx(User user);
 	int getUserIdx(Object object);
 	
 }

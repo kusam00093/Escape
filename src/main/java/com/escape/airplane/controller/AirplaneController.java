@@ -41,9 +41,6 @@ public class AirplaneController {
 
 		HttpSession session = request.getSession();
 		
-		//int user_idx = airplaneMapper.getUserIdx(user);
-		//System.out.println("===== Airplane/Main === user_idx: " + user_idx);
-		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("airplane/airplanemain");
 		return mv;
@@ -285,8 +282,6 @@ public class AirplaneController {
 		String infantCount = (String) params.get("infantCount");
 		int totalCount = Integer.parseInt( adultCount ) + Integer.parseInt( childCount ) + Integer.parseInt( infantCount );
 		String totalPrice = (String) params.get("totalPrice");
-		//int totalCount = Integer.parseInt( (String) params.get("totalCount") );
-		//int totalPrice = Integer.parseInt( (String) params.get("totalPrice") );
 
 		System.out.println("===== AirplanePay === orderId: " + orderId);
 		System.out.println("===== AirplanePay === userId: " + userId);
@@ -298,7 +293,6 @@ public class AirplaneController {
 		System.out.println("===== AirplanePay === totalCount: " + totalCount);
 		System.out.println("===== AirplanePay === totalPrice: " + totalPrice);
 		
-		//kakaoPayService.readyToPay(orderId, userId, itemName, totalCount, totalPrice);
 		kakaoPayService.readyToPay(orderId, userId, itemName, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx);
 		
 		ModelAndView mv = new ModelAndView();

@@ -42,6 +42,8 @@ const onClickPay = async (event) => {
 	}, function(response) {
 		const { status, err_msg } = response;
 		
+		console.dir(response);
+		
 		if (err_msg) {
 			alert(err_msg);
 		}
