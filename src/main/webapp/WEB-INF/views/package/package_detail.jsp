@@ -401,51 +401,11 @@ input.form-control::placeholder {
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            var dateFormat = "yy-mm-dd",
-                from = $("#from")
-                    .datepicker({
-                        defaultDate: "+1w",
-                        changeMonth: true,
-                        numberOfMonths: 2
-                    })
-                    .on("change", function() {
-                        to.datepicker("option", "minDate", getDate(this));
-                    }),
-                to = $("#to").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    numberOfMonths: 2
-                })
-                .on("change", function() {
-                    from.datepicker("option", "maxDate", getDate(this));
-                });
-
-            function getDate(element) {
-                var date;
-                try {
-                    date = $.datepicker.parseDate(dateFormat, element.value);
-                } catch (error) {
-                    date = null;
-                }
-                return date;
-            }
-
-            $("#select-date-range").on("click", function() {
-                $("#date-range-picker").toggle();
-            });
-
-            $("#apply-dates").on("click", function() {
-                var startDate = $("#from").val();
-                var endDate = $("#to").val();
-                alert("선택한 기간: " + startDate + " - " + endDate);
-                $("#date-range-picker").hide();
-            });
-        });
-    </script>
+   
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
 
@@ -618,7 +578,8 @@ input.form-control::placeholder {
 <div>시간</div>
 <h4>만나는 장소</h4>
 <div>장소 글</div>
-<div>장소 구글api</div>
+ <input type="hidden" id="address" value="${ packageVo.address1 }">
+ <div id="map" style="width: 100%; height: 400px; margin: 0 auto;"></div>
 <h4>필수 안내</h4>
 <div>* 본 상품에는 여행자보험이 포함되어 있지 않습니다. 여행자보험 가입후 투어 참여해 주세요.
 * 최소 모객 인원은 4인입니다. (투어 7일 전까지 4인이 모객되지 않을 경우 투어가 취소될 수 있습니다. )
@@ -713,11 +674,58 @@ input.form-control::placeholder {
     
   </aside>
 </div>
-<script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof kakao === 'undefined' || !kakao.maps) {
+            console.error('Kakao Maps API 로드 실패');
+            return;
+        }
+
+        var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+        var mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };  
+
+        // 지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // JSP에서 전달된 회사 주소를 사용합니다
+        var companyAddress = document.getElementById("address").value;
+        //alert(companyAddress);
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(companyAddress, function(result, status) {
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">회사 위치</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            } 
+        });
+    });
+    </script>
 
 
 
-</script>
     <script>
     document.addEventListener('DOMContentLoaded', function(event) {
         let moneyString = document.querySelector('#money').value;
@@ -733,7 +741,7 @@ input.form-control::placeholder {
         
         // 1. 맨 처음에 moneyInteger 값을 출력
         let formattedMoney = formatMoney(moneyInteger);
-        console.log(formattedMoney); // 콘솔에 출력
+        //console.log(formattedMoney); // 콘솔에 출력
 
         var counterValueElement = document.getElementById('counter-value');
         var incrementButton = document.getElementById('incrementButton');
@@ -790,7 +798,7 @@ input.form-control::placeholder {
         const applybtn =document.querySelector('#goApply');
         applybtn.addEventListener('click',(event)=>{
         	event.preventDefault();
-        	console.log(finalMoneyElement)
+        	//console.log(finalMoneyElement)
         	        let finalMoneyText = finalMoneyElement.textContent; // '400,000원' 형태의 문자열
         let finalMoneyValue = parseInt(finalMoneyText.replace(/,/g, "").replace('원', '')); // '400000' 형태의 정수
         alert(finalMoneyValue); // 값 출력
@@ -805,23 +813,7 @@ input.form-control::placeholder {
 </script>
 
 
-<script>
-$(function () {
 
-    // INITIALIZE DATEPICKER PLUGIN
-    $('.datepicker').datepicker({
-        clearBtn: true,
-        format: "dd/mm/yyyy"
-    });
-
-
-    // FOR DEMO PURPOSE
-    $('#reservationDate').on('change', function () {
-        var pickedDate = $('input').val();
-        $('#pickedDate').html(pickedDate);
-    });
-});
-</script>
 
     <script>
     var modal = document.getElementById('modal');
@@ -913,7 +905,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         reviews.forEach(review => {
             const rate = parseInt(review.getAttribute('data-rate')); // data-rate 값을 정수로 변환
-            console.log(rate)
+            //console.log(rate)
 
             // 별 아이콘들을 가져옴
             const starIcons = review.querySelectorAll('.star-icon');
@@ -939,7 +931,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         reviews.forEach(review => {
             const rate = parseInt(review.getAttribute('data-rate1')); // data-rate 값을 정수로 변환
-            console.log(rate)
+            //console.log(rate)
 
             // 별 아이콘들을 가져옴
             const starIcons = review.querySelectorAll('.star-icon');
@@ -963,7 +955,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         reviews.forEach(review => {
             const rate = parseInt(review.getAttribute('data-rate2')); // data-rate 값을 정수로 변환
-            console.log(rate)
+            //console.log(rate)
 
             // 별 아이콘들을 가져옴
             const starIcons = review.querySelectorAll('.star-icon');

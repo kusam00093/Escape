@@ -25,4 +25,10 @@ public class PackageVo {
 	int ptype_idx;
 	int hit;
 	int category;
+	String image;
+	int package_image_idx;
+	int rate;
+	int count;
+    String location_name;
+    String category_name;
 }

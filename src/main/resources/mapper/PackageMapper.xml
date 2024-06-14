@@ -2,11 +2,100 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.escape.mapper.PackageMapper">  
 
+
+<select id="getPackageList">
+WITH AverageRates AS (
+    SELECT 
+        pa.package_idx,
+        AVG(ra.rate) AS rate
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+ReviewCounts AS (
+    SELECT 
+        pa.package_idx,
+        COUNT(*) AS count
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        person_tb p ON r.person_idx = p.person_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+PackageImages AS (
+    SELECT 
+        PACKAGE_IDX,
+        IMAGE,
+        ROW_NUMBER() OVER (PARTITION BY PACKAGE_IDX ORDER BY IMAGE) AS RN
+    FROM 
+        PACKAGE_IMAGE_TB
+),
+PackageLocations AS (
+    SELECT 
+        pl.package_idx,
+        l.name AS location_name,
+        ROW_NUMBER() OVER (PARTITION BY pl.package_idx ORDER BY l.location_idx) AS rn
+    FROM 
+        package_location_tb pl
+    JOIN 
+        location_tb l ON pl.location_idx = l.location_idx
+),
+PackageCategories AS (
+    SELECT 
+        PC.PACKAGE_IDX,
+        C.NAME AS CATEGORY_NAME,
+        ROW_NUMBER() OVER (PARTITION BY PC.PACKAGE_IDX ORDER BY C.CATEGORY_IDX) AS RN
+    FROM 
+        CATEGORY_TB C
+    JOIN 
+        PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX
+)
+SELECT 
+    P.PACKAGE_IDX,
+    P.USER_IDX,
+    P.TITLE,
+    P.START_DATE,
+    P.END_DATE,
+    P.LIMITED_PERSON,
+    P.PRICE,
+    P.PTYPE_IDX,
+    P.HIT,
+    P.PACKAGE_CATEGORY_IDX,
+    PI.IMAGE,
+    AR.rate,
+    RC.count,
+    PL.location_name,
+    PCAT.category_name
+FROM 
+    PACKAGE_TB P
+LEFT JOIN 
+    PackageImages PI ON P.PACKAGE_IDX = PI.PACKAGE_IDX AND PI.RN = 1
+LEFT JOIN 
+    AverageRates AR ON P.PACKAGE_IDX = AR.package_idx
+LEFT JOIN 
+    ReviewCounts RC ON P.PACKAGE_IDX = RC.package_idx
+LEFT JOIN 
+    (SELECT package_idx, location_name FROM PackageLocations WHERE rn = 1) PL ON P.PACKAGE_IDX = PL.package_idx
+LEFT JOIN 
+    (SELECT PACKAGE_IDX, CATEGORY_NAME FROM PackageCategories WHERE RN = 1) PCAT ON P.PACKAGE_IDX = PCAT.PACKAGE_IDX
+
+</select>
+
 <select id="getCategory">
 SELECT
 	CATEGORY_IDX,
 	NAME
-FROM CATEGORY	
+FROM CATEGORY_TB	
 
 </select>
 
@@ -39,7 +128,7 @@ SELECT
     P.ADDRESS2,
     P.PTYPE_IDX,
     P.HIT,
-    P.CATEGORY,
+    P.PACKAGE_CATEGORY_IDX,
     (P.END_DATE - P.START_DATE) || '일간' AS DURATION
 FROM PACKAGE_TB P
 WHERE PACKAGE_IDX = #{param1}
@@ -103,7 +192,7 @@ WHERE pa.package_idx = #{param1}
 SELECT PACKAGE_IMAGE_IDX, IMAGE
 FROM (
     SELECT PACKAGE_IMAGE_IDX, IMAGE, ROWNUM AS RN
-    FROM PACKAGE_IMAGE
+    FROM PACKAGE_IMAGE_TB
     WHERE PACKAGE_IDX = #{param1}
 )
 WHERE RN = 1
@@ -113,7 +202,7 @@ WHERE RN = 1
 SELECT PACKAGE_IMAGE_IDX, IMAGE
 FROM (
     SELECT PACKAGE_IMAGE_IDX, IMAGE, ROWNUM AS RN
-    FROM PACKAGE_IMAGE
+    FROM PACKAGE_IMAGE_TB
     WHERE PACKAGE_IDX =#{param1}
 )
 WHERE RN BETWEEN 2 AND 4
@@ -122,7 +211,7 @@ WHERE RN BETWEEN 2 AND 4
 SELECT
     PACKAGE_IMAGE_IDX,
     IMAGE
-FROM PACKAGE_IMAGE
+FROM PACKAGE_IMAGE_TB
 WHERE PACKAGE_IDX =#{param1}
 
 </select>

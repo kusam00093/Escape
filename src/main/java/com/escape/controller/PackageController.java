@@ -28,10 +28,13 @@ public class PackageController {
 		List<CategoryVo> categoryList = packageMapper.getCategory();
 		
 		
+		List<PackageVo> packageList = packageMapper.getPackageList();
+				
 		
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("categoryList",categoryList);
+		mv.addObject("packageList",packageList);
 		mv.setViewName("package/package_home");
 		return mv;
 	}

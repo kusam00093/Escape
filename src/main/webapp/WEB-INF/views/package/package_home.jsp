@@ -294,6 +294,74 @@ body {
   }
 
 
+
+
+
+
+.rating {
+  width: 100px;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-left: 20px;;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.rating__label .star-icon {
+  width: 10px;
+  height: 20px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("/images/star.svg");
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("/images/star_fill.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating__label--half .star-icon {
+  background-position: left;
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.rating__label.half-filled .star-icon {
+  background-position: left;
+  width: 15px; /* 반 채워진 별의 너비 설정 */
+}
+
+.package_title{
+	margin : 10px;
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
 </style> 
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/mixins.css">
@@ -371,100 +439,59 @@ body {
    <div class="container1">
     <div class="card-container">
   
-    
+    <c:forEach var="pa" items="${ packageList }">
       <div class="card">
         <a href="#">
     <div class="image">
-        <img src="/package_image/package_paris.jpg">
+        <img src="${ pa.image }" style="width : 305px; height: 240px;">
         <div class="icon-container">
             <img src="/images/icons_best.png" class="nav_icon" />
         </div>
         <div><i class="fas fa-external-link-alt"></i></div>
     </div>
-    <div class="details">
-        <h2>Jhon Deo</h2>
-        <p>화가</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
+    <div class="details packageList" >
+    
+    <div class="package1">
+<c:choose>
+    <c:when test="${not empty pa.category_name}">
+        <button class="btn btn-primary">${pa.category_name}</button>
+    </c:when>
+</c:choose>
+
+<c:choose>
+    <c:when test="${not empty pa.location_name}">
+        <button class="btn btn-primary">${pa.location_name}</button>
+    </c:when>
+</c:choose>
+        <div class="package_title">${ pa.title }</div>
+                   <div class="rating" data-rate="${ pa.rate }" >
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+            </div>
+            
+            <p>
+            (${ pa.count })
+            </p>
+        <p>${ pa.price }/1인<p>
+        <p>정원:${ pa.limited_person }</p>
     </div>
+    </div>
+    
+    
     </a>
 </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>Emma Smith</h2>
-          <p>배우</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>작가1</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가2</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가3</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가4</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
+</c:forEach>
+
+
+
     </div>
     <div class="button-container">
       <button id="prevButton">이전</button>
@@ -518,7 +545,6 @@ function showNextCards() {
 
 updateCardContainer();
 </script>
->>>>>>> branch 'develop' of https://github.com/kusam00093/Escape.git
 <script>
 const images = document.querySelectorAll('.package_img');
 const texts = document.querySelectorAll('.text');
@@ -545,6 +571,33 @@ texts[index].style.opacity = '1';
 
 // 5초마다 이미지 전환하기
 setInterval(showNextImage, 3000);
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.rating');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate')); // data-rate 값을 정수로 변환
+            //console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+            if (rate % 1 !== 0) {
+                starIcons[Math.floor(rate)].classList.add('half-filled');
+            }
+        });
+    });
 </script>
 
 <div>&nbsp;</div>

@@ -46,4 +46,9 @@ public interface PackageMapper {
 	Package_ReviewVo getReviewCount(int package_idx);
 
 
+
+
+	List<PackageVo> getPackageList();
+
+
 }

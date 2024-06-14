@@ -60,7 +60,7 @@
                 <img id="headerlogo" src="/images/rocket.png" alt="제작예정">
             </a>
             <nav class="navbar navbar-light" style="background-color: #fff;">
-                <div class="container-fluid">
+                <div class="container-fluid package_search_1">
                     <form class="d-flex">
                         <input class="form-control" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">검색</button>
