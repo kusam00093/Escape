@@ -1,5 +1,6 @@
 package com.escape.airplane.controller;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,10 +20,11 @@ import com.escape.airplane.domain.AirplaneVo;
 import com.escape.airplane.domain.AirportVo;
 import com.escape.airplane.domain.CityVo;
 import com.escape.airplane.mapper.AirplaneMapper;
+import com.escape.kakao.service.KakaoPayService;
+import com.escape.login.domain.User;
 
-import static java.util.stream.Collectors.*;
-
-import java.math.BigDecimal;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/Airplane")
@@ -31,9 +33,17 @@ public class AirplaneController {
 	@Autowired
 	private AirplaneMapper airplaneMapper;
 	
+	@Autowired
+	private KakaoPayService kakaoPayService;
+	
 	@RequestMapping("/Main")
-	public ModelAndView main( AirplaneVo airplaneVo ) {
+	public ModelAndView main( AirplaneVo airplaneVo, HttpServletRequest request, User user ) {
 
+		HttpSession session = request.getSession();
+		
+		//int user_idx = airplaneMapper.getUserIdx(user);
+		//System.out.println("===== Airplane/Main === user_idx: " + user_idx);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("airplane/airplanemain");
 		return mv;
@@ -228,6 +238,10 @@ public class AirplaneController {
 	    System.out.println("===== airSearchList =====: " + airSearchList);
 
 		mv.addObject("airSearchList", airSearchList);
+		mv.addObject("seatClass", seatClass);
+		mv.addObject("adultCount", adultCount);
+		mv.addObject("childCount", childCount);
+		mv.addObject("infantCount", infantCount);
 		mv.setViewName("airplane/airplanesearch");
 		return mv;
 		
@@ -250,6 +264,56 @@ public class AirplaneController {
 	            flight.put("DURATIONMINUTE", durationMinutes.toString());
 	        }
 	    }
+	}
+	
+	@RequestMapping("/AirplanePay")
+	public ModelAndView airplanepay(
+				@RequestParam Map<Object, Object> params
+			) {
+		
+		System.out.println("===== AirplanePay === params: " + params);
+		
+		int user_idx = airplaneMapper.getUserIdx( params.get("userId") );
+		System.out.println("===== Airplane/AirplanePay === user_idx: " + user_idx);
+		
+		String orderId = (String) params.get("orderId");
+		String userId = (String) params.get("userId");
+		String itemName = (String) params.get("itemName");
+		String seatClass = (String) params.get("seatClass");
+		String adultCount = (String) params.get("adultCount");
+		String childCount = (String) params.get("childCount");
+		String infantCount = (String) params.get("infantCount");
+		int totalCount = Integer.parseInt( adultCount ) + Integer.parseInt( childCount ) + Integer.parseInt( infantCount );
+		String totalPrice = (String) params.get("totalPrice");
+		//int totalCount = Integer.parseInt( (String) params.get("totalCount") );
+		//int totalPrice = Integer.parseInt( (String) params.get("totalPrice") );
+
+		System.out.println("===== AirplanePay === orderId: " + orderId);
+		System.out.println("===== AirplanePay === userId: " + userId);
+		System.out.println("===== AirplanePay === itemName: " + itemName);
+		System.out.println("===== AirplanePay === seatClass: " + seatClass);
+		System.out.println("===== AirplanePay === adultCount: " + adultCount);
+		System.out.println("===== AirplanePay === childCount: " + childCount);
+		System.out.println("===== AirplanePay === infantCount: " + infantCount);
+		System.out.println("===== AirplanePay === totalCount: " + totalCount);
+		System.out.println("===== AirplanePay === totalPrice: " + totalPrice);
+		
+		//kakaoPayService.readyToPay(orderId, userId, itemName, totalCount, totalPrice);
+		kakaoPayService.readyToPay(orderId, userId, itemName, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("orderId", orderId);
+		mv.addObject("userId", userId);
+		mv.addObject("itemName", itemName);
+		mv.addObject("seatClass", seatClass);
+		mv.addObject("adultCount", adultCount);
+		mv.addObject("childCount", childCount);
+		mv.addObject("infantCount", infantCount);
+		mv.addObject("totalCount", totalCount);
+		mv.addObject("totalPrice", totalPrice);
+		mv.setViewName("airplane/airplanepay");
+		return mv;
+		
 	}
 
 	

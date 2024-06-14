@@ -107,5 +107,14 @@
 	  CT.CITY_IDX = #{arg1}
 </select>
 
+<select id="getUserIdx">
+	SELECT
+	  USER_IDX
+	FROM
+	  USER_TB
+	WHERE
+	  ID = #{ userId }
+</select>
+
 
 </mapper>

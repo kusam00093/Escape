@@ -156,7 +156,7 @@ main {
 }
 
 /* 컨테이너 스타일 설정 */
-.container {
+.searchContainer {
   display: flex;
   width: 100%;
 }
@@ -183,8 +183,26 @@ main {
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-{SDK-latest-version}.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-{SDK-latest-version}.js"></script> -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+<script type="text/javascript">
+
+function confirmPayment(event) {
+    // 결제 확인 메시지 표시
+    var isConfirmed = confirm("정말 결제하시겠습니까?");
+    
+    // 사용자가 확인을 클릭한 경우
+    if (isConfirmed) {
+        // 폼 제출
+        document.querySelector('.paymentForm').submit();
+    } else {
+        // 기본 폼 제출 동작 막기
+        event.preventDefault();
+    }
+}
+        
+</script>
 
 </head>
 
@@ -195,7 +213,7 @@ main {
 	
 	<main id="main-container">
 
-	<div class="container">
+	<div class="searchContainer">
 	  <div class="sidebar">
 	    <h2><a href="#" onclick="">출발시간</a></h2>
 	    <div>
@@ -256,33 +274,37 @@ main {
 	                </c:forEach>
 	              </div>
 	              <!-- ------------------------------------------------------------------------- -->
-	              <span class="price-info">
-	                <button type="button" class="payBtn">결제</button>
-	                <div>
-	                  <strong>${roundTripPrices[status.index]} KRW</strong>
-	                </div>
-	                <div class="priceInfo" style="display: none;">
-	                  <div class="priceInfo_wrap">
-	                    <div class="priceInfo_header">
-	                      <h5>요금선택<span class="">성인 1인 요금</span></h5>
-	                    </div>
-	                    <div class="priceInfo_wrap_contents">
-	                      <ul role="">
-	                        <li class="priceInfo_wrap_contents_li">
-	                          <div class="">
-	                            <input type="radio" class="" name="" onclick="" checked="checked">
-	                            <label for="">
-	                              <span class=""></span>
-	                              롯데카드
-	                            </label>
-	                          </div>
-	                          <div class="cardPriceInfo">${roundTripPrices[status.index]} KRW</div>
-	                        </li>
-	                      </ul>
-	                    </div>
-	                  </div>
-	                </div>
-	              </span>
+	              <!-- <form action="/Airplane/AirplanePay" method="POST"> -->
+	              <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
+					<input type="hidden" name="orderId" value="${ roundTrip[0].AIRPLANE_TIME_IDX }">
+					<input type="hidden" name="userId" value="${ sessionScope.login.id }">
+					<input type="hidden" name="itemName" value="${ roundTrip[0].AIRLINE_NAME }">
+					<input type="hidden" name="seatClass" value="${ seatClass }">
+					<input type="hidden" name="adultCount" value="${ adultCount }">
+					<input type="hidden" name="childCount" value="${ childCount }">
+					<input type="hidden" name="infantCount" value="${ infantCount }">
+					<input type="hidden" name="totalPrice" value="${ roundTripPrices[status.index] }">
+		              <span class="price-info">
+		                <button type="submit" class="payBtn"
+				            data-airplane-time-idx="${ roundTrip[0].AIRPLANE_TIME_IDX }" 
+				            data-user-id="${ sessionScope.login.id }"
+				            data-airplane-name="${ roundTrip[0].AIRLINE_NAME }"
+				            data-seatClass="${ seatClass }"
+				            data-adultCount="${ adultCount }"
+				            data-childCount="${ childCount }"
+				            data-infantCount="${ infantCount }"
+				            data-totalPrice="${ roundTripPrices[status.index] }"
+				            onclick="confirmPayment(event)"
+				        >결제</button>
+		                <div>
+		                  <strong>${roundTripPrices[status.index]} KRW</strong>
+		                </div>
+		                
+		                <!-- <script src="https://cdn.iamport.kr/vl/iamport.js"></script> -->
+		                <!-- <script src="/js/main.js"></script> -->
+		                
+		              </span>
+		            </form>
 	              <!-- ------------------------------------------------------------------------- -->
 	            </div>
 	          </div>
@@ -330,16 +352,37 @@ main {
 	                </div>
 	              </div>
 	              <!-- ------------------------------------------------------------------------- -->
-	              <span>
-	                <button type="button" class="payBtn">결제</button>
-	                
-	                <script src="https://cdn.iamport.kr/vl/iamport.js"></script>
-	                <script src="/main.js"></script>
-	                
-	                <div>
-	                  <strong>${oneWayPrices[status.index]} KRW</strong>
-	                </div>
-	              </span>
+	              <!-- <form action="/Airplane/AirplanePay" method="POST"> -->
+	              <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
+					<input type="hidden" name="orderId" value="${ oneWay[0].AIRPLANE_TIME_IDX }">
+					<input type="hidden" name="userId" value="${ sessionScope.login.id }">
+					<input type="hidden" name="itemName" value="${ oneWay[0].AIRLINE_NAME }">
+					<input type="hidden" name="seatClass" value="${ seatClass }">
+					<input type="hidden" name="adultCount" value="${ adultCount }">
+					<input type="hidden" name="childCount" value="${ childCount }">
+					<input type="hidden" name="infantCount" value="${ infantCount }">
+					<input type="hidden" name="totalPrice" value="${ oneWayPrices[status.index] }">
+		              <span>
+		                <button type="submit" class="payBtn"
+				            data-airplane-time-idx="${ oneWay[0].AIRPLANE_TIME_IDX }" 
+				            data-user-id="${ sessionScope.login.id }"
+				            data-airplane-name="${ oneWay[0].AIRLINE_NAME }"
+				            data-seat-class="${ seatClass }"
+				            data-adult-count="${ adultCount }"
+				            data-child-count="${ childCount }"
+				            data-infant-count="${ infantCount }"
+				            data-totalPrice="${ oneWayPrices[status.index] }"
+				            onclick="confirmPayment(event)"
+				        >결제</button>
+		                <div>
+		                  <strong>${oneWayPrices[status.index]} KRW</strong>
+		                </div>
+		                
+		                <!-- <script src="https://cdn.iamport.kr/vl/iamport.js"></script> -->
+		                <!-- <script src="/js/main.js"></script> -->
+		                
+		              </span>
+		            </form>
 	              <!-- ------------------------------------------------------------------------- -->
 	            </div>
 	          </div>
@@ -351,30 +394,11 @@ main {
 	</div>
 
 	</main>
+	
 
 	<%@include file="/WEB-INF/include/footer.jsp"%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-
-	const payBtnEls = document.querySelectorAll('.payBtn');
-	console.dir(payBtnEls);
-	//const payBtnEl = document.querySelector('.payBtn');
-	//console.dir(payBtnEl);
-	
-    payBtnEls.forEach(button => {
-        button.addEventListener('click', function() {
-            let priceInfo = this.nextElementSibling.nextElementSibling;
-            if (priceInfo.style.display === 'none' || priceInfo.style.display === '') {
-                priceInfo.style.display = 'block';
-            } else {
-                priceInfo.style.display = 'none';
-            }        
-        });
-    });
-
-
-</script>
 
 </body>
 </html>

@@ -9,18 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PaymentVo {
 	
-    //private String orderId;	// apply_idx
-    //private String userId;	// user_idx
-    //private int amount;	// apply_su
-    
+	// APPLY_TB
     private int apply_idx;
-    private int card_idx;
     private int user_idx;
     private int package_idx;
     private int room_idx;
     private int airplane_time_idx;
-    private int state;
     private int apply_su;
+    private int state;
     private String created;
-    
+
+    // CARD_TB
+    private int card_idx;
+
 }

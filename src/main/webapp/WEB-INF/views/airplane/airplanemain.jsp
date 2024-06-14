@@ -2748,7 +2748,7 @@ function sendSelectionToController() {
     // -----  폼 생성  -----
     var form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/Airplane/Search';
+    form.action = '/Airplane/Search?id=${ sessionScope.login.id }';
 
     // -----  데이터 추가  -----
     

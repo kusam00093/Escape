@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.escape.accommodation.mapper.AccommodationMapper">
+    <select id="search" resultType="com.escape.accommodation.domain.SearchResult">
+<!--         SELECT NAME FROM COUNTRY_TB WHERE NAME LIKE '%' || #{query} || '%' -->
+<!--         UNION -->
+        SELECT NAME FROM HOTEL_TB WHERE NAME LIKE '%' || #{query} || '%'
+        UNION
+        SELECT NAME FROM CITY_TB WHERE NAME LIKE '%' || #{query} || '%'
+    </select>
+    
+    
+</mapper>

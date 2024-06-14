@@ -53,18 +53,25 @@
             margin: 10px;
         }
         #title {
-        margin-left: 130px;
+        padding: 30px;
+        text-align: center;
         }
     </style>
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
+
 	<%@include file="/WEB-INF/include/nav.jsp"%>
+<body>
+
+
+<div><a href="/Board/Boardhome">메인 공고</a></div>
+
 
 
 
 
 <body>
-    <h2 id="title">Escape 검색하기</h2>
+    <h2 id="title">Escape 경로와 일정 검색하기</h2>
     <!-- 검색란 -->
     <div class="search-box">
         <select id="destination">
