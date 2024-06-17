@@ -88,8 +88,6 @@ public class KakaoPayService {
 	        throw new DuplicateReservationException("이미 예약된 목록입니다.");
 	    }
 
-		//paymentMapper.insertReservation(user_idx, orderId, quantity, totalAmount);
-
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 		System.out.println("===== readyToPay === entity:" + entity);
 
@@ -100,11 +98,22 @@ public class KakaoPayService {
 
 	}
 
-	public void savePayment(PaymentVo payment) {
+	//-------------------------------------------------------------------------------------------------------
+	
+	public void savePayment(PaymentVo paymentVo) {
 
-		paymentMapper.insertPayment(payment);
+		int Reservationidx = paymentMapper.getReservationIdx( paymentVo );
+		System.out.println("===== savePayment === Reservationidx: " + Reservationidx);
+		
+		paymentMapper.insertPayment( paymentVo, Reservationidx );
 		//paymentMapper.updateReservation();	// status : 1 → 2
 
 	}
+
+//	public void savePayment(int applyIdx, int userIdx, int state, int price) {
+//
+//		paymentMapper.insertPayment( applyIdx, userIdx, state, price );
+//		
+//	}
 
 }

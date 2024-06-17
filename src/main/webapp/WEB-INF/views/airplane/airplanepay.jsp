@@ -84,41 +84,48 @@ h1 {
 			</div>
 			<div>
 				<span>성인 수:</span> ${adultCount}
+				<span>
+					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+				</span>
+				<span>1인당 가격:</span> ${adultPrice}
 			</div>
 			<div>
 				<span>아동 수:</span> ${childCount}
+				<span>
+					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+				</span>
+				<span>1인당 가격:</span> ${childPrice}
 			</div>
 			<div>
 				<span>유아 수:</span> ${infantCount}
+				<span>
+					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+				</span>
+				<span>1인당 가격:</span> ${infantPrice}
 			</div>
 			<div>
-				<span>가격:</span> ${totalPrice}
+				<span>총 가격:</span> ${totalPrice}
 			</div>
 		</div>
+		
 		<div class="payment-section">
-			<%-- <form action="processPayment" method="post">
-				<input type="hidden" name="orderId" value="${orderId}">
-				<input type="hidden" name="userId" value="${userId}">
-				<input type="hidden" name="itemName" value="${itemName}">
-				<input type="hidden" name="seatClass" value="${seatClass}">
-				<input type="hidden" name="adultCount" value="${adultCount}">
-				<input type="hidden" name="childCount" value="${childCount}">
-				<input type="hidden" name="infantCount" value="${infantCount}"> --%>
-				<button type="button" class="payBtn"
-				            data-airplane-time-idx="${ orderId }" 
-				            data-user-id="${ sessionScope.login.id }"
-				            data-airplane-name="${ itemName }"
-				            data-seatClass="${ seatClass }"
-				            data-adultCount="${ adultCount }"
-				            data-childCount="${ childCount }"
-				            data-infantCount="${ infantCount }"
-				            data-totalPrice="${ totalPrice }"
-				        >결제</button>
-				
-                <script src="/js/main.js"></script>
-				
-			<!-- </form> -->
+			<button type="button" class="payBtn"
+				data-airplane-time-idx="${ orderId }" 
+				data-user-id="${ sessionScope.login.id }"
+				data-user-idx="${ user_idx }"
+				data-airplane-name="${ itemName }"
+				data-seatClass="${ seatClass }"
+				data-adultCount="${ adultCount }"
+				data-childCount="${ childCount }"
+				data-infantCount="${ infantCount }"
+				data-adultPrice="${ adultPrice }"
+				data-childPrice="${ childPrice }"
+				data-infantPrice="${ infantPrice }"
+				data-totalPrice="${ totalPrice }"
+			>결제</button>
+            <script src="/js/main.js"></script>
 		</div>
+		
 	</div>
 
 	<%@include file="/WEB-INF/include/footer.jsp"%>

@@ -7,11 +7,15 @@ const onClickPay = async (event) => {
 	const button = event.target;
     const orderId = button.getAttribute('data-airplane-time-idx');
     const userId = button.getAttribute('data-user-id');
+    const user_idx = button.getAttribute('data-user-idx');
     const itemName = button.getAttribute('data-airplane-name');
     const adultCount = button.getAttribute('data-adultCount');
     const childCount = button.getAttribute('data-childCount');
     const infantCount = button.getAttribute('data-infantCount');
     const totalCount = parseInt( adultCount ) + parseInt ( childCount ) + parseInt( infantCount );
+    const adultPrice = button.getAttribute('data-adultPrice');
+    const childPrice = button.getAttribute('data-childPrice');
+    const infantPrice = button.getAttribute('data-infantPrice');
     const totalPrice = button.getAttribute('data-totalPrice');
     
     console.dir(button);
@@ -22,6 +26,9 @@ const onClickPay = async (event) => {
     console.log(childCount);
     console.log(infantCount);
     console.log(totalCount);
+    console.log(adultPrice);
+    console.log(childPrice);
+    console.log(infantPrice);
     console.log(totalPrice);
 	
 	IMP.request_pay({
@@ -48,19 +55,58 @@ const onClickPay = async (event) => {
 			alert(err_msg);
 		}
 		
-//		if (status === 'paid') {
-//			const { imp_uid } = response;
-//			//verifyPayment(imp_uid);
-//			// 결제가 성공한 경우 필요한 정보를 서버로 전달
-//		    fetch('/kakaoPaySuccess?applyIdx=' + orderId + '&cardIdx=1&userIdx=' + userId + '&packageIdx=1&roomIdx=1&airplaneTimeIdx=1&state=1&applySu=1&created=1', {
-//		    	method: 'GET'
-//		    })
-//		    .then(res => res.text())
-//		    .then(data => {
-//		    	console.log(data);
-//		        alert('결제가 성공적으로 완료되었습니다.');
-//		    });
-//		}
+		if (status === 'paid') {
+			const { imp_uid } = response;
+			//verifyPayment(imp_uid);
+			// 결제가 성공한 경우 필요한 정보를 서버로 전달
+		    fetch('/Airplane/PaySuccess', {
+			    method: 'POST',
+			    headers: {
+			        'Content-Type': 'application/json'
+			    },
+			    body: JSON.stringify({
+			        airplane_time_idx : orderId,
+			        user_idx : user_idx,
+			        state: 1,
+			        applySu: totalCount,
+			        price : totalPrice
+			    })
+			})
+			.then(res => res.json())
+			.then(data => {
+			    if (data.status === 'success') {
+			        alert('결제가 성공적으로 완료되었습니다.');
+			    } else {
+			        alert('결제 처리 중 문제가 발생했습니다.');
+			    }
+			})
+			.catch(err => {
+			    console.error(err);
+			});
+		}
+		
+		if (status === 'failed') {
+		    alert('결제가 실패하였습니다. 에러 메시지: ' + err_msg);
+		    // 추가적으로 실패 로그를 서버로 전송하거나 다른 조치를 취할 수 있습니다.
+		    fetch('/Airplane/PayFailure', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json'
+		        },
+		        body: JSON.stringify({
+		            orderId: orderId,
+		            userId: userId,
+		            errMsg: err_msg
+		        })
+		    })
+		    .then(res => res.json())
+		    .then(data => {
+		        console.log(data);
+		    })
+		    .catch(err => {
+		        console.error(err);
+		    });
+		}
 		
 	})
 	

@@ -44,14 +44,14 @@ public class KakaoPayController {
     	
         PaymentVo payment = new PaymentVo();
         
-        payment.setApply_idx(applyIdx);
-        payment.setCard_idx(cardIdx);
+        //payment.setApply_idx(applyIdx);
+        //payment.setCard_idx(cardIdx);
         payment.setUser_idx(userIdx);
-        payment.setPackage_idx(packageIdx);
-        payment.setRoom_idx(roomIdx);
+        //payment.setPackage_idx(packageIdx);
+        //payment.setRoom_idx(roomIdx);
         payment.setAirplane_time_idx(airplaneTimeIdx);
         payment.setState(state);
-        payment.setApply_su(applySu);
+        //payment.setApply_su(applySu);
         payment.setCreated(created);
 
         kakaoPayService.savePayment(payment);

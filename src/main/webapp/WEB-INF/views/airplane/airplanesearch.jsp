@@ -15,10 +15,13 @@
 <link rel="stylesheet" href="/css/header.css" />
 
 <style>
-main {
-	width: 100%;
-	margin-top: 20px;
+
+body {
 	font-family: Arial, sans-serif;
+}
+
+main {
+	margin-top: 20px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -102,12 +105,11 @@ main {
 
 .fontSetting {
 	margin-left: 10px;
-	
 	font-size: 14px;
     color: #333;
 }
 
-.payBtn {
+.reservationBtn {
 	background-color: white;
 	border: 1px solid #ccc;
 	color: black;
@@ -122,7 +124,7 @@ main {
 	border-radius: 12px; /* 둥근 모서리 설정 */
 }
 
-.payBtn:hover {
+.reservationBtn:hover {
 	background-color: white; /* 마우스를 올렸을 때 흰색 배경 */
 	color: black; /* 마우스를 올렸을 때 검은색 글자 */
 	border-width: 4px; /* 마우스 커서가 올라갔을 때 테두리 굵기 */
@@ -163,20 +165,154 @@ main {
 
 /* 사이드바 스타일 설정 */
 .sidebar {
-  width: 20%;
+  flex: 1;
   background-color: #f8f8f8;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* 콘텐츠 영역 스타일 설정 */
-.content {
-  width: 80%;
-  padding: 20px;
+  
+  width: 300px;
+  border: 1px solid #ccc;
+  
 }
 
 .locSetting {
   font-weight: bold;
+}
+
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+/* --------------------------------------------- */
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.filter-group ul {
+    list-style: none;
+    padding: 0;
+}
+
+.filter-group li {
+    margin-bottom: 10px;
+}
+
+.check_wrap {
+    display: flex;
+    align-items: center;
+}
+
+.time-checkbox, .airline-checkbox, .passenger-checkbox {
+    margin-right: 10px;
+}
+
+.select_all {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.select-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.separator {
+    margin: 0 10px;
+}
+
+.price-slider {
+    width: 100%;
+}
+
+#price-range-label {
+    display: block;
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* styles.css */
+.sidebar input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    transform: scale(1.5); /* 크기 조절 */
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* 선택된 체크박스 스타일 */
+.sidebar input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border: 2px solid #2196F3;
+}
+
+/* 커스텀 체크박스 스타일 */
+.sidebar input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.sidebar input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border-color: #2196F3;
+    position: relative;
+}
+
+.sidebar input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.label {
+    font-size: 14px;
+    color: #555;
+}
+
+.time-label,
+.airline-label,
+.passenger-label {
+    font-size: 14px;
+    color: #555;
+}
+
+.main_container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: flex-start; /* 수직 정렬 (위쪽 정렬) */
+    width: 80%;
+    max-width: 1200px; /* 최대 너비 설정 (필요시 조정) */
+    margin: 0 auto; /* 중앙 배치 */
+    padding: 20px; /* 내부 여백 (필요시 조정) */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    background-color: #f9f9f9; /* 배경색 (필요시 조정) */
+    border: 1px solid #ddd; /* 테두리 (필요시 조정) */
+}
+
+.content {
+    flex: 3;
+    padding: 20px;
 }
 
 </style>
@@ -211,23 +347,216 @@ function confirmPayment(event) {
 
 <body>
 	
-	<main id="main-container">
+	<main id="main_container">
 
 	<div class="searchContainer">
-	  <div class="sidebar">
-	    <h2><a href="#" onclick="">출발시간</a></h2>
-	    <div>
-	      <h2>가는날</h2>
-	      <ul>
-	        <li>
-	          <div>
-	            <input type="checkbox" id="ckDep_01" value="" class="" checked="checked">
-	            <label for="ckDep_01"><span class=""></span>"새벽 00:00 ~ 06:00"</label>
-	          </div>
-	        </li>
-	      </ul>
+	    <div class="sidebar">
+	        <div class="filter-group">
+	            <h2><a href="#" onclick="">출발시간</a></h2>
+	            <div>
+	                <h2>가는날</h2>
+	                <ul>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_01" value="06" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_01"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_02" value="12" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_02"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_03" value="18" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_03"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_04" value="24" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_04"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	                <h2>오는날</h2>
+	                <ul>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_05" value="06" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_05"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_06" value="12" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_06"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_07" value="18" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_07"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_08" value="24" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_08"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	
+			<hr />
+	
+	        <div class="filter-group">
+	            <h2><a href="#" onclick="">도착시간</a></h2>
+	            <div>
+	                <h2>가는날</h2>
+	                <ul>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_09" value="06" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_09"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_10" value="12" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_10"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_11" value="18" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_11"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_12" value="24" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_12"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	                <h2>오는날</h2>
+	                <ul>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_13" value="06" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_13"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_14" value="12" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_14"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_15" value="18" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_15"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="ckDep_16" value="24" class="time-checkbox" checked="checked">
+	                            <label for="ckDep_16"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	
+			<hr />
+	
+	        <div class="filter-group">
+	            <h2><a href="#" onclick="">항공사</a></h2>
+	            <div>
+	                <ul class="select_all">
+	                    <li>
+	                        <button type="button" id="airAllCheck" title="모두선택" class="select-button">모두 선택</button>
+	                    </li>
+	                    <li class="separator">|</li>
+	                    <li>
+	                        <button type="button" id="airNoneCheck" title="모두해제" class="select-button">모두 해제</button>
+	                    </li>
+	                </ul>
+	                <ul role="airlineChkBox">
+	                    <li>
+	                        <div class="check_wrap">
+	                            <input type="checkbox" class="airline-checkbox" id="airline_ck01" checked="checked">
+	                            <label for="airline_ck01"><span class="airline-label"></span>대한항공</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="check_wrap">
+	                            <input type="checkbox" class="airline-checkbox" id="airline_ck02" checked="checked">
+	                            <label for="airline_ck02"><span class="airline-label"></span>아시아나항공</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="check_wrap">
+	                            <input type="checkbox" class="airline-checkbox" id="airline_ck03" checked="checked">
+	                            <label for="airline_ck03"><span class="airline-label"></span>에어부산</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div class="check_wrap">
+	                            <input type="checkbox" class="airline-checkbox" id="airline_ck04" checked="checked">
+	                            <label for="airline_ck04"><span class="airline-label"></span>제주항공</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	        
+	        <hr />
+	
+	        <div class="filter-group">
+	            <h2>탑승객조건</h2>
+	            <div>
+	                <ul>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="passger_1" class="passenger-checkbox" checked="checked" value="성인">
+	                            <label for="passger_1"><span class="passenger-label"></span>성인</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="passger_2" class="passenger-checkbox" checked="checked" value="학생">
+	                            <label for="passger_2"><span class="passenger-label"></span>학생</label>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	        
+	        <hr />
+	
+	        <div class="filter-group">
+	            <h2><a href="#" class="" onclick="">가격대</a></h2>
+	            <div>
+	                <ul>
+	                    <li>635,000원 미만</li>
+	                    <li>
+	                        <div>
+	                            <input type="range" id="price-range" min="0" max="100" value="50" class="price-slider">
+	                            <span id="price-range-label"></span>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
 	    </div>
-	  </div>
+
+
 	
 	  <div class="content">
 	    <c:choose>
@@ -283,9 +612,12 @@ function confirmPayment(event) {
 					<input type="hidden" name="adultCount" value="${ adultCount }">
 					<input type="hidden" name="childCount" value="${ childCount }">
 					<input type="hidden" name="infantCount" value="${ infantCount }">
+					<input type="hidden" name="adultPrice" value="${ roundTrip[0].ADULT_PRICE }">
+					<input type="hidden" name="childPrice" value="${ roundTrip[0].CHILD_PRICE }">
+					<input type="hidden" name="infantPrice" value="${ roundTrip[0].INFANT_PRICE }">
 					<input type="hidden" name="totalPrice" value="${ roundTripPrices[status.index] }">
 		              <span class="price-info">
-		                <button type="submit" class="payBtn"
+		                <button type="submit" class="reservationBtn"
 				            data-airplane-time-idx="${ roundTrip[0].AIRPLANE_TIME_IDX }" 
 				            data-user-id="${ sessionScope.login.id }"
 				            data-airplane-name="${ roundTrip[0].AIRLINE_NAME }"
@@ -295,7 +627,7 @@ function confirmPayment(event) {
 				            data-infantCount="${ infantCount }"
 				            data-totalPrice="${ roundTripPrices[status.index] }"
 				            onclick="confirmPayment(event)"
-				        >결제</button>
+				        >예약</button>
 		                <div>
 		                  <strong>${roundTripPrices[status.index]} KRW</strong>
 		                </div>
@@ -363,7 +695,7 @@ function confirmPayment(event) {
 					<input type="hidden" name="infantCount" value="${ infantCount }">
 					<input type="hidden" name="totalPrice" value="${ oneWayPrices[status.index] }">
 		              <span>
-		                <button type="submit" class="payBtn"
+		                <button type="submit" class="reservationBtn"
 				            data-airplane-time-idx="${ oneWay[0].AIRPLANE_TIME_IDX }" 
 				            data-user-id="${ sessionScope.login.id }"
 				            data-airplane-name="${ oneWay[0].AIRLINE_NAME }"
@@ -399,6 +731,22 @@ function confirmPayment(event) {
 	<%@include file="/WEB-INF/include/footer.jsp"%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+	document.getElementById('airAllCheck').addEventListener('click', function() {
+	    let checkboxes = document.querySelectorAll('.airline-checkbox');
+	    checkboxes.forEach((checkbox) => {
+	        checkbox.checked = true;
+	    });
+	});
+	
+	document.getElementById('airNoneCheck').addEventListener('click', function() {
+	    let checkboxes = document.querySelectorAll('.airline-checkbox');
+	    checkboxes.forEach((checkbox) => {
+	        checkbox.checked = false;
+	    });
+	});
+</script>
 
 </body>
 </html>
