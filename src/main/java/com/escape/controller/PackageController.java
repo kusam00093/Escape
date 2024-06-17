@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.domain.CategoryVo;
@@ -38,14 +40,78 @@ public class PackageController {
 		mv.setViewName("package/package_home");
 		return mv;
 	}
+//	@RequestMapping("/Home/Sub")
+//	public  ModelAndView   sub_home(CategoryVo categoryVo) {		
+//		
+//		
+//		List<PackageVo> packageList_sub = packageMapper.getPackageList_Sub();
+//		ModelAndView mv = new ModelAndView();
+//		mv.addObject("packageList_sub",packageList_sub);
+//		mv.setViewName("package/package_sub_home");
+//		
+//		return mv;
+//	}
+//	@GetMapping("/Home/Sub/Category")
+//	public  ModelAndView   sub_home_category(@RequestParam("category_idx") int category_idx) {		
+//		
+//		List<PackageVo> packageList_sub = packageMapper.getPackageList_Sub_Category(category_idx);
+//		
+//		CategoryVo categoryVo = packageMapper.getCategoryName(category_idx);
+//		ModelAndView mv = new ModelAndView();
+//		mv.addObject("packageList_sub",packageList_sub);
+//		mv.addObject("categoryVo",categoryVo);
+//		
+//		mv.setViewName("package/package_sub_category");
+//		
+//		return mv;
+//	}
+//	
+//	@RequestMapping("/Search/Sub")
+//	public ModelAndView sub_search_packageList(@RequestParam String keyword) {
+//		
+//		System.out.println("갤럭시"+keyword);
+//		List<PackageVo> packageList_sub = packageMapper.getPackageList_Search(keyword);
+//		ModelAndView mv = new ModelAndView();
+//		mv.addObject("packageList_sub",packageList_sub);
+//		mv.addObject("keyword",keyword);
+//		
+//		mv.setViewName("package/package_sub_search");
+//		
+//		return mv;
+//	}
 	@RequestMapping("/Home/Sub")
-	public  ModelAndView   sub_home() {		
-		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("package/package_sub_home");
-		
-		return mv;
+	public ModelAndView subHome(
+	        @RequestParam(name = "category_idx", required = false) Integer category_idx,
+	        @RequestParam(name = "keyword", required = false) String keyword
+	) {
+	    List<PackageVo> packageListSub;
+	    CategoryVo categoryVo = null;
+	    if (category_idx != null) {
+	        packageListSub = packageMapper.getPackageList_Sub_Category(category_idx);
+	        categoryVo = packageMapper.getCategoryName(category_idx);
+	    } else if (keyword != null && !keyword.isEmpty()) {
+	        System.out.println("갤럭시" + keyword); // 디버깅용 로그
+	        packageListSub = packageMapper.getPackageList_Search(keyword);
+	        
+	    } else {
+	        packageListSub = packageMapper.getPackageList();
+	    }
+
+	    ModelAndView mv = new ModelAndView();
+	    mv.addObject("packageList_sub", packageListSub);
+	    
+	    if (categoryVo != null) {
+	        mv.addObject("categoryVo", categoryVo);
+	        System.out.println("카테고리 이름"+categoryVo.getName());
+	    } else if (keyword != null && !keyword.isEmpty()) {
+	    	
+	        mv.addObject("keyword", keyword);
+	    } else {
+	    }
+	    mv.setViewName("package/package_sub_home");
+	    return mv;
 	}
+
 	@RequestMapping("/Detail")
 	public  ModelAndView   detail() {		
 		

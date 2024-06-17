@@ -31,4 +31,11 @@ public class PackageVo {
 	int count;
     String location_name;
     String category_name;
+    int remaining_person;
+    int package_discount_idx;
+    int  state;
+    int discount_percent;
+    int discount_integer;
+    int discounted_price;
+    int created;
 }

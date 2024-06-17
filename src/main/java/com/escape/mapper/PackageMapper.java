@@ -51,4 +51,18 @@ public interface PackageMapper {
 	List<PackageVo> getPackageList();
 
 
+	List<PackageVo> getPackageList_Sub();
+
+
+
+
+	List<PackageVo> getPackageList_Sub_Category(int category_idx);
+
+
+	CategoryVo getCategoryName(int category_idx);
+
+
+	List<PackageVo> getPackageList_Search(String keyword);
+
+
 }

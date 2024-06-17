@@ -7,8 +7,23 @@
 <meta charset="UTF-8">
 <title>패키지 홈</title>
 <style>
-
-
+:after,
+:before,
+*{
+    box-sizing: border-box;
+    
+}
+.container {
+  width:80%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+body {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+}
 h2 {
       line-height:1.1;
 }
@@ -345,55 +360,6 @@ a:hover {
 
 
 
- 
-  .package_search_main {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px; /* 필요에 따라 조절 */
-  }
-
-  .package_search {
-    width: 1000px; /* 원하는 넓이로 조절 */
-  }
-
-  .btn-outline-success {
-    margin-left: 10px; /* 버튼과 입력 창 사이 여백 조절 */
-  }
-  .package_search {
-    padding-left: 30px; /* 이미지를 표시할 공간 확보 */
-    background-image: url('/images/icons_search.png');
-    background-repeat: no-repeat;
-    background-position: 5px center; /* 이미지 위치 조정 */
-    background-size: 20px; /* 이미지 크기 조정 */
-  }
-
-
-
-.more{
-	width : 70%;
-	margin : 0 auto;
-	text-align: right;
-	color: blue;
-}
-.more a{
-	color :blue;
-	
-	
-}
-.more a:hover{
-	color :#f0f;
-	text-decoration: none;
-	
-	
-}
-
-
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-body {
-  font-family: Arial, sans-serif;
-}
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
@@ -503,7 +469,7 @@ body {
 }
 
 .card {
-    flex: 0 0 0 25%;
+    flex: 0 0 25%;
 }
 .image {
     position: relative;
@@ -610,8 +576,6 @@ body {
 	font-weight: bold;
 }
 
-
-
 </style> 
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/mixins.css">
@@ -623,7 +587,6 @@ body {
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
-
 <link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
 
 </head>
@@ -695,24 +658,14 @@ body {
   </select>
 </div>
 
-<c:choose>
-  <c:when test="${not empty categoryVo.category_idx}">
-    <h2>${ categoryVo.name }의 검색결과입니다</h2>
-    <input type="hidden" value="${ categoryVo.category_idx }" id="category">
-  </c:when>
-  <c:when test="${not empty keyword}">
-    <h2 class="keyword">${ keyword }의 검색결과입니다</h2>
-  </c:when>
-  <c:otherwise>
-    <h2>패키지 리스트 입니다</h2>
-  </c:otherwise>
-</c:choose>
+<h2 class="keyword">${ keyword }의 검색결과 입니다</h2>
+</div>
    <div class="container1">
     <div class="card-container">
-        <c:forEach var="pa" items="${ packageList_sub }">
+    <c:forEach var="pa" items="${ packageList_sub }">
       <div class="card">
-        <a href="/Package/Detail?package_idx=${ pa.package_idx }">
-    <div class="image" style="margin-bottom:10px;">
+        <a href="#">
+    <div class="image">
         <img src="${ pa.image }" style="width : 305px; height: 240px;">
         <div class="icon-container">
             <img src="/images/icons_best.png" class="nav_icon" />
@@ -722,54 +675,37 @@ body {
     <div class="details packageList" >
     
     <div class="package1">
-<div style="display: flex; align-items: center;" >
-    <c:choose>
-        <c:when test="${not empty pa.category_name}">
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
-        </c:when>
-    </c:choose>
-
-    <c:choose>
-        <c:when test="${not empty pa.location_name}" >
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
-        </c:when>
-    </c:choose>
-</div>
-
-    <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
-<div style="display: flex; align-items: center;">
-    <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-    </div>
-    <p style="margin-top:20px;">(${pa.count})</p>
-</div>
 <c:choose>
-    <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
-        <div style="display: flex; align-items: center; margin-left:10px;;">
-            <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
-            <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
-            <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
-        </div>
+    <c:when test="${not empty pa.category_name}">
+        <button class="btn btn-primary">${pa.category_name}</button>
     </c:when>
-    <c:otherwise>
-<div style="display: flex; align-items: center; gap: 10px;">
-    <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
-    <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
-</div>
-    </c:otherwise>
 </c:choose>
 
-
+<c:choose>
+    <c:when test="${not empty pa.location_name}">
+        <button class="btn btn-primary">${pa.location_name}</button>
+    </c:when>
+</c:choose>
+        <div class="package_title">${ pa.title }</div>
         
+                   <div class="rating" data-rate="${ pa.rate }" >
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+            </div>
+            
+            <p>
+            (${ pa.count })
+            </p>
+        <p>${ pa.price }/1인<p>
+        <p>정원:${ pa.limited_person }</p>
     </div>
     </div>
     
@@ -792,55 +728,6 @@ body {
 <%@include file="/WEB-INF/include/footer.jsp"%>
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-<script>
-let currentIndex = 0;
-const cards = document.querySelectorAll('.card');
-const totalCards = cards.length;
-const cardsPerPage = 15;
-
-// 초기 화면 설정
-document.addEventListener('DOMContentLoaded', () => {
-    updateCardContainer();
-});
-
-
-function updateCardContainer() {
-    cards.forEach((card, index) => {
-        if (index >= currentIndex && index < currentIndex + cardsPerPage) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-function showPrevCards() {
-    if (currentIndex > 0) {
-        currentIndex -= cardsPerPage;
-        if (currentIndex < 0) {
-            currentIndex = 0;
-        }
-        updateCardContainer();
-    }
-}
-
-function showNextCards() {
-    if (currentIndex < totalCards - cardsPerPage) {
-        currentIndex += cardsPerPage;
-        if (currentIndex > totalCards - cardsPerPage) {
-            currentIndex = totalCards - cardsPerPage;
-        }
-        updateCardContainer();
-    }
-}
-
-updateCardContainer();
-</script>
-
-
-
-
 <script>
 //HERO SLIDER
 var menu = [];
@@ -948,171 +835,127 @@ document.addEventListener("DOMContentLoaded", function() {
     const sortOption = document.getElementById("sortOption");
     sortOption.addEventListener("change", function() {
         const selectedOption = sortOption.value;
-        
-        let url = ""; // 초기화된 URL 변수
-        
-        // categoryVo.category_idx와 keyword 값을 가져옵니다.
-        const categoryIdx = "${categoryVo.category_idx}";
-        const keyword = "${keyword}";
+        const category_idx = document.getElementById("category").value;
+        console.log(category_idx)
+        //alert(category_idx)
+        let url = "";
 
-        // 첫 번째 조건: categoryVo.category_idx가 존재할 경우
-        if (categoryIdx) {
-            if (selectedOption === "hit") {
-                url = "/Category/Hit?category_idx=" + categoryIdx;
-            } else if (selectedOption === "date") {
-                url = "/Category/Recent?category_idx=" + categoryIdx;
-            }
-        }
-        // 두 번째 조건: keyword가 존재할 경우
-        else if (keyword) {
-            if (selectedOption === "hit") {
-                url = "/Search/Hit?keyword=" + encodeURIComponent(keyword);
-            } else if (selectedOption === "date") {
-                url = "/Search/Recent?keyword=" + encodeURIComponent(keyword);
-            }
-        }
-        // 세 번째 조건: 둘 다 값이 없을 경우
-        else {
-            if (selectedOption === "hit") {
-                url = "/Hit";
-            } else if (selectedOption === "date") {
-                url = "/Recent";
-            }
+        if (selectedOption === "hit") {
+            url = "/Category/Hit?category_idx="+category_idx;
+        } else if (selectedOption === "date") {
+            url = "/Category/Recent?category_idx="+category_idx;
         }
 
-        // fetch를 사용하여 데이터를 가져옵니다.
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 renderPackages(data);
                 updateStarRating(); 
-                updateCardDisplay(); // 데이터를 받아온 후 카드를 업데이트
             })
             .catch(error => {
                 console.error("Error fetching package data:", error);
             });
     });
 
-    let currentIndex = 0;
-    const cardsPerPage = 15;
-    let totalCards = 0;
-
     function renderPackages(packages) {
         const container = document.querySelector(".card-container");
-        container.innerHTML = ""; // 기존 내용 초기화
-
-        let html = '';
+        container.innerHTML = ""; // 기존 내용을 초기화
 
         packages.forEach(function(pa) {
-            // Create card HTML
-            let cardHtml = '<div class="card">';
-            cardHtml += '<a href="/Package/Detail?package_idx=' + pa.package_idx + '">'; // package_idx 링크 추가
-            cardHtml += '<div class="image" style="margin-bottom:10px;">';
-            cardHtml += '<img src="' + pa.image + '" style="width: 305px; height: 240px;">';
-            cardHtml += '<div class="icon-container">';
-            cardHtml += '<img src="/images/icons_best.png" class="nav_icon">';
-            cardHtml += '</div>';
-            cardHtml += '<div><i class="fas fa-external-link-alt"></i></div>';
-            cardHtml += '</div>';
-            cardHtml += '<div class="details packageList">';
+            const card = document.createElement("div");
+            card.classList.add("card");
 
-            cardHtml += '<div class="package1">';
-            cardHtml += '<div style="display: flex; align-items: center;">'; // 시작 부분 추가
+            const link = document.createElement("a");
+            link.href = "#";
 
-            // Add category button if category_name exists
+            const imageDiv = document.createElement("div");
+            imageDiv.classList.add("image");
+
+            const img = document.createElement("img");
+            img.src = pa.image;
+            img.style.width = "305px";
+            img.style.height = "240px";
+            imageDiv.appendChild(img);
+
+            const iconContainer = document.createElement("div");
+            iconContainer.classList.add("icon-container");
+
+            const iconImg = document.createElement("img");
+            iconImg.src = "/images/icons_best.png";
+            iconImg.classList.add("nav_icon");
+            iconContainer.appendChild(iconImg);
+
+            imageDiv.appendChild(iconContainer);
+
+            const externalLinkIcon = document.createElement("div");
+            const icon = document.createElement("i");
+            icon.classList.add("fas", "fa-external-link-alt");
+            externalLinkIcon.appendChild(icon);
+            imageDiv.appendChild(externalLinkIcon);
+
+            link.appendChild(imageDiv);
+
+            const detailsDiv = document.createElement("div");
+            detailsDiv.classList.add("details", "packageList");
+
+            const package1Div = document.createElement("div");
+            package1Div.classList.add("package1");
+
             if (pa.category_name) {
-                cardHtml += '<button class="btn btn-primary" style="margin-left: 10px;">' + pa.category_name + '</button>';
+                const categoryButton = document.createElement("button");
+                categoryButton.classList.add("btn", "btn-primary");
+                categoryButton.textContent = pa.category_name;
+                package1Div.appendChild(categoryButton);
             }
 
-            // Add location button if location_name exists
             if (pa.location_name) {
-                cardHtml += '<button class="btn btn-primary" style="margin-left: 10px;">' + pa.location_name + '</button>';
+                const locationButton = document.createElement("button");
+                locationButton.classList.add("btn", "btn-primary");
+                locationButton.textContent = pa.location_name;
+                package1Div.appendChild(locationButton);
             }
 
-            cardHtml += '</div>'; // Close div for category_name and location_name
-            cardHtml += '<div class="package_title" style="margin-right: 10px;">' + pa.title + '</div>';
+            const titleDiv = document.createElement("div");
+            titleDiv.classList.add("package_title");
+            titleDiv.textContent = pa.title;
+            package1Div.appendChild(titleDiv);
 
+            const ratingDiv = document.createElement("div");
+            ratingDiv.classList.add("rating");
+            ratingDiv.setAttribute("data-rate", pa.rate);
+            
 
-            cardHtml += '<div style="display: flex; align-items: center;">'; // Start rating and count section
-
-            cardHtml += '<div class="rating" data-rate="' + pa.rate + '" style="display: flex; margin-right: 10px;">';
-            // Add star ratings (10 spans)
-            for (let i = 0; i < 10; i++) {
-                cardHtml += '<div class="rating__label ' + (i % 2 === 0 ? 'rating__label--half' : 'rating__label--full') + '"><span class="star-icon"></span></div>';
-            }
-            cardHtml += '</div>'; // Close rating
-
-            cardHtml += '<p style="margin-top:20px;">(' + pa.count + ')</p>';
-
-            cardHtml += '</div>'; // Close div for rating and count
-
-            cardHtml += '<div style="display: flex; align-items: center;">'; // Start price and remaining_person section
-
-            // Check for discounts
-            if ((pa.discount_percent && pa.discount_percent !== 0) || (pa.discount_integer && pa.discount_integer !== 0)) {
-                cardHtml += '<div style="display: flex; align-items: center; margin-left: 10px;">';
-                cardHtml += '<p style="color: gray; text-decoration: line-through; margin-right: 10px;">' + pa.price + '/1인</p>';
-                cardHtml += '<p style="font-size: 1.2rem; font-weight: bold;">' + pa.discounted_price + '/1인</p>';
-                cardHtml += '<p>남은인원: ' + pa.remaining_person + '/' + pa.limited_person + '</p>';
-                cardHtml += '</div>';
-            } else {
-                cardHtml += '<div style="display: flex; align-items: center; gap: 10px;">';
-                cardHtml += '<p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">' + pa.price + '/1인</p>';
-                cardHtml += '<p>남은인원: ' + pa.remaining_person + '/' + pa.limited_person + '</p>';
-                cardHtml += '</div>';
+            for (var i = 0; i < 10; i++) {
+                const ratingLabel = document.createElement("div");
+                ratingLabel.classList.add("rating__label", i % 2 === 0 ? "rating__label--half" : "rating__label--full");
+                const starIcon = document.createElement("span");
+                starIcon.classList.add("star-icon");
+                ratingLabel.appendChild(starIcon);
+                ratingDiv.appendChild(ratingLabel);
             }
 
-            cardHtml += '</div>'; // Close div for price and remaining_person
+            package1Div.appendChild(ratingDiv);
 
-            cardHtml += '</div>'; // Close package1
-            cardHtml += '</div>'; // Close details packageList
-            cardHtml += '</a>'; // Close link
-            cardHtml += '</div>'; // Close card
+            const reviewCountP = document.createElement("p");
+            reviewCountP.textContent = "(" + pa.count + ")";
+            package1Div.appendChild(reviewCountP);
 
-            html += cardHtml;
-        });
+            const priceP = document.createElement("p");
+            priceP.textContent = pa.price + "/1인";
+            package1Div.appendChild(priceP);
 
-        container.innerHTML = html;
-        totalCards = packages.length; // 전체 카드 수 업데이트
-        updateCardDisplay(); // 카드 표시 업데이트
-    }
+            const limitedPersonP = document.createElement("p");
+            limitedPersonP.textContent = "정원:" + pa.limited_person;
+            package1Div.appendChild(limitedPersonP);
 
-    function updateCardDisplay() {
-        const cards = document.querySelectorAll('.card');
+            detailsDiv.appendChild(package1Div);
+            link.appendChild(detailsDiv);
 
-        cards.forEach((card, index) => {
-            if (index >= currentIndex && index < currentIndex + cardsPerPage) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            card.appendChild(link);
+            container.appendChild(card);
         });
     }
-
-    function showPrevCards() {
-        if (currentIndex > 0) {
-            currentIndex -= cardsPerPage;
-            if (currentIndex < 0) {
-                currentIndex = 0;
-            }
-            updateCardDisplay();
-        }
-    }
-
-    function showNextCards() {
-        if (currentIndex < totalCards - cardsPerPage) {
-            currentIndex += cardsPerPage;
-            if (currentIndex > totalCards - cardsPerPage) {
-                currentIndex = totalCards - cardsPerPage;
-            }
-            updateCardDisplay();
-        }
-    }
-
-    updateCardDisplay(); // 초기 화면 설정
 });
-
-
 </script>
 
 </body>

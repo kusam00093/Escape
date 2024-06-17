@@ -374,6 +374,8 @@ body {
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
 
+<link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
+
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
 
@@ -413,8 +415,8 @@ body {
 <div>&nbsp;</div>
 
 <h4><img src="/images/icons_search_2.png" class="nav_icon"/>가고싶은곳을 검색하세요</h4>
-<form class="package_search_main">
-  <input class="package_search" type="search" placeholder="가고싶은 여행지를 검색하세요" aria-label="Search">
+<form class="package_search_main" action="/Package/Home/Sub" method="POST">
+  <input class="package_search" type="search" name="keyword" placeholder="가고싶은 여행지를 검색하세요" aria-label="Search">
   <button class="btn btn-outline-success" type="submit">
     검색
   </button>
@@ -441,8 +443,8 @@ body {
   
     <c:forEach var="pa" items="${ packageList }">
       <div class="card">
-        <a href="#">
-    <div class="image">
+        <a href="/Package/Detail?package_idx=${ pa.package_idx }">
+    <div class="image" style="margin-bottom:10px;">
         <img src="${ pa.image }" style="width : 305px; height: 240px;">
         <div class="icon-container">
             <img src="/images/icons_best.png" class="nav_icon" />
@@ -452,36 +454,54 @@ body {
     <div class="details packageList" >
     
     <div class="package1">
+<div style="display: flex; align-items: center;" >
+    <c:choose>
+        <c:when test="${not empty pa.category_name}">
+            <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
+        </c:when>
+    </c:choose>
+
+    <c:choose>
+        <c:when test="${not empty pa.location_name}" >
+            <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
+        </c:when>
+    </c:choose>
+</div>
+
+    <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
+<div style="display: flex; align-items: center;">
+    <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+    </div>
+    <p style="margin-top:20px;">(${pa.count})</p>
+</div>
 <c:choose>
-    <c:when test="${not empty pa.category_name}">
-        <button class="btn btn-primary">${pa.category_name}</button>
+    <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
+        <div style="display: flex; align-items: center; margin-left:10px;;">
+            <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
+            <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
+            <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
+        </div>
     </c:when>
+    <c:otherwise>
+<div style="display: flex; align-items: center; gap: 10px;">
+    <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
+    <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
+</div>
+    </c:otherwise>
 </c:choose>
 
-<c:choose>
-    <c:when test="${not empty pa.location_name}">
-        <button class="btn btn-primary">${pa.location_name}</button>
-    </c:when>
-</c:choose>
-        <div class="package_title">${ pa.title }</div>
-                   <div class="rating" data-rate="${ pa.rate }" >
-                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-            </div>
-            
-            <p>
-            (${ pa.count })
-            </p>
-        <p>${ pa.price }/1인<p>
-        <p>정원:${ pa.limited_person }</p>
+
+        
     </div>
     </div>
     
@@ -499,6 +519,46 @@ body {
     </div>
   </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+// document.addEventListener("DOMContentLoaded", function() {
+//     const searchForm = document.querySelector(".package_search_main");
+//     const searchInput = document.querySelector(".package_search");
+
+//     searchForm.addEventListener("submit", function(event) {
+//         event.preventDefault(); // 기본 제출 이벤트 막기
+
+//         const searchTerm = searchInput.value.trim(); // 검색어 가져오기 (공백 제거)
+        
+//         if (searchTerm) { // 검색어가 비어있지 않을 경우에만 요청 보내기
+//         	const url = '/Package/Search/Sub?keyword=' + encodeURIComponent(searchTerm); // 검색어를 인코딩하여 URL 생성
+
+//             fetch(url)
+//                 .then(response => response.json())
+//                 .then(data => {
+//                     // 검색 결과를 처리하는 함수 호출 (renderSearchResults 등)
+//                     console.log("Received search results:", data);
+//                 })
+//                 .catch(error => {
+//                     console.error("Error fetching search results:", error);
+//                 });
+//         }
+//     });
+// });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryButtons = document.querySelectorAll(".category_btn");
+
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const categoryIdx = this.value;
+            const url = "/Package/Home/Sub?category_idx=" + categoryIdx;
+            window.location.href = url;
+        });
+    });
+});
+</script>
 <script>
 let currentIndex = 0;
 const cards = document.querySelectorAll('.card');
