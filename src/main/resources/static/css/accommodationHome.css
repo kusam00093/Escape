@@ -514,3 +514,14 @@ searchOptionDropdown_div1_div1_div1_div1_search_input1:placeholder-shown {
 #lodgingSearchForm {
 	display: flex;
 }
+
+.suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* 전체 너비를 사용하여 공간을 균등하게 분배 */
+}
+
+.suggestion-item-text {
+    flex: 1; /* 요소가 가로 공간을 균등하게 차지하도록 설정 */
+}

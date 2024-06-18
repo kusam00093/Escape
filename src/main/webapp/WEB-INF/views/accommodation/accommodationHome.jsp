@@ -112,30 +112,30 @@
 						<div class="lodging_search_details_div1">
 							<div class="lodging_search_details_div1_div1">
 								<span class="lodging_search_details_div1_div1_span1">숙박</span> 
-								<span	class="lodging_search_details_div1_div1_span2_personnel">성인	2명</span>
-								<input type="hidden" name="personnel" id="personnelInput">
+								<span	class="lodging_search_details_div1_div1_span2_guest">성인0명</span>
+								<input type="hidden" name="guest" id="guestInput">
 							</div>
 						</div>
-							<div class="searchOptionDropdown dropdownNumber_div2" style="display: none;">
-							    <div class="dropdownNumber_div2_adult">
-							        <span class="dropdownNumber_div2_adult_text">성인</span>
-							        <div class="dropdownNumber_choice">
-							            <button class="dropdownNumber_choice_button decrease">
-							                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
-							                    <path d="M6 13.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h12c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338H6Z"></path>
-							                </svg>
-							            </button>
-							            <div class="dropdownNumber_choice_num">
-							                <span class="dropdownNumber_choice_num_span">2</span>
-							            </div>
-							            <button class="dropdownNumber_choice_button increase">
-							                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
-							                    <path d="M12 19.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 10.85 18v-4.85H6c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h4.85V6c0-.317.113-.588.338-.813.225-.225.495-.337.812-.337.317 0 .587.112.812.337.225.225.338.496.338.813v4.85H18c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338h-4.85V18c0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338Z"></path>
-							                </svg>
-							            </button>
-							        </div>
-							    </div>
-							</div>
+						<div class="searchOptionDropdown dropdownNumber_div2" style="display: none;">
+						    <div class="dropdownNumber_div2_adult">
+						        <span class="dropdownNumber_div2_adult_text">성인</span>
+						        <div class="dropdownNumber_choice">
+						            <button class="dropdownNumber_choice_button decrease">
+						                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
+						                    <path d="M6 13.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h12c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338H6Z"></path>
+						                </svg>
+						            </button>
+						            <div class="dropdownNumber_choice_num">
+						                <span class="dropdownNumber_choice_num_span">0</span>
+						            </div>
+						            <button class="dropdownNumber_choice_button increase">
+						                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
+						                    <path d="M12 19.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 10.85 18v-4.85H6c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h4.85V6c0-.317.113-.588.338-.813.225-.225.495-.337.812-.337.317 0 .587.112.812.337.225.225.338.496.338.813v4.85H18c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338h-4.85V18c0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338Z"></path>
+						                </svg>
+						            </button>
+						        </div>
+						    </div>
+						</div>
 					</div>
 					
 					<div class="lodging_search_details_button">
@@ -164,24 +164,26 @@ document.addEventListener("DOMContentLoaded", function(){
     let checkInDate = null;
     let checkOutDate = null;
     const dateDetails = document.querySelector('[data-section="date"] .lodging_search_details_div1_div1_span2');
-    const personnelSpan = document.querySelector('.lodging_search_details_div1_div1_span2_personnel');
+    const guestSpan = document.querySelector('.lodging_search_details_div1_div1_span2_guest');
     const searchButton = document.querySelector('.lodging_search_details_button1');
     const placeInput = document.getElementById('placeInput');
     const dateInput = document.getElementById('dateInput');
-    const personnelInput = document.getElementById('personnelInput');
+    const guestInput = document.getElementById('guestInput');
     
     function checkAllInputs() {
         const placeText = document.querySelector('[data-section="place"] .lodging_search_details_div1_div1_span2').textContent.trim();
         const dateText = dateDetails.textContent.trim();
-        const personnelText = personnelSpan.textContent.trim();
-
-        if (placeText !== "여행지나 숙소명 검색" && dateText !== "언제 떠나시나요?" && personnelText !== "성인 0명") {
+        const guestText = guestSpan.textContent.trim();
+        const guestCount = parseInt(guestText.replace('성인', '').replace('명', '').trim());
+        
+        if (placeText !== "여행지나 숙소명 검색" && dateText !== "언제 떠나시나요?" && guestCount > 0) {
         	searchButton.disabled = false;
         	searchButton.style.backgroundColor = 'black'; // 배경색을 검은색으로 변경
         	searchButton.style.color = 'white'; // 배경색을 검은색으로 변경
         } else {
             searchButton.disabled = true;
-            searchButton.style.backgroundColor = ''; // 기본 배경색으로 변경
+            searchButton.style.backgroundColor = 'white'; // 배경색을 검은색으로 변경
+        	searchButton.style.color = 'black'; // 배경색을 검은색으로 변경
         }
     }
     
@@ -233,17 +235,34 @@ document.addEventListener("DOMContentLoaded", function(){
                 data.forEach(item => {
                     console.log('Appending item:', item.name); // 항목 추가 확인을 위한 콘솔 로그
                     const li = document.createElement('li');
-                    li.innerHTML = '<div class="suggestion-item">' +
-                                   '<span class="suggestion-item-text">' + item.name + '</span>' +
-                                   '</div>';
+                    let innerHTML = '<div class="suggestion-item">' +
+                    '<span class="suggestion-item-text">' + item.name + '</span>';
 
+				    if (item.address1) {
+				        innerHTML += '<span class="suggestion-item-text">' + item.address1 + '</span>';
+				    }
+				
+				    if (item.address2) {
+				        innerHTML += '<span class="suggestion-item-text">' + item.address2 + '</span>';
+				    }
+				
+				    innerHTML += '</div>';
+				    li.innerHTML = innerHTML;
+				    
                     li.querySelector('.suggestion-item-text').addEventListener('click', function() {
-                        // 선택한 값을 해당 lodging_search_details_div1_div1_span2 요소에 넣기
-                        const parentDetails = searchInput.closest('.lodging_search_details');
-                        const selectedElement = parentDetails.querySelector('.lodging_search_details_div1_div1_span2');
+                    	console.log('Suggestion item clicked:', item.name); // 클릭 확인을 위한 콘솔 로그
+                    	// 선택한 값을 해당 lodging_search_details_div1_div1_span2 요소에 넣기
+                        const selectedElement = document.querySelector('[data-section="place"] .lodging_search_details_div1_div1_span2');
+//                     	const selectedElement2 = document.querySelector('.searchOptionDropdown_div1_div1_div1_div1_search_input1');
                         if (selectedElement) {
                             selectedElement.textContent = item.name;
+                            placeInput.value = item.name; // placeInput 값 설정
                         }
+                        
+//                         if (selectedElement2) {
+//                             selectedElement2.textContent = item.name;
+//                             placeInput.value = item.name; // placeInput 값 설정
+//                         }
                        
                         // 선택한 후 dropdown 숨기기
                         const parentDropdown = searchInput.closest('.searchOptionDropdown');
@@ -302,6 +321,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 checkAllInputs();
             });
+            
             li.querySelector('.search-history-item-delete').addEventListener('click', function() {
                 removeSearchHistory(query);
             });
@@ -388,10 +408,10 @@ document.addEventListener("DOMContentLoaded", function(){
     const increaseButton = document.querySelector('.dropdownNumber_choice_button.increase');
     const numSpan = document.querySelector('.dropdownNumber_choice_num_span');
     
-    function updatePersonnelCount(newCount) {
+    function updateguestCount(newCount) {
         numSpan.textContent = newCount;
-        personnelSpan.textContent = '성인 ' + newCount + '명';
-        personnelInput.value = newCount;
+        guestSpan.textContent = '성인 ' + newCount + '명';
+        guestInput.value = newCount;
         checkAllInputs();
     }
     
@@ -399,22 +419,22 @@ document.addEventListener("DOMContentLoaded", function(){
     	event.preventDefault();  // 기본 동작 방지
     	let currentValue = parseInt(numSpan.textContent);
     	if (currentValue > 0) { // 최소값 설정
-    		updatePersonnelCount(currentValue - 1);
+    		updateguestCount(currentValue - 1);
     	}
     });
     
     increaseButton.addEventListener('click', function () {
     	event.preventDefault();  // 기본 동작 방지
         let currentValue = parseInt(numSpan.textContent);
-        updatePersonnelCount(currentValue + 1);
+        updateguestCount(currentValue + 1);
     });
     
     searchButton.addEventListener('click', function () {
         if (!searchButton.disabled) {
             const place = placeInput.value;
             const date = dateInput.value;
-            const personnel = personnelInput.value;
-            const queryString = '?place=' + encodeURIComponent(place) + '&date=' + encodeURIComponent(date) + '&personnel=' + encodeURIComponent(personnel);
+            const guest = guestInput.value;
+            const queryString = '?place=' + encodeURIComponent(place) + '&date=' + encodeURIComponent(date) + '&guest=' + encodeURIComponent(guest);
             window.location.href = searchButton.form.action + queryString;
         }
     });

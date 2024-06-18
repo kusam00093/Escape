@@ -3,12 +3,29 @@
 
 <mapper namespace="com.escape.accommodation.mapper.AccommodationMapper">
     <select id="search" resultType="com.escape.accommodation.domain.SearchResult">
-<!--         SELECT NAME FROM COUNTRY_TB WHERE NAME LIKE '%' || #{query} || '%' -->
-<!--         UNION -->
-        SELECT NAME FROM HOTEL_TB WHERE NAME LIKE '%' || #{query} || '%'
-        UNION
-        SELECT NAME FROM CITY_TB WHERE NAME LIKE '%' || #{query} || '%'
+        SELECT NAME, ADDRESS1, ADDRESS2, 2 AS PRIORITY
+        FROM HOTEL_TB
+        WHERE NAME LIKE '%' || #{query} || '%'
+           OR ADDRESS1 LIKE '%' || #{query} || '%'
+           OR ADDRESS2 LIKE '%' || #{query} || '%'
+        UNION ALL
+        SELECT NAME, NULL AS ADDRESS1, NULL AS ADDRESS2, 1 AS PRIORITY
+        FROM CITY_TB
+        WHERE NAME LIKE '%' || #{query} || '%'
+        ORDER BY PRIORITY
     </select>
     
-    
+    <select id="searchHotels" resultType="com.escape.accommodation.domain.Hotel">
+        SELECT HOTEL_IDX, NAME, ADDRESS1, ADDRESS2, DETAIL1, DETAIL2, DETAIL3, USER_IDX, PHONE, ZIP_CODE, HIT
+        FROM HOTEL_TB
+        WHERE 1=1
+        <if test="place != null and place != ''">
+            AND (
+                ADDRESS1 LIKE '%' || #{place} || '%'
+                OR ADDRESS2 LIKE '%' || #{place} || '%'
+                OR NAME LIKE '%' || #{place} || '%'
+            )
+        </if>
+    </select>
+
 </mapper>
