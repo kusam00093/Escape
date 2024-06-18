@@ -1,5 +1,7 @@
 package com.escape.airplane.domain;
 
+import java.util.List;
+
 public class AirplaneSearchVo {
 
 	// Field
@@ -16,16 +18,21 @@ public class AirplaneSearchVo {
 	
 	// airplane_price_tb
 	private int airplane_price_idx;
-	//private int airplane_time_idx;
 	private int price;
 	private int ptype_idx;
 	private int stype_idx;
+	
+	// filtering
+	private List<String> times;
+    private List<String> airlines;
+    //private String priceRange;
+    private List<String> priceRange;
 	
 	// Constructor
 	public AirplaneSearchVo() {}
 	public AirplaneSearchVo(int airplane_time_idx, int airplane_idx, String start_date, String end_date,
 			String start_time, String end_time, int departure_loc, int arrival_loc, int known, int airplane_price_idx,
-			int price, int ptype_idx, int stype_idx) {
+			int price, int ptype_idx, int stype_idx, List<String> times, List<String> airlines, List<String> priceRange) {
 		super();
 		this.airplane_time_idx = airplane_time_idx;
 		this.airplane_idx = airplane_idx;
@@ -40,6 +47,9 @@ public class AirplaneSearchVo {
 		this.price = price;
 		this.ptype_idx = ptype_idx;
 		this.stype_idx = stype_idx;
+		this.times = times;
+		this.airlines = airlines;
+		this.priceRange = priceRange;
 	}
 
 	// Getter/Setter
@@ -122,6 +132,26 @@ public class AirplaneSearchVo {
 		this.stype_idx = stype_idx;
 	}
 
+	
+	public List<String> getTimes() {
+		return times;
+	}
+	public void setTimes(List<String> times) {
+		this.times = times;
+	}
+	public List<String> getAirlines() {
+		return airlines;
+	}
+	public void setAirlines(List<String> airlines) {
+		this.airlines = airlines;
+	}
+	public List<String> getPriceRange() {
+		return priceRange;
+	}
+	public void setPriceRange(List<String> priceRange) {
+		this.priceRange = priceRange;
+	}
+
 	// toString
 	@Override
 	public String toString() {
@@ -129,7 +159,7 @@ public class AirplaneSearchVo {
 				+ ", start_date=" + start_date + ", end_date=" + end_date + ", start_time=" + start_time + ", end_time="
 				+ end_time + ", departure_loc=" + departure_loc + ", arrival_loc=" + arrival_loc + ", known=" + known
 				+ ", airplane_price_idx=" + airplane_price_idx + ", price=" + price + ", ptype_idx=" + ptype_idx
-				+ ", stype_idx=" + stype_idx + "]";
+				+ ", stype_idx=" + stype_idx + ", times=" + times + ", airlines=" + airlines + ", priceRange=" + priceRange + "]";
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.escape.airplane.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +26,17 @@ import com.escape.airplane.domain.AirplaneVo;
 import com.escape.airplane.domain.AirportVo;
 import com.escape.airplane.domain.CityVo;
 import com.escape.airplane.mapper.AirplaneMapper;
+import com.escape.airplane.service.FilterService;
 import com.escape.kakao.domain.PaymentVo;
 import com.escape.kakao.service.KakaoPayService;
 import com.escape.login.domain.User;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -40,6 +48,9 @@ public class AirplaneController {
 	
 	@Autowired
 	private KakaoPayService kakaoPayService;
+
+	@Autowired
+	private FilterService filterService;
 	
 	@RequestMapping("/Main")
 	public ModelAndView main( AirplaneVo airplaneVo, HttpServletRequest request, User user ) {
@@ -427,17 +438,6 @@ public class AirplaneController {
 		
 	}
 	
-//	@RequestMapping("/PaySuccess")
-//	@ResponseBody
-//    public String PaySuccess( @RequestBody PaymentVo paymentVo ) {
-//		
-//		System.out.println("===== PaySuccess === paymentVo: " + paymentVo);
-//		
-//        kakaoPayService.savePayment( paymentVo );
-//    	
-//        return "success";
-//        
-//    }
 	@RequestMapping("/PaySuccess")
     @ResponseBody
     public ResponseEntity<Map<String, String>> PaySuccess(@RequestBody PaymentVo paymentVo) {
@@ -449,6 +449,28 @@ public class AirplaneController {
         
         return ResponseEntity.ok(response);
     }
+	
+//	@PostMapping("/Filter/GetFlights")
+//	@ResponseBody
+//	public ResponseEntity<List<Map<String, Object>>> getFilteredFlights(@RequestBody List<AirplaneSearchVo> airplaneSearchVo) {
+//		
+//		System.out.println("===== Filter/GetFlights === airplaneSearchVo: " + airplaneSearchVo);
+//		
+//	    List<Map<String, Object>> filteredFlights = airplaneMapper.getFilteredFlights(airplaneSearchVo);
+//	    
+//	    return ResponseEntity.ok(filteredFlights);
+//	}
 
+	@PostMapping("/Filter/GetFlights")
+	@ResponseBody
+	public ResponseEntity<List<Map<String, Object>>> getFilteredFlights(@RequestBody AirplaneSearchVo airplaneSearchVo) {
+		
+	    System.out.println("===== Filter/GetFlights === airplaneSearchVo: " + airplaneSearchVo);
+	    
+	    List<Map<String, Object>> filteredFlights = airplaneMapper.getFilteredFlights(airplaneSearchVo);
+	    
+	    return ResponseEntity.ok(filteredFlights);
+	    
+	}
 	
 }

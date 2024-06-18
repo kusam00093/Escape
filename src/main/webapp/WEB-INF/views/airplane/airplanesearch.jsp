@@ -22,9 +22,21 @@ body {
 
 main {
 	margin-top: 20px;
-    margin: 0;
-    padding: 0;
+    /* margin: 0; */
+    /* padding: 0; */
+    /* display: flex; */
+    
     display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: flex-start; /* 수직 정렬 (위쪽 정렬) */
+    width: 80%;
+    max-width: 1200px; /* 최대 너비 설정 (필요시 조정) */
+    margin: 0 auto; /* 중앙 배치 */
+    padding: 20px; /* 내부 여백 (필요시 조정) */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    background-color: #f9f9f9; /* 배경색 (필요시 조정) */
+    border: 1px solid #ddd; /* 테두리 (필요시 조정) */
+    
 }
 
 .spanImg {
@@ -40,18 +52,21 @@ main {
 }
 
 .flight-wrapper {
+	margin-left: 80px;
 	margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+    width: 650px;
 }
 
 .flight-header {
 	display: flex;
 	align-items: center;
 	width: fit-content;
-	border: 1px solid #ccc;
+	/* border: 1px solid #ccc; */
 	padding: 5px;
 	
   	justify-content: space-between;
@@ -163,6 +178,10 @@ main {
   width: 100%;
 }
 
+.locSetting {
+  font-weight: bold;
+}
+
 /* 사이드바 스타일 설정 */
 .sidebar {
   flex: 1;
@@ -170,20 +189,11 @@ main {
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   
-  width: 300px;
+  width: 80px;
   border: 1px solid #ccc;
   
+  margin-top: 20px;
 }
-
-.locSetting {
-  font-weight: bold;
-}
-
-/* --------------------------------------------- */
-/* --------------------------------------------- */
-/* --------------------------------------------- */
-/* --------------------------------------------- */
-/* --------------------------------------------- */
 
 .filter-group {
     margin-bottom: 20px;
@@ -231,7 +241,7 @@ main {
 }
 
 .price-slider {
-    width: 100%;
+    width: 80%;
 }
 
 #price-range-label {
@@ -297,22 +307,25 @@ main {
     color: #555;
 }
 
-.main_container {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    align-items: flex-start; /* 수직 정렬 (위쪽 정렬) */
-    width: 80%;
-    max-width: 1200px; /* 최대 너비 설정 (필요시 조정) */
-    margin: 0 auto; /* 중앙 배치 */
-    padding: 20px; /* 내부 여백 (필요시 조정) */
-    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
-    background-color: #f9f9f9; /* 배경색 (필요시 조정) */
-    border: 1px solid #ddd; /* 테두리 (필요시 조정) */
-}
-
 .content {
     flex: 3;
     padding: 20px;
+}
+
+#departure-time,
+#arrival-time {
+    display: none;
+}
+
+.dropdownImg img {
+	width: 20px;
+	height: 20px;
+}
+
+hr.short {
+	width: 80%;
+	border-top: 1px solid #000;
+	margin-left: 80px;
 }
 
 </style>
@@ -351,9 +364,11 @@ function confirmPayment(event) {
 
 	<div class="searchContainer">
 	    <div class="sidebar">
+	    
 	        <div class="filter-group">
-	            <h2><a href="#" onclick="">출발시간</a></h2>
-	            <div>
+	            <h2><a href="#">출발시간</a></h2>
+	            <span class="dropdownImg"><img src="/images/dropdown.png" onclick="toggleVisibility('departure-time')" alt="드롭다운"></span>
+	            <div id="departure-time">
 	                <h2>가는날</h2>
 	                <ul>
 	                    <li>
@@ -414,8 +429,9 @@ function confirmPayment(event) {
 			<hr />
 	
 	        <div class="filter-group">
-	            <h2><a href="#" onclick="">도착시간</a></h2>
-	            <div>
+	            <h2><a href="#">도착시간</a></h2>
+	            <span class="dropdownImg"><img src="/images/dropdown.png" onclick="toggleVisibility('arrival-time')" alt="드롭다운"></span>
+	            <div id="arrival-time">
 	                <h2>가는날</h2>
 	                <ul>
 	                    <li>
@@ -516,7 +532,7 @@ function confirmPayment(event) {
 	            </div>
 	        </div>
 	        
-	        <hr />
+	        <!-- <hr />
 	
 	        <div class="filter-group">
 	            <h2>탑승객조건</h2>
@@ -530,34 +546,42 @@ function confirmPayment(event) {
 	                    </li>
 	                    <li>
 	                        <div>
-	                            <input type="checkbox" id="passger_2" class="passenger-checkbox" checked="checked" value="학생">
-	                            <label for="passger_2"><span class="passenger-label"></span>학생</label>
+	                            <input type="checkbox" id="passger_2" class="passenger-checkbox" checked="checked" value="소아">
+	                            <label for="passger_2"><span class="passenger-label"></span>소아</label>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <div>
+	                            <input type="checkbox" id="passger_3" class="passenger-checkbox" checked="checked" value="유아">
+	                            <label for="passger_3"><span class="passenger-label"></span>유아</label>
 	                        </div>
 	                    </li>
 	                </ul>
 	            </div>
-	        </div>
+	        </div> -->
 	        
 	        <hr />
 	
 	        <div class="filter-group">
-	            <h2><a href="#" class="" onclick="">가격대</a></h2>
-	            <div>
-	                <ul>
-	                    <li>635,000원 미만</li>
-	                    <li>
-	                        <div>
-	                            <input type="range" id="price-range" min="0" max="100" value="50" class="price-slider">
-	                            <span id="price-range-label"></span>
-	                        </div>
-	                    </li>
-	                </ul>
-	            </div>
-	        </div>
+		        <h2><a href="#" class="" onclick="">가격대</a></h2>
+		        <div>
+		            <ul>
+		                <li id="price-range-text">1,500,000원 미만</li>
+		                <li>
+		                    <div>
+		                        <input type="range" id="price-range" min="0" max="300" value="150" class="price-slider">
+		                    </div>
+		                </li>
+		            </ul>
+		        </div>
+		    </div>
+		    
+		    <button id="search-button">조건검색</button>
+
 	    </div>
-
-
-	
+		
+	  <!-- ------------------------------------------------------------------------------------------------------------------- -->
+	  
 	  <div class="content">
 	    <c:choose>
 	      <c:when test="${not empty roundTripFlights}">
@@ -603,7 +627,6 @@ function confirmPayment(event) {
 	                </c:forEach>
 	              </div>
 	              <!-- ------------------------------------------------------------------------- -->
-	              <!-- <form action="/Airplane/AirplanePay" method="POST"> -->
 	              <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
 					<input type="hidden" name="orderId" value="${ roundTrip[0].AIRPLANE_TIME_IDX }">
 					<input type="hidden" name="userId" value="${ sessionScope.login.id }">
@@ -616,6 +639,10 @@ function confirmPayment(event) {
 					<input type="hidden" name="childPrice" value="${ roundTrip[0].CHILD_PRICE }">
 					<input type="hidden" name="infantPrice" value="${ roundTrip[0].INFANT_PRICE }">
 					<input type="hidden" name="totalPrice" value="${ roundTripPrices[status.index] }">
+					<input type="hidden" name="startDate" value="${ roundTrip[0].START_DATE }">
+					<input type="hidden" name="departureLoc" value="${ roundTrip[0].DEPARTURE_LOC }">
+					<input type="hidden" name="arrivalLoc" value="${ roundTrip[0].ARRIVAL_LOC }">
+					<input type="hidden" name="stypeIdx" value="${ roundTrip[0].STYPE_IDX }">
 		              <span class="price-info">
 		                <button type="submit" class="reservationBtn"
 				            data-airplane-time-idx="${ roundTrip[0].AIRPLANE_TIME_IDX }" 
@@ -626,21 +653,21 @@ function confirmPayment(event) {
 				            data-childCount="${ childCount }"
 				            data-infantCount="${ infantCount }"
 				            data-totalPrice="${ roundTripPrices[status.index] }"
+				            data-startDate="${ roundTrip[0].START_DATE }"
+				            data-departureLoc="${ roundTrip[0].DEPARTURE_LOC }"
+				            data-arrivalLoc="${ roundTrip[0].ARRIVAL_LOC }"
+				            data-stypeIdx="${ roundTrip[0].STYPE_IDX }"
 				            onclick="confirmPayment(event)"
 				        >예약</button>
 		                <div>
 		                  <strong>${roundTripPrices[status.index]} KRW</strong>
 		                </div>
-		                
-		                <!-- <script src="https://cdn.iamport.kr/vl/iamport.js"></script> -->
-		                <!-- <script src="/js/main.js"></script> -->
-		                
 		              </span>
 		            </form>
 	              <!-- ------------------------------------------------------------------------- -->
 	            </div>
 	          </div>
-	          <hr /> <!-- 왕복 항공편 구분선 -->
+	          <hr class="short" /> <!-- 왕복 항공편 구분선 -->
 	        </c:forEach>
 	      </c:when>
 	      <c:otherwise>
@@ -684,7 +711,6 @@ function confirmPayment(event) {
 	                </div>
 	              </div>
 	              <!-- ------------------------------------------------------------------------- -->
-	              <!-- <form action="/Airplane/AirplanePay" method="POST"> -->
 	              <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
 					<input type="hidden" name="orderId" value="${ oneWay[0].AIRPLANE_TIME_IDX }">
 					<input type="hidden" name="userId" value="${ sessionScope.login.id }">
@@ -710,15 +736,12 @@ function confirmPayment(event) {
 		                  <strong>${oneWayPrices[status.index]} KRW</strong>
 		                </div>
 		                
-		                <!-- <script src="https://cdn.iamport.kr/vl/iamport.js"></script> -->
-		                <!-- <script src="/js/main.js"></script> -->
-		                
 		              </span>
 		            </form>
 	              <!-- ------------------------------------------------------------------------- -->
 	            </div>
 	          </div>
-	          <hr /> <!-- 편도 항공편 구분선 -->
+	          <hr class="short" /> <!-- 편도 항공편 구분선 -->
 	        </c:forEach>
 	      </c:otherwise>
 	    </c:choose>
@@ -732,6 +755,19 @@ function confirmPayment(event) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+<!-- 사이드바 토글 js -->
+<script>
+function toggleVisibility(elementId) {
+    var element = document.getElementById(elementId);
+    if (element.style.display === "none" || element.style.display === "") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
+</script>
+
+<!-- 사이드바 항공사체크 js -->
 <script>
 	document.getElementById('airAllCheck').addEventListener('click', function() {
 	    let checkboxes = document.querySelectorAll('.airline-checkbox');
@@ -746,6 +782,125 @@ function confirmPayment(event) {
 	        checkbox.checked = false;
 	    });
 	});
+</script>
+
+<!-- 가격 슬라이드 js -->
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	const priceRange = document.getElementById('price-range');
+	const priceRangeText = document.getElementById('price-range-text');
+
+	function updatePriceRange() {
+	const value = priceRange.value;
+	const price = value * 10000; // 슬라이더 값에 따라 가격 계산
+	const formattedPrice = price.toLocaleString() + '원 이하';
+
+	// 텍스트 업데이트
+	priceRangeText.textContent = formattedPrice;
+	}
+
+	// 초기 값 설정
+	updatePriceRange();
+
+	// 슬라이더 값 변경 시 업데이트
+	priceRange.addEventListener('input', updatePriceRange);
+});
+</script>
+
+<!-- 필터링 js -->
+<script>
+// document.addEventListener('DOMContentLoaded', function() {
+	
+//     document.querySelectorAll('.time-checkbox, .airline-checkbox, .passenger-checkbox').forEach(function(el) {
+    	
+//     	console.dir(el);
+//         el.addEventListener('change', filterPosts);
+        
+//     });
+
+//     document.getElementById('price-range').addEventListener('input', filterPosts);
+    
+// });
+document.addEventListener('DOMContentLoaded', function() {
+	
+    document.getElementById('search-button').addEventListener('click', filterPosts);
+    
+});
+
+function filterPosts() {
+	
+    const selectedTimes = Array.from(document.querySelectorAll('.time-checkbox:checked')).map(cb => cb.value);
+    const selectedAirlines = Array.from(document.querySelectorAll('.airline-checkbox:checked')).map(cb => cb.value);
+    //const selectedPassengers = Array.from(document.querySelectorAll('.passenger-checkbox:checked')).map(cb => cb.value);
+    const selectedPriceRange = document.getElementById('price-range').value;
+    console.dir(selectedTimes);
+    console.dir(selectedAirlines);
+    console.dir(selectedPriceRange);
+    
+    const reservationButton = document.querySelector(".reservationBtn");
+    console.dir(reservationButton);
+
+    const startDate = reservationButton.dataset.startdate;
+    const departureLoc = reservationButton.dataset.departureloc;
+    const arrivalLoc = reservationButton.dataset.arrivalloc;
+    const stypeIdx = reservationButton.dataset.stypeidx;
+    console.dir(startDate);
+    console.dir(departureLoc);
+    console.dir(arrivalLoc);
+    console.dir(stypeIdx);
+    
+    const requestData = {
+        times: selectedTimes,
+        airlines: selectedAirlines,
+        priceRange: selectedPriceRange.split('-'),
+        start_date: startDate,
+        departure_loc: departureLoc,
+        arrival_loc: arrivalLoc,
+        stype_idx: stypeIdx
+    };
+
+    fetch('/Airplane/Filter/GetFlights', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(requestData)
+    })
+    .then(response => response.json())
+    .then(json => {
+        const container = document.querySelector('.content');
+        container.innerHTML = ''; 
+
+        json.forEach(flight => {
+            let html = '<div class="flight-wrapper">';
+            html += '<div class="flight-header">';
+            html += '<span class="flight-logo"><img src="'+ flight.LOGO + '" class="spanImg" alt="logo"><em>' + flight.AIRLINE_NAME + '</em></span>';
+            html += '<div class="flight-details-wrapper">';
+            html += '<div class="flight-details">';
+            html += '<ul>';
+            html += '<li>';
+            html += '<div>';
+            html += '<span class="fontSetting"><span class="locSetting">' + flight.START_TIME + '<em>' + flight.DEPCITY_ENAME + '<span>' + flight.DEPCITY_NAME + '</span></em></span></span>';
+            html += '<span class="time-taken"><img src="/images/arrow.jpg" class="arrowImg" alt="arrow"><em>' + flight.DURATIONHOUR + '시간 ' + flight.DURATIONMINUTE + '분</em></span>';
+            html += '<span class="fontSetting"><span class="locSetting">' + flight.END_TIME + '<em>' + flight.ARRCITY_ENAME + '<span>' + flight.ARRCITY_NAME + '</span></em></span></span>';
+            html += '<span>직항</span>';
+            html += '</div>';
+            html += '</li>';
+            html += '</ul>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            const flightElement = document.createElement('div');
+            flightElement.classList.add('flight-wrapper');
+            flightElement.innerHTML = html;
+            container.appendChild(flightElement);
+        });
+    })
+    .catch(error => {
+        console.error('에러:', error);
+        alert('요청을 처리하는 중 문제가 발생했습니다.');
+    });
+}
 </script>
 
 </body>
