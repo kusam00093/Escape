@@ -9,19 +9,13 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Room {
+public class Room_reservation {
+	private int room_reservation_idx;
+	private int user_idx;
 	private int room_idx;
-	private int hotel_idx;
-	private String title;
-	private String price;
-	private int max_preson;
-	private String check_in;
-	private String check_out;
-	private String available_date;
-	private int ptype_idx;
-
-	private int reservation_price;
 	private int reservation_su;
+	private int reservation_price;
+	private int state;
 	private String created;
-	
+
 }

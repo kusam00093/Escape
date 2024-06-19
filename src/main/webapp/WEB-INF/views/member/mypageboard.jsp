@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Person 마이페이지</title>
+    <title>대화목록</title>
     
     <style>
         /* 스타일링을 위한 CSS */
@@ -32,7 +33,7 @@
         	margin-top: 20px;
             font-size: 19px;
             text-align: center;
-            width: 250px;
+            width: 200px;
             background-color: #6e8efb;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -70,7 +71,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 700px; /* 너비를 더 크게 설정 */
+            max-width: 100%; /* 너비를 더 크게 설정 */
             transition: transform 0.3s ease-in-out;
             margin-left: 20px; /* 사이드바와의 간격을 위한 마진 */
             margin-top: 20px; /* 위쪽에 약간의 여백 추가 */
@@ -89,16 +90,16 @@
         }
         h2::after {
             content: '';
-            width: 245px;
+            width: 500px;
             height: 3px;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             display: block;
             margin: 10px auto 0;
             border-radius: 2px;
         }
-        h3::after {
+        #sidebartitle::after {
             content: '';
-            width: 115px;
+            width: 140px;
             height: 3px;
             background: #fff;
             display: block;
@@ -144,9 +145,10 @@
             align-items: center;
             background: linear-gradient(135deg, #e9f0f7, #f7f9fc);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             transition: transform 0.3s ease-in-out;
+            margin: 30px 0;
         }
         .profile-card:hover {
             transform: scale(1.05);
@@ -175,6 +177,34 @@
             background: linear-gradient(135deg, #a777e3, #6e8efb);
             transform: scale(1.05);
         }
+        /* 추가된 스타일 */
+        .table-container {
+            margin-top: 20px;
+            width: 100%;
+            overflow-x: auto;
+			text-align: center;
+            
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            font-size: 18px; /* 글자 크기 조정 */
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
     </style>
 <%@include file="/WEB-INF/include/header.jsp"%>
 <%@include file="/WEB-INF/include/nav.jsp"%>
@@ -191,53 +221,51 @@
 
     <div class="container1">
         <div class="sidebar">
-            <h3>마이페이지</h3>
+            <h3 id="sidebartitle">대화목록</h3>
             <ul>
-               <li><a href="/mypage">회원정보</a></li>
-                <li><a href="/sellergoods">내가 등록한 상품</a></li>
-                <li><a href="#">신청자 목록</a></li>
-                <li><a href="#">마감된 상품</a></li>
-                <li><a href="#">대화내역</a></li>
+                <li><a href="/mypage">회원정보</a></li>
+                <li><a href="/mypagebuy">신청내역</a></li>
+                <li><a href="/mypagebookmark">위시리스트</a></li>
+                <li><a href="/mypageboard">대화목록</a></li>
             </ul>
         </div>
 
         <div class="register-container">
+        
+            <h2>${person.last_name}${person.first_name}님 대화목록</h2>
+             
             <div class="profile-card">
-                <h2>${seller.name}님 프로필</h2>
-                
-                <div class="profile-picture">
-                    <img src="${seller.logo}">
-                </div>
-                
-                <div class="profile-details">
-                   
-                    <div class="form-group">
-                        <label for="id">ID:     ${user.id}</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="id">회사명:     ${seller.name}</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email:      ${user.email}</label>
-                    </div>
-                
-                    <div class="form-group">
-                        <label for="phone">Phone:      ${seller.phone}</label>
-                    </div>
-               
-                   
+                <h3>작성글 목록</h3>
+                <div class="table-container">
+                    <table style="width: 200%;">
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>글제목</th>
+                                <th>내용</th>
+                                <th>생성일자</th>
+                                <th>조회수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="BoardVo" items="${boardvo}" varStatus="status">
+                                <tr>
+                                    <td>${status.index + 1}</td>
+                                    <td>${BoardVo.title}</td>
+                                    <td>${BoardVo.content}</td>
+                                    <td>${BoardVo.created}</td>
+                                    <td>${BoardVo.hit}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            
+            
         </div>
     </div>
     
-    <script>
-        const goListEl = document.getElementById('goList');
-        goListEl.addEventListener('click', function(e) {
-            location.href = '/';
-        });
-    </script>
 
 </body1>
 </html>
