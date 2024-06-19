@@ -2,19 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.escape.accommodation.mapper.AccommodationMapper">
-    <select id="search" resultType="com.escape.accommodation.domain.SearchResult">
-        SELECT NAME, ADDRESS1, ADDRESS2, 2 AS PRIORITY
-        FROM HOTEL_TB
-        WHERE NAME LIKE '%' || #{query} || '%'
-           OR ADDRESS1 LIKE '%' || #{query} || '%'
-           OR ADDRESS2 LIKE '%' || #{query} || '%'
-        UNION ALL
-        SELECT NAME, NULL AS ADDRESS1, NULL AS ADDRESS2, 1 AS PRIORITY
-        FROM CITY_TB
-        WHERE NAME LIKE '%' || #{query} || '%'
-        ORDER BY PRIORITY
-    </select>
-    
+
+	<select id="search" resultType="com.escape.accommodation.domain.SearchResult">
+	    SELECT NAME, ADDRESS1, ADDRESS2, 2 AS PRIORITY
+	    FROM HOTEL_TB
+	    WHERE NAME LIKE '%' || #{query} || '%'
+	       OR ADDRESS1 LIKE '%' || #{query} || '%'
+	       OR ADDRESS2 LIKE '%' || #{query} || '%'
+	    UNION ALL
+	    SELECT NAME, NULL AS ADDRESS1, NULL AS ADDRESS2, 1 AS PRIORITY
+	    FROM CITY_TB
+	    WHERE NAME LIKE '%' || #{query} || '%'
+	    ORDER BY PRIORITY
+	</select>
+
     <select id="searchHotels" resultType="com.escape.accommodation.domain.Hotel">
         SELECT HOTEL_IDX, NAME, ADDRESS1, ADDRESS2, DETAIL1, DETAIL2, DETAIL3, USER_IDX, PHONE, ZIP_CODE, HIT
         FROM HOTEL_TB
@@ -26,6 +27,26 @@
                 OR NAME LIKE '%' || #{place} || '%'
             )
         </if>
+    </select>
+    
+    <select id="getHotelDetails" resultType="map">
+        SELECT 
+            r.HOTEL_IDX, 
+            r.LOWEST_PRICE,
+            d.DISCOUNT_RATE, 
+            d.DISCOUNT_AMOUNT
+        FROM 
+            (SELECT 
+                HOTEL_IDX, 
+                MIN(PRICE) AS LOWEST_PRICE
+            FROM 
+                ROOM_TB
+            GROUP BY 
+                HOTEL_IDX) r
+        LEFT JOIN 
+            ROOM_TB rt ON r.HOTEL_IDX = rt.HOTEL_IDX AND r.LOWEST_PRICE = rt.PRICE
+        LEFT JOIN 
+            ROOM_DISCOUNT_TB d ON rt.ROOM_IDX = d.ROOM_IDX
     </select>
 
 </mapper>

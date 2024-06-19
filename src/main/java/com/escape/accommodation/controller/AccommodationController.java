@@ -1,5 +1,6 @@
 package com.escape.accommodation.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,13 +45,35 @@ public class AccommodationController {
 		
 		
 		List<Hotel> hotels = accommodationService.searchHotels(params);
+		List<Map<String, Object>> hotelDetails = accommodationService.getHotelDetails();
+		
+        Map<Integer, Map<String, Object>> hotelInfoMap = new HashMap<>();
+        for (Map<String, Object> detail : hotelDetails) {
+            Integer hotelIdx = ((BigDecimal) detail.get("HOTEL_IDX")).intValue(); // 호텔 인덱스 추출
+            Integer lowestPrice = ((BigDecimal) detail.get("LOWEST_PRICE")).intValue(); // 최소 가격 추출
+            Integer discountRate = detail.get("DISCOUNT_RATE") != null ? ((BigDecimal) detail.get("DISCOUNT_RATE")).intValue() : 0; // 할인율 추출 (없으면 0)
+            Integer discountAmount = detail.get("DISCOUNT_AMOUNT") != null ? ((BigDecimal) detail.get("DISCOUNT_AMOUNT")).intValue() : 0; // 할인 금액 추출 (없으면 0)
+            
+            Map<String, Object> hotelInfo = new HashMap<>(); // 호텔 정보를 담을 맵 생성
+            hotelInfo.put("LOWEST_PRICE", lowestPrice);
+            hotelInfo.put("DISCOUNT_RATE", discountRate);
+            hotelInfo.put("DISCOUNT_AMOUNT", discountAmount);
+            hotelInfoMap.put(hotelIdx, hotelInfo);  // hotelInfoMap에 호텔 인덱스를 키로 사용하여 호텔 정보 맵 저장
+        }
 		
 		System.out.println("params========" + params);
 		System.out.println("place========" + place);
 		System.out.println("date========" + date);
 		System.out.println("guest========" + guest);
 		System.out.println("hotels========" + hotels);
+		
+		System.out.println("hotelDetails========" + hotelDetails);
+		System.out.println("hotelInfoMap========" + hotelInfoMap);
+//		System.out.println("lowestPrices========" + detail);
+
+		
 		mv.addObject("hotels", hotels);
+		mv.addObject("hotelInfoMap", hotelInfoMap);
 		mv.setViewName("accommodation/accommodationProducts");
 		
 		return mv; 

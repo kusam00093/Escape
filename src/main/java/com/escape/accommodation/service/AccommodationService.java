@@ -25,4 +25,8 @@ public class AccommodationService {
         }
         return hotels;
     }
+
+	public List<Map<String, Object>> getHotelDetails() {
+		return accommodationMapper.getHotelDetails();
+	}
 }

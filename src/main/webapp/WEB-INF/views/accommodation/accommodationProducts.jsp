@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -451,8 +452,29 @@
 									</div>
 									<hr class="css-1646u5b" type="LINE_80_10">
 								</div>
-							    								
+<!-- 							    여기서 부터 반복			 -->
 						        <c:forEach var="hotel" items="${hotels}" varStatus="stat">
+								    <c:set var="hotelInfo" value="${hotelInfoMap[hotel.hotel_idx]}" />
+								    <c:set var="lowestPrice" value="${hotelInfo.LOWEST_PRICE}" />
+								    <c:set var="discountRate" value="${hotelInfo.DISCOUNT_RATE}" />
+								    <c:set var="discountAmount" value="${hotelInfo.DISCOUNT_AMOUNT}" />
+								    
+								    <c:choose>
+								        <c:when test="${discountRate > 0}">
+								            <c:set var="discountedPrice" value="${lowestPrice - (lowestPrice * discountRate / 100)}" />
+								        </c:when>
+								        <c:otherwise>
+								            <c:set var="discountedPrice" value="${lowestPrice - discountAmount}" />
+								        </c:otherwise>
+								    </c:choose>
+								    
+								    <c:set var="formattedLowestPrice" >
+										<fmt:formatNumber value="${lowestPrice}" type="number" pattern="#,###"/>
+								    </c:set>
+								    <c:set var="formattedDiscountedPrice">
+								        <fmt:formatNumber value="${discountedPrice}" type="number" pattern="#,###"/>
+								    </c:set>
+
 						            <div data-index="${stat.index}" class="hotel">
 						                <a href="/Hotel/${hotel.hotel_idx}">
 						                    <div class="css-jk17ry erljagq0">
@@ -491,17 +513,17 @@
 						                                        <ul class="css-qzcwn1 e1lavvxd1">
 						                                            <li class="css-5i1dh6 e1lavvxd2"> 
 						                                                <span class="mr-half-3 e1lavvxd3 css-1e4wxax">일반판매가</span>
-						                                                <span class="e1lavvxd3 css-1e4wxax">140,000원</span>
+ 																		<span class="e1lavvxd3 css-1e4wxax">${formattedLowestPrice}원</span>
 						                                            </li>
 						                                            <li class="css-5i1dh6 e1lavvxd2">
 						                                                <span class="mr-half-3 css-12buyiw" style="color: rgb(250, 91, 74);">할인가</span>
-						                                                <span>
-						                                                    <div class="css-5i1dh6 e1lavvxd2" style="justify-content: flex-end;">
-						                                                        <span class="mr-half-1 css-4409ec" style="color: rgb(250, 91, 74);"></span>
-						                                                        <span class="css-19kftx2" style="color: rgb(250, 91, 74);">138,254원/박</span>
-						                                                    </div>
-						                                                    <span class="css-bgkldf" style="color: rgb(250, 91, 74);"></span>
-						                                                </span>
+								                                        <span>
+								                                            <div class="css-5i1dh6 e1lavvxd2" style="justify-content: flex-end;">
+								                                                <span class="mr-half-1 css-4409ec" style="color: rgb(250, 91, 74);"></span>
+								                                                <span class="css-19kftx2" style="color: rgb(250, 91, 74);">${formattedDiscountedPrice}원/박</span>
+								                                            </div>
+								                                            <span class="css-bgkldf" style="color: rgb(250, 91, 74);"></span>
+							                                       		 </span>
 						                                            </li>
 						                                        </ul>
 						                                    </div>

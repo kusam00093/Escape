@@ -338,11 +338,11 @@ CREATE TABLE room_tb (
     room_idx NUMBER(20) PRIMARY KEY,
     hotel_idx NUMBER(20) NOT NULL,      
     title VARCHAR2(200) NOT NULL,
-    price VARCHAR2(200) NOT NULL,
     max_person NUMBER(5) NOT NULL,
     check_in_time VARCHAR2(10) NOT NULL,
     check_out_time VARCHAR2(10) NOT NULL,
     ptype_idx NUMBER(20),
+    price NUMBER(20) NOT NULL,
     CONSTRAINT fk_ptype_1 
     FOREIGN KEY (ptype_idx) 
     REFERENCES ptype_tb(ptype_idx) 
