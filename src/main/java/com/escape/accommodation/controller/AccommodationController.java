@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -69,13 +70,29 @@ public class AccommodationController {
 		
 		System.out.println("hotelDetails========" + hotelDetails);
 		System.out.println("hotelInfoMap========" + hotelInfoMap);
-//		System.out.println("lowestPrices========" + detail);
-
 		
 		mv.addObject("hotels", hotels);
 		mv.addObject("hotelInfoMap", hotelInfoMap);
 		mv.setViewName("accommodation/accommodationProducts");
 		
 		return mv; 
+	}
+	
+	// Accommodation/Hotel/${hotel.hotel_idx}
+	@RequestMapping("/Hotel/{hotel_idx}")
+	public ModelAndView hotel(
+				@RequestParam(value = "place", required = false) String place,
+	        	@RequestParam(value = "date", required = false) String date,
+	            @RequestParam(value = "guest", required = false, defaultValue = "1") int guest,
+				@PathVariable("hotel_idx") Long hotel_idx	) {
+		ModelAndView  mv         =  new ModelAndView();
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("place", place);
+		params.put("date", date);
+		params.put("guest", guest);
+		
+		mv.setViewName("accommodation/hotel");
+		return mv;
 	}
 }
