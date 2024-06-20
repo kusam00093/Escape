@@ -2856,6 +2856,12 @@ function sendSelectionToController() {
     inputSeatClass.value = stype;
     form.appendChild(inputSeatClass);
 
+    var inputSeatClassStr = document.createElement('input');
+    inputSeatClassStr.type = 'hidden';
+    inputSeatClassStr.name = 'seatClassStr';
+    inputSeatClassStr.value = seatClass;
+    form.appendChild(inputSeatClassStr);
+
     // 왕복 일 경우 오는날 전송
     const initform = form.elements['initform'].value;
     var inputInitform = document.createElement('input');

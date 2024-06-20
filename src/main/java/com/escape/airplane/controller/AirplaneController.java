@@ -1,6 +1,5 @@
 package com.escape.airplane.controller;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -13,8 +12,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,12 +28,7 @@ import com.escape.kakao.domain.PaymentVo;
 import com.escape.kakao.service.KakaoPayService;
 import com.escape.login.domain.User;
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -86,8 +78,10 @@ public class AirplaneController {
         String depDate1 = params.get("depDate1");
         String initform = params.get("initform");
 
-        String seatClassStr = params.get("seatClass");
-        int stype = Integer.parseInt(seatClassStr);
+        String seatClassStr = params.get("seatClassStr");
+        String seatClass = params.get("seatClass");
+        int stype = Integer.parseInt(seatClass);
+        
         String adultCountStr = params.get("adultCount");
         int adultCount = Integer.parseInt(adultCountStr);
         String childCountStr = params.get("childCount");
@@ -291,10 +285,12 @@ public class AirplaneController {
         }
         
         mv.addObject("airSearchList", airSearchList);
+        mv.addObject("seatClassStr", seatClassStr);
         mv.addObject("seatClass", stype);
         mv.addObject("adultCount", adultCount);
         mv.addObject("childCount", childCount);
         mv.addObject("infantCount", infantCount);
+        mv.addObject("initform", initform);
         mv.setViewName("airplane/airplanesearch");
         return mv;
         
@@ -450,27 +446,19 @@ public class AirplaneController {
         return ResponseEntity.ok(response);
     }
 	
-//	@PostMapping("/Filter/GetFlights")
-//	@ResponseBody
-//	public ResponseEntity<List<Map<String, Object>>> getFilteredFlights(@RequestBody List<AirplaneSearchVo> airplaneSearchVo) {
-//		
-//		System.out.println("===== Filter/GetFlights === airplaneSearchVo: " + airplaneSearchVo);
-//		
-//	    List<Map<String, Object>> filteredFlights = airplaneMapper.getFilteredFlights(airplaneSearchVo);
-//	    
-//	    return ResponseEntity.ok(filteredFlights);
-//	}
-
-	@PostMapping("/Filter/GetFlights")
-	@ResponseBody
-	public ResponseEntity<List<Map<String, Object>>> getFilteredFlights(@RequestBody AirplaneSearchVo airplaneSearchVo) {
+	@RequestMapping("/Filter/GetFlights")
+	public ModelAndView filterFlights( User user, @RequestParam Map<String, String> params ) {
 		
-	    System.out.println("===== Filter/GetFlights === airplaneSearchVo: " + airplaneSearchVo);
+		System.out.println("===== Filter === params: " + params);
 	    
-	    List<Map<String, Object>> filteredFlights = airplaneMapper.getFilteredFlights(airplaneSearchVo);
-	    
-	    return ResponseEntity.ok(filteredFlights);
-	    
+	    // id 받아오기
+		String id = user.getId();
+		System.out.println("===== Filter === id: " + id);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("airplane/airplanefilter");
+		return mv;
+		
 	}
 	
 }

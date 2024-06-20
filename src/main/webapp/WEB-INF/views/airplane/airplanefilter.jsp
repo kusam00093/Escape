@@ -360,47 +360,12 @@ function confirmPayment(event) {
 
 <body>
 	
-	<form action="/Airplane/Filter/GetFlights?id=${ sessionScope.login.id }" method="POST" onsubmit="updatePriceInput()">
-	<c:choose>
-	  <c:when test="${not empty roundTripFlights}">
-	    <c:forEach var="flightGroup" items="${roundTripFlights}">
-          <c:forEach var="flight" items="${flightGroup}">
-	        <input type="hidden" name="seatClass" value="${ seatClass }" />
-	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
-	        <input type="hidden" name="initform" value="${ initform }" />
-	        <input type="hidden" name="adultCount" value="${ adultCount }" />
-	        <input type="hidden" name="childCount" value="${ childCount }" />
-	        <input type="hidden" name="infantCount" value="${ infantCount }" />
-	        <input type="hidden" name="depCity1" value="${ flight.DEPCITY_NAME }" />
-	        <input type="hidden" name="depCityCode1" value="${ flight.DEPCITY_ENAME }" />
-	        <input type="hidden" name="ariCity1" value="${ flight.ARRCITY_NAME }" />
-	        <input type="hidden" name="ariCityCode1" value="${ flight.ARRCITY_ENAME }" />
-	        <input type="hidden" name="start_date" value="${ flight.START_DATE }" />
-	        <input type="hidden" name="end_date" value="${ flight.END_DATE }" />
-	      </c:forEach>
-	    </c:forEach>
-	  </c:when>
-	  <c:otherwise>
-	    <c:forEach items="${oneWayFlights}" var="oneWay" varStatus="status">
-	        <input type="hidden" name="seatClass" value="${ seatClass }" />
-	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
-	        <input type="hidden" name="initform" value="${ initform }" />
-	        <input type="hidden" name="adultCount" value="${ adultCount }" />
-	        <input type="hidden" name="childCount" value="${ childCount }" />
-	        <input type="hidden" name="infantCount" value="${ infantCount }" />
-	        <input type="hidden" name="depCity1" value="${ oneWay.DEPCITY_NAME }" />
-	        <input type="hidden" name="depCityCode1" value="${ oneWay.DEPCITY_ENAME }" />
-	        <input type="hidden" name="ariCity1" value="${ oneWay.ARRCITY_NAME }" />
-	        <input type="hidden" name="ariCityCode1" value="${ oneWay.ARRCITY_ENAME }" />
-	        <input type="hidden" name="start_date" value="${ oneWay.START_DATE }" />
-	        <input type="hidden" name="end_date" value="${ oneWay.END_DATE }" />
-	    </c:forEach>
-	  </c:otherwise>
-	</c:choose>
+	<form action="/Airplane/Filter/GetFlights" method="POST" onsubmit="updatePriceInput()">
 
 	<main id="main_container">
-	
-	  <div class="searchContainer">
+
+	<div class="searchContainer">
+	<input type="hidden" name="" value="" />
 	    <div class="sidebar">
 	    
 	        <div class="filter-group">
@@ -466,7 +431,7 @@ function confirmPayment(event) {
 	
 			<hr />
 	
-	        <div class="filter-group">
+	        <!-- <div class="filter-group">
 	            <h2><a href="#">도착시간</a></h2>
 	            <span class="dropdownImg"><img src="/images/dropdown.png" onclick="toggleVisibility('arrival-time')" alt="드롭다운"></span>
 	            <div id="arrival-time">
@@ -527,7 +492,7 @@ function confirmPayment(event) {
 	            </div>
 	        </div>
 	
-			<hr />
+			<hr /> -->
 	
 	        <div class="filter-group">
 	            <h2><a href="#" onclick="">항공사</a></h2>
@@ -787,7 +752,6 @@ function confirmPayment(event) {
 	      </c:otherwise>
 	    </c:choose>
 	  </div>
-	  
 	</div>
 
 	</main>
