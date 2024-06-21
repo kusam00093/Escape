@@ -33,8 +33,9 @@
 
 <%@include file="/WEB-INF/include/nav.jsp"%>
 <body>
-	<main class="el8kvy20 css-2kceou e1pzvah12">
+	<main class="e1b5jjmz0 css-2kceou e1pzvah12">
 		<div class="css-qhzs5v en76een0">
+<!-- 		상단 div -->
 			<div class="css-tinny8 e18lo67g0">
 <!-- 			여행지/일정/숙박인원 검색 -->
 				<div class="css-8iskzq e17xa0j30">
@@ -211,11 +212,375 @@
 										</svg>
 									</div>
 								</button>
+								<div class=" css-2bqhlj e1b0xu6w0">
+									<button shape="pill" class="e1b0xu6w2 css-p2iygf">
+										<div class="css-ov1ktg">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="mrt-web-icons">
+												<path fill-rule="evenodd" d="M2.644 9.91C2.644 6.454 5.16 4 8.316 4c2.096 0 3.585 1.47 4.401 2.935a.848.848 0 0 1-.31 1.145.817.817 0 0 1-1.124-.316C10.616 6.568 9.576 5.68 8.316 5.68c-2.24 0-4.022 1.698-4.022 4.23 0 1.473.644 3.01 1.912 4.57 1.267 1.56 3.119 3.088 5.423 4.518.11.069.219.128.31.168.044.019.075.03.093.034.441.018.793.387.793.84 0 .463-.37.84-.825.84-.279 0-.538-.095-.708-.17a4.148 4.148 0 0 1-.522-.278c-2.4-1.49-4.414-3.132-5.835-4.88-1.422-1.748-2.291-3.653-2.291-5.643Zm9.399 9.293h-.002.002Z" clip-rule="evenodd"></path>
+												<path fill-rule="evenodd" d="M21.356 9.91c0-3.455-2.517-5.91-5.672-5.91-2.096 0-3.585 1.47-4.401 2.935a.848.848 0 0 0 .31 1.145c.396.229.9.087 1.124-.316.667-1.196 1.707-2.084 2.967-2.084 2.24 0 4.022 1.698 4.022 4.23 0 1.473-.644 3.01-1.912 4.57-1.267 1.56-3.119 3.088-5.423 4.518-.11.069-.219.128-.31.168a.758.758 0 0 1-.093.034.833.833 0 0 0-.793.84c0 .463.37.84.825.84.279 0 .538-.095.708-.17.19-.081.372-.184.522-.278 2.4-1.49 4.414-3.132 5.835-4.88 1.422-1.748 2.291-3.653 2.291-5.643Zm-9.399 9.293h.002-.002Z" clip-rule="evenodd"></path>
+											</svg>										
+										</div>
+									</button>
+									<textarea class="css-1dhg90f e1b0xu6w4" readonly></textarea>
+								</div>
+								<button class="e18lo67g10 css-1c7t3vv" shape="pill">
+									<div class="css-oss1kg">
+										<span class="css-1bjjy4l">
+											<span class="css-19kftx2">객실 선택</span>
+										</span>
+									</div>
+								</button>
 							</div>
 						</div>
 					</div>
+					<div class="css-1xdhyk6">
+						<div aria-label="제로마진" class="css-1jom7ne e11hbv0z0">
+							<img src="https://dffoxz5he03rp.cloudfront.net/banners/unionstay/pc_zero_margin_landing_banner_231211.png" class="css-8atqhb e11hbv0z9">
+						</div>
+					</div>					
 				</div>	
 			</div>
+<!-- 		중간 div -->
+			<div class="css-jltv26 e2o1h7g0">
+<!-- 			결제 혜택 박스 -->
+				<div class="ezxjhvf1 css-17t65wn">
+					<div class="ezxjhvf0 e1w57zu10 css-yks7hj">
+						<div class="css-4mbokm ezxjhvf2">
+							<div class="css-z66aix ezxjhvf3">
+								<span class="css-1k1esfp">결제 혜택</span>
+							</div>
+							<div class="css-1f0ub1b ezxjhvf4">
+								<div class="css-103ejlk e17nh34u0">
+									<img src="https://dffoxz5he03rp.cloudfront.net/icons/ico_credit_card_3x.png" class="css-1vsgj6t e17nh34u1">
+									<span class="e17nh34u2 css-qqc2n5">최대 12개월 무이자 할부 가능</span>
+									<div class="css-1u9p9ef e17nh34u3">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" class="css-qugwz3 e17nh34u4">
+											<path d="M12 11c.317 0 .587.108.812.325.225.217.338.483.338.8v3.9c0 .317-.113.579-.338.787a1.15 1.15 0 0 1-.812.313c-.317 0-.587-.108-.812-.325a1.066 1.066 0 0 1-.338-.8v-3.9c0-.317.113-.58.338-.788.225-.208.495-.312.812-.312Zm0-4.2c.333 0 .613.113.838.338.225.225.337.504.337.837 0 .333-.112.612-.337.837A1.138 1.138 0 0 1 12 9.15c-.333 0-.612-.113-.837-.338a1.135 1.135 0 0 1-.338-.837c0-.333.113-.612.338-.837.225-.225.504-.338.837-.338Zm0-5a9.999 9.999 0 0 0-3.988.8 10.247 10.247 0 0 0-3.237 2.175A10.247 10.247 0 0 0 2.6 8.012 10 10 0 0 0 1.8 12a10 10 0 0 0 .8 3.988 10.248 10.248 0 0 0 2.175 3.237A10.25 10.25 0 0 0 8.012 21.4a10 10 0 0 0 3.988.8 10 10 0 0 0 3.988-.8 10.248 10.248 0 0 0 3.237-2.175 10.247 10.247 0 0 0 2.175-3.237c.533-1.242.8-2.571.8-3.988a9.998 9.998 0 0 0-.8-3.988 10.246 10.246 0 0 0-2.175-3.237A10.245 10.245 0 0 0 15.988 2.6 9.999 9.999 0 0 0 12 1.8Zm0 2.275c2.2 0 4.071.77 5.613 2.312C19.154 7.929 19.925 9.8 19.925 12c0 2.2-.77 4.071-2.312 5.613-1.542 1.541-3.413 2.312-5.613 2.312-2.2 0-4.07-.77-5.612-2.312C4.846 16.071 4.075 14.2 4.075 12c0-2.2.771-4.071 2.313-5.613C7.93 4.846 9.8 4.075 12 4.075Z">
+											</path>
+										</svg>
+									</div>
+								</div>
+								<div class="css-103ejlk e17nh34u0">
+									<img src="https://dffoxz5he03rp.cloudfront.net/icons/ico_check_3x.png" class="css-1vsgj6t e17nh34u1">
+									<span class="e17nh34u2 css-qqc2n5">카카오페이 6월 6% 선착순 즉시할인</span>
+									<div class="css-1u9p9ef e17nh34u3">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" class="css-qugwz3 e17nh34u4">
+											<path d="M12 11c.317 0 .587.108.812.325.225.217.338.483.338.8v3.9c0 .317-.113.579-.338.787a1.15 1.15 0 0 1-.812.313c-.317 0-.587-.108-.812-.325a1.066 1.066 0 0 1-.338-.8v-3.9c0-.317.113-.58.338-.788.225-.208.495-.312.812-.312Zm0-4.2c.333 0 .613.113.838.338.225.225.337.504.337.837 0 .333-.112.612-.337.837A1.138 1.138 0 0 1 12 9.15c-.333 0-.612-.113-.837-.338a1.135 1.135 0 0 1-.338-.837c0-.333.113-.612.338-.837.225-.225.504-.338.837-.338Zm0-5a9.999 9.999 0 0 0-3.988.8 10.247 10.247 0 0 0-3.237 2.175A10.247 10.247 0 0 0 2.6 8.012 10 10 0 0 0 1.8 12a10 10 0 0 0 .8 3.988 10.248 10.248 0 0 0 2.175 3.237A10.25 10.25 0 0 0 8.012 21.4a10 10 0 0 0 3.988.8 10 10 0 0 0 3.988-.8 10.248 10.248 0 0 0 3.237-2.175 10.247 10.247 0 0 0 2.175-3.237c.533-1.242.8-2.571.8-3.988a9.998 9.998 0 0 0-.8-3.988 10.246 10.246 0 0 0-2.175-3.237A10.245 10.245 0 0 0 15.988 2.6 9.999 9.999 0 0 0 12 1.8Zm0 2.275c2.2 0 4.071.77 5.613 2.312C19.154 7.929 19.925 9.8 19.925 12c0 2.2-.77 4.071-2.312 5.613-1.542 1.541-3.413 2.312-5.613 2.312-2.2 0-4.07-.77-5.612-2.312C4.846 16.071 4.075 14.2 4.075 12c0-2.2.771-4.071 2.313-5.613C7.93 4.846 9.8 4.075 12 4.075Z">
+											</path>
+										</svg>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- 			숙소 디테일 박스 -->
+				<div class="css-1o5ne0g e2o1h7g1">
+<!-- 				숙소 위치 -->
+					<div class="css-134hp10 eolp4hw0">
+						<div class="css-1j63yba e1x9ci4w0">
+							<div class="css-1mnf8qz e1x9ci4w1">
+								<span class="css-1k1esfp">숙소 위치</span>
+							</div>
+							<div class="css-an8a4a e1x9ci4w2">
+								<div class="css-0 e1x9ci4w3">
+									<div class="css-1iigiwp ewh8pwb0">
+										<img alt="Google Map" src="https://maps.googleapis.com/maps/api/staticmap?zoom=14&amp;scale=2&amp;size=400x200&amp;center=33.542823791503906,126.66446685791016&amp;key=AIzaSyBAoo822AgkqBDrPE5nr4w_ZRIAF1lISEQ&amp;signature=EXIo8MKkn37Z8F9uJjiJU03Wxbs%3D" class="css-1drnufd ewh8pwb1">
+										<img alt="33.542823791503906,126.66446685791016" loading="lazy" width="46" height="53" decoding="async" data-nimg="1" class="css-17ctwle" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ic_location_138x162_filled_gray_1000.png">
+									</div>
+								</div>
+								<div class="css-k008qs e1x9ci4w4">
+									<span class="e1x9ci4w5 css-b2uum8">482-1, Johamhaean-ro, Jeju, Jeju, 한국, 63333</span>
+									<button shape="pill" class="e1x9ci4w6 css-at6m64">
+										<div class="css-oss1kg">
+											<span class="css-1bjjy4l">주소복사</span>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+<!-- 				편의 시설 -->
+					<div class="css-134hp10 eolp4hw1">
+						<div class="css-1j63yba e3wtogt0">
+							<div class="css-0 e3wtogt1">
+								<span class="css-1k1esfp">편의 시설</span>
+							</div>
+							<div class="css-mvwyst e3wtogt2">
+								<div class="css-13kthdy e1bb8btr0">
+									<div class="css-k008qs e1bb8btr2">
+										<img alt="시설 내 주차" src="https://dffoxz5he03rp.cloudfront.net/icons/local_parking_FILL1_wght500_GRAD0_opsz24+1_2x.png" class="css-si2b82 e1bb8btr1">
+									</div>
+									<div class="css-k008qs e1bb8btr2">
+										<span class="css-1iauht1 css-dnoo08">시설 내 주차</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+<!-- 				숙소 정보 -->
+					<div class="css-1n9s2yp eolp4hw3">
+<!-- 					숙소 소개 -->
+						<div class="css-1iv0hau e16i52u90">
+							<div class="css-7pf6at e16i52u91">
+								<span class="e16i52u92 css-1h9zsg">숙소 정보</span>
+							</div>
+							<div class="css-ha97c2 e16i52u93">
+								<div height="100%" class="css-i43npt e16i52u95">
+									<div class="css-4fdrxc eamtuzr0">
+										<div>
+											<span class="eamtuzr1 css-1n4qrt">숙소 소개</span>
+										</div>
+										<div>
+											<span class="eamtuzr2 css-suo9h5">풍경채 콘도텔은/는 뛰어난 서비스와 최고 수준의 편의 시설로 투숙객에게 기억에 남는 경험을 선사합니다. 본 숙소에서는 방문하는 동안 걱정 없이 온라인 활동을 이어갈 수 있도록 무료 인터넷 연결을 제공합니다.차량을 이용해 방문하시는 투숙객은 숙소에서 제공하는 무료 주차 공간을 이용하실 수 있습니다. 풍경채 콘도텔에는 투숙객을 위한 신나는 레크리에이션 서비스가 준비되어 있습니다. 본 숙소에서 손쉽게 방문하실 수 있는 해변을 꼭 이용해 보세요.</span>
+										</div>
+									</div>
+									<div class="css-4fdrxc eamtuzr0">
+										<div>
+											<span class="eamtuzr1 css-1n4qrt">서비스 지원 언어</span>
+										</div>
+										<div>
+											<span class="eamtuzr2 css-suo9h5">한국어</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+<!-- 					숙소 정책 박스 -->
+						<div class="css-1iv0hau e16i52u90">
+<!-- 						숙소 정책 -->
+							<div class="css-7pf6at e16i52u91">
+								<span class="e16i52u92 css-1h9zsg">숙소 정책</span>
+							</div>
+<!-- 						체크인/체크아웃/알아두실 사항 -->
+							<div class="css-msd5x3 e16i52u93">
+								<div height="100%" class="css-i43npt e16i52u95">
+									<div class="css-4fdrxc eamtuzr0">
+										<div>
+											<span class="eamtuzr1 css-1n4qrt">체크인/체크아웃</span>
+										</div>
+										<div>
+											<span class="eamtuzr2 css-suo9h5">체크인 : 16:00 부터 <br/> 체크아웃 : 11:00 까지</span>
+										</div>
+									</div>
+									<div class="css-4fdrxc eamtuzr0">
+										<div>
+											<span class="eamtuzr1 css-1n4qrt">알아두실 사항</span>
+										</div>
+										<div>
+											<span class="eamtuzr2 css-suo9h5">
+												07:00 PM(KST) 이후 도착 예정인 경우 도착 전 숙소로 직접 연락해 주시기 바랍니다.
+												더 궁금한 사항이 있으신 경우 예약 사이트 고객 센터로 문의하시기 바랍니다.
+												모든 아동 및 유아는 인원수 책정 시 성인으로 간주됩니다.
+												모든 특별 요청 사항 반영 여부는 여건에 따라 달라질 수 있습니다.
+												본 숙소는 금연 숙소입니다. 흡연으로 인해 발생하는 모든 비용, 손해 및 책임은 투숙객에게 있습니다.
+												부모 또는 법적 보호자를 동반하지 않을 경우 투숙 가능한 최소 연령은 19세입니다.
+												숙소 정보는 예약 시 등록하신 이메일로 전송됩니다.
+												숙소 편의 시설/서비스의 이용 가능 여부는 기상 조건 또는 숙소 관련 상황에 따라 달라질 수 있습니다.
+												스파, 바비큐 시설 및 스파와 같은 숙소 편의 시설/서비스 이용 시 추가 요금이 부과됩니다.
+												예약 시 숙소에서 연락할 수 있는 전화번호를 알려주셔야 합니다.
+												체크인 및 편의 시설/서비스에 대한 정보는 투숙객이 제공한 전화번호로 전송됩니다(메시지를 받지 못하신 경우, 이메일을 확인한 후 숙소 연락처를 찾아 전화해 주시기 바랍니다).
+												체크인 시 투숙객 수가 예약한 인원수보다 많은 경우 체크인이 거부될 수 있습니다.
+												흡연은 금지되어 있습니다. 흡연으로 인해 발생하는 모든 비용, 파손 및 법적 책임은 투숙객에게 있음을 알려드립니다.
+												• 아동(청소년) 무료 투숙이 가능한 경우 인원 추가 비용 없이 객실 내 기존 침대 이용 시 무료 투숙이 가능합니다. 간이침대 추가 필요시 추가 요금이 부과됩니다.
+												• 유/아동 및 청소년 투숙 가능 여부 및 비용은 객실별로 상이합니다. 투숙할 인원을 선택 후 객실 정책을 확인하세요.
+												• 객실별로 세부 정책은 달라질 수 있습니다. 예약 전 객실 별 예약 정책을 반드시 확인해주세요.
+												• 특별 요청 사항은 체크인 시 이용 상황에 따라 제공 여부가 달라질 수 있으며 추가 요금이 부과 될 수 있습니다. 또한, 반드시 보장되지는 않습니다.
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+<!-- 						더보기 -->
+							<div>
+								<button shape="pill" class="e16i52u96 css-2zdhhu">
+									<div class="css-oss1kg">
+										<span class="css-1bjjy4l">더보기</span>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- 			객실 선택	박스		 -->
+				<div class="css-17mib1z e16f95a0">
+<!-- 				객실 선택, 일정변경 -->
+					<div class="css-1n3cjvb e16f95a1">
+						<div class="css-o73ezp e16f95a2">
+							<span class="css-1k1esfp">객실 선택</span>
+							<div class="css-cjn8he e1rupbwk0">
+								<div class="mrt-detail-room-schedule css-1usqcss e1rupbwk2"></div>
+								<div class="css-1scuu9k e1rupbwk1">
+									<span class="css-jfzxc5">07월 09일 (화) - 07월 18일 (목)</span>
+								</div>
+								<button shape="pill" class="css-i19t4t">
+									<div class="css-oss1kg">
+										<span class="css-g354lr">
+											<span class="css-dnoo08">일정 변경</span>
+										</span>
+									</div>
+								</button>
+							</div>
+						</div>
+<!-- 					객실 List -->
+						<div class="css-51dg7o e16f95a3">
+							<div class="css-10c7qg5 ekdnpbz0">
+								<div class="css-0 ekdnpbz1">
+									<span class="css-1kjy5hl">Room 503 (Cooking available)</span>
+								</div>
+								<div class="css-1vp6ypr ekdnpbz2">
+									<div class="css-hhs1ap ekdnpbz3">
+										<div class="css-f3dihc e1ct4i2q0">
+											<div class="css-1glyzy2 e1ct4i2q1">
+												<img src="https://pix8.agoda.net/hotelImages/32784632/532142722/f4d40fb33ef5f11ff060623b4e588fb3.jpg?ce=0&amp;s=1000x" alt="Room 503 (Cooking available)" class="css-1572upo e1ct4i2q2">
+												<div class="css-bqfzl4 e1ct4i2q3">
+													<span>2+</span>
+												</div>
+											</div>
+											<div class="css-1jqfg0 e1s82hlt0">
+												<div class="css-mgekkz e1s82hlt1">
+													<div class="css-1dacjl9 e1s82hlt3">
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="성인 5명" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_person_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">성인 5명</span>
+															</div>
+														</div>
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="객실 크기(㎡) - 66" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_size_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">객실 크기(㎡) - 66</span>
+															</div>
+														</div>
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="TV" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_bed_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">TV</span>
+															</div>
+														</div>
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="헤어드라이어" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_bathtub_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">헤어드라이어</span>
+															</div>
+														</div>
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="에어컨" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_aircondition_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">에어컨</span>
+															</div>
+														</div>
+														<div class="css-1sdqwnv e61jlzk0">
+															<div class="css-v71nea e61jlzk1">
+																<img alt="전자레인지" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_restaurant_room_3x.png">
+															</div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span class="css-bgkldf">전자레인지</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="css-0 e10uix0a0">
+													<button class="e10uix0a1 css-19kbtvr">
+														<span class="css-17cznx6">객실 정보 더보기</span>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="css-e6t236 ekdnpbz4">
+										<div class="css-1xdhyk6">
+											<div class="css-1txr52u e1q9d9300">
+												<div class="css-1ni1io2 e1q9d9301">
+													<div class="css-j7qwjs e17p53lv0">
+														<div class="css-i7tjzy e17p53lv2">
+															<div class="css-159hdns e61jlzk0">
+																<div class="css-v71nea e61jlzk1">
+																	<img alt="예약 무료 취소 가능 (2024년 7월 4일 00:00까지)" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_verified_option_attribute_3x.png">
+																</div>
+																<div class="css-70qvj9 e61jlzk2">
+																	<span style="color:#1C9674" class="css-bgkldf">예약 무료 취소 가능 (2024년 7월 4일 00:00까지)</span>
+																</div>
+															</div>
+															<div class="css-159hdns e61jlzk0">
+																<div class="css-v71nea e61jlzk1">
+																	<img alt="추가 침대 불가" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_checked_option_attribute_3x.png">
+																</div>
+																<div class="css-70qvj9 e61jlzk2">
+																	<span class="css-bgkldf">추가 침대 불가</span>
+																</div>
+															</div>
+															<div class="css-159hdns e61jlzk0">
+																<div class="css-v71nea e61jlzk1">
+																	<img alt="무료 Wi-Fi" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_checked_option_attribute_3x.png">
+																</div>
+																<div class="css-70qvj9 e61jlzk2">
+																	<span class="css-bgkldf">무료 Wi-Fi</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="css-1g90fsm e1q9d9302">
+													<div class="css-1jqfg0 e1q9d9303">
+														<div class="css-16fffon e16iha2r0">
+															<div class="css-fjt9ki e16iha2r1">
+																<span class="css-pglvi5 e16iha2r3">제로마진가</span>
+																<span class="css-1e8aui5 e16iha2r4">222,362원</span>
+															</div>
+															<div class="css-114g9yd e16iha2r5">
+																<div class="css-12dy4dz e16iha2r2">
+																	<span class="css-1bg0z7j e16iha2r6">215,754원/박</span>
+																	<img height="13" src="https://dffoxz5he03rp.cloudfront.net/icons/zero_margin_3x.png" alt="뱃지">
+																</div>
+															</div>
+															<div class="css-12dy4dz e16iha2r2">
+																<div class="css-w9c0d8 e16iha2r7">
+																	<span class="css-1njnize e16iha2r8">세금 및 수수료 포함</span>
+																</div>
+															</div>
+															<button type="button" class="e16iha2r9 css-xekm6i">
+																<span class="css-17cznx6">할인 상세 보기</span>
+															</button>
+														</div>
+													</div>
+													<div class="css-me3ito e1q9d9304">
+														<button shape="rectangle" class="e14snjrl0 css-m0pn6q">
+															<div class="css-pszfx5">
+																<span class="css-1bjjy4l">예약하기</span>
+															</div>
+														</button>
+													</div>
+													<div class="css-8z217v e1q9d9305">
+														<div class="e1q9d9306 css-k14pv3 e61jlzk0">
+															<div class="css-v71nea e61jlzk1"></div>
+															<div class="css-70qvj9 e61jlzk2">
+																<span style="color:#FA5B4A" class="css-bgkldf">마감임박! 객실이 1개 남았어요</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 		끝 div -->
+			<div></div>
 		</div>
 	</main>
 <script>
