@@ -353,50 +353,101 @@ function confirmPayment(event) {
         
 </script>
 
+<script>
+// jQuery를 이용한 예시입니다. jQuery가 사용 가능한 환경에서 작성된 것입니다.
+$(document).ready(function() {
+	
+	/* var selectedTimes = [];
+    $('.time-checkbox:checked').each(function() {
+        selectedTimes.push($(this).val()); // 체크된 시간대 값을 배열에 추가합니다.
+        console.dir(selectedTimes);
+    }); */
+    
+    /* var flightStartTime = $(this).find('.flight-details span.locSetting:first-child').text(); // 출발 시간을 가져옵니다.
+    console.dir(flightStartTime); */
+    
+    const flightStartDate = document.querySelector('.startDate').value;
+    const flightEndDate = document.querySelector('.endDate').value;
+    const flightStartTime = $(this).find('.departure-time').text(); // 출발 시간을 가져옵니다.
+    const flightEndTime = $(this).find('.arrival-time').text(); // 도착 시간을 가져옵니다.
+    console.dir(flightStartDate);
+    console.dir(flightEndDate);
+    console.dir(flightStartTime);
+    console.dir(flightEndTime);
+	
+    // 체크박스가 변경될 때마다 호출될 함수
+    $('.time-checkbox').change(function() {
+        filterFlights(); // 체크박스 상태에 따라 필터링 함수 호출
+    });
+
+    function filterFlights() {
+        // 모든 선택된 출발 시간대를 가져옵니다.
+        var selectedTimes = [];
+        $('.time-checkbox:checked').each(function() {
+            selectedTimes.push($(this).val()); // 체크된 시간대 값을 배열에 추가합니다.
+            console.dir(selectedTimes);
+        });
+
+        // 각 항공편에 대해 필터링을 수행합니다.
+        $('.flight-wrapper').each(function() {
+        	
+        	//var flightStartTime = $(this).find('#departure-time').text(); // 출발 시간을 가져옵니다.
+            //var flightEndTime = $(this).find('#arrival-time').text(); // 도착 시간을 가져옵니다.
+        	
+            //var flightStartTime = $(this).find('.flight-details span.locSetting:first-child').text(); // 출발 시간을 가져옵니다.
+            //console.dir(flightStartTime);
+
+            // 출발 시간이 선택된 시간대에 포함되는지 확인합니다.
+            var shouldBeVisible = false;
+            for (var i = 0; i < selectedTimes.length; i++) {
+                
+            	var time = parseInt(selectedTimes[i]);
+                console.dir(time);
+                
+                if (time <= 6 && time > 0) {
+                    //if (flightStartTime.indexOf("새벽") !== -1) {
+                    if (flightStartTime.indexOf("06") !== -1) {
+                        shouldBeVisible = true;
+                        break;
+                    }
+                } else if (time <= 12 && time > 6) {
+                    //if (flightStartTime.indexOf("오전") !== -1) {
+                    if (flightStartTime.indexOf("12") !== -1) {
+                        shouldBeVisible = true;
+                        break;
+                    }
+                } else if (time <= 18 && time > 12) {
+                    //if (flightStartTime.indexOf("오후") !== -1) {
+                    if (flightStartTime.indexOf("18") !== -1) {
+                        shouldBeVisible = true;
+                        break;
+                    }
+                } else if (time <= 24 && time > 18) {
+                    //if (flightStartTime.indexOf("야간") !== -1) {
+                    if (flightStartTime.indexOf("24") !== -1) {
+                        shouldBeVisible = true;
+                        break;
+                    }
+                }
+            }
+
+            // 필터링된 결과에 따라 항공편을 보이거나 숨깁니다.
+            if (shouldBeVisible) {
+                $(this).show(); // 보이기
+            } else {
+                $(this).hide(); // 숨기기
+            }
+        });
+    }
+});
+</script>
+
 </head>
 
 <%@include file="/WEB-INF/include/header.jsp"%>
 <%@include file="/WEB-INF/include/nav.jsp"%>
 
 <body>
-	
-	<form action="/Airplane/Filter/GetFlights?id=${ sessionScope.login.id }" method="POST" onsubmit="updatePriceInput()">
-	<c:choose>
-	  <c:when test="${not empty roundTripFlights}">
-	    <c:forEach var="flightGroup" items="${roundTripFlights}">
-          <c:forEach var="flight" items="${flightGroup}">
-	        <input type="hidden" name="seatClass" value="${ seatClass }" />
-	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
-	        <input type="hidden" name="initform" value="${ initform }" />
-	        <input type="hidden" name="adultCount" value="${ adultCount }" />
-	        <input type="hidden" name="childCount" value="${ childCount }" />
-	        <input type="hidden" name="infantCount" value="${ infantCount }" />
-	        <input type="hidden" name="depCity1" value="${ flight.DEPCITY_NAME }" />
-	        <input type="hidden" name="depCityCode1" value="${ flight.DEPCITY_ENAME }" />
-	        <input type="hidden" name="ariCity1" value="${ flight.ARRCITY_NAME }" />
-	        <input type="hidden" name="ariCityCode1" value="${ flight.ARRCITY_ENAME }" />
-	        <input type="hidden" name="start_date" value="${ flight.START_DATE }" />
-	        <input type="hidden" name="end_date" value="${ flight.END_DATE }" />
-	      </c:forEach>
-	    </c:forEach>
-	  </c:when>
-	  <c:otherwise>
-	    <c:forEach items="${oneWayFlights}" var="oneWay" varStatus="status">
-	        <input type="hidden" name="seatClass" value="${ seatClass }" />
-	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
-	        <input type="hidden" name="initform" value="${ initform }" />
-	        <input type="hidden" name="adultCount" value="${ adultCount }" />
-	        <input type="hidden" name="childCount" value="${ childCount }" />
-	        <input type="hidden" name="infantCount" value="${ infantCount }" />
-	        <input type="hidden" name="depCity1" value="${ oneWay.DEPCITY_NAME }" />
-	        <input type="hidden" name="depCityCode1" value="${ oneWay.DEPCITY_ENAME }" />
-	        <input type="hidden" name="ariCity1" value="${ oneWay.ARRCITY_NAME }" />
-	        <input type="hidden" name="ariCityCode1" value="${ oneWay.ARRCITY_ENAME }" />
-	        <input type="hidden" name="start_date" value="${ oneWay.START_DATE }" />
-	        <input type="hidden" name="end_date" value="${ oneWay.END_DATE }" />
-	    </c:forEach>
-	  </c:otherwise>
-	</c:choose>
 
 	<main id="main_container">
 	
@@ -409,25 +460,25 @@ function confirmPayment(event) {
 	            <div id="departure-time">
 	                <h2>가는날</h2>
 	                <ul>
-	                    <li>
+	                    <li data-time="06">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_01" name="departureTimes" value="06" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_01"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="12">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_02" name="departureTimes" value="12" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_02"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="18">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_03" name="departureTimes" value="18" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_03"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="24">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_04" name="departureTimes" value="24" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_04"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
@@ -436,25 +487,25 @@ function confirmPayment(event) {
 	                </ul>
 	                <h2>오는날</h2>
 	                <ul>
-	                    <li>
+	                    <li data-time="06">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_05" name="returnTimes" value="06" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_05"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="12">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_06" name="returnTimes" value="12" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_06"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="18">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_07" name="returnTimes" value="18" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_07"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
 	                        </div>
 	                    </li>
-	                    <li>
+	                    <li data-time="24">
 	                        <div>
 	                            <input type="checkbox" id="ckDep_08" name="returnTimes" value="24" class="time-checkbox" checked="checked">
 	                            <label for="ckDep_08"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
@@ -617,8 +668,6 @@ function confirmPayment(event) {
 		    
 		    <button type="submit" id="search-button">조건검색</button>
 
-		</form>
-
 	    </div>
 		
 	  <!-- ------------------------------------------------------------------------------------------------------------------- -->
@@ -667,6 +716,8 @@ function confirmPayment(event) {
 	                  </div>
 	                </c:forEach>
 	              </div>
+	              <input type="hidden" name="startDate" class="startDate" value="${ roundTrip[0].START_DATE }">
+	              <input type="hidden" name="endDate" class="endDate" value="${ roundTrip[0].END_DATE }">
 	              <!-- ------------------------------------------------------------------------- -->
 	              <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
 					<input type="hidden" name="orderId" value="${ roundTrip[0].AIRPLANE_TIME_IDX }">
@@ -698,6 +749,7 @@ function confirmPayment(event) {
 				            data-departureLoc="${ roundTrip[0].DEPARTURE_LOC }"
 				            data-arrivalLoc="${ roundTrip[0].ARRIVAL_LOC }"
 				            data-stypeIdx="${ roundTrip[0].STYPE_IDX }"
+				            data-flights="[[ ${ roundTrip[0].END_DATE } ],[ ${ roundTrip[1].END_DATE } ]]"
 				            onclick="confirmPayment(event)"
 				        >예약</button>
 		                <div>
@@ -870,104 +922,6 @@ function updatePriceInput() {
 // 초기화
 document.getElementById('price-range-hidden').value = document.getElementById('price-range').value;
 
-
-// document.addEventListener('DOMContentLoaded', function() {
-	
-//     document.querySelectorAll('.time-checkbox, .airline-checkbox, .passenger-checkbox').forEach(function(el) {
-    	
-//     	console.dir(el);
-//         el.addEventListener('change', filterPosts);
-        
-//     });
-
-//     document.getElementById('price-range').addEventListener('input', filterPosts);
-    
-// });
-
-//----------------------------------------------------------------------------------------
-
-// document.addEventListener('DOMContentLoaded', function() {
-	
-//     document.getElementById('search-button').addEventListener('click', filterPosts);
-    
-// });
-
-//----------------------------------------------------------------------------------------
-
-// function filterPosts() {
-	
-//     const selectedTimes = Array.from(document.querySelectorAll('.time-checkbox:checked')).map(cb => cb.value);
-//     const selectedAirlines = Array.from(document.querySelectorAll('.airline-checkbox:checked')).map(cb => cb.value);
-//     //const selectedPassengers = Array.from(document.querySelectorAll('.passenger-checkbox:checked')).map(cb => cb.value);
-//     const selectedPriceRange = document.getElementById('price-range').value;
-//     console.dir(selectedTimes);
-//     console.dir(selectedAirlines);
-//     console.dir(selectedPriceRange);
-    
-//     const reservationButton = document.querySelector(".reservationBtn");
-//     console.dir(reservationButton);
-
-//     const startDate = reservationButton.dataset.startdate;
-//     const departureLoc = reservationButton.dataset.departureloc;
-//     const arrivalLoc = reservationButton.dataset.arrivalloc;
-//     const stypeIdx = reservationButton.dataset.stypeidx;
-//     console.dir(startDate);
-//     console.dir(departureLoc);
-//     console.dir(arrivalLoc);
-//     console.dir(stypeIdx);
-    
-//     const requestData = {
-//         times: selectedTimes,
-//         airlines: selectedAirlines,
-//         priceRange: selectedPriceRange.split('-'),
-//         start_date: startDate,
-//         departure_loc: departureLoc,
-//         arrival_loc: arrivalLoc,
-//         stype_idx: stypeIdx
-//     };
-
-//     fetch('/Airplane/Filter/GetFlights', {
-//         method: 'POST',
-//         headers: {"Content-Type": "application/json"},
-//         body: JSON.stringify(requestData)
-//     })
-//     .then(response => response.json())
-//     .then(json => {
-//         const container = document.querySelector('.content');
-//         container.innerHTML = ''; 
-
-//         json.forEach(flight => {
-//             let html = '<div class="flight-wrapper">';
-//             html += '<div class="flight-header">';
-//             html += '<span class="flight-logo"><img src="'+ flight.LOGO + '" class="spanImg" alt="logo"><em>' + flight.AIRLINE_NAME + '</em></span>';
-//             html += '<div class="flight-details-wrapper">';
-//             html += '<div class="flight-details">';
-//             html += '<ul>';
-//             html += '<li>';
-//             html += '<div>';
-//             html += '<span class="fontSetting"><span class="locSetting">' + flight.START_TIME + '<em>' + flight.DEPCITY_ENAME + '<span>' + flight.DEPCITY_NAME + '</span></em></span></span>';
-//             html += '<span class="time-taken"><img src="/images/arrow.jpg" class="arrowImg" alt="arrow"><em>' + flight.DURATIONHOUR + '시간 ' + flight.DURATIONMINUTE + '분</em></span>';
-//             html += '<span class="fontSetting"><span class="locSetting">' + flight.END_TIME + '<em>' + flight.ARRCITY_ENAME + '<span>' + flight.ARRCITY_NAME + '</span></em></span></span>';
-//             html += '<span>직항</span>';
-//             html += '</div>';
-//             html += '</li>';
-//             html += '</ul>';
-//             html += '</div>';
-//             html += '</div>';
-//             html += '</div>';
-//             html += '</div>';
-
-//             const flightElement = document.createElement('div');
-//             flightElement.classList.add('flight-wrapper');
-//             flightElement.innerHTML = html;
-//             container.appendChild(flightElement);
-//         });
-//     })
-//     .catch(error => {
-//         console.error('에러:', error);
-//         alert('요청을 처리하는 중 문제가 발생했습니다.');
-//     });
-// }
 </script>
 
 </body>

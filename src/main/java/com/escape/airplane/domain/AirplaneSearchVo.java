@@ -1,5 +1,6 @@
 package com.escape.airplane.domain;
 
+import java.sql.Time;
 import java.util.List;
 
 public class AirplaneSearchVo {
@@ -151,7 +152,7 @@ public class AirplaneSearchVo {
 	public void setPriceRange(List<String> priceRange) {
 		this.priceRange = priceRange;
 	}
-
+	
 	// toString
 	@Override
 	public String toString() {

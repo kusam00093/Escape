@@ -353,6 +353,33 @@ function confirmPayment(event) {
         
 </script>
 
+<script>
+// 예시: uncheckedCategories에는 체크되지 않은 카테고리가 동적으로 포함됩니다.
+//var uncheckedCategories = ['06', '24']; // JSP에서 동적으로 설정됩니다.
+var uncheckedCategories = [<% 
+    // 예시: 서버 측에서 uncheckedCategories 배열을 받아오는 방법
+    String[] uncheckedCategoriesArray = // 서버 로직을 통해 체크되지 않은 카테고리 배열을 가져옴
+        {"06", "24"}; // 예시로 초기값 설정
+
+    // uncheckedCategoriesArray를 JavaScript 배열로 변환하여 출력
+    for (int i = 0; i < uncheckedCategoriesArray.length; i++) {
+        out.print("'" + uncheckedCategoriesArray[i] + "'");
+        if (i < uncheckedCategoriesArray.length - 1) {
+            out.print(", ");
+        }
+    }
+    %>
+    ];
+
+// 체크되지 않은 카테고리에 기반하여 비행편 숨기기
+uncheckedCategories.forEach(function(category) {
+    var flights = document.querySelectorAll('.flight-wrapper[data-category="' + category + '"]');
+    flights.forEach(function(flight) {
+        flight.style.display = 'none'; // 비행편 숨기기
+    });
+});
+</script>
+
 </head>
 
 <%@include file="/WEB-INF/include/header.jsp"%>
@@ -360,7 +387,44 @@ function confirmPayment(event) {
 
 <body>
 	
-	<form action="/Airplane/Filter/GetFlights" method="POST" onsubmit="updatePriceInput()">
+	<form action="/Airplane/Filter/GetFlights?id=${ sessionScope.login.id }" method="POST" onsubmit="updatePriceInput()">
+	<c:choose>
+	  <c:when test="${not empty roundTripFlights}">
+	    <c:forEach var="flightGroup" items="${roundTripFlights}">
+	      <input type="hidden" name="depDate2[]" value="[[ ${ flightGroup[0].END_DATE } ],[ ${ flightGroup[1].END_DATE } ]]" />
+          <c:forEach var="flight" items="${flightGroup}">
+	        <input type="hidden" name="seatClass" value="${ seatClass }" />
+	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
+	        <input type="hidden" name="initform" value="${ initform }" />
+	        <input type="hidden" name="adultCount" value="${ adultCount }" />
+	        <input type="hidden" name="childCount" value="${ childCount }" />
+	        <input type="hidden" name="infantCount" value="${ infantCount }" />
+	        <input type="hidden" name="depCity1" value="${ flight.DEPCITY_NAME }" />
+	        <input type="hidden" name="depCityCode1" value="${ flight.DEPCITY_ENAME }" />
+	        <input type="hidden" name="ariCity1" value="${ flight.ARRCITY_NAME }" />
+	        <input type="hidden" name="ariCityCode1" value="${ flight.ARRCITY_ENAME }" />
+	        <input type="hidden" name="start_date" value="${ flight.START_DATE }" />
+	        <input type="hidden" name="end_date" value="${ flight.END_DATE }" />
+	      </c:forEach>
+	    </c:forEach>
+	  </c:when>
+	  <c:otherwise>
+	    <c:forEach items="${oneWayFlights}" var="oneWay" varStatus="status">
+	        <input type="hidden" name="seatClass" value="${ seatClass }" />
+	        <input type="hidden" name="seatClassStr" value="${ seatClassStr }" />
+	        <input type="hidden" name="initform" value="${ initform }" />
+	        <input type="hidden" name="adultCount" value="${ adultCount }" />
+	        <input type="hidden" name="childCount" value="${ childCount }" />
+	        <input type="hidden" name="infantCount" value="${ infantCount }" />
+	        <input type="hidden" name="depCity1" value="${ oneWay.DEPCITY_NAME }" />
+	        <input type="hidden" name="depCityCode1" value="${ oneWay.DEPCITY_ENAME }" />
+	        <input type="hidden" name="ariCity1" value="${ oneWay.ARRCITY_NAME }" />
+	        <input type="hidden" name="ariCityCode1" value="${ oneWay.ARRCITY_ENAME }" />
+	        <input type="hidden" name="start_date" value="${ oneWay.START_DATE }" />
+	        <input type="hidden" name="end_date" value="${ oneWay.END_DATE }" />
+	    </c:forEach>
+	  </c:otherwise>
+	</c:choose>
 
 	<main id="main_container">
 
@@ -431,7 +495,7 @@ function confirmPayment(event) {
 	
 			<hr />
 	
-	        <!-- <div class="filter-group">
+	        <div class="filter-group">
 	            <h2><a href="#">도착시간</a></h2>
 	            <span class="dropdownImg"><img src="/images/dropdown.png" onclick="toggleVisibility('arrival-time')" alt="드롭다운"></span>
 	            <div id="arrival-time">
@@ -492,7 +556,7 @@ function confirmPayment(event) {
 	            </div>
 	        </div>
 	
-			<hr /> -->
+			<hr />
 	
 	        <div class="filter-group">
 	            <h2><a href="#" onclick="">항공사</a></h2>
