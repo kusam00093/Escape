@@ -1,0 +1,516 @@
+p, span, strong, small {
+	color: inherit;
+}
+
+ol, ul, li {
+	list-style: none;
+}
+
+ul, ol, dl {
+	margin: 0;
+	padding: 0;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+}
+        
+input, input:focus,
+input::before, input:after {
+	border:0;
+	outline:0;
+	touch-action: manipulation;
+	color: rgba(20, 23, 25, 0.5); /* 색상이 연해지는 예시 */
+}
+
+.lodging_search {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+
+.lodging_search_information {
+	padding: 0 8px;
+	margin-bottom: 40px;
+}
+
+.lodging_search_detail {
+	display: flex;
+	width: 100%;
+	max-width: 1060px;
+	height: 72px;
+	border: 1px solid #f5f6f7;
+	border-radius: 99px;
+	background-color: #f5f6f7;
+}
+
+.lodging_search_details {
+	display: flex;
+	width: calc(( 100% )/3);
+	
+	cursor: pointer;
+}
+
+.lodging_search_details:last-child {
+	margin-left: 0; /* 마지막 lodging_search_details를 오른쪽 끝으로 정렬 */
+}
+
+.lodging_search_details_div1 {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-inline: 32px;
+	border-radius: 99px;
+	width: 100%;
+}
+
+.lodging_search_details_div1:hover {
+	background-color: #e9ecef;
+}
+
+.lodging_search_details_div1.clicked {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-inline: 32px;
+	border-radius: 99px;
+	width: 100%;
+	background-color: rgb(255,255,255);
+}
+
+.lodging_search_details_div1_div1 {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+}
+
+.lodging_search_details_div1_div1>*:not(:last-of-type) {
+	margin-bottom: 2px;
+}
+
+.lodging_search_details_div1_div1_span1 {
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	white-space: pre-wrap;
+}
+
+.lodging_search_details_div1_div1_span2 {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	white-space: pre-wrap;
+	width: calc(100% -10px);
+	color: #adb5bd;
+	white-space: pre-wrap
+}
+
+.lodging_search_details_div1_div1_span2.fill {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	white-space: pre-wrap;
+	width: calc(100% -10px);
+	color: #141719;
+}
+
+.lodging_search_details_div1_div1_span2_personnel {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	white-space: pre-wrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: calc(100% -10px);
+	color: #141719;
+}
+
+.lodging_search_details_interval {
+	position: relative;
+	width: 5px;
+	height: 100%;
+}
+
+.lodging_search_details_interval:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 1px;
+	height: 40px;
+	background-color: #e9ecef;
+}
+
+.lodging_search_details_button {
+	display: flex;
+	align-items: center;
+	width: 123px;
+	height: 100%;
+	
+	margin-left: 70px;
+}
+
+.lodging_search_details_button1:disabled {
+	cursor: not-allowed;
+	color: #ced4da;
+	background-color: #f8f9fa;
+}
+
+button[disabled] {
+	pointer-events: none ! important;
+}
+
+.lodging_search_details_button1 {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 0;
+	overflow: hidden;
+	height: 56px;
+	padding: 0px 20px;
+	widows: auto;
+	border-radius: 99px;
+}
+
+.lodging_search_details_button1_div1 {
+	padding: 0px 4px;
+}
+
+.lodging_search_details_button1_div1.span {
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 124%;
+	letter-spacing: -0.02em;
+	white-space: pre-wrap;
+}
+
+.searchOptionDropdown {
+	display: none;
+	position: absolute;
+	top: calc(100% + 16px);
+	left: -1px;
+	width: 440px;
+	max-height: 560px;
+	border-radius: 34px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 8px, rgba(0, 0, 0, 0.2) 0px 8px
+		24px;
+	z-index: 20000;
+	overflow-y: auto;
+	scrollbar-width: none;
+}
+
+.searchOptionDropdown_div1 {
+	width: 100%;
+	height: 560px;
+	overflow-y: auto;
+	scrollbar-width: none;
+}
+
+.searchOptionDropdown_div1_div1 {
+	position: sticky;
+	top: 0px;
+	padding-top: 12px;
+	background-color: rgb(255, 255, 255);
+	z-index: 1;
+}
+
+.searchOptionDropdown_div1_div1_div1 {
+	width: 100%;
+	padding: 6px 20px;
+}
+
+.searchOptionDropdown_div1_div1_div1_div1 {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 48px;
+	background-color: rgb(241, 243, 245);
+	border-radius: 24px;
+	border: none;
+	overflow: hidden;
+	opacity: 1;
+}
+
+.searchOptionDropdown_div1_div1_div1_div1_search_img {
+	position: absolute;
+	left: 16px;
+	display: flex;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	pointer-events: none;
+}
+
+.searchOptionDropdown_div1_div1_div1_div1_search_input1 {
+	width: 100%;
+	height: 100%;
+	padding: 13.5px 44px;
+	text-align: left;
+	caret-color: rgb(81,171,243);
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 138%;	
+	letter-spacing: -0.02em;
+	color: rgb(20,23,25);
+	background-color: transparent;
+}
+
+searchOptionDropdown_div1_div1_div1_div1_search_input1:placeholder-shown {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+
+.searchOptionDropdown_div1_div1_div1_div1_search_input2 {
+	position: absolute;
+	left: 0px;
+	width: 0px;
+	height: 0px;
+	opacity: 0;
+}
+
+.searchOptionDropdown_div1_div1_div1_div1_button {
+	position: absolute;
+	right: 16px;
+	display: flex;
+	align-items: center;
+	width: 20px;
+	height: 20px;
+	border: none;
+	padding: 0px;
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.searchOptionDropdown_div1_div2 {
+	position: sticky;
+	top: 72px;
+	height: 24px;
+	z-index: 1;
+	background-color: linear-gradient(rgb(255, 255, 255) 0%,
+		rgba(255, 255, 255, 0) 100%
+	)
+}
+
+.searchOptionDropdown_div1_div3 {
+	width: 100%;
+	margin-top: -24px;
+	padding-bottom: 80px;
+}
+
+.searchOptionDropdown_div1_div3_div1 {
+/* 	display: flex; */
+	justify-content: space-between;
+	align-items: center;
+	padding: 26px 20px 12px;
+}
+
+.searchOptionDropdown_div1_div3_div1_span1 {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	white-space: pre-wrap;
+}
+
+.searchOptionDropdown_div1_div3_div1_button {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 0px;
+	overflow: hidden;
+	cursor: pointer;
+	color: rgb(20, 23, 25);
+	background-color: transparent;
+	text-decoration: underline;
+	height: 24px;
+	padding: 0px;
+	border-radius: 99px; 
+}
+
+.search-history-item {
+    display: flex; /* Flexbox 컨테이너로 설정 */
+    align-items: center; /* 자식 요소들을 수직으로 중앙 정렬 */
+}
+
+.search-history-item-delete {
+    margin-left: auto; /* 요소를 오른쪽 끝으로 이동 */
+}
+
+.searchOptionDropdown_div1_div3_div1_button_div1 {
+	padding: 0px;
+}
+
+.searchOptionDropdown_div1_div3_div1_button_div1_span1 {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 138%;
+	letter-spacing: -0.01em;
+	white-space: pre-wrap;
+}
+.dropdownDate_top{
+	position: relative;
+	width: 300px;
+}
+
+.dropdownDate {
+	position: absolute;
+	top: calc(100% + 16px);
+	left: -1px;
+	width: 440px;
+	max-height: 560px;
+	border-radius: 34px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: rgba(0,0,0,0.05) 0xp 4px 8px,
+				rgba(0,0,0,0.02) 0xp 4px 8px;
+	z-index: 20000;
+	overflow-y: auto;
+	scrollbar-width: none;
+	
+}
+
+.dropdownDate_div1 {
+	position: relative;
+	width: 100%;
+	height: 560px;
+	overflow-y: auto;
+	scrollbar-width: none;
+	
+}
+
+.dropdownDate_div1_div1 {
+	height: 100%;
+	padding-bottom: 72px;
+}
+
+.dropdownDate_div1_footer1 {
+	position: absolute;
+	bottom: 0px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 72px;
+	padding-left: 15px;
+	padding-right: 20px;
+	background-color: white;
+	box-shadow: rgba(0,0,0,0.02) 0px -0.5px 0px,
+				rgba(0,0,0,0.03) 0px -1px 2px,
+				rgba(0, 0, 0, 0.03) 0px -2px 4px;
+}
+
+#datepicker {
+    display: block !important; /* ensure datepicker is visible */
+}
+
+.dropdownNumber {
+/* 	background-color: white; */
+	border-radius: 34px;
+	overflow: hidden;
+/* 	padding-bottom: 16px; */
+	position: relative;
+	overflow: visible;
+}
+
+.dropdownNumber_div2 {
+	position: absolute;
+	padding: 0px 20px;
+    display: none;
+    top: calc(100% + 16px);
+/*     z-index: -50000; */
+	
+}
+
+.dropdownNumber_div2_adult {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 9px 0px;
+}
+
+.dropdownNumber_div2_adult_text {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 138%;
+	letter-spacing: -0.02em;
+	white-space: pre-wrap;
+}
+
+.dropdownNumber_choice {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: rgb(255,255,255);
+	width: 104px;
+	height: 48px;
+	border: 1px solid rgb(233,236,239);
+	border-radius: 60px;
+	padding: 0px 10px;
+}
+
+.dropdownNumber_choice_button {
+	border: 0px;
+    padding: 0px;
+    appearance: none;
+    background-color: transparent;
+    text-decoration: none;
+    display: flex;
+/*     -webkit-box-align: center; */
+    align-items: center;
+/*     -webkit-box-pack: center; */
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.dropdownNumber_choice_num {
+	display: flex;
+/*     -webkit-box-pack: center; */
+    justify-content: center;
+/*     -webkit-box-align: center; */
+    align-items: center;
+    flex: 1 1 0%;
+    width: 100%;
+    height: 100%;
+}
+
+.dropdownNumber_choice_num_span {
+	font-size: 16px;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.01em;
+    white-space: pre-wrap;
+    color: rgb(20, 23, 25);
+}
+
+#lodgingSearchForm {
+	display: flex;
+}

@@ -59,7 +59,10 @@
     </style>
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
+
 	<%@include file="/WEB-INF/include/nav.jsp"%>
+<body>
+
 
 <div><a href="/Board/Boardhome">메인 공고</a></div>
 

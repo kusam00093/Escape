@@ -8,6 +8,7 @@
 <title>패키지 홈</title>
 <style>
 
+
   .slideshow-container {
     position: relative;
     width: 100%;
@@ -517,6 +518,7 @@ function showNextCards() {
 
 updateCardContainer();
 </script>
+>>>>>>> branch 'develop' of https://github.com/kusam00093/Escape.git
 <script>
 const images = document.querySelectorAll('.package_img');
 const texts = document.querySelectorAll('.text');
