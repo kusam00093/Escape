@@ -594,19 +594,20 @@ public class AirplaneController {
 	
 	@PostMapping("/filterFlights")
 	@ResponseBody
-	public String filterFlights(@RequestBody Map < String, List < String >> filters, Model model) {
+	public String filterFlights(@RequestBody Map<String, List <String>> filters, Model model) {
 
+		System.out.println("===== filterFlights === filters: " + filters);
+		System.out.println("===== filterFlights === model: " + model);
+		
 	    List<String> departureTimes = filters.get("departureTimes");
 	    System.out.println("===== filterFlights === departureTimes: " + departureTimes);
 
-	    String startTime1 = departureTimes.get(0);
-	    System.out.println("===== filterFlights === startTime1: " + startTime1);
-
-	    List < Flight > filteredFlights = filterService.filterFlightsByDepartureTimes(departureTimes);
+	    List<Flight> filteredFlights = filterService.filterFlightsByDepartureTimes(departureTimes);
 	    System.out.println("===== filterFlights === filteredFlights: " + filteredFlights);
 
 	    model.addAttribute("roundTripFlights", filteredFlights);
-	    return "filteredFlightData"; // 이 부분은 filteredFlightData.jsp로 변경하여 해당 데이터를 렌더링 합니다.
+	    //return "filteredFlightData";
+	    return "airplane/airplanefilter";
 
 	}
 	

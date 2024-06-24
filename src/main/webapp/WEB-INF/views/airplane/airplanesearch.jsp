@@ -445,6 +445,11 @@ $(document).ready(function() {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	const idEl = document.querySelector('.reservationBtn');
+    console.dir(idEl);
+    const id = idEl.dataset.userId;
+    console.dir(id);
+    
     var startTimes = [];
     <c:forEach var="flightGroup" items="${roundTripFlights}">
         <c:forEach var="flight" items="${flightGroup}">
@@ -454,25 +459,30 @@ $(document).ready(function() {
     console.log(startTimes);
     
     // 홀수 번째 요소를 담을 배열
-    //var oddStartTimes = [];
+    var oddStartTimes = [];
     // 홀수 번째 요소 추출
-    //for (var i = 0; i < startTimes.length; i += 2) {
-    //    oddStartTimes.push(startTimes[i]);
-    //}
+    for (var i = 0; i < startTimes.length; i += 2) {
+        oddStartTimes.push(startTimes[i]);
+        console.dir(oddStartTimes);
+    }
     $('input.time-checkbox').change(function() {
         var selectedTimes = [];
         $('input.time-checkbox:checked').each(function() {
             var timeValue = $(this).val();
             if (!selectedTimes.includes(timeValue)) {
                 selectedTimes.push(timeValue);
+                console.dir(selectedTimes);
             }
         });
         $.ajax({
             url: '/Airplane/filterFlights',
             type: 'POST',
-            contentType: 'application/json',
+            contentType: 'application/json;charset=UTF-8',
+            //contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
             data: JSON.stringify({
-                departureTimes: startTimes
+            //data: {
+                //departureTimes: startTimes
+                departureTimes: oddStartTimes
             }),
             success: function(data) {
                 updateFlights(data);
@@ -484,6 +494,41 @@ $(document).ready(function() {
 function updateFlights(data) {
     $('.content').html(data);
 }
+// $(document).ready(function() {
+//     function getSelectedTimes() {
+//         var selectedTimes = [];
+//         $('input.time-checkbox:checked').each(function() {
+//             selectedTimes.push($(this).val());
+//         });
+//         return selectedTimes;
+//     }
+
+//     function updateFlights(data) {
+//         $('.flight-container').html(data);
+//     }
+
+//     $('input.time-checkbox').change(function() {
+//         var selectedTimes = getSelectedTimes();
+//         console.dir(selectedTimes);
+//         $.ajax({
+//             url: '/Airplane/filterFlights',
+//             type: 'POST',
+//             contentType: 'application/json;charset=UTF-8',
+//             data: JSON.stringify({
+//                 departureTimes: selectedTimes
+//             }),
+//             success: function(data) {
+//                 updateFlights(data);
+//             },
+//             error: function(error) {
+//                 console.log('Error:', error);
+//             }
+//         });
+//     });
+
+//     // 페이지 로드 시 초기 필터링
+//     $('input.time-checkbox').trigger('change');
+// });
 </script>
 
 </head>
