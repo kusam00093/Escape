@@ -286,7 +286,7 @@ function validateForm(event) {
 <script>
         const goListEl = document.getElementById('goList');
         goListEl.addEventListener('click', function(e) {
-            location.href = '/mypage';
+            location.href = '/profile';
         });
 </script>
 

@@ -14,7 +14,8 @@
 		zip_code,
 		address1,
 		address2,
-		nickname
+		nickname,
+		image
 		)
 		VALUES(
 		(select nvl(max(person_idx),0)+1 from person_tb),
@@ -26,7 +27,8 @@
 		#{zip_code},
 		#{address1},
 		#{address2},
-		#{nickname}
+		#{nickname},
+		#{image}
 		)
     </insert>
     

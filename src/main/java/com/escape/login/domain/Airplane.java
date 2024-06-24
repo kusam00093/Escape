@@ -13,5 +13,10 @@ public class Airplane {
 	private int airplane_idx;
     private int airline_idx;
     private String name;
+    
+    private int reservation_su;
+    private int reservation_price;
+    private String created;
+    
 	
 }
