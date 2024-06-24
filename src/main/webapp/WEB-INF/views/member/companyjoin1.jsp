@@ -243,7 +243,9 @@ function validateForm(event) {
     			<label for="logo">로고:</label>
     			<input type="file" id="logo" name="file">
 			</div>
+			
             <input type="hidden" id="type" name="type" value="2">
+            
             <button type="submit">회원가입</button>
             <input type="button" value="취소" id="goList">
         </form>

@@ -16,7 +16,7 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             overflow-y: auto;
         }
@@ -26,10 +26,10 @@
             justify-content: center;
             width: 100%;
             max-width: 1200px; /* 최대 너비를 설정 */
-            margin-top: 30px;
+            margin-top: 40px;
         }
         .sidebar {
-        	font-size: 19px;
+        	font-size: 20px;
         	text-align: center;
             width: 200px;
             background-color: #6e8efb;
@@ -69,7 +69,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 700px;
             transition: transform 0.3s ease-in-out;
             margin-left: 20px; /* 사이드바와의 간격을 위한 마진 */
         }
@@ -87,16 +87,16 @@
         }
         h2::after {
             content: '';
-            width: 245px;
+            width: 500px;
             height: 3px;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             display: block;
             margin: 10px auto 0;
             border-radius: 2px;
         }
-        h3::after {
+        #sidebartitle::after {
             content: '';
-            width: 115px;
+            width: 140px;
             height: 3px;
             background: #fff;
             display: block;
@@ -154,17 +154,17 @@
 
     <div class="container1">
         <div class="sidebar">
-            <h3>마이페이지</h3>
+            <h3 id="sidebartitle">마이페이지</h3>
             <ul>
                 <li><a href="/mypage">회원정보</a></li>
                 <li><a href="/mypagebuy">신청내역</a></li>
-                <li><a href="#">위시리스트</a></li>
-                <li><a href="#">대화목록</a></li>
+                <li><a href="/mypagebookmark">위시리스트</a></li>
+                <li><a href="/mypageboard">대화목록</a></li>
             </ul>
         </div>
 
         <div class="register-container">
-            <h2>Person 회원정보 보기</h2>
+            <h2>${person.last_name}${person.first_name}님 회원정보 보기</h2>
             <form action="/mypageUpdateForm" method="post">
                 <div class="form-group">
                     <label for="id">ID:</label>

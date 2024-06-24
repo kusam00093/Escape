@@ -1,17 +1,21 @@
 package com.escape.login.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.escape.board.domain.BoardVo;
 import com.escape.login.domain.Airline;
-import com.escape.login.domain.Apply;
+import com.escape.login.domain.Airplane_time;
+import com.escape.login.domain.Hotel;
 import com.escape.login.domain.Person;
+import com.escape.login.domain.Pkg;
+import com.escape.login.domain.Room;
 import com.escape.login.domain.Seller;
 import com.escape.login.domain.User;
 import com.escape.login.mapper.MypageMapper;
@@ -102,7 +106,7 @@ public class MypageController {
     	
     }
     
-    // 개인회원 정보 수정 
+    // 개인회원 정보 수정
     @PostMapping("/mypageUpdate")
     @ResponseBody
     public ModelAndView mypageUpdate(User user, Person person, HttpSession session) {
@@ -114,7 +118,7 @@ public class MypageController {
 	    
 	    session.setAttribute("login", user);
 	    
-	    mv.setViewName("redirect:/mypage");
+	    mv.setViewName("redirect:/profile");
 	    return mv;
 	    
 	}
@@ -184,23 +188,6 @@ public class MypageController {
 	    
 	}
     
-//    //신청내역
-//    @RequestMapping("/mypagebuy")
-//    public ModelAndView mypagebuy(HttpSession session) {
-//    	ModelAndView mv = new ModelAndView();
-//    	
-//    	User user = (User) session.getAttribute("login");
-//    	Apply apply = mypageMapper.getApplyByuser_idx(user.getUser_idx());
-//    	
-//    	
-//    	
-//
-//    	
-//    	
-//    	return mv;
-//    }
-    
-    
     @RequestMapping("/profile")
     public ModelAndView mypagehome(HttpSession session) {
         ModelAndView mv = new ModelAndView();
@@ -258,6 +245,96 @@ public class MypageController {
         }
         return mv;
     }
+    
+    //신청내역
+    @RequestMapping("/mypagebuy")
+    public ModelAndView mypagebuy(HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	
+    	User user = (User) session.getAttribute("login");
+    	Person person = mypageMapper.getPersonByuser_idx(user.getUser_idx());
+  	
+    	List<Room> room = mypageMapper.getRoomByuser_idx(user.getUser_idx());
+    	
+    	List<Pkg> pkg = mypageMapper.getPkgByuser_idx(user.getUser_idx());
+    	
+    	List<Airplane_time> airtime = mypageMapper.getAirtimeByuser_idx(user.getUser_idx()); 
+    	
+    	mv.addObject("user", user);
+    	mv.addObject("person", person);
+    	mv.addObject("room", room);
+    	mv.addObject("pkg", pkg);
+    	mv.addObject("airtime", airtime);
+    	
+    	mv.setViewName("member/mypagebuy");
+    	
+    	return mv;
+    }
+    
+  //북마크
+    @RequestMapping("/mypagebookmark")
+    public ModelAndView mypagebookmark(HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	
+    	User user = (User) session.getAttribute("login");
+    	Person person = mypageMapper.getPersonByuser_idx(user.getUser_idx());
+  	
+    	List<Hotel> hotel = mypageMapper.getHotelByuser_idx(user.getUser_idx());
+    	
+    	List<Pkg> pkgb = mypageMapper.getPkgbookmarkByuser_idx(user.getUser_idx());
+    	
+    	
+    	mv.addObject("user", user);
+    	mv.addObject("person", person);
+    	mv.addObject("hotel", hotel);
+    	mv.addObject("pkgb", pkgb);
+    	
+    	mv.setViewName("member/mypagebookmark");
+    	
+    	return mv;
+    }
+    
+    //대화목록
+    @RequestMapping("/mypageboard")
+    public ModelAndView mypageboard(HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	
+    	User user = (User) session.getAttribute("login");
+    	Person person = mypageMapper.getPersonByuser_idx(user.getUser_idx());
+  	
+    	List<BoardVo> boardvo = mypageMapper.getBoardVoByuser_idx(user.getUser_idx());
+    	
+    	mv.addObject("user", user);
+    	mv.addObject("person", person);
+    	mv.addObject("boardvo", boardvo);
+    	
+    	mv.setViewName("member/mypageboard");
+    	
+    	return mv;
+    }
+    
+    
+    
+  // seller 등록상품 보기
+    @RequestMapping("/sellergoods")
+    public ModelAndView sellergoods(HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	
+    	User user = (User) session.getAttribute("login");
+    	Seller seller = mypageMapper.getSellerByuser_idx(user.getUser_idx());
+  	
+    	List<Pkg> pkg = mypageMapper.getPkgBysellerUser_idx(user.getUser_idx());
+    	
+    	mv.addObject("user", user);
+    	mv.addObject("seller", seller);
+    	mv.addObject("pkg", pkg);
+    	
+    	mv.setViewName("member/sellergoods");
+    	
+    	return mv;
+    }
+    
+    
     
     
     

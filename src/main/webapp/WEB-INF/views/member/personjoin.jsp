@@ -213,7 +213,7 @@ function validateForm(event) {
 <body>
     <div class="register-container">
         <h2>개인 회원가입</h2>
-        <form action="/personjoin" method="post" onsubmit="validateForm(event)">
+        <form action="/personjoin" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
         
            <div class="form-group">
     			<label for="id">ID:</label>
@@ -274,13 +274,15 @@ function validateForm(event) {
                 <label for="nickname">Nickname:</label>
                 <input type="text" id="nickname" name="nickname">
             </div>
+            <div class="form-group">
+                <label for="image">프로필이미지:</label>
+                <input type="file" id="image" name="file">
+            </div>
             
             <input type="hidden" id="type" name="type" value="1">
             
-            
             <button type="submit">회원가입</button>
             <input type="button" value="취소" id="goList">
-            
         </form>
     </div>
     

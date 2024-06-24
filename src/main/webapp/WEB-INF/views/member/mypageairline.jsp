@@ -15,7 +15,7 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             overflow-y: auto;
         }
@@ -25,11 +25,12 @@
             justify-content: center;
             width: 100%;
             max-width: 1200px; /* 최대 너비를 설정 */
+            margin-top: 40px;
         }
         .sidebar {
             font-size: 19px;
             text-align: center;
-            width: 200px;
+            width: 250px;
             background-color: #6e8efb;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -67,7 +68,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 700px;
             transition: transform 0.3s ease-in-out;
             margin-left: 20px; /* 사이드바와의 간격을 위한 마진 */
         }
