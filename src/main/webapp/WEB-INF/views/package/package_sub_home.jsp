@@ -612,6 +612,11 @@ body {
 
 
 
+.sub_title{
+	margin-left: 250px;
+}
+
+
 </style> 
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/mixins.css">
@@ -704,9 +709,10 @@ body {
     <h2 class="keyword">${ keyword }의 검색결과입니다</h2>
   </c:when>
   <c:otherwise>
-    <h2>패키지 리스트 입니다</h2>
+    <h2 class="sub_title">패키지 리스트 입니다</h2>
   </c:otherwise>
 </c:choose>
+    <a href="/Package/Write?user_idx=${user_idx}">글쓰기</a>
    <div class="container1">
     <div class="card-container">
         <c:forEach var="pa" items="${ packageList_sub }">

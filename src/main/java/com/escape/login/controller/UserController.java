@@ -120,14 +120,14 @@ public class UserController {
     	
     	String id = request.getParameter("id");
     	String passwd = request.getParameter("passwd");
-    	
+    	 
     	user = userMapper.login(id, passwd);
     	
     	if (user != null) { 
     		HttpSession session = request.getSession();
     		session.setMaxInactiveInterval(60*60);
     		session.setAttribute("login", user);
-    		session.setAttribute("isLoggedIn", true);
+    		session.setAttribute("isLoggedIn", true); 
     		mv.setViewName("redirect:/");
     	
     	} else { // 로그인 실패시
@@ -139,6 +139,7 @@ public class UserController {
     	    out.close();
     	    mv.setViewName("redirect:/personlogin");
     	}
+    	
 		return mv;
     }
     

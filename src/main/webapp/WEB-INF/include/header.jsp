@@ -68,20 +68,20 @@
                 </div>
             </nav>
             <div>
-                <c:choose>
-                    <c:when test="${sessionScope.isLoggedIn}">
-                        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
-                            <li><a href="/profile" class="btn-nav">마이페이지</a></li>
-                            <li><a href="/logout" class="btn-nav">로그아웃</a></li>
-                        </ul>
-                    </c:when>
-                    <c:otherwise>
-                        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
-                            <li><a href="/personlogin" class="btn-nav">로그인</a></li>
-                            <li><a href="/join" class="btn-nav">회원가입</a></li>
-                        </ul>
-                    </c:otherwise>
-                </c:choose>
+					<c:choose>
+					<c:when test="${not empty sessionScope.login}">
+				        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
+				            <li><a href="/profile" class="btn-nav">마이페이지</a></li>
+				            <li><a href="/logout" class="btn-nav">로그아웃</a></li>
+				        </ul>
+				    </c:when>
+				    <c:otherwise>
+				        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
+				            <li><a href="/personlogin" class="btn-nav">로그인</a></li>
+				            <li><a href="/join" class="btn-nav">회원가입</a></li>
+				        </ul>
+				    </c:otherwise>
+				</c:choose>
             </div>
         </header>
     </div>

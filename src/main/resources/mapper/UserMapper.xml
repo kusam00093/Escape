@@ -41,5 +41,25 @@
         ELSE 0
     END
 </select>
+
+<select id="findUserId">
+select
+    user_idx
+from user_tb
+where user_idx=#{user_idx}
+
+
+</select>
+
+
+<select id="findUserType">
+select
+    type
+from user_tb
+where user_idx=#{user_idx}
+
+</select>
+
+
 	
 </mapper>

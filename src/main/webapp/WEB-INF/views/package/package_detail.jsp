@@ -392,6 +392,26 @@ input.form-control::placeholder {
         .button:hover {
             background-color: #0056b3;
         }
+
+
+
+
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .button-container {
+      display: flex;
+      gap: 10px; /* 버튼 사이의 간격 조절 */
+      margin-left: auto;
+    }
+        
+        
+        
+      
+        
 </style> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -415,6 +435,12 @@ input.form-control::placeholder {
  
   <div class="content1" data-rate1="${package_Rate.rate}">
  	<h2>${ packageVo.title } 스위스 (K-드라마) 촬영지와 블라우제 호수 투어 (스위스/인터라켄)</h2>
+ 	
+ 	<c:set var="user_idx" value="${user_idx}" />
+
+<c:if test="${not empty user_idx}">
+    <input type="hidden" value="${ user_idx }" id="user_idx">
+</c:if>
             <div class="rating" >
                 <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
                 <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
@@ -604,8 +630,17 @@ input.form-control::placeholder {
 
 <hr>
 
-<h3>리뷰</h3>
-
+<div class="flex-container">
+  <h3 style="display: inline-block;">리뷰</h3>
+  <div class="button-container">
+    <c:if test="${not empty paycount and paycount > 0}">
+      <button class="ReviewRate btn btn-primary" style="display: inline-block;">평점쓰기</button>
+    </c:if>
+    <c:if test="${usertype.type eq 1}">
+      <button class="ReviewWrite btn btn-primary" style="display: inline-block;">리뷰쓰기</button>
+    </c:if>
+  </div>
+</div>
 <div class="reviews">
     <c:forEach var="re" items="${reviewList}">
         <div class="review1" data-rate="${re.rate}" >
@@ -650,23 +685,24 @@ input.form-control::placeholder {
         </tr>
       </table>
     </div>
-	<div>
+<c:if test="${usertype.type eq 1}">
+  <!-- ${usertype} 값이 1일 때만 보이는 HTML -->
+  <div>
     <div class="container4">
-        <button class="button" id="decrementButton">&lt;</button>
-        <div class="counter" id="counter"><span id="counter-value">1 </span></div>
-        <button class="button" id="incrementButton">&gt;</button>
+      <button class="button" id="decrementButton">&lt;</button>
+      <div class="counter" id="counter"><span id="counter-value">1</span></div>
+      <button class="button" id="incrementButton">&gt;</button>
     </div>
-	
-	
-	</div>
-    <div class="sidebar-section">
-	  <form action="#" method="post">
-		 <div id="finalmoney"></div>	     
-	     <input type="submit" value="예약하기" id="goApply">
-	  
-	  </form>
-      <button>스크랩하기</button>
-    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <form action="#" method="post">
+      <div id="finalmoney"></div>
+      <input type="submit" value="예약하기" id="goApply">
+    </form>
+    <button id="bookmarkbtn">스크랩하기</button>
+  </div>
+</c:if>
 
     <div class="sidebar-section">
       <h4>코멘트</h4>
@@ -801,7 +837,10 @@ input.form-control::placeholder {
         	//console.log(finalMoneyElement)
         	        let finalMoneyText = finalMoneyElement.textContent; // '400,000원' 형태의 문자열
         let finalMoneyValue = parseInt(finalMoneyText.replace(/,/g, "").replace('원', '')); // '400000' 형태의 정수
-        alert(finalMoneyValue); // 값 출력
+        const package_idx = ${packageVo.package_idx};
+        let reservation_su = counterValue;
+        let url = "/Package/Reservation?reservation_price="+finalMoneyValue+"&package_idx="+package_idx+"&reservation_su="+counterValue;
+        location.href = url;
         })
         
         
@@ -973,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 </script>
+
 <div>&nbsp;</div>
 <div>&nbsp;</div>
 <div>&nbsp;</div>

@@ -548,4 +548,36 @@ where category_idx=#{category_idx}
 
 </select>
 
+
+<select id="countPay">
+select
+    count(nvl(package_pay_idx,0)) 
+from package_pay_tb
+where user_idx=#{user_idx}
+
+</select>
+
+<!-- ====================================================================insert======================================================================= -->
+<insert id="insertPackageReservation">
+
+INSERT INTO package_reservation_tb (
+    package_reservation_idx,
+    user_idx,
+    package_idx,
+    reservation_su,
+    reservation_price,
+    state
+) VALUES (
+    (select nvl(max(PACKAGE_RESERVATION_IDX),0)+1
+	from   package_reservation_tb),
+    #{user_idx},
+    #{package_idx},
+    #{reservation_su},
+    #{reservation_price},
+    1
+    
+)
+
+</insert>
+
 </mapper>
