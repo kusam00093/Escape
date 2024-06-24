@@ -1,7 +1,21 @@
 package com.escape.login.controller;
 
+import com.escape.login.domain.Airline;
+import com.escape.login.domain.Person;
+import com.escape.login.domain.Seller;
+import com.escape.login.domain.User;
+import com.escape.login.mapper.CompanyMapper;
+import com.escape.login.mapper.PersonMapper;
+import com.escape.login.mapper.UserMapper;
+import com.escape.login.service.SellerService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,19 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.escape.login.domain.Airline;
-import com.escape.login.domain.Person;
-import com.escape.login.domain.Seller;
-import com.escape.login.domain.User;
-import com.escape.login.mapper.CompanyMapper;
-import com.escape.login.mapper.PersonMapper;
-import com.escape.login.mapper.UserMapper;
-import com.escape.login.service.SellerService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

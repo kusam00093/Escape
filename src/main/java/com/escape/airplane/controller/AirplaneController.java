@@ -584,27 +584,6 @@ public class AirplaneController {
         
     }
 	
-//	public static class Flight {
-//        private Time startTime;
-//
-//        // getter 및 setter 생략
-//        public Time getStartTime() {
-//            return startTime;
-//        }
-//
-//        public void setStartTime(Time startTime) {
-//            this.startTime = startTime;
-//        }
-//        
-//        @Override
-//        public String toString() {
-//            return "Flight{" +
-//                    "startTime=" + startTime +
-//                    '}';
-//        }
-//        
-//    }
-	
 	private boolean shouldRemoveFlight(String category, Set<String> uncheckedCategories) {
 	    // uncheckedCategories가 null인지 확인
 	    if (uncheckedCategories != null && uncheckedCategories.contains(category)) {
@@ -612,22 +591,6 @@ public class AirplaneController {
 	    }
 	    return false;
 	}
-	
-//	@PostMapping("/filterFlights")
-//	@ResponseBody
-//	public ModelAndView filterFlights(@RequestBody Map<String, List<String>> filters) {
-//		
-//	    List<String> departureTimes = filters.get("departureTimes");
-//	    System.out.println("===== filterFlights === departureTimes: " + departureTimes);
-//
-//	    List<Flight> filteredFlights = filterService.filterFlightsByDepartureTimes(departureTimes);
-//	    System.out.println("===== filterFlights === filteredFlights: " + filteredFlights);
-//
-//	    ModelAndView mav = new ModelAndView("filteredFlightData");
-//	    mav.addObject("roundTripFlights", filteredFlights);
-//	    
-//	    return mav;
-//	}
 	
 	@PostMapping("/filterFlights")
 	@ResponseBody
