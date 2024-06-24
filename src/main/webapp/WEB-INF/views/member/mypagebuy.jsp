@@ -223,7 +223,7 @@
         <div class="sidebar">
             <h3 id="sidebartitle">마이페이지</h3>
             <ul>
-                <li><a href="/mypage">회원정보</a></li>
+                <li><a href="/profile">회원정보</a></li>
                 <li><a href="/mypagebuy">신청내역</a></li>
                 <li><a href="/mypagebookmark">위시리스트</a></li>
                 <li><a href="/mypageboard">대화목록</a></li>
@@ -277,8 +277,6 @@
                                 <th>종료일자</th>
                                 <th>정원</th>
                                 <th>가격</th>
-                                <th>디테일</th>
-                                <th>zip_code</th>
                                 <th>예약일자</th>
                             </tr>
                         </thead>
@@ -292,8 +290,6 @@
                                     <td>${Pkg.end_date}</td>
                                     <td>${Pkg.limited_person}</td>
                                     <td>${Pkg.reservation_price}</td>
-                                    <td>${Pkg.detail1}</td>
-                                    <td>${Pkg.zip_code}</td>
                                     <td>${Pkg.created}</td>
                                 </tr>
                             </c:forEach>

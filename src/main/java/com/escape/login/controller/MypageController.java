@@ -106,7 +106,7 @@ public class MypageController {
     	
     }
     
-    // 개인회원 정보 수정 
+    // 개인회원 정보 수정
     @PostMapping("/mypageUpdate")
     @ResponseBody
     public ModelAndView mypageUpdate(User user, Person person, HttpSession session) {
@@ -118,7 +118,7 @@ public class MypageController {
 	    
 	    session.setAttribute("login", user);
 	    
-	    mv.setViewName("redirect:/mypage");
+	    mv.setViewName("redirect:/profile");
 	    return mv;
 	    
 	}

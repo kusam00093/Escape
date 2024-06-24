@@ -223,7 +223,7 @@
         <div class="sidebar">
             <h3 id="sidebartitle">대화목록</h3>
             <ul>
-                <li><a href="/mypage">회원정보</a></li>
+                <li><a href="/profile">회원정보</a></li>
                 <li><a href="/mypagebuy">신청내역</a></li>
                 <li><a href="/mypagebookmark">위시리스트</a></li>
                 <li><a href="/mypageboard">대화목록</a></li>
