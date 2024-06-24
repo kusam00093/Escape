@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.login.mapper.PersonMapper">
+
+ <insert id="insertPerson" parameterType="com.escape.login.domain.Person">
+ 
+		INSERT INTO person_tb (
+		person_idx,
+		user_idx,
+		first_name,
+		last_name,
+		social_num,
+		phone,
+		zip_code,
+		address1,
+		address2,
+		nickname
+		)
+		VALUES(
+		(select nvl(max(person_idx),0)+1 from person_tb),
+		(select nvl(max(user_idx),0) from user_tb),
+		#{first_name},
+		#{last_name},
+		#{social_num},
+		#{phone},
+		#{zip_code},
+		#{address1},
+		#{address2},
+		#{nickname}
+		)
+    </insert>
+    
+	
+	
+	
+	
+
+    
+</mapper>

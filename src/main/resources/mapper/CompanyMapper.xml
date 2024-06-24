@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.login.mapper.CompanyMapper">
+
+ <insert id="insertCompany" parameterType="com.escape.login.domain.Seller">
+		INSERT INTO SELLER_TB (
+		SELLER_IDX,
+		USER_IDX,
+		NAME,
+		CNUM,
+		PHONE,
+		LOGO
+		)
+		VALUES(
+		(select nvl(max(seller_idx),0)+1 from SELLER_TB),
+		(select nvl(max(user_idx),0) from user_tb),
+		#{name},
+		#{cnum},
+		#{phone},
+		#{logo}
+		)
+    </insert>
+    
+    <insert id="insertCompany3" parameterType="com.escape.login.domain.Airline">
+		INSERT INTO AIRLINE_TB (
+		AIRLINE_IDX,
+		USER_IDX,
+		NAME,
+		CNUM,
+		PHONE,
+		LOGO
+		)
+		VALUES(
+		(select nvl(max(airline_idx),0)+1 from AIRLINE_TB),
+		(select nvl(max(user_idx),0) from user_tb),
+		#{name},
+		#{cnum},
+		#{phone},
+		#{logo}
+		)
+    </insert>
+    
+</mapper>

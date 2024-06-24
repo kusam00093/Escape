@@ -1,0 +1,20 @@
+package com.escape.board.domain;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BoardVo {
+	 private Long board_idx;
+	 private Long user_idx;
+	 private String title;
+	 private String content;
+	 private String created;
+	 private int hit;
+	 
+
+}
