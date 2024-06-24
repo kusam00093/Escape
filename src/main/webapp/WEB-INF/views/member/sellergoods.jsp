@@ -223,7 +223,7 @@
         <div class="sidebar">
             <h3 id="sidebartitle">마이페이지</h3>
             <ul>
-                <li><a href="/mypage">회원정보</a></li>
+                <li><a href="/profile">회원정보</a></li>
                 <li><a href="/sellergoods">내가 등록한 상품</a></li>
                 <li><a href="#">신청자 목록</a></li>
                 <li><a href="#">마감된 상품</a></li>
@@ -264,7 +264,7 @@
              <div class="profile-card">
                 <h3>패키지 정보</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table>
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -298,7 +298,7 @@
               <div class="profile-card">
                 <h3>비행기 정보</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table>
                         <thead>
                             <tr>
                                 <th>번호</th>

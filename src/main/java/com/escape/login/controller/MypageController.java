@@ -151,7 +151,7 @@ public class MypageController {
 	    
 	    session.setAttribute("login", user);
 	    
-	    mv.setViewName("redirect:/mypage");
+	    mv.setViewName("redirect:/profile");
 	    return mv;
 	    
 	}
