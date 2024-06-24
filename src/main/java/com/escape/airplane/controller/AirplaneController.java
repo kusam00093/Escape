@@ -644,6 +644,7 @@ public class AirplaneController {
 
 	    model.addAttribute("roundTripFlights", filteredFlights);
 	    return "filteredFlightData"; // 이 부분은 filteredFlightData.jsp로 변경하여 해당 데이터를 렌더링 합니다.
+
 	}
 	
 }
