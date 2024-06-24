@@ -154,6 +154,16 @@ INSERT INTO hotel_tb VALUES (8, 103, '103-그랜호텔', '123-456-7892', '10003'
 INSERT INTO hotel_tb VALUES (9, 104, '104-랜호텔', '123-456-7893', '10004', '부산', '서면', 'Detail1', 'Detail2', 'Detail3', 0);
 INSERT INTO hotel_tb VALUES (10, 105, '105-하야호텔', '123-456-7894', '10005', '서울', '용산', 'Detail1', 'Detail2', 'Detail3', 0);
 
+-- HOTEL_IMAGE_TB
+INSERT INTO HOTEL_IMAGE_TB (HOTEL_IMAGE_IDX, HOTEL_IDX, IMAGE_PATH)
+VALUES (SEQ_HOTEL_IMAGE_IDX.NEXTVAL, 1, 'resources/static/images/hotel/hotel1-1.jpg');
+INSERT INTO HOTEL_IMAGE_TB (HOTEL_IMAGE_IDX, HOTEL_IDX, IMAGE_PATH)
+VALUES (SEQ_HOTEL_IMAGE_IDX.NEXTVAL, 1, 'resources/static/images/hotel/hotel1-2.jpg');
+INSERT INTO HOTEL_IMAGE_TB (HOTEL_IMAGE_IDX, HOTEL_IDX, IMAGE_PATH)
+VALUES (SEQ_HOTEL_IMAGE_IDX.NEXTVAL, 1, 'resources/static/images/hotel/hotel1-3.jpg');
+INSERT INTO HOTEL_IMAGE_TB (HOTEL_IMAGE_IDX, HOTEL_IDX, IMAGE_PATH)
+VALUES (SEQ_HOTEL_IMAGE_IDX.NEXTVAL, 1, 'resources/static/images/hotel/hotel1-4.jpg');
+
 -- hotel_review_tb
 INSERT INTO hotel_review_tb VALUES (1, 6, 'Review content 1', 1, SYSDATE);
 INSERT INTO hotel_review_tb VALUES (2, 6, 'Review content 2', 2, SYSDATE);

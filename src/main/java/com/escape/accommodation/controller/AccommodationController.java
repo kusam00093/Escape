@@ -84,7 +84,7 @@ public class AccommodationController {
 				@RequestParam(value = "place", required = false) String place,
 	        	@RequestParam(value = "date", required = false) String date,
 	            @RequestParam(value = "guest", required = false, defaultValue = "1") int guest,
-				@PathVariable("hotel_idx") Long hotel_idx	) {
+				@PathVariable("hotel_idx") int hotel_idx	) {
 		ModelAndView  mv         =  new ModelAndView();
 		
 		Map<String, Object> params = new HashMap<>();
@@ -92,6 +92,13 @@ public class AccommodationController {
 		params.put("date", date);
 		params.put("guest", guest);
 		
+		// 데이터베이스에서 이미지 경로를 가져오는 로직
+		List<String> imagePaths = accommodationService.getHotelImages(hotel_idx);
+		
+		System.out.println("imagePaths========" + imagePaths);
+		System.out.println("hotel_idx========" + hotel_idx);
+		
+		mv.addObject("imagePaths", imagePaths);
 		mv.setViewName("accommodation/hotel");
 		return mv;
 	}

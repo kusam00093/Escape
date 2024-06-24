@@ -255,6 +255,10 @@ create table hotel_image_tb(
     ON DELETE CASCADE
 );
 
+CREATE SEQUENCE SEQ_HOTEL_IMAGE_IDX START WITH 1 INCREMENT BY 1;
+
+ALTER TABLE HOTEL_IMAGE_TB ADD (IMAGE_PATH VARCHAR2(500));
+
 create table hotel_bookmark_tb(
     hotel_bookmark_idx number(20) primary key,
     user_idx number(20),

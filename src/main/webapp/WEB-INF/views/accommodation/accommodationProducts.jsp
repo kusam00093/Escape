@@ -476,7 +476,7 @@
 								    </c:set>
 
 						            <div data-index="${stat.index}" class="hotel">
-						                <a href="/Accommodation/Hotel/${hotel.hotel_idx}" target="_blank">
+						                <a href="/Accommodation/Hotel/${hotel.hotel_idx}" class="hotelBtn" target="_blank">
 						                    <div class="css-jk17ry erljagq0">
 						                        <div class="thumbnail css-0 e6oouci0" aria-hidden="true" tabindex="-1">
 						                            <div aria-hidden="true" role="presentation" class="css-1l5ilpc e6oouci1">

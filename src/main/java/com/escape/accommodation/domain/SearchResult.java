@@ -12,5 +12,4 @@ public class SearchResult {
 	private String name;
 	private String address1;
 	private String address2;
-//    private int priority;
 }

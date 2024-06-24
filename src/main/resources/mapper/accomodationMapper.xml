@@ -48,5 +48,14 @@
         LEFT JOIN 
             ROOM_DISCOUNT_TB d ON rt.ROOM_IDX = d.ROOM_IDX
     </select>
+    
+    <select id="getHotelImages" resultType="String">
+    	SELECT 
+    		IMAGE_PATH
+    	FROM
+    		HOTEL_IMAGE_TB
+    	WHERE
+    		HOTEL_IDX = #{hotel_idx}  	
+    </select>
 
 </mapper>

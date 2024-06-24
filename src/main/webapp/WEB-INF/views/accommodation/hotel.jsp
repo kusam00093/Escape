@@ -11,11 +11,16 @@
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
+<!-- CSS Stylesheets -->
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
 <link rel="stylesheet" href="/css/accommodation/hotel.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.css" />
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Swiper CSS -->
+<link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -164,15 +169,65 @@
 					<div class="css-1futtae e9nb2z70">
 						<div class="css-l5ala0 e9nb2z71">
 <!-- 						호텔  사진 리스트 -->
-							<img alt="" src="" class="css-j3xuou e9nb2z72">
-						</div>
-						<button shape="pill" class="e9nb2z73 css-14fxxv1">
+					        <c:forEach var="imagePath" items="${imagePaths}" varStatus="status">
+			                    <c:if test="${status.index < 5}">
+			                        <img alt="호텔 이미지" src="${pageContext.request.contextPath}/images/hotel/${imagePath}" class="css-j3xuou e9nb2z72">
+			                    </c:if>
+					        </c:forEach>
+					    </div>   
+						<button type="button" shape="pill" class="e9nb2z73 css-14fxxv1" data-toggle="modal" data-target="#imageModal">
 							<div class="css-oss1kg">
 								<span class="css-g354lr">
 									<span class="css-dnoo08">사진 모두 보기</span>
 								</span>
 							</div>
 						</button>
+<!-- 					Modal -->
+						<div class="modal fade e9nb2z74 css-17nco2d" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+							<section class="css-ku40o1">
+								<p class="css-nfpvp8">풍경채 콘도텔</p>
+							</section>
+							<div class="css-1a5bpe6 css-1axgspo modal-body">
+								<div class="css-1fuarqg">
+									<div class="swiper-container gallery-top css-1m9bh34 swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
+<!-- 									호텔 안의 사진 모음 -->
+										<div class="swiper-wrapper css-en91p7" style="transform: translate3d(0px, 0px, 0px);">
+				                            <c:forEach var="imagePath" items="${imagePaths}">
+				                                <div class="swiper-slide" style="width: 744px; margin-right: 10px;">
+				                                    <img src="${pageContext.request.contextPath}/images/hotel/${imagePath}" alt="slide">
+				                                </div>
+				                            </c:forEach>											
+										</div>
+<!-- 									Next 버튼 -->
+										<div class="swiper-button-next css-r1fteo">
+											<img src="https://dffoxz5he03rp.cloudfront.net/icons/ic_narrowarrowright_xl_white.svg" class="css-s08p0c">											
+										</div>
+<!-- 									Prev 버튼 -->												
+										<div class="swiper-button-prev css-r1fteo">
+											<img src="https://dffoxz5he03rp.cloudfront.net/icons/ic_narrowarrowleft_xl_white.svg" class="css-s08p0c">
+										</div>
+									</div>	
+									
+<!-- 								모달 페이징	 -->
+									<div class="swiper-pagination css-48091o swiper-pagination-fraction">
+										<span class="swiper-pagination-current">1</span>
+										 / 
+										<span class="swiper-pagination-total">${imagePaths.size()}</span>
+									</div>
+<!-- 								전체 사진 -->
+									<div class="swiper-container gallery-thumbs css-1wbr1y1 swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
+				                       <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(292px, 0px, 0px);">
+				                            <c:forEach var="imagePath" items="${imagePaths}">
+				                                <div class="swiper-slide css-265z5n swiper-slide-active">
+				                                    <img src="${pageContext.request.contextPath}/images/hotel/${imagePath}" alt="thumb">
+				                                </div>
+				                            </c:forEach>
+				                        </div>
+									</div>				
+								</div>
+							</div>
+						</div>
+						
 					</div>
 				</div>
 <!-- 				호텔 이름/좋아요/가격/객실 선택 -->
@@ -368,8 +423,7 @@
 											<span class="eamtuzr1 css-1n4qrt">알아두실 사항</span>
 										</div>
 										<div>
-											<span class="eamtuzr2 css-suo9h5">
-												07:00 PM(KST) 이후 도착 예정인 경우 도착 전 숙소로 직접 연락해 주시기 바랍니다.
+											<span class="eamtuzr2 css-suo9h5">	07:00 PM(KST) 이후 도착 예정인 경우 도착 전 숙소로 직접 연락해 주시기 바랍니다.
 												더 궁금한 사항이 있으신 경우 예약 사이트 고객 센터로 문의하시기 바랍니다.
 												모든 아동 및 유아는 인원수 책정 시 성인으로 간주됩니다.
 												모든 특별 요청 사항 반영 여부는 여건에 따라 달라질 수 있습니다.
@@ -583,7 +637,416 @@
 			<div></div>
 		</div>
 	</main>
+<!-- Bootstrap JavaScript and dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
+	document.addEventListener('DOMContentLoaded', () => {
+		// 주소창에서 값 넘어왔을 때
+		const params = new URLSearchParams(window.location.search);
+		const place = params.get('place');
+		const date = params.get('date');
+		const guest = params.get('guest');
+		
+		// dropdown 활성화
+		const placeDropdown = document.querySelector('.place-dropdown');
+		const dateDropdown = document.querySelector('.date-dropdown');
+		const guestDropdown = document.querySelector('.guest-dropdown');
+
+		// place 관련 함수
+		const searchInput = document.querySelector('.searchInput');
+		const searchHistoryListBox = document.querySelector('.searchHistoryListBox');
+		const searchHistoryList = document.getElementById('searchHistoryList');
+		const suggestionsListBox = document.querySelector('.suggestionsListBox');
+		const suggestionsList = document.getElementById('suggestionsList');
+
+		// date 관련 함수
+		const dateDetails = document.querySelector('[data-section="date"] #date');
+		let checkInSelected = false;
+		let checkInDate = null;
+		let checkOutDate = null;
+		
+		//guest 관련 함수
+		const guestSpan = document.querySelector('#guest'); 
+		const decreaseButton = document.querySelector('.dropdownNumber_choice_button.decrease');
+		const increaseButton = document.querySelector('.dropdownNumber_choice_button.increase');
+		const numSpan = document.querySelector('.dropdownNumber_choice_num_span');
+		
+		// 숙소 검색 관련 함수
+		const searchButton = document.querySelector('.searchBtn');
+		const placeInput = document.getElementById('placeInput');
+		const dateInput = document.getElementById('dateInput');
+		const guestInput = document.getElementById('guestInput');
+		
+		// dropdown 관련
+		const placeElements = document.querySelectorAll('.e1gvp92b0')
+		
+		function setValuesFromParams() {
+			if (place) {
+				document.getElementById('place').textContent = place;
+				placeInput.value = place;
+			}
+	
+			if (date) {
+				document.getElementById('date').textContent = date;
+				dateInput.value = date;
+			}
+	
+			if (guest) {
+				document.getElementById('guest').textContent = '성인 ' + guest + '명';
+				guestInput.value = guest;
+			}
+	
+			checkAllInputs();
+		}
+		
+		// 페이지 로드 시 URL 파라미터 값 설정
+		setValuesFromParams();
+		
+		// URL 파라미터를 유지한 채로 페이지 로드 시 값을 채워줌
+		window.addEventListener('popstate', setValuesFromParams);
+		
+		function checkAllInputs() {
+			const placeText = document.querySelector('[data-section="place"] #place').textContent.trim();
+			const dateText = document.querySelector('[data-section="date"] #date').textContent.trim();
+			const guestText = document.querySelector('[data-section="guest"] #guest').textContent.trim();
+
+			if (placeText !== "여행지나 숙소명 검색" && dateText !== "언제 떠나시나요?" && guestText !== "성인 0명") {
+				searchButton.disabled = false;
+				searchButton.style.backgroundColor = 'black'; // 배경색을 검은색으로 변경
+				searchButton.style.color = 'white'; // 배경색을 검은색으로 변경
+			} else {
+				searchButton.disabled = true;
+				searchButton.style.backgroundColor = ''; // 기본 배경색으로 변경
+			}
+		}		
+		
+		// 드롭다운 토글 설정
+		document.querySelector('[data-section="place"] .e1gvp92b1').addEventListener('click', function() {  
+			if (!placeDropdown.classList.contains('show')) {
+				dateDropdown.classList.remove('show');
+				guestDropdown.classList.remove('show');
+			}
+			placeDropdown.classList.toggle('show');
+		});	
+
+		document.querySelector('[data-section="date"] .e1gvp92b1').addEventListener('click', function() {
+			if (!dateDropdown.classList.contains('show')) {
+				placeDropdown.classList.remove('show');
+				guestDropdown.classList.remove('show');
+			}
+			dateDropdown.classList.toggle('show');
+		});
+
+		document.querySelector('[data-section="guest"] .e1gvp92b1').addEventListener('click', function() {
+			if (!guestDropdown.classList.contains('show')) {
+				placeDropdown.classList.remove('show');
+				dateDropdown.classList.remove('show');
+			}
+			guestDropdown.classList.toggle('show');
+		});
+		
+		// place 관련 로직
+		loadSearchHistory();
+		
+		searchInput.addEventListener('focus', function() {
+			placeDropdown.classList.add('show');
+			searchHistoryListBox.style.display = 'block';
+			suggestionsListBox.style.display = 'none';
+		});
+		
+		searchInput.addEventListener('input', function() {
+			const query = searchInput.value;
+			if (query.length > 0) {
+				// 검색 기록 숨기기
+				searchHistoryListBox.style.display = 'none';
+				// 검색 제안 표시
+				suggestionsListBox.style.display = 'block';
+
+				fetch('/AccommodationApi/Search', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ query: query })
+				})
+					.then(response => {
+						if (!response.ok) {
+							throw new Error('Network response was not ok ' + response.statusText);
+						}
+						return response.json();
+					})
+					.then(data => {
+						console.log('Fetched Data:', data); // 데이터 확인을 위한 콘솔 로그
+						suggestionsList.innerHTML = '';
+						data.forEach(item => {
+						const li = document.createElement('li');
+						let innerHTML = '<div class="suggestion-item">' +
+						'<span class="suggestion-item-text">' + item.name + '</span>';
+
+						if (item.address1) {
+							innerHTML += '<span class="suggestion-item-text">' + item.address1 + '</span>';
+						}
+					
+						if (item.address2) {
+							innerHTML += '<span class="suggestion-item-text">' + item.address2 + '</span>';
+						}
+					
+						innerHTML += '</div>';
+						li.innerHTML = innerHTML;
+						
+						li.querySelector('.suggestion-item-text').addEventListener('click', function() {
+							const selectedElement = document.querySelector('[data-section="place"] #place');
+							
+							if (selectedElement) {
+								selectedElement.textContent = item.name;
+								placeInput.value = item.name;
+							}
+							
+							// 검색 기록에 추가
+							addSearchHistory(item.name);
+							// suggestionsList 비우기
+							suggestionsList.innerHTML = '';
+							// 검색 제안 숨기기
+							suggestionsListBox.style.display = 'none';
+							// 검색 기록 표시
+							searchHistoryListBox.style.display = 'block';
+							
+							checkAllInputs();
+						});    
+						suggestionsList.appendChild(li);
+					});
+				})
+				.catch(error => {
+					console.log('Error: ', error);
+				});
+			} else {
+				suggestionsList.innerHTML = '';
+				// 검색 제안 숨기기
+				suggestionsListBox.style.display = 'none';
+				// 검색 기록 표시
+				searchHistoryListBox.style.display = 'block';
+			}
+		});
+		
+		function loadSearchHistory() {
+			const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			searchHistoryList.innerHTML = '';
+			history.forEach(query => {
+				const li = document.createElement('li');
+				li.innerHTML = 
+					'<div class="search-history-item">' +
+					'<span class="search-history-item-text">' + query + '</span>' +
+					'<span class="search-history-item-delete">삭제</span>' +
+					'</div>';
+				li.querySelector('.search-history-item-text').addEventListener('click', function() {
+					 searchInput.value = query;
+					 const parentDetails = searchInput.closest('.searchDetail');
+					 const selectedElement = parentDetails.querySelector('#place');
+					 if (selectedElement) {
+						 selectedElement.textContent = query;
+						 placeInput.value = query;
+					 }
+					 checkAllInputs();
+				});
+				
+				li.querySelector('.search-history-item-delete').addEventListener('click', function() {
+					removeSearchHistory(query);
+				});
+				searchHistoryList.appendChild(li);
+			});
+			
+			// 검색 기록이 비어 있지 않으면 표시
+			if (history.length > 0) {
+				searchHistoryListBox.style.display = 'block';
+			} else {
+				searchHistoryListBox.style.display = 'none';
+			}
+		}
+		
+		function addSearchHistory(query) {
+			let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			history = history.filter(item => item !== query); // 중복 제거
+			history.unshift(query); // 최신 검색어를 맨 앞에 추가
+			if (history.length > 20) { // 검색기록 20개 제한
+				history.pop();
+			}
+			localStorage.setItem('searchHistory', JSON.stringify(history));
+			loadSearchHistory();
+		}
+
+		function removeSearchHistory(query) {
+			let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			history = history.filter(item => item !== query);
+			localStorage.setItem('searchHistory', JSON.stringify(history));
+			loadSearchHistory();
+		}
+
+		function loadSearchHistory() {
+			const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			searchHistoryList.innerHTML = '';
+			history.forEach(query => {
+				const li = document.createElement('li');
+				li.innerHTML = 
+					'<div class="search-history-item">' +
+					'<span class="search-history-item-text">' + query + '</span>' +
+					'<span class="search-history-item-delete">삭제</span>' +
+					'</div>';
+				li.querySelector('.search-history-item-text').addEventListener('click', function() {
+					 searchInput.value = query;
+					 const parentDetails = searchInput.closest('.searchDetail');
+					 const selectedElement = parentDetails.querySelector('#place');
+					 if (selectedElement) {
+						 selectedElement.textContent = query;
+						 placeInput.value = query;
+					 }
+					 checkAllInputs();
+				});
+				
+				li.querySelector('.search-history-item-delete').addEventListener('click', function() {
+					removeSearchHistory(query);
+				});
+				searchHistoryList.appendChild(li);
+			});
+			
+			// 검색 기록이 비어 있지 않으면 표시
+			if (history.length > 0) {
+				searchHistoryListBox.style.display = 'block';
+			} else {
+				searchHistoryListBox.style.display = 'none';
+			}
+		}
+		
+		function addSearchHistory(query) {
+			let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			history = history.filter(item => item !== query); // 중복 제거
+			history.unshift(query); // 최신 검색어를 맨 앞에 추가
+			if (history.length > 20) { // 검색기록 20개 제한
+				history.pop();
+			}
+			localStorage.setItem('searchHistory', JSON.stringify(history));
+			loadSearchHistory();
+		}
+
+		function removeSearchHistory(query) {
+			let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+			history = history.filter(item => item !== query);
+			localStorage.setItem('searchHistory', JSON.stringify(history));
+			loadSearchHistory();
+		}
+		
+		// date 관련 스크립트
+		const datepicker = $("#datepicker");
+		
+		function formatDateString(dateStr) {
+			const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+			const dateObj = new Date(dateStr);
+			const month = dateObj.getMonth() + 1;
+			const day = dateObj.getDate();
+			const dayOfWeek = daysOfWeek[dateObj.getDay()];
+			return month + "월 " + day + "일(" + dayOfWeek + ")";
+		}
+		
+		 // Datepicker 초기화
+		datepicker.datepicker({
+			onSelect: function(dateText) {
+				if (!checkInSelected) {
+					checkInDate = dateText;
+					dateDetails.textContent = "입실: " +  formatDateString(checkInDate);
+					checkInSelected = true;
+					datepicker.datepicker('option', 'minDate', dateText);
+				} else {
+					checkOutDate = dateText;
+					dateDetails.textContent = formatDateString(checkInDate) + "~" + formatDateString(checkOutDate);
+					checkInSelected = false;
+					dateDropdown.classList.remove('show'); // dropdown 숨김
+					datepicker.datepicker('option', 'minDate', null);
+				}
+				dateInput.value = dateDetails.textContent;
+				checkAllInputs();
+			},
+			dateFormat: "yy-mm-dd"
+		});
+		 
+		// "인원" 항목 클릭 이벤트
+
+		// guest 값 설정
+		if (guest) {
+			const guestSpan = document.querySelector('.dropdownNumber_choice_num_span');
+			guestSpan.textContent = guest;
+		}
+		
+		function updatePersonnelCount(newCount) {
+			numSpan.textContent = newCount;
+			guestSpan.textContent = '성인 ' + newCount + '명';
+			guestInput.value = newCount;
+			checkAllInputs();
+		}
+		
+		decreaseButton.addEventListener('click', function(){
+			event.preventDefault();  // 기본 동작 방지
+			let currentValue = parseInt(numSpan.textContent);
+			if (currentValue > 0) { // 최소값 설정
+				updatePersonnelCount(currentValue - 1);
+			}
+		});
+		
+		increaseButton.addEventListener('click', function () {
+			event.preventDefault();  // 기본 동작 방지
+			let currentValue = parseInt(numSpan.textContent);
+			updatePersonnelCount(currentValue + 1);
+		});
+		
+		// "숙소 검색" 항목 클릭 이벤트
+		searchButton.addEventListener('click', function () {
+			if (!searchButton.disabled) {
+				const place = placeInput.value;
+				const date = dateInput ? dateInput.value : ''; // Date input이 없을 경우 빈 문자열
+				const guest = guestInput ? guestInput.value : ''; // Guest input이 없을 경우 빈 문자열
+				const queryString = '?place=' + encodeURIComponent(place) + 
+									'&date=' + encodeURIComponent(date) + 
+									'&guest=' + encodeURIComponent(guest);
+				window.location.href = '/Accommodation/Products' + queryString; // '/nextPage'를 실제 이동할 URL로 변경
+			}
+		});
+		
+		//호텔 이미지 모달
+	    $('#imageModal').on('show.bs.modal', function (e) {
+	        setTimeout(function(){
+	            var galleryThumbs = new Swiper('.gallery-thumbs', {
+	                spaceBetween: 10,
+	                slidesPerView: 4,
+	                centeredSlides: true,
+	                freeMode: true,
+	                watchSlidesVisibility: true,
+	                watchSlidesProgress: true,
+	                slideToClickedSlide: true
+	            });
+
+	            var galleryTop = new Swiper('.gallery-top', {
+	                loop: true,
+	                spaceBetween: 10,
+	                centeredSlides: true,
+	                slidesPerView: 1,
+	                navigation: {
+	                    nextEl: '.swiper-button-next',
+	                    prevEl: '.swiper-button-prev',
+	                },
+	                pagination: {
+	                    el: '.swiper-pagination',
+	                    type: 'fraction',
+	                },
+	                thumbs: {
+	                    swiper: galleryThumbs
+	                },
+
+	            });
+	        }, 500);  // Delay to allow modal to open completely
+	    });
+		
+	})
 </script>	 
 </body>
 

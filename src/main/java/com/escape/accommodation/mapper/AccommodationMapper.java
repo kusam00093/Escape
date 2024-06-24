@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.naming.directory.SearchResult;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.escape.accommodation.domain.Hotel;
 
@@ -17,5 +18,7 @@ public interface AccommodationMapper {
 	List<Hotel> searchHotels(Map<String, Object> params);
 
 	List<Map<String, Object>> getHotelDetails();
+
+	List<String> getHotelImages(int hotel_idx);
 
 }

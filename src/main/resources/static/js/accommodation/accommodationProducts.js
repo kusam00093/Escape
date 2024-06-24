@@ -315,6 +315,28 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 	
+	// "호텔 클릭" 항목 클릭 이벤트
+	const hotelLinks = document.querySelectorAll(".hotelBtn");
+	
+    hotelLinks.forEach(function(link) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const place = placeInput.value;
+            const date = dateInput ? dateInput.value : '';
+            const guest = guestInput ? guestInput.value : '';
+
+            const queryString = '?place=' + encodeURIComponent(place) + 
+                                '&date=' + encodeURIComponent(date) + 
+                                '&guest=' + encodeURIComponent(guest);
+            
+            const baseUrl = link.href.split('?')[0];
+            
+            link.href = baseUrl + queryString;
+            window.open(link.href, "_blank");
+        });
+    });
+		
 	// URL 파라미터를 유지한 채로 페이지 로드 시 값을 채워줌
 	window.addEventListener('popstate', function() {
 		const params = new URLSearchParams(window.location.search);
