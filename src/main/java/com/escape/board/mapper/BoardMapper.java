@@ -8,6 +8,7 @@ import com.escape.board.domain.BoardVo;
 import com.escape.board.domain.NewsVo;
 import com.escape.board.domain.NoticeVo;
 import com.escape.board.domain.QnaVo;
+import com.escape.login.domain.User;
 
 @Mapper
 public interface BoardMapper {
@@ -28,7 +29,7 @@ public interface BoardMapper {
 	
 	//void insertFriendwrite(BoardVo boardVo);
 	BoardVo insertFriendwrite(Long board_idx);
-	void insertFriendwrite(BoardVo boardVo);
+	//void insertFriendwrite(BoardVo boardVo);
 	
 	//void getFriendview( BoardVo boardVo);
 	List<BoardVo> getFriendview(BoardVo boardVo);
@@ -42,6 +43,17 @@ public interface BoardMapper {
 	void incHit(BoardVo boardVo);
 
 	void insertQandawrite(QnaVo qnaVo);
+	
+	// 뉴스 조회수
+	void updateNewsHit(Long news_idx);
+	Long getNewsHit(Long news_idx);
+	
+	void selectUser(User user);
+	void insertFriendwrite(BoardVo boardVo);
+	List<User> getUserList(User user);
+	User getUserId(int user_idx);
+	
+	void insertBoard(BoardVo boardVo);
 	
 
 	

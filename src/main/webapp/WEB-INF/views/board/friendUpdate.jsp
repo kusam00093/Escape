@@ -73,7 +73,9 @@ h2 {
 
           <!-- <form action="Board/FriendView${board.board_idx}" method="post">-->
           <form action="/Board/FriendUpdate" method="post">
-          <input type="hidden" name="board_idx" value="${board.board_idx}">
+        <!--    <input type="hidden" name="board_idx" value="${board_idx}">-->
+          <input type="hidden" name="user_idx" value="${board.user_idx}">
+          <input type="hidden" name="id" value="${sessionScope.login.id}">
  
                 <div class="form-group">
                     <label for="board_idx">글번호</label>
