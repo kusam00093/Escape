@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class QnaVo {
 	 
 	 private Long qanda_idx;
-	 private Long user_idx;
+	 private int user_idx;
 	 private String title;
 	 private String content;
 	 private String created;

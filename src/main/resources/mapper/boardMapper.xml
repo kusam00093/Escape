@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.escape.board.mapper.BoardMapper">
 
+<resultMap id="UserResultMap" type="com.escape.login.domain.User">
+    <result property="user_idx" column="USER_IDX"/>
+    <result property="id" column="ID"/>
+    <result property="passwd" column="PASSWD"/>
+    <result property="email" column="EMAIL"/>
+    <result property="type" column="TYPE"/>
+</resultMap>
+
+<select id="getUserList"  resultMap="UserResultMap">
+SELECT USER_IDX
+		,ID
+		,PASSWD
+		,EMAIL
+		,TYPE
+FROM   USER_TB
+WHERE ID=#{id}		
+
+</select>
 
 <select id="getPostingList">
 SELECT BOARD_IDX
@@ -51,13 +69,17 @@ SELECT COUNT(NEWS_IDX) AS COUNT
 FROM   NEWS_TB
 </select>
 
-<!--  
+ 
 <update id="updateNewsHit">
     UPDATE NEWS_TB 
     SET    HIT = hit + 1 
     WHERE  NEWS_IDX = #{news_idx}
 </update>
--->
+
+<select id="getNewsHit">
+    SELECT HIT
+    FROM NEWS_TB
+</select>
  
 <select id="getQnaList">
 SELECT QANDA_IDX
@@ -149,5 +171,13 @@ VALUES (
 		sysdate
     )
 </insert>
+
+<select id="getUserId">
+SELECT 
+	ID
+FROM USER_TB
+WHERE USER_IDX = #{param1}
+
+</select>
 
 </mapper>
