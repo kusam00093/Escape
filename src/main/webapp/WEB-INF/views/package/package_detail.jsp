@@ -216,6 +216,13 @@ input.form-control::placeholder {
         .row.second-row img:nth-child(3) {
             width: calc(34% - 5px); /* Subtract margin */
         }
+        
+        
+        
+        
+        
+        
+        
         .modal {
             display: none;
             position: fixed;
@@ -409,9 +416,48 @@ input.form-control::placeholder {
     }
         
         
-        
-      
-        
+    /* 모달 스타일 */
+    .modal2 {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal2-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+      animation-name: animatetop;
+      animation-duration: 0.4s
+    }
+    
+    @keyframes animatetop {
+      from {top: -300px; opacity: 0}
+      to {top: 0; opacity: 1}
+    }
+    
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+    }
 </style> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -421,7 +467,6 @@ input.form-control::placeholder {
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -634,11 +679,9 @@ input.form-control::placeholder {
   <h3 style="display: inline-block;">리뷰</h3>
   <div class="button-container">
     <c:if test="${not empty paycount and paycount > 0}">
-      <button class="ReviewRate btn btn-primary" style="display: inline-block;">평점쓰기</button>
+<button class="ReviewRate btn btn-primary" style="display: inline-block;" id="goReviewWrite">리뷰쓰기</button>
     </c:if>
-    <c:if test="${usertype.type eq 1}">
-      <button class="ReviewWrite btn btn-primary" style="display: inline-block;">리뷰쓰기</button>
-    </c:if>
+
   </div>
 </div>
 <div class="reviews">
@@ -710,8 +753,69 @@ input.form-control::placeholder {
     
   </aside>
 </div>
+
+
+
+
+
+
+
+
+<div class="modal2" id="exampleModal2">
+  <div class="modal2-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">리뷰 작성하기</h5>
+    </div>
+    <div class="modal-body">
+      <h2 class="fs-5">모달 안의 팝오버</h2>
+  <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+      <h2 class="fs-5">모달 안의 툴팁</h2>
+      <p><a href="#" data-bs-toggle="tooltip" title="툴팁">이 링크</a>와 <a href="#" data-bs-toggle="tooltip" title="툴팁">저 링크</a>에 마우스를 올리면 툴팁이 나타납니다.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" id="closeModal">닫기</button>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 모달 열기 버튼
+    var modalBtn = document.getElementById('goReviewWrite');
+    // 모달 닫기 버튼 (모달 안에 있는 X 버튼)
+    var closeModalBtn = document.getElementById('closeModal');
+    // 모달 창
+    var modal = document.getElementById('exampleModal2');
+    
+    // 모달 열기 버튼에 클릭 이벤트 리스너 추가
+    modalBtn.addEventListener('click', function() {
+      if (modal) {
+        modal.style.display = 'block'; // 모달 보이기
+      }
+    });
+    
+    // 모달 닫기 버튼에 클릭 이벤트 리스너 추가
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', function() {
+        if (modal) {
+          modal.style.display = 'none'; // 모달 숨기기
+        }
+      });
+    }
+    
+    // 사용자가 모달 바깥을 클릭했을 때 모달 숨기기
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none'; // 모달 숨기기
+      }
+    });
+  });
+</script>
+
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         if (typeof kakao === 'undefined' || !kakao.maps) {

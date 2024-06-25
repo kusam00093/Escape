@@ -113,6 +113,7 @@ public class CommentController {
       
       commentVo.setBoard_idx(board_idx);
        commentVo.setBoard_comment_idx(board_comment_idx);
+       commentVo.getUser_idx();
          
       CommentVo existingLike  = commentMapper.selectLikes(commentVo);
       System.out.println("===============addLike === existingLike: " + existingLike);

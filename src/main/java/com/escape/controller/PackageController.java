@@ -172,19 +172,24 @@ public class PackageController {
 		Package_ReviewVo package_Rate_Max = packageMapper.getMaxRate(packageVo.getPackage_idx());
 		Package_ReviewVo package_ReviewCount = packageMapper.getReviewCount(packageVo.getPackage_idx());
 		
-		int paycount = packageMapper.countPay(user.getUser_idx());
+		//int paycount = packageMapper.countPay(user.getUser_idx());
 		
 		ModelAndView mv = new ModelAndView();
 		
 		
 	    int userIdx = user != null ? user.getUser_idx() : 0; // user가 null이면 userIdx를 0으로 설정
 
-	    if (userIdx > -1) {
+	    if (userIdx > 0) {
 	        // userIdx가 0보다 크면(user.getUser_idx()가 존재할 때)
 	        User usertype = userMapper.findUserType(userIdx);
+			int paycount = packageMapper.countPay(user.getUser_idx());
 	        mv.addObject("usertype", usertype);
 	        mv.addObject("user_idx",userIdx);
+	        mv.addObject("paycount",paycount);
 	        System.out.println("유저아이디엑스!!!!!!!!!!!!!!!!!!!!"+userIdx);
+	    }else {
+	    	
+	    	
 	    }
 	    
 		
@@ -197,7 +202,7 @@ public class PackageController {
 		mv.addObject("package_imageList1", package_imageList1);
 		mv.addObject("package_imageList2", package_imageList2);
 		mv.addObject("package_imageList3", package_imageList3);
-		mv.addObject("paycount",paycount);
+		
 		
 		mv.setViewName("package/package_detail");
 		return mv;

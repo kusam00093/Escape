@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.board.mapper.BoardPagingMapper">  
+
+<select   id="getBoardPagingList" resultType="com.escape.board.domain.BoardVo" >
+SELECT BOARD_IDX
+		,USER_IDX
+		,TITLE
+		,CONTENT
+		,CREATED
+		,HIT
+FROM   BOARD_TB
+<where>
+          <if test="arg0 != null and arg0 != ''">
+			 AND BOARD_IDX = #{ arg0 }
+		  </if>
+          <if test="arg1 != null and arg1 != ''">
+			 AND TITLE LIKE '%' || #{ arg1 } || '%'
+		  </if>
+		  <if test="arg2 != null and arg2 != ''">
+			 AND CONTENT LIKE '%' || #{ arg2 } || '%'
+		  </if>		 
+		  </where>
+ORDER BY BOARD_IDX ASC
+ OFFSET #{ arg3 } ROWS FETCH NEXT #{ arg4 } ROWS ONLY
+</select>
+
+
+<select id="pcount" 
+        parameterType="com.escape.board.domain.BoardVo" 
+        resultType="int">
+		SELECT COUNT(*) AS PCNT
+		  FROM BOARD_TB
+		  <where>
+		  <if test="board_idx != null and board_idx != ''">
+			 AND BOARD_IDX = #{ board_idx }
+		  </if>
+		  <if test="title != null and title != ''">
+			 AND TITLE LIKE '%' || #{title} || '%'
+		  </if>
+		  <if test="content != null and content != ''">
+			 AND CONTENT LIKE '%' || #{content} || '%'
+		  </if>
+		  </where>
+	</select>
+	
+<insert id="insertBoard">
+    INSERT INTO BOARD_TB
+      VALUES ((SELECT NVL(MAX(BOARD_IDX))))
+    </insert>
+
+</mapper>
