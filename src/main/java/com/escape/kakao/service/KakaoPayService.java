@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.escape.kakao.domain.PaymentVo;
@@ -36,6 +37,10 @@ public class KakaoPayService {
 	public String readyToPay(String orderId, String userId, String itemName, String seatClass, String adultCount,
 			String childCount, String infantCount, String totalPrice, int user_idx) {
 
+		System.out.println("Admin Key: " + adminKey);
+		System.out.println("CID: " + cid);
+		System.out.println("KakaoPay URL: " + kakaoPayUrl);
+		
 		System.out.println("===== readyToPay === orderId:" + orderId);
 		System.out.println("===== readyToPay === userId:" + userId);
 		System.out.println("===== readyToPay === itemName:" + itemName);
@@ -91,10 +96,22 @@ public class KakaoPayService {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 		System.out.println("===== readyToPay === entity:" + entity);
 
-		ResponseEntity<String> response = restTemplate.exchange(kakaoPayUrl, HttpMethod.POST, entity, String.class);
-		System.out.println("===== readyToPay === response:" + response);
+		//ResponseEntity<String> response = restTemplate.exchange(kakaoPayUrl, HttpMethod.POST, entity, String.class);
+		//System.out.println("===== readyToPay === response:" + response);
+		
+		try {
+		    ResponseEntity<String> response = restTemplate.exchange(kakaoPayUrl, HttpMethod.POST, entity, String.class);
+		    System.out.println("Response: " + response);
+		    return response.getBody();
+		} catch (HttpClientErrorException e) {
+		    System.out.println("HttpClientErrorException: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+		    throw e;
+		} catch (Exception e) {
+		    System.out.println("Exception: " + e.getMessage());
+		    throw e;
+		}
 
-		return response.getBody();
+		//return response.getBody();
 
 	}
 

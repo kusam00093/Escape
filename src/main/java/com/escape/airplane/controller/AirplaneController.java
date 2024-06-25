@@ -478,75 +478,75 @@ public class AirplaneController {
         return ResponseEntity.ok(response);
     }
 	
-	@RequestMapping("/Filter/GetFlights")
-	public ModelAndView filterFlights( User user, @RequestParam Map<String, String> params ) {
-		
-	System.out.println("===== Filter === params: " + params);
-		
-		String depCity1 = params.get("depCity1");
-        String depCity2 = params.get("ariCity1");
-        String ariCity1 = params.get("ariCity1");
-        String ariCity2 = params.get("depCity1");
-        String depCityCode1 = params.get("depCityCode1");
-        String depCityCode2 = params.get("ariCityCode1");
-        String ariCityCode1 = params.get("ariCityCode1");
-        String ariCityCode2 = params.get("depCityCode1");
-        String depDate1 = params.get("depDate1");
-        String initform = params.get("initform");
-
-        String seatClassStr = params.get("seatClassStr");
-        String seatClass = params.get("seatClass");
-        int stype = Integer.parseInt(seatClass);
-        
-        String adultCountStr = params.get("adultCount");
-        int adultCount = Integer.parseInt(adultCountStr);
-        String childCountStr = params.get("childCount");
-        int childCount = Integer.parseInt(childCountStr);
-        String infantCountStr = params.get("infantCount");
-        int infantCount = Integer.parseInt(infantCountStr);
-        
-        List<String> depDate2List = null; // Declare the variable outside the if block
-
-        String depDate2Str = params.get("depDate2[]");
-        if (depDate2Str != null) {
-            depDate2Str = depDate2Str.substring(1, depDate2Str.length() - 1);
-            depDate2List = Arrays.stream(depDate2Str.split("\\],\\["))
-                                 .map(s -> s.replace("[", "").replace("]", "").trim())
-                                 .collect(Collectors.toList());
-
-            System.out.println("Extracted depDate2 values: " + depDate2List);
-        }
-
-        if (depDate2List != null) {
-            for (String date : depDate2List) {
-                System.out.println("Date: " + date);
-            }
-        }
-
-	        ModelAndView mv = new ModelAndView();
-	        List<Map<String, Object>> airSearchList = new ArrayList<>();
-
-	        String selectedTimeCategory = params.get("timeCategory");
-	        Set<String> uncheckedCategories = getUncheckedCategories(params); // 새로운 메서드 호출로 카테고리 초기화
-
-	        if ("RT".equals(initform) && depDate2List != null) {
-	            processRoundTrip(depCity1, ariCity1, depCity2, ariCity2, depDate2List, stype, adultCount, childCount, infantCount, airSearchList, mv, uncheckedCategories, selectedTimeCategory);
-	        } else {
-	            processOneWay(depCity1, ariCity1, depDate1, stype, adultCount, childCount, infantCount, airSearchList, mv, uncheckedCategories, selectedTimeCategory);
-	        }
-
-	        mv.addObject("airSearchList", airSearchList);
-	        mv.addObject("seatClassStr", params.get("seatClassStr"));
-	        mv.addObject("seatClass", stype);
-	        mv.addObject("adultCount", adultCount);
-	        mv.addObject("childCount", childCount);
-	        mv.addObject("infantCount", infantCount);
-	        mv.addObject("initform", initform);
-	        mv.addObject("selectedTimeCategory", selectedTimeCategory); // 선택된 시간대 추가
-	        mv.setViewName("airplane/airplanefilter");
-	        return mv;
-	    }
-	
+//	@RequestMapping("/Filter/GetFlights")
+//	public ModelAndView filterFlights( User user, @RequestParam Map<String, String> params ) {
+//		
+//	System.out.println("===== Filter === params: " + params);
+//		
+//		String depCity1 = params.get("depCity1");
+//        String depCity2 = params.get("ariCity1");
+//        String ariCity1 = params.get("ariCity1");
+//        String ariCity2 = params.get("depCity1");
+//        String depCityCode1 = params.get("depCityCode1");
+//        String depCityCode2 = params.get("ariCityCode1");
+//        String ariCityCode1 = params.get("ariCityCode1");
+//        String ariCityCode2 = params.get("depCityCode1");
+//        String depDate1 = params.get("depDate1");
+//        String initform = params.get("initform");
+//
+//        String seatClassStr = params.get("seatClassStr");
+//        String seatClass = params.get("seatClass");
+//        int stype = Integer.parseInt(seatClass);
+//        
+//        String adultCountStr = params.get("adultCount");
+//        int adultCount = Integer.parseInt(adultCountStr);
+//        String childCountStr = params.get("childCount");
+//        int childCount = Integer.parseInt(childCountStr);
+//        String infantCountStr = params.get("infantCount");
+//        int infantCount = Integer.parseInt(infantCountStr);
+//        
+//        List<String> depDate2List = null; // Declare the variable outside the if block
+//
+//        String depDate2Str = params.get("depDate2[]");
+//        if (depDate2Str != null) {
+//            depDate2Str = depDate2Str.substring(1, depDate2Str.length() - 1);
+//            depDate2List = Arrays.stream(depDate2Str.split("\\],\\["))
+//                                 .map(s -> s.replace("[", "").replace("]", "").trim())
+//                                 .collect(Collectors.toList());
+//
+//            System.out.println("Extracted depDate2 values: " + depDate2List);
+//        }
+//
+//        if (depDate2List != null) {
+//            for (String date : depDate2List) {
+//                System.out.println("Date: " + date);
+//            }
+//        }
+//
+//	        ModelAndView mv = new ModelAndView();
+//	        List<Map<String, Object>> airSearchList = new ArrayList<>();
+//
+//	        String selectedTimeCategory = params.get("timeCategory");
+//	        Set<String> uncheckedCategories = getUncheckedCategories(params); // 새로운 메서드 호출로 카테고리 초기화
+//
+//	        if ("RT".equals(initform) && depDate2List != null) {
+//	            processRoundTrip(depCity1, ariCity1, depCity2, ariCity2, depDate2List, stype, adultCount, childCount, infantCount, airSearchList, mv, uncheckedCategories, selectedTimeCategory);
+//	        } else {
+//	            processOneWay(depCity1, ariCity1, depDate1, stype, adultCount, childCount, infantCount, airSearchList, mv, uncheckedCategories, selectedTimeCategory);
+//	        }
+//
+//	        mv.addObject("airSearchList", airSearchList);
+//	        mv.addObject("seatClassStr", params.get("seatClassStr"));
+//	        mv.addObject("seatClass", stype);
+//	        mv.addObject("adultCount", adultCount);
+//	        mv.addObject("childCount", childCount);
+//	        mv.addObject("infantCount", infantCount);
+//	        mv.addObject("initform", initform);
+//	        mv.addObject("selectedTimeCategory", selectedTimeCategory); // 선택된 시간대 추가
+//	        mv.setViewName("airplane/airplanefilter");
+//	        return mv;
+//	    }
+//	
 	private Set<String> getUncheckedCategories(Map<String, String> params) {
 		Set<String> uncheckedCategories = new HashSet<>();
 	    
@@ -594,21 +594,194 @@ public class AirplaneController {
 	
 	@PostMapping("/filterFlights")
 	@ResponseBody
-	public String filterFlights(@RequestBody Map<String, List <String>> filters, Model model) {
-
-		System.out.println("===== filterFlights === filters: " + filters);
-		System.out.println("===== filterFlights === model: " + model);
+	public ResponseEntity<String> filterFlights(@RequestBody Map<String, Object> filters) {
 		
-	    List<String> departureTimes = filters.get("departureTimes");
-	    System.out.println("===== filterFlights === departureTimes: " + departureTimes);
+	    List<Map<String, Object>> pageDataArray = (List<Map<String, Object>>) filters.get("pageDataArray");
+	    System.out.println("===== filterFlights === pageDataArray: " + pageDataArray);
+	    
+	    String selectedTimeCategory = (String) filters.get("selectedTimeCategory");
+	    System.out.println("===== filterFlights === selectedTimeCategory: " + selectedTimeCategory);	// 06
+	    
+	    Set<String> uncheckedCategories = getUncheckedCategories2(filters); // Adjust this method to work with filters
+	    System.out.println("===== filterFlights === uncheckedCategories: " + uncheckedCategories);	// [24]
 
-	    List<Flight> filteredFlights = filterService.filterFlightsByDepartureTimes(departureTimes);
+	    // Process the filtering logic here
+	    List<Map<String, Object>> filteredFlights = filterFlightsByTimeCategory(pageDataArray, selectedTimeCategory, uncheckedCategories);
 	    System.out.println("===== filterFlights === filteredFlights: " + filteredFlights);
 
-	    model.addAttribute("roundTripFlights", filteredFlights);
-	    //return "filteredFlightData";
-	    return "airplane/airplanefilter";
+	    // Convert the filtered results to HTML or JSON
+	    String filteredResultsHtml = convertFlightsToHtml(filteredFlights);
 
+	    return ResponseEntity.ok(filteredResultsHtml);
 	}
+
+	private List<Map<String, Object>> filterFlightsByTimeCategory(List<Map<String, Object>> pageDataArray, String selectedTimeCategory, Set<String> uncheckedCategories) {
+	    // selectedTimeCategory 및 uncheckedCategories를 기반으로 필터링 구현
+	    // 필터링된 항공편 목록 반환
+	    return pageDataArray.stream()
+	        .filter(flight -> !uncheckedCategories.contains(flight.get("timeCategory")))
+	        .collect(Collectors.toList());
+	}
+
+	private String convertFlightsToHtml(List<Map<String, Object>> filteredFlights) {
+	    // Convert the filtered flights list to HTML
+	    // This method should generate the HTML structure that matches your JSP page
+	    StringBuilder html = new StringBuilder();
+	    for (Map<String, Object> flight : filteredFlights) {
+	    	html.append("<div class='content'>");
+	    	html.append("<c:choose>");
+	    	html.append("<c:when test=\"${not empty roundTripFlights}\">");
+	    	html.append("<c:forEach items=\"${roundTripFlights}\" var=\"roundTrip\" varStatus=\"status\">");
+	        html.append("<div class='flight-wrapper'>");
+	        html.append("<div class='flight-header'>");
+	        html.append("<span class='flight-logo'>");
+	        html.append("<img src=\"${ roundTrip[0].LOGO }\" class=\"spanImg\" alt=\"logo\">");
+	        html.append("<em>${ roundTrip[0].AIRLINE_NAME }</em>");
+	        html.append("</span>");
+	        html.append("<div class='flight-details-wrapper'>");
+	        html.append("<c:forEach items=\"${roundTrip}\" var=\"flight\">");
+	        html.append("<div class='flight-details'>");
+	        html.append("<ul>");
+	        html.append("<li>");
+	        html.append("<div>");
+	        html.append("<span class='fontSetting'>");
+	        html.append("<span class=\"locSetting startTime\">${ flight.START_TIME }");
+	        html.append("<em>" + flight.get("DEPCITY_ENAME"));
+	        html.append("<span>" + flight.get("DEPCITY_NAME") + "</span>");
+	        html.append("</em>");
+	        html.append("</span>");
+	        html.append("<span class='time-taken'>");
+	        html.append("<img src='/images/arrow.jpg' class='arrowImg' alt='arrow'>");
+	        html.append("<em>${ flight.DEPCITY_ENAME }");
+	        html.append("<span>${ flight.DEPCITY_NAME }</span>");
+	        html.append("</em>");
+	        html.append("</span>");
+	        html.append("</span>");
+	        html.append("<span class=\"time-taken\">");
+	        html.append("<img src=\"/images/arrow.jpg\" class=\"arrowImg\" alt=\"arrow\">");
+	        html.append("<em>${ flight.DURATIONHOUR }시간 ${ flight.DURATIONMINUTE }분</em>");
+	        html.append("</span>");
+	        html.append("<span class='fontSetting'>");
+	        html.append("<span class=\"locSetting endTime\">${ flight.END_TIME }");
+	        html.append("<em>${ flight.ARRCITY_ENAME }");
+	        html.append("<span>${ flight.ARRCITY_NAME }</span>");
+	        html.append("</em>");
+	        html.append("</span>");
+	        html.append("</span>");
+	        html.append("<span>직항</span>");
+	        html.append("</div>");
+	        html.append("</li>");
+	        html.append("</ul>");
+	        html.append("</div>");
+	        html.append("</c:forEach>");
+	        html.append("</div>");
+	        html.append("<input type=\"hidden\" name=\"startDate\" class=\"startDate\" value=\"${ roundTrip[0].START_DATE }\">");
+	        html.append("<input type=\"hidden\" name=\"endDate\" class=\"endDate\" value=\"${ roundTrip[0].END_DATE }\">");
+	        html.append("<form class='paymentForm' action='/Airplane/AirplanePay' method='POST'>");
+	        html.append("<input type=\"hidden\" name=\"orderId\" value=\"${ roundTrip[0].AIRPLANE_TIME_IDX }\">");
+	        html.append("<input type=\"hidden\" name=\"userId\" value=\"${ sessionScope.login.id }\">");
+	        html.append("<input type=\"hidden\" name=\"itemName\" value=\"${ roundTrip[0].AIRLINE_NAME }\">");
+	        html.append("<input type=\"hidden\" name=\"seatClass\" value=\"${ seatClass }\">");
+	        html.append("<input type=\"hidden\" name=\"adultCount\" value=\"${ adultCount }\">");
+	        html.append("<input type=\"hidden\" name=\"childCount\" value=\"${ childCount }\">");
+	        html.append("<input type=\"hidden\" name=\"infantCount\" value=\"${ infantCount }\">");
+	        html.append("input type=\"hidden\" name=\"adultPrice\" value=\"${ roundTrip[0].ADULT_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"childPrice\" value=\"${ roundTrip[0].CHILD_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"infantPrice\" value=\"${ roundTrip[0].INFANT_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"totalPrice\" value=\"${ roundTripPrices[status.index] }\">");
+	        html.append("<input type=\"hidden\" name=\"startDate\" value=\"${ roundTrip[0].START_DATE }\">");
+	        html.append("<input type=\"hidden\" name=\"departureLoc\" value=\"${ roundTrip[0].DEPARTURE_LOC }\">");
+	        html.append("<input type=\"hidden\" name=\"arrivalLoc\" value=\"${ roundTrip[0].ARRIVAL_LOC }\">");
+	        html.append("<input type=\"hidden\" name=\"stypeIdx\" value=\"${ roundTrip[0].STYPE_IDX }\">");
+	        html.append("<span class='price-info'>");
+	        html.append("<button type=\"submit\" class=\"reservationBtn\" data-airplane-time-idx=\"${ roundTrip[0].AIRPLANE_TIME_IDX }\" data-user-id=\"${ sessionScope.login.id }\" data-airplane-name=\"${ roundTrip[0].AIRLINE_NAME }\" data-seatClass=\"${ seatClass }\" data-adultCount=\"${ adultCount }\" data-childCount=\"${ childCount }\" data-infantCount=\"${ infantCount }\" data-totalPrice=\"${ roundTripPrices[status.index] }\" data-startDate=\"${ roundTrip[0].START_DATE }\" data-departure-loc=\"${ roundTrip[0].DEPARTURE_LOC }\" data-arrival-loc=\"${ roundTrip[0].ARRIVAL_LOC }\" data-departure-depname=\"${ roundTrip[0].DEPCITY_NAME }\" data-arrival-depname=\"${ roundTrip[0].ARRCITY_NAME }\" data-departure-depename=\"${ roundTrip[0].DEPCITY_ENAME }\" data-arrival-depename=\"${ roundTrip[0].ARRCITY_ENAME }\" data-departure-arrname=\"${ roundTrip[0].ARRCITY_NAME }\" data-arrival-arrname=\"${ roundTrip[0].DEPCITY_NAME }\" data-departure-arrename=\"${ roundTrip[0].ARRCITY_ENAME }\" data-arrival-arrename=\"${ roundTrip[0].DEPCITY_ENAME }\" data-stypeIdx=\"${ roundTrip[0].STYPE_IDX }\" data-start-deptime=\"${ roundTrip[0].START_TIME }\" data-end-deptime=\"${ roundTrip[0].END_TIME }\" data-start-arrtime=\"${ roundTrip[1].START_TIME }\" data-end-arrtime=\"${ roundTrip[1].END_TIME }\" data-flights=\"[[ ${ roundTrip[0].END_DATE } ],[ ${ roundTrip[1].END_DATE } ]]\" onclick=\"confirmPayment(event)\">예약</button>");
+	        html.append("<div>");
+	        html.append("<strong>${roundTripPrices[status.index]} KRW</strong>");
+	        html.append("</div>");
+	        html.append("</span>");
+	        html.append("</form>");
+	        html.append("</div>");
+	        html.append("</div>");
+	        html.append("<hr class='short' />");
+	        html.append("</c:forEach>");
+	        html.append("</c:when>");
+	        html.append("<c:otherwise>");
+	        html.append("<c:forEach items=\"${oneWayFlights}\" var=\"oneWay\" varStatus=\"status\">");
+	        html.append("<div class=\"flight-wrapper\">");
+	        html.append("<div class=\"flight-header\">");
+	        html.append("<span class=\"flight-logo\">");
+	        html.append("<img src=\"${ oneWay[0].LOGO }\" class=\"spanImg\" alt=\"logo\">");
+	        html.append("<em>${ oneWay[0].AIRLINE_NAME }</em>");
+	        html.append("</span>");
+	        html.append("<div class=\"flight-details-wrapper\">");
+	        html.append("<div class=\"flight-details\">");
+	        html.append("<ul>");
+	        html.append("<li>");
+	        html.append("<div>");
+	        html.append("<span class=\"fontSetting\">");
+	        html.append("<span class=\"locSetting startTime\">${ oneWay[0].START_TIME }");
+	        html.append("<em>${ oneWay[0].DEPCITY_ENAME }");
+	        html.append("<span>${ oneWay[0].DEPCITY_NAME }</span>");
+	        html.append("</em>");
+	        html.append("</span>");
+	        html.append("</span>");
+	        html.append("<span class=\"time-taken\">");
+	        html.append("<img src=\"/images/arrow.jpg\" class=\"arrowImg\" alt=\"arrow\">");
+	        html.append("<em>${ oneWay[0].DURATIONHOUR }시간 ${ oneWay[0].DURATIONMINUTE }분</em>");
+	        html.append("</span>");
+	        html.append("<span class=\"fontSetting\">");
+	        html.append("<span class=\"locSetting endTime\">${ oneWay[0].END_TIME }");
+	        html.append("<em>${ oneWay[0].ARRCITY_ENAME }");
+	        html.append("<span>${ oneWay[0].ARRCITY_NAME }</span>");
+	        html.append("</em>");
+	        html.append("</span>");
+	        html.append("</span>");
+	        html.append("<span>직항</span>");
+	        html.append("</div>");
+	        html.append("</li>");
+	        html.append("</ul>");
+	        html.append("</div>");
+	        html.append("</div>");
+	        
+	        html.append("<form class='paymentForm' action='/Airplane/AirplanePay' method='POST'>");
+	        html.append("<input type=\"hidden\" name=\"orderId\" value=\"${ oneWay[0].AIRPLANE_TIME_IDX }\">");
+	        html.append("<input type=\"hidden\" name=\"userId\" value=\"${ sessionScope.login.id }\">");
+	        html.append("<input type=\"hidden\" name=\"itemName\" value=\"${ oneWay[0].AIRLINE_NAME }\">");
+	        html.append("<input type=\"hidden\" name=\"seatClass\" value=\"${ seatClass }\">");
+	        html.append("<input type=\"hidden\" name=\"adultCount\" value=\"${ adultCount }\">");
+	        html.append("<input type=\"hidden\" name=\"childCount\" value=\"${ childCount }\">");
+	        html.append("<input type=\"hidden\" name=\"infantCount\" value=\"${ infantCount }\">");
+	        html.append("input type=\"hidden\" name=\"adultPrice\" value=\"${ oneWay[0].ADULT_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"childPrice\" value=\"${ oneWay[0].CHILD_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"infantPrice\" value=\"${ oneWay[0].INFANT_PRICE }\">");
+	        html.append("<input type=\"hidden\" name=\"totalPrice\" value=\"${ oneWayPrices[status.index] }\">");
+	        html.append("<input type=\"hidden\" name=\"startDate\" value=\"${ oneWay[0].START_DATE }\">");
+	        html.append("<input type=\"hidden\" name=\"departureLoc\" value=\"${ oneWay[0].DEPARTURE_LOC }\">");
+	        html.append("<input type=\"hidden\" name=\"arrivalLoc\" value=\"${ oneWay[0].ARRIVAL_LOC }\">");
+	        html.append("<input type=\"hidden\" name=\"stypeIdx\" value=\"${ oneWay[0].STYPE_IDX }\">");
+	        html.append("<span class='price-info'>");
+	        html.append("<button type=\"submit\" class=\"reservationBtn\" data-airplane-time-idx=\"${ oneWay[0].AIRPLANE_TIME_IDX }\" data-user-id=\"${ sessionScope.login.id }\" data-airplane-name=\"${ oneWay[0].AIRLINE_NAME }\" data-seat-class=\"${ seatClass }\" data-adult-count=\"${ adultCount }\" data-child-count=\"${ childCount }\" data-infant-count=\"${ infantCount }\" data-totalPrice=\"${ oneWayPrices[status.index] }\" onclick=\"confirmPayment(event)\">결제</button>");
+	        html.append("<div>");
+	        html.append("<strong>${oneWayPrices[status.index]} KRW</strong>");
+	        html.append("</div>");
+	        html.append("</span>");
+	        html.append("</form>");
+	        html.append("</div>");
+	        html.append("</div>");
+	        html.append("<hr class=\"short\" />");
+	        html.append("</c:forEach>");
+	        html.append("</c:otherwise>");
+	        html.append("</c:choose>");
+	        html.append("</div>");
+	        html.append("</div>");
+	    }
+	    return html.toString();
+	}
+	
+	private Set<String> getUncheckedCategories2(Map<String, Object> filters) {
+	    List<String> uncheckedCategoriesList = (List<String>) filters.get("uncheckedCategories");
+	    return new HashSet<>(uncheckedCategoriesList);
+	}
+
 	
 }

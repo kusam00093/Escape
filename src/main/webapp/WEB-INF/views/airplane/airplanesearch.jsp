@@ -353,136 +353,111 @@ function confirmPayment(event) {
         
 </script>
 
-<!-- <script>
-// jQuery를 이용한 예시입니다. jQuery가 사용 가능한 환경에서 작성된 것입니다.
-$(document).ready(function() {
-	
-	/* var selectedTimes = [];
-    $('.time-checkbox:checked').each(function() {
-        selectedTimes.push($(this).val()); // 체크된 시간대 값을 배열에 추가합니다.
-        console.dir(selectedTimes);
-    }); */
-    
-    /* var flightStartTime = $(this).find('.flight-details span.locSetting:first-child').text(); // 출발 시간을 가져옵니다.
-    console.dir(flightStartTime); */
-    
-    const flightStartDate = document.querySelector('.startDate').value;
-    const flightEndDate = document.querySelector('.endDate').value;
-    const flightStartTime = $(this).find('.departure-time').text(); // 출발 시간을 가져옵니다.
-    const flightEndTime = $(this).find('.arrival-time').text(); // 도착 시간을 가져옵니다.
-    console.dir(flightStartDate);
-    console.dir(flightEndDate);
-    console.dir(flightStartTime);
-    console.dir(flightEndTime);
-	
-    // 체크박스가 변경될 때마다 호출될 함수
-    $('.time-checkbox').change(function() {
-        filterFlights(); // 체크박스 상태에 따라 필터링 함수 호출
-    });
-
-    function filterFlights() {
-        // 모든 선택된 출발 시간대를 가져옵니다.
-        var selectedTimes = [];
-        $('.time-checkbox:checked').each(function() {
-            selectedTimes.push($(this).val()); // 체크된 시간대 값을 배열에 추가합니다.
-            console.dir(selectedTimes);
-        });
-
-        // 각 항공편에 대해 필터링을 수행합니다.
-        $('.flight-wrapper').each(function() {
-        	
-        	//var flightStartTime = $(this).find('#departure-time').text(); // 출발 시간을 가져옵니다.
-            //var flightEndTime = $(this).find('#arrival-time').text(); // 도착 시간을 가져옵니다.
-        	
-            //var flightStartTime = $(this).find('.flight-details span.locSetting:first-child').text(); // 출발 시간을 가져옵니다.
-            //console.dir(flightStartTime);
-
-            // 출발 시간이 선택된 시간대에 포함되는지 확인합니다.
-            var shouldBeVisible = false;
-            for (var i = 0; i < selectedTimes.length; i++) {
-                
-            	var time = parseInt(selectedTimes[i]);
-                console.dir(time);
-                
-                if (time <= 6 && time > 0) {
-                    //if (flightStartTime.indexOf("새벽") !== -1) {
-                    if (flightStartTime.indexOf("06") !== -1) {
-                        shouldBeVisible = true;
-                        break;
-                    }
-                } else if (time <= 12 && time > 6) {
-                    //if (flightStartTime.indexOf("오전") !== -1) {
-                    if (flightStartTime.indexOf("12") !== -1) {
-                        shouldBeVisible = true;
-                        break;
-                    }
-                } else if (time <= 18 && time > 12) {
-                    //if (flightStartTime.indexOf("오후") !== -1) {
-                    if (flightStartTime.indexOf("18") !== -1) {
-                        shouldBeVisible = true;
-                        break;
-                    }
-                } else if (time <= 24 && time > 18) {
-                    //if (flightStartTime.indexOf("야간") !== -1) {
-                    if (flightStartTime.indexOf("24") !== -1) {
-                        shouldBeVisible = true;
-                        break;
-                    }
-                }
-            }
-
-            // 필터링된 결과에 따라 항공편을 보이거나 숨깁니다.
-            if (shouldBeVisible) {
-                $(this).show(); // 보이기
-            } else {
-                $(this).hide(); // 숨기기
-            }
-        });
-    }
-});
-</script> -->
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function() {
-	const idEl = document.querySelector('.reservationBtn');
-    console.dir(idEl);
-    const id = idEl.dataset.userId;
-    console.dir(id);
-    
+	
+	const reservationBtns = document.querySelectorAll('.reservationBtn');
+	console.dir(reservationBtns);
+
+	const pageDataArray = Array.from(reservationBtns).map(btn => {
+		
+		const flightsString = btn.dataset.flights;
+		const flights = flightsString.slice(2, -2).split('],[').map(date => date.trim());
+		const start_date = flights[0];
+		const end_date = flights[1];
+		
+		return {
+			
+		    id: btn.dataset.userId,
+		    
+		    airplane_time_idx: btn.dataset.airplaneTimeIdx,
+		    airplane_name: btn.dataset.airplaneName,
+		    
+		    seatClass: btn.dataset.seatclass,
+		    adultCount: btn.dataset.adultcount,
+		    childCount: btn.dataset.childcount,
+		    infantCount: btn.dataset.infantcount,
+		    totalPrice: btn.dataset.totalprice,
+		    
+		    departure_loc: btn.dataset.departureLoc,
+		    arrival_loc: btn.dataset.arrivalLoc,
+		    
+		    departure_name1: btn.dataset.departureDepname,
+		    arrival_name1: btn.dataset.arrivalDepname,
+		    
+		    departure_name2: btn.dataset.departureArrname,
+		    arrival_name2: btn.dataset.arrivalArrname,
+		    
+		    stype_idx: btn.dataset.stypeidx,
+		    
+		    start_time1: btn.dataset.startDeptime,
+		    end_time1: btn.dataset.endDeptime,
+		    
+		    start_time2: btn.dataset.startArrtime,
+		    end_time2: btn.dataset.endArrtime,
+		    
+		    //start_date: btn.dataset.startdate,
+		    flights: btn.dataset.flights,
+		    start_date: start_date,
+		    end_date: end_date,
+		    
+		}
+		
+	});
+
+	console.log(pageDataArray);
+	
+	/*
+	for (key in pageDataArray) {
+		console.log(key, pageDataArray[key]);
+	}
+	
+	for (key of Object.keys(pageDataArray)) {
+	    console.log(key, pageDataArray[key]);
+	}
+	
     var startTimes = [];
     <c:forEach var="flightGroup" items="${roundTripFlights}">
         <c:forEach var="flight" items="${flightGroup}">
             startTimes.push('${flight.START_TIME}');
         </c:forEach>
     </c:forEach>
-    console.log(startTimes);
     
     // 홀수 번째 요소를 담을 배열
     var oddStartTimes = [];
     // 홀수 번째 요소 추출
     for (var i = 0; i < startTimes.length; i += 2) {
         oddStartTimes.push(startTimes[i]);
-        console.dir(oddStartTimes);
     }
+    */
+    
     $('input.time-checkbox').change(function() {
+    	
+    	/*
         var selectedTimes = [];
         $('input.time-checkbox:checked').each(function() {
             var timeValue = $(this).val();
             if (!selectedTimes.includes(timeValue)) {
                 selectedTimes.push(timeValue);
-                console.dir(selectedTimes);
             }
         });
+        */
+        
+        const selectedTimeCategory = $('input.time-checkbox:checked').val();
+        const uncheckedCategories = $('input.time-checkbox:not(:checked)').map(function() {
+            return this.value;
+        }).get();
+        
         $.ajax({
             url: '/Airplane/filterFlights',
             type: 'POST',
             contentType: 'application/json;charset=UTF-8',
-            //contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
             data: JSON.stringify({
-            //data: {
-                //departureTimes: startTimes
-                departureTimes: oddStartTimes
+            	pageDataArray: pageDataArray,
+            	selectedTimeCategory: selectedTimeCategory,
+                uncheckedCategories: uncheckedCategories
             }),
             success: function(data) {
                 updateFlights(data);
@@ -494,41 +469,7 @@ $(document).ready(function() {
 function updateFlights(data) {
     $('.content').html(data);
 }
-// $(document).ready(function() {
-//     function getSelectedTimes() {
-//         var selectedTimes = [];
-//         $('input.time-checkbox:checked').each(function() {
-//             selectedTimes.push($(this).val());
-//         });
-//         return selectedTimes;
-//     }
 
-//     function updateFlights(data) {
-//         $('.flight-container').html(data);
-//     }
-
-//     $('input.time-checkbox').change(function() {
-//         var selectedTimes = getSelectedTimes();
-//         console.dir(selectedTimes);
-//         $.ajax({
-//             url: '/Airplane/filterFlights',
-//             type: 'POST',
-//             contentType: 'application/json;charset=UTF-8',
-//             data: JSON.stringify({
-//                 departureTimes: selectedTimes
-//             }),
-//             success: function(data) {
-//                 updateFlights(data);
-//             },
-//             error: function(error) {
-//                 console.log('Error:', error);
-//             }
-//         });
-//     });
-
-//     // 페이지 로드 시 초기 필터링
-//     $('input.time-checkbox').trigger('change');
-// });
 </script>
 
 </head>
@@ -835,9 +776,23 @@ function updateFlights(data) {
 				            data-infantCount="${ infantCount }"
 				            data-totalPrice="${ roundTripPrices[status.index] }"
 				            data-startDate="${ roundTrip[0].START_DATE }"
-				            data-departureLoc="${ roundTrip[0].DEPARTURE_LOC }"
-				            data-arrivalLoc="${ roundTrip[0].ARRIVAL_LOC }"
+				            data-departure-loc="${ roundTrip[0].DEPARTURE_LOC }"
+				            data-arrival-loc="${ roundTrip[0].ARRIVAL_LOC }"
+				            data-departure-depname="${ roundTrip[0].DEPCITY_NAME }"
+				            data-arrival-depname="${ roundTrip[0].ARRCITY_NAME }"
+				            data-departure-depename="${ roundTrip[0].DEPCITY_ENAME }"
+				            data-arrival-depename="${ roundTrip[0].ARRCITY_ENAME }"
+				            
+				            data-departure-arrname="${ roundTrip[0].ARRCITY_NAME }"
+				            data-arrival-arrname="${ roundTrip[0].DEPCITY_NAME }"
+				            data-departure-arrename="${ roundTrip[0].ARRCITY_ENAME }"
+				            data-arrival-arrename="${ roundTrip[0].DEPCITY_ENAME }"
+				            
 				            data-stypeIdx="${ roundTrip[0].STYPE_IDX }"
+				            data-start-deptime="${ roundTrip[0].START_TIME }"
+				            data-end-deptime="${ roundTrip[0].END_TIME }"
+				            data-start-arrtime="${ roundTrip[1].START_TIME }"
+				            data-end-arrtime="${ roundTrip[1].END_TIME }"
 				            data-flights="[[ ${ roundTrip[0].END_DATE } ],[ ${ roundTrip[1].END_DATE } ]]"
 				            onclick="confirmPayment(event)"
 				        >예약</button>
