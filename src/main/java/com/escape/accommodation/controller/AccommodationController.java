@@ -46,10 +46,10 @@ public class AccommodationController {
 		
 		
 		List<Hotel> hotels = accommodationService.searchHotels(params);
-		List<Map<String, Object>> hotelDetails = accommodationService.getHotelDetails();
+		List<Map<String, Object>> hotelPrice = accommodationService.getHotelPrice();
 		
-        Map<Integer, Map<String, Object>> hotelInfoMap = new HashMap<>();
-        for (Map<String, Object> detail : hotelDetails) {
+        Map<Integer, Map<String, Object>> hotelPriceMap = new HashMap<>();
+        for (Map<String, Object> detail : hotelPrice) {
             Integer hotelIdx = ((BigDecimal) detail.get("HOTEL_IDX")).intValue(); // 호텔 인덱스 추출
             Integer lowestPrice = ((BigDecimal) detail.get("LOWEST_PRICE")).intValue(); // 최소 가격 추출
             Integer discountRate = detail.get("DISCOUNT_RATE") != null ? ((BigDecimal) detail.get("DISCOUNT_RATE")).intValue() : 0; // 할인율 추출 (없으면 0)
@@ -59,7 +59,7 @@ public class AccommodationController {
             hotelInfo.put("LOWEST_PRICE", lowestPrice);
             hotelInfo.put("DISCOUNT_RATE", discountRate);
             hotelInfo.put("DISCOUNT_AMOUNT", discountAmount);
-            hotelInfoMap.put(hotelIdx, hotelInfo);  // hotelInfoMap에 호텔 인덱스를 키로 사용하여 호텔 정보 맵 저장
+            hotelPriceMap.put(hotelIdx, hotelInfo);  // hotelPriceMap에 호텔 인덱스를 키로 사용하여 호텔 정보 맵 저장
         }
 		
 		System.out.println("params========" + params);
@@ -68,11 +68,11 @@ public class AccommodationController {
 		System.out.println("guest========" + guest);
 		System.out.println("hotels========" + hotels);
 		
-		System.out.println("hotelDetails========" + hotelDetails);
-		System.out.println("hotelInfoMap========" + hotelInfoMap);
+		System.out.println("hotelPrice========" + hotelPrice);
+		System.out.println("hotelPriceMap========" + hotelPriceMap);
 		
 		mv.addObject("hotels", hotels);
-		mv.addObject("hotelInfoMap", hotelInfoMap);
+		mv.addObject("hotelPriceMap", hotelPriceMap);
 		mv.setViewName("accommodation/accommodationProducts");
 		
 		return mv; 
@@ -91,10 +91,17 @@ public class AccommodationController {
 		params.put("place", place);
 		params.put("date", date);
 		params.put("guest", guest);
+		params.put("hotel_idx", hotel_idx);
 		
 		// 데이터베이스에서 이미지 경로를 가져오는 로직
 		List<String> imagePaths = accommodationService.getHotelImages(hotel_idx);
 		
+		
+		// 호텔 정보 가져오기
+		List<Hotel> hotels = accommodationService.searchHotels(params);
+		
+		
+		System.out.println("params========" + params);
 		System.out.println("imagePaths========" + imagePaths);
 		System.out.println("hotel_idx========" + hotel_idx);
 		

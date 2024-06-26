@@ -29,7 +29,7 @@
         </if>
     </select>
     
-    <select id="getHotelDetails" resultType="map">
+    <select id="getHotelPrice" resultType="map">
         SELECT 
             r.HOTEL_IDX, 
             r.LOWEST_PRICE,

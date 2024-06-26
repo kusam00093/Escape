@@ -17,7 +17,7 @@ public interface AccommodationMapper {
 	
 	List<Hotel> searchHotels(Map<String, Object> params);
 
-	List<Map<String, Object>> getHotelDetails();
+	List<Map<String, Object>> getHotelPrice();
 
 	List<String> getHotelImages(int hotel_idx);
 

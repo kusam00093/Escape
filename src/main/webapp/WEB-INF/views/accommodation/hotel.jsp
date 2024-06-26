@@ -240,20 +240,16 @@
 										<div class="css-k008qs eyhncde1">
 											<span class="eyhncde2 css-sfumlt">풍경채 콘도텔</span>
 										</div>
-										<div class="css-k008qs eyhncde1">
-											<span class="eyhncde3 css-1r4homq">펜션</span>
-										</div>
 									</div>
 								</div>
 								<div class="css-ayucfr e18lo67g6">
 									<div class="css-6g4hta e157n2fq0">
 										<div class="origin-price css-1n2mv2k e157n2fq3">
-											<span class="css-bgkldf" style="color: rgb(250, 91, 74);">제로마진가</span>
+											<span class="css-bgkldf" style="color: rgb(250, 91, 74);">할인가</span>
 											<span class="css-12wooir e157n2fq2">222,362원</span>
 										</div>
 										<div class="css-1n2mv2k e157n2fq3">
 											<span class="mr-half-1 css-1kjy5hl" style="color: rgb(250, 91, 74);">215,754원/박</span>
-											<img height="14" src="https://dffoxz5he03rp.cloudfront.net/icons/zero_margin_3x.png" alt="">
 										</div>
 									</div>
 								</div>
@@ -270,10 +266,9 @@
 								<div class=" css-2bqhlj e1b0xu6w0">
 									<button shape="pill" class="e1b0xu6w2 css-p2iygf">
 										<div class="css-ov1ktg">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="mrt-web-icons">
-												<path fill-rule="evenodd" d="M2.644 9.91C2.644 6.454 5.16 4 8.316 4c2.096 0 3.585 1.47 4.401 2.935a.848.848 0 0 1-.31 1.145.817.817 0 0 1-1.124-.316C10.616 6.568 9.576 5.68 8.316 5.68c-2.24 0-4.022 1.698-4.022 4.23 0 1.473.644 3.01 1.912 4.57 1.267 1.56 3.119 3.088 5.423 4.518.11.069.219.128.31.168.044.019.075.03.093.034.441.018.793.387.793.84 0 .463-.37.84-.825.84-.279 0-.538-.095-.708-.17a4.148 4.148 0 0 1-.522-.278c-2.4-1.49-4.414-3.132-5.835-4.88-1.422-1.748-2.291-3.653-2.291-5.643Zm9.399 9.293h-.002.002Z" clip-rule="evenodd"></path>
-												<path fill-rule="evenodd" d="M21.356 9.91c0-3.455-2.517-5.91-5.672-5.91-2.096 0-3.585 1.47-4.401 2.935a.848.848 0 0 0 .31 1.145c.396.229.9.087 1.124-.316.667-1.196 1.707-2.084 2.967-2.084 2.24 0 4.022 1.698 4.022 4.23 0 1.473-.644 3.01-1.912 4.57-1.267 1.56-3.119 3.088-5.423 4.518-.11.069-.219.128-.31.168a.758.758 0 0 1-.093.034.833.833 0 0 0-.793.84c0 .463.37.84.825.84.279 0 .538-.095.708-.17.19-.081.372-.184.522-.278 2.4-1.49 4.414-3.132 5.835-4.88 1.422-1.748 2.291-3.653 2.291-5.643Zm-9.399 9.293h.002-.002Z" clip-rule="evenodd"></path>
-											</svg>										
+											<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+												<path d="M16.5 20.146a2.552 2.552 0 0 1-1.875-.771 2.552 2.552 0 0 1-.771-1.875c0-.111.007-.215.021-.312.014-.097.035-.202.063-.313L9.208 14a1.873 1.873 0 0 1-.76.49 2.862 2.862 0 0 1-.948.156 2.552 2.552 0 0 1-1.875-.771A2.552 2.552 0 0 1 4.854 12c0-.736.257-1.361.771-1.875A2.552 2.552 0 0 1 7.5 9.354c.32 0 .632.056.938.167.305.111.562.271.77.479l4.73-2.875a3.118 3.118 0 0 1-.063-.312 2.201 2.201 0 0 1-.021-.313c0-.736.257-1.361.771-1.875a2.552 2.552 0 0 1 1.875-.771c.736 0 1.361.257 1.875.771s.771 1.139.771 1.875-.257 1.361-.771 1.875a2.552 2.552 0 0 1-1.875.771A3.04 3.04 0 0 1 15.552 9a1.696 1.696 0 0 1-.76-.5l-4.73 2.875c.028.111.049.216.063.313.014.097.021.2.021.312 0 .111-.007.215-.021.312a3.097 3.097 0 0 1-.063.313l4.73 2.875c.208-.25.461-.42.76-.51.299-.09.615-.136.948-.136.736 0 1.361.257 1.875.771s.771 1.139.771 1.875-.257 1.361-.771 1.875a2.552 2.552 0 0 1-1.875.771Z"></path>
+											</svg>									
 										</div>
 									</button>
 									<textarea class="css-1dhg90f e1b0xu6w4" readonly></textarea>
@@ -288,11 +283,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="css-1xdhyk6">
-						<div aria-label="제로마진" class="css-1jom7ne e11hbv0z0">
-							<img src="https://dffoxz5he03rp.cloudfront.net/banners/unionstay/pc_zero_margin_landing_banner_231211.png" class="css-8atqhb e11hbv0z9">
-						</div>
-					</div>					
 				</div>	
 			</div>
 <!-- 		중간 div -->
@@ -1022,7 +1012,8 @@
 	                freeMode: true,
 	                watchSlidesVisibility: true,
 	                watchSlidesProgress: true,
-	                slideToClickedSlide: true
+	                slideToClickedSlide: true,
+	                initialSlide: 0
 	            });
 
 	            var galleryTop = new Swiper('.gallery-top', {
@@ -1041,7 +1032,7 @@
 	                thumbs: {
 	                    swiper: galleryThumbs
 	                },
-
+	                initialSlide: 0
 	            });
 	        }, 500);  // Delay to allow modal to open completely
 	    });

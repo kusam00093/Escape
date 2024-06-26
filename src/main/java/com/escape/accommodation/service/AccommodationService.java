@@ -26,8 +26,8 @@ public class AccommodationService {
         return hotels;
     }
 
-	public List<Map<String, Object>> getHotelDetails() {
-		return accommodationMapper.getHotelDetails();
+	public List<Map<String, Object>> getHotelPrice() {
+		return accommodationMapper.getHotelPrice();
 	}
 
 	public List<String> getHotelImages(int hotel_idx) {
