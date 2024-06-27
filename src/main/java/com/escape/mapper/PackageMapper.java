@@ -71,6 +71,12 @@ public interface PackageMapper {
 
 	int countPay(int user_idx);
 
+
+	int findByPersonIdx(int user_idx);
+
+
+	void insertReview(Package_ReviewVo reviewVo);
+
 		
 
 

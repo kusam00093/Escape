@@ -458,6 +458,74 @@ input.form-control::placeholder {
       color: #000;
       text-decoration: none;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+.wrap {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 32px;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.rating {
+    float: none;
+    width: 200px;
+    display: flex;
+
+    &__input {
+        display: none;
+    }
+
+    &__label {
+        width: 20px;
+        overflow: hidden;
+        cursor: pointer;
+
+        .star-icon {
+            width: 20px;
+            height: 40px;
+            display: block;
+            position: relative;
+            left: 0;
+            background-image: url('https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg');
+            background-repeat: no-repeat;
+            background-size: 40px;
+          
+            &.filled {
+                background-image: url(' https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg');
+        }
+
+        &--full .star-icon {
+            background-position: right;
+        }
+
+        &--half .star-icon {
+            background-position: left;
+        }
+    }
+
+    &.readonly {
+        .star-icon {
+            opacity: 0.7;
+            cursor: default;
+        }
+    }
+}
 </style> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -772,6 +840,76 @@ input.form-control::placeholder {
       <h2 class="fs-5">모달 안의 툴팁</h2>
       <p><a href="#" data-bs-toggle="tooltip" title="툴팁">이 링크</a>와 <a href="#" data-bs-toggle="tooltip" title="툴팁">저 링크</a>에 마우스를 올리면 툴팁이 나타납니다.</p>
     </div>
+    
+    <div class="wrap">
+    <h1>별점</h1>
+    <form action="/Package/Insert/Review">
+    
+    
+    
+    <div class="rating">
+        <label class="rating__label rating__label--half" for="starhalf">
+            <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--full" for="star1">
+            <input type="radio" id="star1" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--half" for="star1half">
+            <input type="radio" id="star1half" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--full" for="star2">
+            <input type="radio" id="star2" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--half" for="star2half">
+            <input type="radio" id="star2half" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--full" for="star3">
+            <input type="radio" id="star3" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--half" for="star3half">
+            <input type="radio" id="star3half" class="rating__input" name="rating" checked>
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--full" for="star4">
+            <input type="radio" id="star4" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--half" for="star4half">
+            <input type="radio" id="star4half" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+        <label class="rating__label rating__label--full" for="star5">
+            <input type="radio" id="star5" class="rating__input" name="rating" value="">
+            <span class="star-icon"></span>
+        </label>
+    </div>
+    
+    <div>
+    <textarea rows="5" cols="" name="content" placeholder="리뷰내용을 입력하세요"></textarea>
+    
+    <hr>
+    <input type="submit" value="리뷰 등록" class="btn btn-primary">
+    </div>
+    
+    
+    
+    
+        </form>
+</div>
+    
+    
+    
+    
+
+    
+    
+    
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" id="closeModal">닫기</button>
     </div>
@@ -781,7 +919,89 @@ input.form-control::placeholder {
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
 
+const rateWrap = document.querySelectorAll('.rating'),
+label = document.querySelectorAll('.rating .rating__label'),
+input = document.querySelectorAll('.rating .rating__input'),
+labelLength = label.length,
+opacityHover = '0.5';
+
+let stars = document.querySelectorAll('.rating .star-icon');
+
+checkedRate();
+
+rateWrap.forEach(wrap => {
+wrap.addEventListener('mouseenter', () => {
+stars = wrap.querySelectorAll('.star-icon');
+
+stars.forEach((starIcon, idx) => {
+    starIcon.addEventListener('mouseenter', () => {
+        initStars(); 
+        filledRate(idx, labelLength); 
+
+        for (let i = 0; i < stars.length; i++) {
+            if (stars[i].classList.contains('filled')) {
+                stars[i].style.opacity = opacityHover;
+            }
+        }
+    });
+
+    starIcon.addEventListener('mouseleave', () => {
+        starIcon.style.opacity = '1';
+        checkedRate(); 
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+        starIcon.style.opacity = '1';
+    });
+});
+});
+});
+
+function filledRate(index, length) {
+if (index <= length) {
+for (let i = 0; i <= index; i++) {
+    stars[i].classList.add('filled');
+}
+}
+}
+
+function checkedRate() {
+let checkedRadio = document.querySelectorAll('.rating input[type="radio"]:checked');
+
+
+initStars();
+checkedRadio.forEach(radio => {
+let previousSiblings = prevAll(radio);
+
+for (let i = 0; i < previousSiblings.length; i++) {
+    previousSiblings[i].querySelector('.star-icon').classList.add('filled');
+}
+
+radio.nextElementSibling.classList.add('filled');
+
+function prevAll() {
+    let radioSiblings = [],
+        prevSibling = radio.parentElement.previousElementSibling;
+
+    while (prevSibling) {
+        radioSiblings.push(prevSibling);
+        prevSibling = prevSibling.previousElementSibling;
+    }
+    return radioSiblings;
+}
+});
+}
+
+function initStars() {
+for (let i = 0; i < stars.length; i++) {
+stars[i].classList.remove('filled');
+}
+}
+
+
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // 모달 열기 버튼

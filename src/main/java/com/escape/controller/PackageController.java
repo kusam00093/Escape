@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
 import com.escape.domain.PackageVo;
+import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
 import com.escape.domain.Package_imageVo;
@@ -160,7 +161,7 @@ public class PackageController {
 	@RequestMapping("/Detail")
 	public  ModelAndView   detail(
 			@RequestParam("package_idx") int package_idx,
-			 @SessionAttribute(name = "login", required = false) User user) {		
+			@SessionAttribute(name = "login", required = false) User user) {		
 		
 		List<ConvenienceVo> coList = packageMapper.getConvenience(package_idx);
 		PackageVo packageVo = packageMapper.getPackage(package_idx);
@@ -258,4 +259,17 @@ public class PackageController {
 		return mv;
 	}
 	
+	@RequestMapping("/Insert/Review")
+	public ModelAndView insertReview(
+			Package_ReviewVo reviewVo,
+			Package_RateVo rateVo,
+			@SessionAttribute(name = "login", required = false) User user) {
+		
+		int person_idx = packageMapper.findByPersonIdx(user.getUser_idx());
+		reviewVo.setPerson_idx(person_idx);
+		packageMapper.insertReview(reviewVo);
+		
+		ModelAndView mv = new ModelAndView();
+		return mv;
+	}
 }

@@ -557,6 +557,15 @@ where user_idx=#{user_idx}
 
 </select>
 
+
+<select id="findByPersonIdx">
+select
+    person_idx
+from person_tb p
+join user_tb u on p.user_idx = u.user_idx
+where u.user_idx=#{user_idx}
+</select>
+
 <!-- ====================================================================insert======================================================================= -->
 <insert id="insertPackageReservation">
 
@@ -577,6 +586,27 @@ INSERT INTO package_reservation_tb (
     1
     
 )
+
+</insert>
+
+
+<insert id="insertReview">
+
+INSERT INTO PACKAGE_REVIEW_TB(
+    PACKAGE_REVIEW_IDX,
+    PACKAGE_IDX,
+    CONTENT,
+    PERSON_IDX,
+    CREATED
+)
+VALUES(
+    (SELECT MAX(NVL(PACKAGE_REVIEW_IDX,0))+1
+    FROM   PACKAGE_REVIEW_TB),
+    #{package_idx},
+    #{content},
+    #{person_idx},
+    SYSDATE
+);
 
 </insert>
 
