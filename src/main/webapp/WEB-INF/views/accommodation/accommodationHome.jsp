@@ -12,7 +12,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
-<link rel="stylesheet" href="/css/accommodationHome.css" />
+<link rel="stylesheet" href="/css/accommodation/accommodationHome.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -112,30 +112,30 @@
 						<div class="lodging_search_details_div1">
 							<div class="lodging_search_details_div1_div1">
 								<span class="lodging_search_details_div1_div1_span1">숙박</span> 
-								<span	class="lodging_search_details_div1_div1_span2_personnel">성인	2명</span>
-								<input type="hidden" name="personnel" id="personnelInput">
+								<span	class="lodging_search_details_div1_div1_span2_guest">성인0명</span>
+								<input type="hidden" name="guest" id="guestInput">
 							</div>
 						</div>
-							<div class="searchOptionDropdown dropdownNumber_div2" style="display: none;">
-							    <div class="dropdownNumber_div2_adult">
-							        <span class="dropdownNumber_div2_adult_text">성인</span>
-							        <div class="dropdownNumber_choice">
-							            <button class="dropdownNumber_choice_button decrease">
-							                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
-							                    <path d="M6 13.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h12c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338H6Z"></path>
-							                </svg>
-							            </button>
-							            <div class="dropdownNumber_choice_num">
-							                <span class="dropdownNumber_choice_num_span">2</span>
-							            </div>
-							            <button class="dropdownNumber_choice_button increase">
-							                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
-							                    <path d="M12 19.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 10.85 18v-4.85H6c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h4.85V6c0-.317.113-.588.338-.813.225-.225.495-.337.812-.337.317 0 .587.112.812.337.225.225.338.496.338.813v4.85H18c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338h-4.85V18c0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338Z"></path>
-							                </svg>
-							            </button>
-							        </div>
-							    </div>
-							</div>
+						<div class="searchOptionDropdown dropdownNumber_div2" style="display: none;">
+						    <div class="dropdownNumber_div2_adult">
+						        <span class="dropdownNumber_div2_adult_text">성인</span>
+						        <div class="dropdownNumber_choice">
+						            <button class="dropdownNumber_choice_button decrease">
+						                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
+						                    <path d="M6 13.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h12c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338H6Z"></path>
+						                </svg>
+						            </button>
+						            <div class="dropdownNumber_choice_num">
+						                <span class="dropdownNumber_choice_num_span">0</span>
+						            </div>
+						            <button class="dropdownNumber_choice_button increase">
+						                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" color="#343a40">
+						                    <path d="M12 19.15c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 10.85 18v-4.85H6c-.317 0-.587-.113-.812-.338A1.105 1.105 0 0 1 4.85 12c0-.317.113-.587.338-.812.225-.225.495-.338.812-.338h4.85V6c0-.317.113-.588.338-.813.225-.225.495-.337.812-.337.317 0 .587.112.812.337.225.225.338.496.338.813v4.85H18c.317 0 .587.113.812.338.225.225.338.495.338.812 0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338h-4.85V18c0 .317-.113.587-.338.812a1.105 1.105 0 0 1-.812.338Z"></path>
+						                </svg>
+						            </button>
+						        </div>
+						    </div>
+						</div>
 					</div>
 					
 					<div class="lodging_search_details_button">
@@ -152,275 +152,7 @@
 	</main>
 
 <%-- 	<%@include file="/WEB-INF/include/footer.jsp"%> --%>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-    const placeElements = document.querySelectorAll('.lodging_search_details_div1');
-    const searchInput = document.querySelector('.searchOptionDropdown_div1_div1_div1_div1_search_input1');
-    const suggestionsList = document.getElementById('suggestionsList');
-    const searchHistoryList = document.getElementById('searchHistoryList');
-    const searchHistoryBox = document.querySelector('.searchHistoryListBox');
-    const suggestionsBox = document.querySelector('.suggestionsListBox');
-    let checkInSelected = false;
-    let checkInDate = null;
-    let checkOutDate = null;
-    const dateDetails = document.querySelector('[data-section="date"] .lodging_search_details_div1_div1_span2');
-    const personnelSpan = document.querySelector('.lodging_search_details_div1_div1_span2_personnel');
-    const searchButton = document.querySelector('.lodging_search_details_button1');
-    const placeInput = document.getElementById('placeInput');
-    const dateInput = document.getElementById('dateInput');
-    const personnelInput = document.getElementById('personnelInput');
-    
-    function checkAllInputs() {
-        const placeText = document.querySelector('[data-section="place"] .lodging_search_details_div1_div1_span2').textContent.trim();
-        const dateText = dateDetails.textContent.trim();
-        const personnelText = personnelSpan.textContent.trim();
-
-        if (placeText !== "여행지나 숙소명 검색" && dateText !== "언제 떠나시나요?" && personnelText !== "성인 0명") {
-        	searchButton.disabled = false;
-        	searchButton.style.backgroundColor = 'black'; // 배경색을 검은색으로 변경
-        	searchButton.style.color = 'white'; // 배경색을 검은색으로 변경
-        } else {
-            searchButton.disabled = true;
-            searchButton.style.backgroundColor = ''; // 기본 배경색으로 변경
-        }
-    }
-    
-    placeElements.forEach(element => {
-        element.addEventListener('click', function(){
-            // 모든 searchOptionDropdown 요소 숨기기
-            document.querySelectorAll('.searchOptionDropdown').forEach(dropdown => {
-                dropdown.style.display = 'none';
-            });
-            // 모든 lodging_search_details_div1 요소에서 clicked 클래스 제거
-            placeElements.forEach(el => el.classList.remove('clicked'));
-            // 클릭한 요소의 searchOptionDropdown 보이기
-            const dropdown = this.querySelector('.searchOptionDropdown');
-            if (dropdown) {
-                dropdown.style.display = 'block';
-            }
-            // 클릭한 요소에 clicked 클래스 추가
-            this.classList.add('clicked');
-        });
-    });
-
-    // 검색 기록 로드
-    loadSearchHistory();
-
-    searchInput.addEventListener('input', function(){
-        const query = searchInput.value;
-        if (query.length > 0) {
-            // 검색 기록 숨기기
-            searchHistoryBox.style.display = 'none';
-            // 검색 제안 표시
-            suggestionsBox.style.display = 'block';
-
-            fetch('/AccommodationApi/Search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ query: query })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Fetched Data:', data); // 데이터 확인을 위한 콘솔 로그
-                suggestionsList.innerHTML = '';
-                data.forEach(item => {
-                    console.log('Appending item:', item.name); // 항목 추가 확인을 위한 콘솔 로그
-                    const li = document.createElement('li');
-                    li.innerHTML = '<div class="suggestion-item">' +
-                                   '<span class="suggestion-item-text">' + item.name + '</span>' +
-                                   '</div>';
-
-                    li.querySelector('.suggestion-item-text').addEventListener('click', function() {
-                        // 선택한 값을 해당 lodging_search_details_div1_div1_span2 요소에 넣기
-                        const parentDetails = searchInput.closest('.lodging_search_details');
-                        const selectedElement = parentDetails.querySelector('.lodging_search_details_div1_div1_span2');
-                        if (selectedElement) {
-                            selectedElement.textContent = item.name;
-                        }
-                       
-                        // 선택한 후 dropdown 숨기기
-                        const parentDropdown = searchInput.closest('.searchOptionDropdown');
-                        console.log('Hiding dropdown:', parentDropdown); // 확인을 위한 콘솔 로그
-                        if (parentDropdown) {
-                            parentDropdown.style.display = 'none';
-                        }
-
-                        // 검색 기록에 추가
-                        addSearchHistory(item.name);
-                        // suggestionsList 비우기
-                        suggestionsList.innerHTML = '';
-                        // 검색 제안 숨기기
-                        suggestionsBox.style.display = 'none';
-                        // 검색 기록 표시
-                        searchHistoryBox.style.display = 'block';
-                        
-                        checkAllInputs();
-                    });
-                    suggestionsList.appendChild(li);
-                });
-                console.log('Suggestions list updated:', suggestionsList); // 업데이트 후 확인
-            })
-            .catch(error => {
-                console.error('Error:', error); // 에러 확인을 위한 콘솔 로그
-            });
-        } else {
-            suggestionsList.innerHTML = '';
-            // 검색 제안 숨기기
-            suggestionsBox.style.display = 'none';
-            // 검색 기록 표시
-            searchHistoryBox.style.display = 'block';
-        }
-    });
-
-    function loadSearchHistory() {
-        const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        searchHistoryList.innerHTML = '';
-        history.forEach(query => {
-            const li = document.createElement('li');
-            li.innerHTML = 
-                '<div class="search-history-item">' +
-                '<span class="search-history-item-text">' + query + '</span>' +
-                '<span class="search-history-item-delete">삭제</span>' +
-                '</div>';
-            li.querySelector('.search-history-item-text').addEventListener('click', function() {
-                searchInput.value = query;
-                document.querySelectorAll('.searchOptionDropdown').forEach(dropdown => {
-                    dropdown.style.display = 'none';
-                });
-                const parentDetails = searchInput.closest('.lodging_search_details');
-                const selectedElement = parentDetails.querySelector('.lodging_search_details_div1_div1_span2');
-                if (selectedElement) {
-                    selectedElement.textContent = query;
-                    placeInput.value = query;
-                }
-                checkAllInputs();
-            });
-            li.querySelector('.search-history-item-delete').addEventListener('click', function() {
-                removeSearchHistory(query);
-            });
-            searchHistoryList.appendChild(li);
-        });
-
-        // 검색 기록이 비어 있지 않으면 표시
-        if (history.length > 0) {
-            searchHistoryList.style.display = 'block';
-        } else {
-            searchHistoryList.style.display = 'none';
-        }
-    }
-
-    function addSearchHistory(query) {
-        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history = history.filter(item => item !== query); // 중복 제거
-        history.unshift(query); // 최신 검색어를 맨 앞에 추가
-        if (history.length > 20) { // 검색기록 20개 제한
-            history.pop();
-        }
-        localStorage.setItem('searchHistory', JSON.stringify(history));
-        loadSearchHistory();
-    }
-
-    function removeSearchHistory(query) {
-        let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        history = history.filter(item => item !== query);
-        localStorage.setItem('searchHistory', JSON.stringify(history));
-        loadSearchHistory();
-    }
-    
-    // date 관련 스크립트
-    const datepicker = $("#datepicker");
-	
-    function formatDateString(dateStr) {
-        const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-        const dateObj = new Date(dateStr);
-        const month = dateObj.getMonth() + 1;
-        const day = dateObj.getDate();
-        const dayOfWeek = daysOfWeek[dateObj.getDay()];
-        return month + "월 " + day + "일(" + dayOfWeek + ")";
-    }
-    
-	 // Datepicker 초기화
-    datepicker.datepicker({
-        onSelect: function(dateText) {
-            
-            if (!checkInSelected) {
-                checkInDate = dateText;
-                dateDetails.textContent = "입실: " +  formatDateString(checkInDate);
-                checkInSelected = true;
-                datepicker.datepicker('option', 'minDate', dateText);
-            } else {
-                checkOutDate = dateText;
-                dateDetails.textContent = formatDateString(checkInDate) + "~" + formatDateString(checkOutDate);
-                checkInSelected = false;
-                $(".dropdownDate").hide();
-                datepicker.datepicker('option', 'minDate', null);
-            }
-            dateInput.value = dateDetails.textContent;
-            checkAllInputs();
-        },
-        dateFormat: "yy-mm-dd"
-    });
-    
-    // "일정" 항목 클릭 이벤트
-    document.querySelector('[data-section="date"] .lodging_search_details_div1').addEventListener('click', function() {
-        $(".dropdownDate").toggle();
-    });
-
-    // 달력이 숨겨져 있어야 할 경우 기본적으로 숨김
-    $(".dropdownDate").hide();
-	
-    
-    // "숙박" 항목 클릭 이벤트
-    document.querySelector('[data-section="number"] .lodging_search_details_div1').addEventListener('click', function() {
-        const dropdown = document.querySelector('[data-section="number"] .dropdownNumber_div2');
-        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-    });
-    
-    // "인원" 항목 클릭 이벤트
-    const decreaseButton = document.querySelector('.dropdownNumber_choice_button.decrease');
-    const increaseButton = document.querySelector('.dropdownNumber_choice_button.increase');
-    const numSpan = document.querySelector('.dropdownNumber_choice_num_span');
-    
-    function updatePersonnelCount(newCount) {
-        numSpan.textContent = newCount;
-        personnelSpan.textContent = '성인 ' + newCount + '명';
-        personnelInput.value = newCount;
-        checkAllInputs();
-    }
-    
-    decreaseButton.addEventListener('click', function(){
-    	event.preventDefault();  // 기본 동작 방지
-    	let currentValue = parseInt(numSpan.textContent);
-    	if (currentValue > 0) { // 최소값 설정
-    		updatePersonnelCount(currentValue - 1);
-    	}
-    });
-    
-    increaseButton.addEventListener('click', function () {
-    	event.preventDefault();  // 기본 동작 방지
-        let currentValue = parseInt(numSpan.textContent);
-        updatePersonnelCount(currentValue + 1);
-    });
-    
-    searchButton.addEventListener('click', function () {
-        if (!searchButton.disabled) {
-            const place = placeInput.value;
-            const date = dateInput.value;
-            const personnel = personnelInput.value;
-            const queryString = '?place=' + encodeURIComponent(place) + '&date=' + encodeURIComponent(date) + '&personnel=' + encodeURIComponent(personnel);
-            window.location.href = searchButton.form.action + queryString;
-        }
-    });
-    
-    checkAllInputs(); // 초기 상태 확인
-});
+<script src="/js/accommodation/accommodationHome.js">
 </script>
 </body>
 
