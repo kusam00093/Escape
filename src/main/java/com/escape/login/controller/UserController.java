@@ -95,8 +95,14 @@ public class UserController {
     //개인 회원가입
     @PostMapping("/personjoin")
     @Transactional
-    public ModelAndView write(Person person, User user) {
+    public ModelAndView write(MultipartFile file, Person person, User user) {
     	
+    	String filePath = sellerService.storeFile(file);
+        person.setImage(filePath);
+        
+        System.out.println("============filePath:"+ filePath);
+
+          
     	userMapper.insertUser(user);
     	personMapper.insertPerson(person);
 
@@ -172,7 +178,6 @@ public class UserController {
  	            String filePath = sellerService.storeFile(file);
  	            seller.setLogo(filePath);
  	            
- 	            System.out.println("============filePath:"+ filePath);
 
  	            // 데이터베이스 저장
  	            userMapper.insertUser(user);

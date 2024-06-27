@@ -194,7 +194,7 @@
             <h3>마이페이지</h3>
             <ul>
                <li><a href="/mypage">회원정보</a></li>
-                <li><a href="#">내가 등록한 상품</a></li>
+                <li><a href="/sellergoods">내가 등록한 상품</a></li>
                 <li><a href="#">신청자 목록</a></li>
                 <li><a href="#">마감된 상품</a></li>
                 <li><a href="#">대화내역</a></li>
@@ -203,7 +203,7 @@
 
         <div class="register-container">
             <div class="profile-card">
-                <h2>Seller 프로필</h2>
+                <h2>${seller.name}님 프로필</h2>
                 
                 <div class="profile-picture">
                     <img src="${seller.logo}">

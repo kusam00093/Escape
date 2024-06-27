@@ -2569,6 +2569,7 @@ $(function() {
         depDatePicker.datepicker({
             dateFormat: 'yy-mm-dd', // 날짜 형식 설정
             minDate: 0, // 오늘 이후의 날짜만 선택 가능하도록 설정
+            numberOfMonths: 2, // 두 개의 월을 표시
             onSelect: function(selectedDate) {
                 // 선택한 날짜를 input 요소에 표시
                 depDatePicker.val(selectedDate);
@@ -2596,6 +2597,7 @@ $(function() {
         arrDatePicker.datepicker({
             dateFormat: 'yy-mm-dd', // 날짜 형식 설정
             minDate: 0, // 오늘 이후의 날짜만 선택 가능하도록 설정
+            numberOfMonths: 2, // 두 개의 월을 표시
             onSelect: function(selectedDate) {
                 // 선택한 날짜를 input 요소에 표시
                 arrDatePicker.val(selectedDate);
@@ -2650,6 +2652,7 @@ $(function() {
     $(".boardingDatePickerView").datepicker({
         dateFormat: 'yy-mm-dd', // 날짜 형식 설정
         minDate: 0, // 오늘 이후의 날짜만 선택 가능하도록 설정
+        numberOfMonths: 2, // 두 개의 월을 표시
         onSelect: function(selectedDate) {
             var hiddenInputId = $(this).attr('id').replace('_view', '');
             $('#' + hiddenInputId).val(selectedDate); // 선택한 날짜를 hidden input에 설정
@@ -2663,6 +2666,7 @@ $(function() {
     function showPassengerOptions(tabType) {
     	var passengerOptions = document.getElementById('passengerOptions' + tabType);
         passengerOptions.style.display = passengerOptions.style.display === 'none' ? 'block' : 'none';
+        console.dir('==== passengerOptions ====');
         console.dir(passengerOptions);
     }
 
@@ -2697,14 +2701,27 @@ $(function() {
         var parent2 = document.getElementById('section_2_3_' + tabType);
         parent2.querySelector('.bin_people').innerText = summaryText;
             
-        console.dir(adultCount);
+        console.log('====adultCount====');
+        console.log(adultCount);
+        console.log('====childCount====');
         console.dir(childCount);
+        console.log('====infantCount====');
         console.dir(infantCount);
+        console.log('====totalPassengers====');
         console.dir(totalPassengers);
         console.dir(seatClass);
         console.dir(summaryText);
     }
-
+    
+    function getCurrentTabType() {
+    	  var tabs = document.getElementsByName('initform');
+    	  for (var i = 0; i < tabs.length; i++) {
+    	    if (tabs[i].checked) {
+    	      return tabs[i].value;
+    	    }
+    	  }
+    	  return 'RT'; // 기본값으로 'RT' 반환
+    }
 
 //---------------------------------------------------------------------------------------------------
 
@@ -2737,18 +2754,23 @@ function sendSelectionToController() {
     }
     
     // 승객 명수 값
-    let adultCount = parseInt(document.querySelector('.adultCount').innerText);
-    let childCount = parseInt(document.querySelector('.childCount').innerText);
-    let infantCount = parseInt(document.querySelector('.infantCount').innerText);
+    var currentTabType = getCurrentTabType();
+    //let adultCount = parseInt(document.querySelector('.adultCount').innerText);
+    //let childCount = parseInt(document.querySelector('.childCount').innerText);
+    //let infantCount = parseInt(document.querySelector('.infantCount').innerText);
+    let adultCount = parseInt(document.querySelector(`#passengerOptions\${currentTabType} .adultCount`).innerText);
+    let childCount = parseInt(document.querySelector(`#passengerOptions\${currentTabType} .childCount`).innerText);
+    let infantCount = parseInt(document.querySelector(`#passengerOptions\${currentTabType} .infantCount`).innerText);
+    
     let totalPassengers = adultCount + childCount + infantCount;
 
     // 좌석 등급 값
-    let seatClass = document.querySelector('input[name="seatClass"]:checked').value;
+    //let seatClass = document.querySelector('input[name="seatClass"]:checked').value;
     
     // -----  폼 생성  -----
     var form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/Airplane/Search';
+    form.action = '/Airplane/Search?id=${ sessionScope.login.id }';
 
     // -----  데이터 추가  -----
     
@@ -2808,15 +2830,46 @@ function sendSelectionToController() {
     inputInfantCount.value = infantCount;
     form.appendChild(inputInfantCount);
 
-    // 좌석등급
+	// 좌석 등급 값
+    let seatClass = document.querySelector('input[name="seatClass"]:checked').value;
+    let stype;
+    switch (seatClass) {
+      case 'economy':
+        stype = 1;
+        break;
+      case 'premium-economy':
+        stype = 2;
+        break;
+      case 'business':
+        stype = 3;
+        break;
+      case 'first-class':
+        stype = 4;
+        break;
+      default:
+        stype = 1; // 기본값 설정 (필요한 경우)
+    }
+	
     var inputSeatClass = document.createElement('input');
     inputSeatClass.type = 'hidden';
     inputSeatClass.name = 'seatClass';
-    inputSeatClass.value = seatClass;
+    inputSeatClass.value = stype;
     form.appendChild(inputSeatClass);
+
+    var inputSeatClassStr = document.createElement('input');
+    inputSeatClassStr.type = 'hidden';
+    inputSeatClassStr.name = 'seatClassStr';
+    inputSeatClassStr.value = seatClass;
+    form.appendChild(inputSeatClassStr);
 
     // 왕복 일 경우 오는날 전송
     const initform = form.elements['initform'].value;
+    var inputInitform = document.createElement('input');
+    inputInitform.type = 'hidden';
+    inputInitform.name = 'initform';
+    inputInitform.value = initform;
+    form.appendChild(inputInitform);
+    
     if (initform === 'RT') {
     
 		// 출발지 - 왕복

@@ -1,5 +1,7 @@
 package com.escape.login.domain;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -9,11 +11,11 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Package {
+public class Pkg {
 	private int package_idx;
 	private int user_idx;
 	private String title;
-	private int package_category;
+	private int package_category_idx;
 	private String start_date;
 	private String end_date;
 	private int limited_person;
@@ -26,6 +28,10 @@ public class Package {
 	private String address2;
 	private int ptype_idx;
 	private int hit;
+	
+	private int reservation_su;
+	private int reservation_price;
+	private String created;
 	
 	
   
