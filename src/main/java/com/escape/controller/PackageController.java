@@ -1,15 +1,25 @@
 package com.escape.controller;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.domain.CategoryVo;
@@ -18,6 +28,7 @@ import com.escape.domain.PackageVo;
 import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
+import com.escape.domain.Package_Review_ImgVo;
 import com.escape.domain.Package_imageVo;
 import com.escape.login.domain.User;
 import com.escape.login.mapper.UserMapper;
@@ -74,6 +85,7 @@ public class PackageController {
 
 	    mv.setViewName("package/package_home");
 	    return mv;
+
 	}
 //	@RequestMapping("/Home/Sub")
 //	public ModelAndView subHome(
@@ -166,6 +178,7 @@ public class PackageController {
 		List<ConvenienceVo> coList = packageMapper.getConvenience(package_idx);
 		PackageVo packageVo = packageMapper.getPackage(package_idx);
 		List<Package_ReviewVo> reviewList = packageMapper.getReviews(packageVo.getPackage_idx());
+		
 		List<Package_imageVo> package_imageList1 = packageMapper.getPackageImg1(packageVo.getPackage_idx());
 		List<Package_imageVo> package_imageList2 = packageMapper.getPackageImg2(packageVo.getPackage_idx());
 		List<Package_imageVo> package_imageList3 = packageMapper.getPackageImg3(packageVo.getPackage_idx());
@@ -195,6 +208,7 @@ public class PackageController {
 	    
 		
 		mv.addObject("coList", coList);
+		mv.addObject("package_idx", package_idx);
 		mv.addObject("packageVo", packageVo);
 		mv.addObject("reviewList", reviewList);
 		mv.addObject("package_ReviewCount", package_ReviewCount);
@@ -263,13 +277,71 @@ public class PackageController {
 	public ModelAndView insertReview(
 			Package_ReviewVo reviewVo,
 			Package_RateVo rateVo,
-			@SessionAttribute(name = "login", required = false) User user) {
+			Package_Review_ImgVo imageVo,
+			@SessionAttribute(name = "login", required = false) User user,
+			@RequestParam("package_idx") int package_idx,
+			@RequestParam("file") MultipartFile file,
+			@Value("${file.upload-dir}") String uploadDir) {
 		
 		int person_idx = packageMapper.findByPersonIdx(user.getUser_idx());
 		reviewVo.setPerson_idx(person_idx);
 		packageMapper.insertReview(reviewVo);
+		packageMapper.insertReviewRaterate(user.getUser_idx(),rateVo.getRate());
 		
+		
+		
+		
+		if (file != null && !file.isEmpty()) {
+			try {
+				// 파일 저장 경로 구성
+				String baseDir = System.getProperty("user.dir");
+				String imagesDirPath = baseDir + uploadDir; // application.properties에서 설정된 값을 사용
+
+				File directory = new File(imagesDirPath);
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+				ZonedDateTime current = ZonedDateTime.now();
+				String namePattern = current.format(format);
+
+				// 파일의 원래 이름을 가져옵니다.
+				String originalFileName = file.getOriginalFilename();
+				// 파일 확장자를 추출합니다.
+				String extension = "";
+				if (originalFileName != null && originalFileName.contains(".")) {
+					extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				}
+
+				// System.out.println(namePattern);
+				String fileName = namePattern + "_" + originalFileName; //??
+				//String fileName = originalFileName; //??
+				String filePath = Paths.get(imagesDirPath, fileName).toString();
+
+				// 파일 저장 //여기 문제 있음
+				Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+
+				// 데이터베이스에 저장할 파일 경로 설정
+				String relativePath = "/img/" + fileName;
+				imageVo.setImage(relativePath);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				// 에러 처리 로직
+			}
+		} else {
+			// 파일이 선택되지 않았거나 비어 있는 경우, 기본 이미지 경로를 사용
+			String relativePath = "/images/icon1.png";
+			imageVo.setImage(relativePath);
+		
+		}
+		
+		
+		
+		
+		packageMapper.insertReviewimage(imageVo.getImage());
 		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/Package/Detail?package_idx="+package_idx);
 		return mv;
 	}
 }

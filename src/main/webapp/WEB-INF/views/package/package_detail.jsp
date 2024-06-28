@@ -357,7 +357,7 @@ input.form-control::placeholder {
             line-height: 1.6;
         }
         .review-img {
-            position: absolute;
+            position: static;
             top: 10px;
             right: 10px;
             width: 100px;
@@ -526,6 +526,15 @@ h1 {
         }
     }
 }
+
+
+
+
+        .img-thumbnail {
+            max-width: 100px; /* 최대 너비 100px로 설정 */
+            max-height: 100px; /* 최대 높이 100px로 설정 */
+            margin: 5px; /* 이미지 사이의 간격 설정 */
+        }
 </style> 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -755,7 +764,10 @@ h1 {
 <div class="reviews">
     <c:forEach var="re" items="${reviewList}">
         <div class="review1" data-rate="${re.rate}" >
-            <img src="/package_image/package_paris.jpg" class="review-img">
+<c:set var="imageArray" value="${re.image.split(',')}"/>
+<c:forEach var="img" items="${imageArray}">
+    <img src="${img}" class="review-img">
+</c:forEach>
             <div class="review-title">${re.created}</div>
             <div class="rating">
                 <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
@@ -772,7 +784,7 @@ h1 {
             <div class="reviewer">${re.full_name}</div>
             <div>&nbsp;</div>
             <div class="review-content">
-                ${re.content}내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at sapien vitae tellus viverra ultricies. Nam malesuada efficitur aliquam. Fusce ac ipsum eu libero posuere tristique.
+                ${re.content}
             </div>
         </div>
     </c:forEach>
@@ -843,52 +855,62 @@ h1 {
     
     <div class="wrap">
     <h1>별점</h1>
-    <form action="/Package/Insert/Review">
+    <form action="/Package/Insert/Review" enctype="multipart/form-data" method="post">
     
     
-    
+    <input type="hidden" value="${ package_idx }" name="package_idx">
     <div class="rating">
         <label class="rating__label rating__label--half" for="starhalf">
-            <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
+            <input type="radio" id="starhalf" class="rating__input" name="rate" value="1">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star1">
-            <input type="radio" id="star1" class="rating__input" name="rating" value="">
+            <input type="radio" id="star1" class="rating__input" name="rate" value="2">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star1half">
-            <input type="radio" id="star1half" class="rating__input" name="rating" value="">
+            <input type="radio" id="star1half" class="rating__input" name="rate" value="3">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star2">
-            <input type="radio" id="star2" class="rating__input" name="rating" value="">
+            <input type="radio" id="star2" class="rating__input" name="rate" value="4">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star2half">
-            <input type="radio" id="star2half" class="rating__input" name="rating" value="">
+            <input type="radio" id="star2half" class="rating__input" name="rate" value="5">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star3">
-            <input type="radio" id="star3" class="rating__input" name="rating" value="">
+            <input type="radio" id="star3" class="rating__input" name="rate" value="6">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star3half">
-            <input type="radio" id="star3half" class="rating__input" name="rating" checked>
+            <input type="radio" id="star3half" class="rating__input" name="rate" value="7">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star4">
-            <input type="radio" id="star4" class="rating__input" name="rating" value="">
+            <input type="radio" id="star4" class="rating__input" name="rate" value="8">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star4half">
-            <input type="radio" id="star4half" class="rating__input" name="rating" value="">
+            <input type="radio" id="star4half" class="rating__input" name="rate" value="9">
             <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star5">
-            <input type="radio" id="star5" class="rating__input" name="rating" value="">
+            <input type="radio" id="star5" class="rating__input" name="rate" value="10" checked>
             <span class="star-icon"></span>
         </label>
     </div>
+    
+<div id="preview-container"></div>
+
+    <!-- 파일 선택 input 및 파일 추가 버튼 -->
+    <div class="input-group mb-3 mt-3">
+        <input type="file" class="form-control" id="file" name="file" aria-describedby="logo" multiple style="display: none;">
+        <label class="input-group-text" for="inputGroupFile02" id="file-add-btn">Add Files</label>
+    </div>
+    
+    
     
     <div>
     <textarea rows="5" cols="" name="content" placeholder="리뷰내용을 입력하세요"></textarea>
@@ -920,86 +942,120 @@ h1 {
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var fileInput = document.getElementById('file');
+            var previewContainer = document.getElementById('preview-container');
+            var fileAddBtn = document.getElementById('file-add-btn');
 
-const rateWrap = document.querySelectorAll('.rating'),
-label = document.querySelectorAll('.rating .rating__label'),
-input = document.querySelectorAll('.rating .rating__input'),
-labelLength = label.length,
-opacityHover = '0.5';
+            // 파일 추가 버튼 클릭 시 파일 선택 input 클릭 이벤트 발생
+            fileAddBtn.addEventListener('click', function (e) {
+                fileInput.click(); // 파일 선택 input을 클릭하여 파일 선택 창 열기
+            });
 
-let stars = document.querySelectorAll('.rating .star-icon');
+            // 파일 선택 input의 change 이벤트 처리
+            fileInput.addEventListener('change', function (e) {
+                if (fileInput.files.length === 0) {
+                    return;
+                }
 
-checkedRate();
+                // 선택된 모든 파일에 대해 반복 처리
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    let file = fileInput.files[i];
+                    let reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // 이미지 태그를 생성하고 미리보기 이미지 설정
+                        let img = new Image();
+                        img.src = e.target.result;
+                        img.className = 'img-thumbnail';
+                        img.style.width = '100px'; // 원하는 너비
+                        img.style.height = '100px'; // 원하는 높이
+
+                        // 파일 이름 표시
+                        let fileNamePara = document.createElement('p');
+                        fileNamePara.textContent = file.name; // 파일 이름 설정
+                        previewContainer.appendChild(fileNamePara); // 파일 이름 추가
+                        previewContainer.appendChild(img); // 이미지 추가
+                    };
+
+                    // FileReader를 사용하여 파일 읽기 시작
+                    reader.readAsDataURL(file);
+                }
+
+                // 파일 선택 input 초기화 (동일한 파일을 연속해서 선택할 수 있도록 함)
+                fileInput.value = '';
+            });
+        });
+    </script>
+<script>
+
+const rateWrap = document.querySelectorAll('.rating');
+let stars;
 
 rateWrap.forEach(wrap => {
-wrap.addEventListener('mouseenter', () => {
-stars = wrap.querySelectorAll('.star-icon');
+    stars = wrap.querySelectorAll('.star-icon');
 
-stars.forEach((starIcon, idx) => {
-    starIcon.addEventListener('mouseenter', () => {
-        initStars(); 
-        filledRate(idx, labelLength); 
+    stars.forEach((starIcon, idx) => {
+        starIcon.addEventListener('mouseenter', () => {
+            initStars();
+            filledRate(idx, stars.length);
 
-        for (let i = 0; i < stars.length; i++) {
-            if (stars[i].classList.contains('filled')) {
+            for (let i = 0; i <= idx; i++) {
                 stars[i].style.opacity = opacityHover;
             }
-        }
-    });
+        });
 
-    starIcon.addEventListener('mouseleave', () => {
-        starIcon.style.opacity = '1';
-        checkedRate(); 
-    });
+        wrap.addEventListener('mouseleave', () => {
+            checkedRate(); // 마우스를 떼어도 선택된 별점 상태 유지
+        });
 
-    wrap.addEventListener('mouseleave', () => {
-        starIcon.style.opacity = '1';
+        starIcon.addEventListener('click', () => {
+            // 여기에 클릭 이벤트 처리 추가 가능
+            // 예: 별점을 클릭하면 해당 별점 값이 서버에 전송되도록 처리 등
+        });
     });
-});
-});
 });
 
 function filledRate(index, length) {
-if (index <= length) {
-for (let i = 0; i <= index; i++) {
-    stars[i].classList.add('filled');
-}
-}
+    if (index < length) {
+        for (let i = 0; i <= index; i++) {
+            stars[i].classList.add('filled');
+        }
+    }
 }
 
 function checkedRate() {
-let checkedRadio = document.querySelectorAll('.rating input[type="radio"]:checked');
+    // 클릭된 라디오 버튼에 따라 별점을 채움
+    let checkedRadio = document.querySelectorAll('.rating input[type="radio"]:checked');
 
+    checkedRadio.forEach(radio => {
+        let previousSiblings = prevAll(radio);
 
-initStars();
-checkedRadio.forEach(radio => {
-let previousSiblings = prevAll(radio);
+        for (let i = 0; i < previousSiblings.length; i++) {
+            previousSiblings[i].querySelector('.star-icon').classList.add('filled');
+        }
 
-for (let i = 0; i < previousSiblings.length; i++) {
-    previousSiblings[i].querySelector('.star-icon').classList.add('filled');
-}
+        radio.nextElementSibling.classList.add('filled');
 
-radio.nextElementSibling.classList.add('filled');
+        function prevAll() {
+            let radioSiblings = [],
+                prevSibling = radio.parentElement.previousElementSibling;
 
-function prevAll() {
-    let radioSiblings = [],
-        prevSibling = radio.parentElement.previousElementSibling;
-
-    while (prevSibling) {
-        radioSiblings.push(prevSibling);
-        prevSibling = prevSibling.previousElementSibling;
-    }
-    return radioSiblings;
-}
-});
+            while (prevSibling) {
+                radioSiblings.push(prevSibling);
+                prevSibling = prevSibling.previousElementSibling;
+            }
+            return radioSiblings;
+        }
+    });
 }
 
 function initStars() {
-for (let i = 0; i < stars.length; i++) {
-stars[i].classList.remove('filled');
+    stars.forEach(star => {
+        star.style.opacity = '1'; // 모든 별점의 투명도 초기화
+        star.classList.remove('filled'); // 모든 별점의 선택 상태 초기화
+    });
 }
-}
-
 
 </script>
 <script>
@@ -1073,7 +1129,7 @@ stars[i].classList.remove('filled');
 
                 // 인포윈도우로 장소에 대한 설명을 표시합니다
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="width:150px;text-align:center;padding:6px 0;">회사 위치</div>'
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">집합장소</div>'
                 });
                 infowindow.open(map, marker);
 

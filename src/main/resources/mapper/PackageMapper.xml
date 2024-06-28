@@ -313,6 +313,7 @@ SELECT
 	NAME
 FROM CATEGORY_TB	
 
+
 </select>
 
 
@@ -359,12 +360,23 @@ SELECT
     R.PERSON_IDX,
     R.CREATED,
     P.FIRST_NAME || ' ' || P.LAST_NAME AS FULL_NAME,
+    ra.rate,
+	trim(listagg(pi.image, ', ') WITHIN GROUP (ORDER BY pi.image)) AS image
+FROM package_tb pa
+JOIN package_review_tb r ON pa.package_idx = r.package_idx
+JOIN person_tb p ON r.person_idx = p.person_idx
+JOIN package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+JOIN package_review_image_tb pi ON r.package_review_idx = pi.package_review_idx 
+WHERE pa.package_idx = #{param1}
+GROUP BY
+    R.PACKAGE_REVIEW_IDX,
+    R.PACKAGE_IDX,
+    R.CONTENT,
+    R.PERSON_IDX,
+    R.CREATED,
+    P.FIRST_NAME, 
+    P.LAST_NAME,  
     ra.rate
-from package_tb pa
-join package_review_tb r on pa.package_idx = r.package_idx
-join person_tb p on r.person_idx = p.person_idx
-join package_rate_tb ra on  r.package_review_idx = ra.package_review_idx
-where pa.package_idx = #{param1}
 
 </select>
 
@@ -606,8 +618,45 @@ VALUES(
     #{content},
     #{person_idx},
     SYSDATE
-);
+)
 
+</insert>
+
+
+<insert id="insertReviewRaterate">
+INSERT INTO PACKAGE_RATE_TB(
+    PACKAGE_RATE_IDX,
+    PACKAGE_REVIEW_IDX,
+    USER_IDX,
+    RATE
+)
+VALUES(
+    (SELECT MAX(NVL(PACKAGE_RATE_IDX,0))+1
+    FROM   PACKAGE_RATE_TB),
+    (select
+    MAX(PACKAGE_REVIEW_IDX)
+	from PACKAGE_REVIEW_TB),
+    #{arg0},
+    #{arg1}
+)
+
+</insert>
+
+<insert id="insertReviewimage">
+
+INSERT INTO PACKAGE_REVIEW_IMAGE_TB(
+    PACKAGE_REVIEW_IMAGE_IDX,
+    PACKAGE_REVIEW_IDX,
+    IMAGE
+)
+VALUES(
+    (SELECT MAX(NVL(PACKAGE_REVIEW_IMAGE_IDX,0))+1
+    FROM   PACKAGE_REVIEW_IMAGE_TB),
+    (select
+    MAX(PACKAGE_REVIEW_IDX)
+	from PACKAGE_REVIEW_TB),
+    #{arg0}
+)
 </insert>
 
 </mapper>

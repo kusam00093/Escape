@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
 import com.escape.domain.PackageVo;
+import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
 import com.escape.domain.Package_imageVo;
@@ -76,6 +77,18 @@ public interface PackageMapper {
 
 
 	void insertReview(Package_ReviewVo reviewVo);
+
+
+
+
+
+
+
+
+	void insertReviewRaterate(int user_idx, int rate);
+
+
+	void insertReviewimage(String image);
 
 		
 
