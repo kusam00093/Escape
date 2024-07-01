@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
+import com.escape.domain.LocationVo;
 import com.escape.domain.PackageVo;
 import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
@@ -45,26 +47,7 @@ public class PackageController {
 	@Autowired
 	private UserMapper userMapper;
 	
-//	@RequestMapping("/Home")
-//	public  ModelAndView   home(@SessionAttribute(name = "login", required = false) User user) {
-//		
-//		
-//		User usertype = userMapper.findUserType(user.getUser_idx());
-//		
-//		List<CategoryVo> categoryList = packageMapper.getCategory();
-//		
-//		
-//		List<PackageVo> packageList = packageMapper.getPackageList();
-//				
-//		
-//		ModelAndView mv = new ModelAndView(); 
-//		
-//		mv.addObject("categoryList",categoryList);
-//		mv.addObject("packageList",packageList);
-//		mv.addObject("usertype",usertype);
-//		mv.setViewName("package/package_home");
-//		return mv; 
-//	}
+
 	@RequestMapping("/Home")
 	public ModelAndView home(@SessionAttribute(name = "login", required = false) User user) {
 	    ModelAndView mv = new ModelAndView();
@@ -87,49 +70,7 @@ public class PackageController {
 	    return mv;
 
 	}
-//	@RequestMapping("/Home/Sub")
-//	public ModelAndView subHome(
-//	        @RequestParam(name = "category_idx", required = false) Integer category_idx,
-//	        @RequestParam(name = "keyword", required = false) String keyword,
-//	        @SessionAttribute(name = "login", required = false) User user
-//	) {
-//		
-//		User usertype = userMapper.findUserType(user.getUser_idx());
-//		
-//		
-//		
-//	    List<PackageVo> packageListSub;
-//	    CategoryVo categoryVo = null;
-//	    if (category_idx != null) {
-//	        packageListSub = packageMapper.getPackageList_Sub_Category(category_idx);
-//	        categoryVo = packageMapper.getCategoryName(category_idx);
-//	    } else if (keyword != null && !keyword.isEmpty()) {
-//	        System.out.println("갤럭시" + keyword); // 디버깅용 로그
-//	        packageListSub = packageMapper.getPackageList_Search(keyword);
-//	        
-//	    } else {
-//	        packageListSub = packageMapper.getPackageList();
-//	    }
-//
-//	    ModelAndView mv = new ModelAndView();
-//	    mv.addObject("packageList_sub", packageListSub);
-//	    
-//	    if (categoryVo != null) {
-//	        mv.addObject("categoryVo", categoryVo);
-//	        System.out.println("카테고리 이름"+categoryVo.getName());
-//	    } else if (keyword != null && !keyword.isEmpty()) {
-//	    	
-//	        mv.addObject("keyword", keyword);
-//	    } else {
-//	    }
-//	    mv.addObject("usertype",usertype);
-//	    mv.setViewName("package/package_sub_home");
-//	    return mv;
-//	}
 
-	
-	
-	
 	@RequestMapping("/Home/Sub")
 	public ModelAndView subHome(
 	        @RequestParam(name = "category_idx", required = false) Integer category_idx,
@@ -157,16 +98,20 @@ public class PackageController {
 	        // userIdx가 0보다 크면(user.getUser_idx()가 존재할 때)
 	        User usertype = userMapper.findUserType(userIdx);
 	        mv.addObject("usertype", usertype);
+	        mv.addObject("user_idx",userIdx);
 	    }
 
 	    if (categoryVo != null) {
 	        mv.addObject("categoryVo", categoryVo);
+	        mv.addObject("user_idx",userIdx);
 	        System.out.println("카테고리 이름"+categoryVo.getName());
 	    } else if (keyword != null && !keyword.isEmpty()) {
 	        mv.addObject("keyword", keyword);
+	        mv.addObject("user_idx",userIdx);
 	    }
-
+	    mv.addObject("user_idx",userIdx);
 	    mv.setViewName("package/package_sub_home");
+	    
 	    return mv;
 	}
 	
@@ -200,7 +145,6 @@ public class PackageController {
 	        mv.addObject("usertype", usertype);
 	        mv.addObject("user_idx",userIdx);
 	        mv.addObject("paycount",paycount);
-	        System.out.println("유저아이디엑스!!!!!!!!!!!!!!!!!!!!"+userIdx);
 	    }else {
 	    	
 	    	
@@ -273,75 +217,130 @@ public class PackageController {
 		return mv;
 	}
 	
+
 	@RequestMapping("/Insert/Review")
 	public ModelAndView insertReview(
-			Package_ReviewVo reviewVo,
-			Package_RateVo rateVo,
-			Package_Review_ImgVo imageVo,
-			@SessionAttribute(name = "login", required = false) User user,
-			@RequestParam("package_idx") int package_idx,
-			@RequestParam("file") MultipartFile file,
-			@Value("${file.upload-dir}") String uploadDir) {
-		
-		int person_idx = packageMapper.findByPersonIdx(user.getUser_idx());
-		reviewVo.setPerson_idx(person_idx);
-		packageMapper.insertReview(reviewVo);
-		packageMapper.insertReviewRaterate(user.getUser_idx(),rateVo.getRate());
-		
-		
-		
-		
-		if (file != null && !file.isEmpty()) {
-			try {
-				// 파일 저장 경로 구성
-				String baseDir = System.getProperty("user.dir");
-				String imagesDirPath = baseDir + uploadDir; // application.properties에서 설정된 값을 사용
+	        Package_ReviewVo reviewVo,
+	        Package_RateVo rateVo,
+	        @SessionAttribute(name = "login", required = false) User user,
+	        @RequestParam("package_idx") int package_idx,
+	        @RequestParam("file") MultipartFile[] files, // Multiple files can be received
+	        @Value("${file.upload-dir}") String uploadDir) { // 업로드 디렉토리 경로
 
-				File directory = new File(imagesDirPath);
-				if (!directory.exists()) {
-					directory.mkdirs();
-				}
-				DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
-				ZonedDateTime current = ZonedDateTime.now();
-				String namePattern = current.format(format);
+	    if (user == null) {
+	        return new ModelAndView("redirect:/login"); // 로그인 페이지로 리다이렉트
+	    }
 
-				// 파일의 원래 이름을 가져옵니다.
-				String originalFileName = file.getOriginalFilename();
-				// 파일 확장자를 추출합니다.
-				String extension = "";
-				if (originalFileName != null && originalFileName.contains(".")) {
-					extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-				}
+	    int person_idx = packageMapper.findByPersonIdx(user.getUser_idx());
+	    reviewVo.setPerson_idx(person_idx);
+	    packageMapper.insertReview(reviewVo);
+	    packageMapper.insertReviewRaterate(user.getUser_idx(), rateVo.getRate());
 
-				// System.out.println(namePattern);
-				String fileName = namePattern + "_" + originalFileName; //??
-				//String fileName = originalFileName; //??
-				String filePath = Paths.get(imagesDirPath, fileName).toString();
+	    List<String> imagePaths = new ArrayList<>(); // 파일 경로를 저장할 리스트
 
-				// 파일 저장 //여기 문제 있음
-				Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+	    if (files != null && files.length > 0) {
+	        for (MultipartFile file : files) {
+	            if (file.isEmpty()) {
+	                System.out.println("파일이 비어 있습니다.");
+	                continue;  // 파일이 비어 있으면 처리하지 않고 다음 파일로 넘어갑니다.
+	            }
 
-				// 데이터베이스에 저장할 파일 경로 설정
-				String relativePath = "/img/" + fileName;
-				imageVo.setImage(relativePath);
+	            System.out.println("파일이 성공적으로 수신되었습니다: " + file.getOriginalFilename());
 
-			} catch (IOException e) {
-				e.printStackTrace();
-				// 에러 처리 로직
-			}
-		} else {
-			// 파일이 선택되지 않았거나 비어 있는 경우, 기본 이미지 경로를 사용
-			String relativePath = "/images/icon1.png";
-			imageVo.setImage(relativePath);
-		
-		}
-		
-		
-		
-		
-		packageMapper.insertReviewimage(imageVo.getImage());
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/Package/Detail?package_idx="+package_idx);
-		return mv;
+	            try {
+	                String baseDir = System.getProperty("user.dir");
+	                String imagesDirPath = baseDir + "/" + uploadDir;
+	                System.out.println("현재 작업 디렉토리: " + baseDir);
+	                System.out.println("파일 업로드 경로: " + imagesDirPath);
+
+	                File directory = new File(imagesDirPath);
+	                if (!directory.exists()) {
+	                    directory.mkdirs();
+	                    System.out.println("디렉토리가 생성되었습니다: " + imagesDirPath);
+	                } else {
+	                    System.out.println("디렉토리가 이미 존재합니다: " + imagesDirPath);
+	                }
+
+	                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+	                ZonedDateTime current = ZonedDateTime.now();
+	                String namePattern = current.format(format);
+
+	                String originalFileName = file.getOriginalFilename();
+	                if (originalFileName == null) {
+	                    throw new IOException("Original file name is null");
+	                }
+	                System.out.println("파일 이름: " + originalFileName);
+
+	                String extension = "";
+	                if (originalFileName.contains(".")) {
+	                    extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	                }
+
+	                String fileName = namePattern + "_" + originalFileName;
+	                String filePath = Paths.get(imagesDirPath, fileName).toString();
+
+	                Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+	                System.out.println("파일이 성공적으로 저장되었습니다: " + filePath);
+
+	                String relativePath = "/package_image/" + fileName; // 상대 경로 설정
+	                imagePaths.add(relativePath); // 경로를 리스트에 추가
+
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                System.out.println("파일 저장 중 오류가 발생했습니다.");
+	                return new ModelAndView("errorPage"); // 에러 페이지로 리다이렉트 (적절한 페이지로 변경)
+	            }
+	        }
+	    }
+
+	    List<Package_Review_ImgVo> reviewImgList = new ArrayList<>();
+	    for (String path : imagePaths) {
+	        reviewImgList.add(new Package_Review_ImgVo(path)); // 각 이미지 경로로 객체 생성
+	    }
+
+	    packageMapper.insertReviewimage(reviewImgList); // 이미지 리스트를 DB에 저장
+
+	    // 리뷰 등록 후 상세 페이지로 리다이렉트
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("redirect:/Package/Detail?package_idx=" + package_idx);
+	    return mv;
 	}
+	
+	@RequestMapping("/WriteForm")
+	public ModelAndView packageWriteForm(
+			@SessionAttribute(name = "login", required = false) User user
+			) {
+		
+		List<CategoryVo> categoryList = packageMapper.getCategory();
+		List<LocationVo> locationList = packageMapper.getLocation();
+		List<ConvenienceVo> convenienceList = packageMapper.getConvenienceList();
+		
+		
+		
+	    ModelAndView mv = new ModelAndView();
+	    mv.addObject("categoryList",categoryList);
+	    mv.addObject("convenienceList",convenienceList);
+	    mv.addObject("locationList",locationList);
+	    mv.addObject("user_idx", user.getUser_idx());
+	    mv.setViewName("package/package_write");
+	    return mv;
+	}
+	
+	@RequestMapping("/Write")
+	public ModelAndView packageWrite(
+			@SessionAttribute(name = "login", required = false) User user,
+			PackageVo packageVo,
+			Package_imageVo imageVo,
+			CategoryVo categoryVo,
+			LocationVo locationVo
+			
+			) {
+		
+		packageMapper.insertPackage(packageVo);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/Package/Home/Sub");
+		return mv; 
+	}
+	
 }

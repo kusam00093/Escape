@@ -312,6 +312,20 @@ SELECT
 	CATEGORY_IDX,
 	NAME
 FROM CATEGORY_TB	
+</select>
+<select id="getLocation">
+SELECT
+	LOCATION_IDX,
+    NAME
+FROM LOCATION_TB
+
+</select>
+<select id="getConvenienceList">
+
+SELECT
+	CONVENIENCE_IDX,
+    NAME
+FROM CONVENIENCE_TB
 
 
 </select>
@@ -642,21 +656,74 @@ VALUES(
 
 </insert>
 
-<insert id="insertReviewimage">
+<!-- <insert id="insertReviewimage"> -->
 
-INSERT INTO PACKAGE_REVIEW_IMAGE_TB(
-    PACKAGE_REVIEW_IMAGE_IDX,
-    PACKAGE_REVIEW_IDX,
-    IMAGE
+<!-- INSERT INTO PACKAGE_REVIEW_IMAGE_TB( -->
+<!--     PACKAGE_REVIEW_IMAGE_IDX, -->
+<!--     PACKAGE_REVIEW_IDX, -->
+<!--     IMAGE -->
+<!-- ) -->
+<!-- VALUES( -->
+<!--     (SELECT MAX(NVL(PACKAGE_REVIEW_IMAGE_IDX,0))+1 -->
+<!--     FROM   PACKAGE_REVIEW_IMAGE_TB), -->
+<!--     (select -->
+<!--     MAX(PACKAGE_REVIEW_IDX) -->
+<!-- 	from PACKAGE_REVIEW_TB), -->
+<!--     #{arg0} -->
+<!-- ) -->
+<!-- </insert> -->
+
+<insert id="insertReviewimage">
+   <foreach collection="list" item="imageList"
+        index      = "i"  
+        open       = "INSERT ALL"    
+        close      = "SELECT * FROM DUAL"
+        separator  = " " >
+        INTO  PACKAGE_REVIEW_IMAGE_TB VALUES (
+             GET_FILENUM(),
+             (SELECT MAX(NVL(PACKAGE_REVIEW_IDX,0))FROM   PACKAGE_REVIEW_TB),
+             #{ imageList.image }
+        )
+   </foreach>
+</insert>
+
+
+<insert id="insertPackage">
+
+INSERT INTO package_tb (
+    package_idx,
+    user_idx,
+    title,
+    start_date,
+    end_date,
+    limited_person,
+    price,
+    detail1,
+    detail2,
+    detail3,
+    zip_code,
+    address1,
+    address2
+
+) VALUES (
+    (select 
+    nvl(max(package_idx),0)+1
+from package_tb),
+    1,
+    #{title},
+    #{start_date},
+    #{end_date},
+    #{limited_person},
+    #{price},
+    #{detail1},
+    #{detail2},
+    #{detail3},
+    #{zip_code},
+    #{address1},
+    #{address2}
+
 )
-VALUES(
-    (SELECT MAX(NVL(PACKAGE_REVIEW_IMAGE_IDX,0))+1
-    FROM   PACKAGE_REVIEW_IMAGE_TB),
-    (select
-    MAX(PACKAGE_REVIEW_IDX)
-	from PACKAGE_REVIEW_TB),
-    #{arg0}
-)
+
 </insert>
 
 </mapper>

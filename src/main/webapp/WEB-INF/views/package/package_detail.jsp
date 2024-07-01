@@ -861,44 +861,34 @@ h1 {
     <input type="hidden" value="${ package_idx }" name="package_idx">
     <div class="rating">
         <label class="rating__label rating__label--half" for="starhalf">
-            <input type="radio" id="starhalf" class="rating__input" name="rate" value="1">
-            <span class="star-icon"></span>
+            <input type="radio" id="starhalf" class="rating__input" name="rate" value="1"><span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star1">
-            <input type="radio" id="star1" class="rating__input" name="rate" value="2">
-            <span class="star-icon"></span>
+            <input type="radio" id="star1" class="rating__input" name="rate" value="2"><span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star1half">
-            <input type="radio" id="star1half" class="rating__input" name="rate" value="3">
-            <span class="star-icon"></span>
+            <input type="radio" id="star1half" class="rating__input" name="rate" value="3"> <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star2">
-            <input type="radio" id="star2" class="rating__input" name="rate" value="4">
-            <span class="star-icon"></span>
+            <input type="radio" id="star2" class="rating__input" name="rate" value="4"> <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star2half">
-            <input type="radio" id="star2half" class="rating__input" name="rate" value="5">
-            <span class="star-icon"></span>
+            <input type="radio" id="star2half" class="rating__input" name="rate" value="5"><span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star3">
-            <input type="radio" id="star3" class="rating__input" name="rate" value="6">
-            <span class="star-icon"></span>
+            <input type="radio" id="star3" class="rating__input" name="rate" value="6"> <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star3half">
-            <input type="radio" id="star3half" class="rating__input" name="rate" value="7">
-            <span class="star-icon"></span>
+            <input type="radio" id="star3half" class="rating__input" name="rate" value="7"><span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star4">
-            <input type="radio" id="star4" class="rating__input" name="rate" value="8">
-            <span class="star-icon"></span>
+            <input type="radio" id="star4" class="rating__input" name="rate" value="8"> <span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--half" for="star4half">
-            <input type="radio" id="star4half" class="rating__input" name="rate" value="9">
-            <span class="star-icon"></span>
+            <input type="radio" id="star4half" class="rating__input" name="rate" value="9"><span class="star-icon"></span>
         </label>
         <label class="rating__label rating__label--full" for="star5">
-            <input type="radio" id="star5" class="rating__input" name="rate" value="10" checked>
-            <span class="star-icon"></span>
+            <input type="radio" id="star5" class="rating__input" name="rate" value="10" checked> <span class="star-icon"></span>
         </label>
     </div>
     
@@ -941,51 +931,80 @@ h1 {
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
 <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            var fileInput = document.getElementById('file');
-            var previewContainer = document.getElementById('preview-container');
-            var fileAddBtn = document.getElementById('file-add-btn');
+document.addEventListener('DOMContentLoaded', () => {
+    var fileInput = document.getElementById('file');
+    var previewContainer = document.getElementById('preview-container');
+    var fileAddBtn = document.getElementById('file-add-btn');
 
-            // 파일 추가 버튼 클릭 시 파일 선택 input 클릭 이벤트 발생
-            fileAddBtn.addEventListener('click', function (e) {
-                fileInput.click(); // 파일 선택 input을 클릭하여 파일 선택 창 열기
+    // 파일 추가 버튼 클릭 시 파일 선택 input 클릭 이벤트 발생
+    fileAddBtn.addEventListener('click', function () {
+        fileInput.click(); // 파일 선택 input을 클릭하여 파일 선택 창 열기
+    });
+
+    // 파일 선택 input의 change 이벤트 처리
+    fileInput.addEventListener('change', function () {
+        // 미리보기 컨테이너 초기화
+        previewContainer.innerHTML = '';
+
+        // 선택된 모든 파일에 대해 반복 처리
+        for (let i = 0; i < fileInput.files.length; i++) {
+            let file = fileInput.files[i];
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                // 이미지 태그를 생성하고 미리보기 이미지 설정
+                let img = new Image();
+                img.src = e.target.result;
+                img.className = 'img-thumbnail';
+                img.style.width = '100px'; // 원하는 너비
+                img.style.height = '100px'; // 원하는 높이
+
+                // 파일 이름 표시
+                let fileNamePara = document.createElement('p');
+                fileNamePara.textContent = file.name; // 파일 이름 설정
+                previewContainer.appendChild(fileNamePara); // 파일 이름 추가
+                previewContainer.appendChild(img); // 이미지 추가
+            };
+
+            // FileReader를 사용하여 파일 읽기 시작
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 폼 제출 시
+    document.querySelector('form').addEventListener('submit', async function (e) {
+        e.preventDefault(); // 기본 제출 동작 방지
+
+        const formData = new FormData(this); // FormData 객체 생성
+
+        // FormData 객체에 파일 추가 (이미 파일들은 fileInput에 포함되어 있음)
+        // 파일 선택 input의 name 속성은 이미 "file"로 설정되어 있음
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData
             });
 
-            // 파일 선택 input의 change 이벤트 처리
-            fileInput.addEventListener('change', function (e) {
-                if (fileInput.files.length === 0) {
-                    return;
-                }
+            if (response.ok) {
+                // 성공적으로 제출된 경우
+                const result = await response.json();
+                console.log('성공:', result);
+                // 성공 후 행동
+            } else {
+                // 실패한 경우
+                console.error('실패:', response.statusText);
+                // 실패 후 행동
+            }
+        } catch (error) {
+            console.error('에러:', error);
+        }
+    });
+});
 
-                // 선택된 모든 파일에 대해 반복 처리
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    let file = fileInput.files[i];
-                    let reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        // 이미지 태그를 생성하고 미리보기 이미지 설정
-                        let img = new Image();
-                        img.src = e.target.result;
-                        img.className = 'img-thumbnail';
-                        img.style.width = '100px'; // 원하는 너비
-                        img.style.height = '100px'; // 원하는 높이
-
-                        // 파일 이름 표시
-                        let fileNamePara = document.createElement('p');
-                        fileNamePara.textContent = file.name; // 파일 이름 설정
-                        previewContainer.appendChild(fileNamePara); // 파일 이름 추가
-                        previewContainer.appendChild(img); // 이미지 추가
-                    };
-
-                    // FileReader를 사용하여 파일 읽기 시작
-                    reader.readAsDataURL(file);
-                }
-
-                // 파일 선택 input 초기화 (동일한 파일을 연속해서 선택할 수 있도록 함)
-                fileInput.value = '';
-            });
-        });
     </script>
 <script>
 

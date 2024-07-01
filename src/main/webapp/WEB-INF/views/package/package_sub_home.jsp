@@ -712,7 +712,7 @@ body {
     <h2 class="sub_title">패키지 리스트 입니다</h2>
   </c:otherwise>
 </c:choose>
-    <a href="/Package/Write?user_idx=${user_idx}">글쓰기</a>
+    <a href="/Package/WriteForm?user_idx=${user_idx}">글쓰기</a>
    <div class="container1">
     <div class="card-container">
         <c:forEach var="pa" items="${ packageList_sub }">
