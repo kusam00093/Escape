@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
+import com.escape.domain.DiscountVo;
 import com.escape.domain.LocationVo;
 import com.escape.domain.PackageVo;
 import com.escape.domain.PackageVo2;
@@ -337,6 +338,7 @@ public class PackageController {
 	        @SessionAttribute(name = "login", required = false) User user,
 	        PackageVo2 packageVo,
 	        Package_imageVo2 imageVo,
+	        DiscountVo discountVo,
 	        @RequestParam("file") MultipartFile[] files, // 여러 파일을 받을 수 있도록 설정
 	        @Value("${file.upload-dir}") String uploadDir,
 	        @RequestParam("category_idx") String categoryIdxString,
@@ -409,7 +411,6 @@ public class PackageController {
 	    for (String path : imagePaths) {
 	    	imageList.add(new Package_imageVo(path));
 	    }
-	    System.out.println("=--=-=-=-======================================================="+imageList);
 	    // 이미지 정보 저장
 	    packageMapper.insertPackageImg(imageList); // 이미지 리스트를 DB에 저장
 	    
@@ -423,14 +424,27 @@ public class PackageController {
 	    packageMapper.insertPackageCategory(categoryIdxArrayList);
 	    	
 	    
-//	    String[] locationArray = categoryIdxString.split(",");
-//	    
-//	    int[] locationIdxArrayList = Arrays.stream(locationArray)
-//                .map(String::trim)  // 문자열의 공백 제거
-//                .mapToInt(Integer::parseInt)  // 문자열을 정수로 변환
-//                .toArray();  // int 배열로 변환
-//	    
-//	    packageMapper.insertPackageLocation(locationIdxArrayList);
+	    String[] locationArray = LocationIdxString.split(",");
+	    
+	    int[] locationIdxArrayList = Arrays.stream(locationArray)
+                .map(String::trim)  // 문자열의 공백 제거
+                .mapToInt(Integer::parseInt)  // 문자열을 정수로 변환
+                .toArray();  // int 배열로 변환
+	    
+	    packageMapper.insertPackageLocation(locationIdxArrayList);
+	    
+	    String[] convenienceArray = ConvenienceIdxString.split(",");
+	    
+	    int[] convenienceIdxArrayList = Arrays.stream(convenienceArray)
+                .map(String::trim)  // 문자열의 공백 제거
+                .mapToInt(Integer::parseInt)  // 문자열을 정수로 변환
+                .toArray();  // int 배열로 변환
+	    
+	    packageMapper.insertPackageConvenience(convenienceIdxArrayList);
+	    
+	    
+	    
+	    packageMapper.insertPackageDiscount(user.getUser_idx(),discountVo.getDiscount_percent(),discountVo.getDiscount_integer());
 	    
 	    
 

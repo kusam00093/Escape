@@ -656,22 +656,7 @@ VALUES(
 
 </insert>
 
-<!-- <insert id="insertReviewimage"> -->
 
-<!-- INSERT INTO PACKAGE_REVIEW_IMAGE_TB( -->
-<!--     PACKAGE_REVIEW_IMAGE_IDX, -->
-<!--     PACKAGE_REVIEW_IDX, -->
-<!--     IMAGE -->
-<!-- ) -->
-<!-- VALUES( -->
-<!--     (SELECT MAX(NVL(PACKAGE_REVIEW_IMAGE_IDX,0))+1 -->
-<!--     FROM   PACKAGE_REVIEW_IMAGE_TB), -->
-<!--     (select -->
-<!--     MAX(PACKAGE_REVIEW_IDX) -->
-<!-- 	from PACKAGE_REVIEW_TB), -->
-<!--     #{arg0} -->
-<!-- ) -->
-<!-- </insert> -->
 
 <insert id="insertReviewimage">
    <foreach collection="list" item="imageList"
@@ -680,7 +665,7 @@ VALUES(
         close      = "SELECT * FROM DUAL"
         separator  = " " >
         INTO  PACKAGE_REVIEW_IMAGE_TB VALUES (
-             GET_FILENUM(),
+             GET_FILENUM_4(),
              (SELECT MAX(NVL(PACKAGE_REVIEW_IDX,0))FROM   PACKAGE_REVIEW_TB),
              #{ imageList.image }
         )
@@ -726,21 +711,6 @@ from package_tb),
 
 </insert>
 
-<!-- <insert id="insertPackageImg"> -->
-<!-- INSERT INTO package_image_tb ( -->
-<!--     package_image_idx, -->
-<!--     package_idx, -->
-<!--     image -->
-<!-- ) VALUES ( -->
-<!--     (select  -->
-<!--     nvl(max(package_image_idx),0)+1 -->
-<!-- 	from package_image_tb), -->
-<!--     (select nvl(max(package_idx),0) -->
-<!-- 	from package_tb), -->
-<!--     #{image} -->
-<!-- 	); -->
-<!-- </insert> -->
-
 
 <insert id="insertPackageImg">
    <foreach collection="list" item="imageList"
@@ -749,7 +719,7 @@ from package_tb),
         close      = "SELECT * FROM DUAL"
         separator  = " " >
         INTO  PACKAGE_IMAGE_TB VALUES (
-             GET_FILENUM(),
+             GET_FILENUM_1(),
              (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
              #{ imageList.image }
         )
@@ -763,12 +733,58 @@ from package_tb),
         close      = "SELECT * FROM DUAL"
         separator  = " " >
         INTO  PACKAGE_CATEGORY_TB VALUES (
-             GET_FILENUM(),
+             GET_FILENUM_2(),
+             (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
+             #{arg0}
+        )
+   </foreach>
+</insert>
+<insert id="insertPackageLocation">
+   <foreach collection="array" item="arg0"
+        index      = "i"  
+        open       = "INSERT ALL"    
+        close      = "SELECT * FROM DUAL"
+        separator  = " " >
+        INTO  PACKAGE_LOCATION_TB VALUES (
+             GET_FILENUM_3(),
              (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
              #{arg0}
         )
    </foreach>
 </insert>
 
+
+<insert id="insertPackageConvenience">
+   <foreach collection="array" item="arg0"
+        index      = "i"  
+        open       = "INSERT ALL"    
+        close      = "SELECT * FROM DUAL"
+        separator  = " " >
+        INTO  PACKAGE_CONVENIENCE_TB VALUES (
+             GET_FILENUM_5(),
+             (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
+             #{arg0}
+        )
+   </foreach>
+</insert>
+
+<insert id="insertPackageDiscount">
+INSERT INTO package_discount_tb (
+    package_discount_idx,
+    user_idx,
+    package_idx,
+    state,
+    discount_percent,
+    discount_integer
+) VALUES (
+    (SELECT MAX(NVL(PACKAGE_DISCOUNT_IDX,0)+1)FROM   PACKAGE_DISCOUNT_TB),
+    #{arg0},
+    (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
+    2,
+    #{arg1},
+    #{arg2}
+)
+
+</insert>
 
 </mapper>

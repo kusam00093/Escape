@@ -88,8 +88,9 @@ div[name="start_date"], div[name="end_date"] {
 		<input type="hidden" id="selectedLocation" name="location_idx">
 		
         <hr>
+
 		
-		<label for="location" class="form-label">카테고리를 선택하세요 (중복가능)</label>
+		<label for="category" class="form-label">카테고리를 선택하세요 (중복가능)</label>
 		<c:forEach var="ca" items="${ categoryList }">
 			<div class="col-auto">
 					<button type="button" class="btn btn-outline-primary category-btn" name="category_idx" value="${ ca.category_idx }">${ca.name }</button>
@@ -99,7 +100,7 @@ div[name="start_date"], div[name="end_date"] {
         
         
         <hr>
-		<label for="location" class="form-label">기타 사항을 선택하세요 (중복가능)</label>
+		<label for="convenience" class="form-label">기타 사항을 선택하세요 (중복가능)</label>
 		<c:forEach var="co" items="${ convenienceList }">
 			<div class="col-auto">
 					<button type="button" class="btn btn-outline-primary convenience-btn" name="convenience_idx" value="${ co.convenience_idx }">${co.name }</button>
@@ -138,7 +139,7 @@ div[name="start_date"], div[name="end_date"] {
         
     <div>할인</div>
     <input type="checkbox" id="discountCheckbox" value="할인을 하시려면 체크해주세요">
-    <div id="percentageInputContainer" name="discount_persent"></div>
+    <div id="percentageInputContainer" name="discount_percent"></div>
         
         
 		
