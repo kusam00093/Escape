@@ -50,6 +50,11 @@ public interface MypageMapper {
 
 	List<Room> getRoomBysellerUser_idx(int user_idx);
 
+	List<Room> getRoomcostomerBysellerUser_idx(int user_idx);
+
+	List<Pkg> getPkgcostomerBysellerUser_idx(int user_idx);
+
+
 
 
 	// List<Pkg> getPackageBypackage_idx(List<Apply> apply);

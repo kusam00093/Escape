@@ -252,7 +252,9 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${BoardVo.title}</td>
-                                    <td>${BoardVo.content}</td>
+                                    <td>
+<a href="http://localhost:9089/Board/FriendView?board_idx=${BoardVo.board_idx}&nowpage=1">${BoardVo.content}</a>
+                                    </td>
                                     <td>${BoardVo.created}</td>
                                     <td>${BoardVo.hit}</td>
                                 </tr>

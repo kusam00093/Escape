@@ -243,9 +243,8 @@
                             <tr>
                                 <th>번호</th>
                                 <th>Title</th>
-                                <th>가격</th>
-                                <th>정원</th>
-                                <th>예약가능일</th>
+                                <th>예약고객</th>
+                                <th>전화번호</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -253,9 +252,8 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${Room.title}</td>
-                                    <td>${Room.price}</td>
-                                    <td>${Room.max_preson}</td>
-                                    <td>${Room.available_date}</td>
+                                    <td>${Room.last_name}${Room.first_name}</td>
+                                    <td>${Room.phone}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -271,12 +269,8 @@
                             <tr>
                                 <th>번호</th>
                                 <th>Title</th>
-                                <th>출발일자</th>
-                                <th>종료일자</th>
-                                <th>정원</th>
-                                <th>가격</th>
-                                <th>디테일</th>
-                                <th>zip_code</th>
+                                <th>예약고객</th>
+                                <th>전화번호</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -284,12 +278,8 @@
                                 <tr >
                                     <td>${status.index + 1}</td>
                                     <td>${Pkg.title}</td>
-                                    <td>${Pkg.start_date}</td>
-                                    <td>${Pkg.end_date}</td>
-                                    <td>${Pkg.limited_person}</td>
-                                    <td>${Pkg.price}</td>
-                                    <td>${Pkg.detail1}</td>
-                                    <td>${Pkg.zip_code}</td>
+                                    <td>${Pkg.last_name}${Pkg.first_name}</td>
+                                    <td>${Pkg.phone}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -297,39 +287,9 @@
                 </div>
             </div>
             
-              <div class="profile-card">
-                <h3>비행기 정보</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>출발일자</th>
-                                <th>출발시각</th>
-                                <th>도착일자</th>
-                                <th>도착시각</th>
-                                <th>출발지번호</th>
-                                <th>도착지번호</th>
-                                <th>Known</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="Airplane_time" items="${airtime}" varStatus="status">
-                                <tr >
-                                    <td>${status.index + 1}</td>
-                                    <td>${Airplane_time.start_date}</td>
-                                    <td>${Airplane_time.start_time}</td>
-                                    <td>${Airplane_time.end_date}</td>
-                                    <td>${Airplane_time.end_time}</td>
-                                    <td>${Airplane_time.departure_loc}</td>
-                                    <td>${Airplane_time.arrival_loc}</td>
-                                    <td>${Airplane_time.known}</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+             
+             
+             
             
             
         </div>

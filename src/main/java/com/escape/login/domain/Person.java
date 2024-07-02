@@ -25,4 +25,5 @@ public class Person {
     private String image;
 	
     
+    
 }

@@ -195,7 +195,7 @@
             <ul>
                <li><a href="/profile">회원정보</a></li>
                 <li><a href="/sellergoods">내가 등록한 상품</a></li>
-                <li><a href="#">신청자 목록</a></li>
+                <li><a href="/sellercostomer">신청자 목록</a></li>
                 <li><a href="#">마감된 상품</a></li>
                 <li><a href="#">대화내역</a></li>
             </ul>
