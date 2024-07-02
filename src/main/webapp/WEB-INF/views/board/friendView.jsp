@@ -78,6 +78,21 @@ h2 {
 #comment-form, .container2{
 margin-top: 20px;
 }
+
+.like{
+	border : none;
+	background-color : transparent;
+}
+button.like:focus {
+outline : none;
+}
+.blike{
+	border : none;
+	background-color : transparent;
+}
+button.blike:focus {
+outline : none;
+}
 /*
 img {
     width: 35px; 
@@ -98,7 +113,7 @@ border: none;
  <div>
 
           <!-- <form action="Board/FriendView${board.board_idx}" method="post">-->
-          <form action="/Board/Boardhome" method="post">
+          <form action="/Board/Boardhome?id=${id}" method="post">
           <input type="hidden" name="board_idx" value="${board.board_idx}">
  
  
@@ -131,7 +146,10 @@ border: none;
                 <div style="text-align:center;">
                 <button type="submit" class="btn btn-primary">목록으로</button>
                 <a href="/Board/FriendUpdateForm?board_idx=${board.board_idx }" class="btn btn-primary">수정하기</a>
-                <a href="/Board/FriendDelete?board_idx=${board.board_idx }" class="btn btn-primary">삭제</a>
+                <a href="/Board/FriendDelete?board_idx=${board.board_idx}&user_idx=${ board.user_idx }" class="btn btn-primary">삭제</a>
+                <a href="/room?board_idx=${posting.board_idx}" class="btn btn-primary jelly-btn">채팅하기</a>
+                
+                <button class="blike" type="button" data-board-idx="${board.board_idx}" data-user-idx="${user.user_idx}"><img src="/img/like_off.png" alt="좋아요"></button>
                 
                 </div>
                 
@@ -389,8 +407,83 @@ function updateUI(likeCount, button) {
 }*/
 
 });
-
+/*====================================스크랩=============================================*/
 /*------------------------------------------------------------------------*/
+  document.addEventListener("DOMContentLoaded", function() {
+    const blikeButtons = document.querySelectorAll('.blike');
+    console.log('.blike');
+
+    function toggleBlike(button) {
+        console.dir(button);
+
+        var img = button.querySelector('img');
+        var currentSrc = img.getAttribute('src');
+        var boardIdx = button.getAttribute('data-board-idx');
+      //  var boardLikeIdx = button.getAttribute('data-board-like-idx');
+        var userIdx = button.getAttribute('data-user-idx');
+
+        console.log('boardIdx:', boardIdx);
+     //   console.log('boardLikeIdx:', boardLikeIdx);
+        console.log('userIdx:', userIdx);
+
+        if (currentSrc.includes('like_on.png')) {
+            img.setAttribute('src', '/img/like_off.png');
+            console.log('스크랩이 해제되었습니다.');
+            alert('스크랩이 해제되었습니다.');
+            // 이미 스크랩된 상태에서 스크랩 버튼을 클릭한 경우
+            deleteBlike(boardIdx, userIdx);
+        } else {
+            img.setAttribute('src', '/img/like_on.png');
+            console.log('스크랩 공고 버튼이 클릭되었습니다.');
+            alert('스크랩 되었습니다.');
+            // 스크랩되지 않은 상태에서 스크랩 버튼을 클릭한 경우
+            addBlike(boardIdx, userIdx);
+        }
+    }
+
+    function addBlike(boardIdx, userIdx, boardLikeIdx) {
+        fetch(`/Api/Board/\${boardIdx}/\${userIdx}/addBlike`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ board_idx: boardIdx, user_idx: userIdx})
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to toggle like');
+            }
+            return response.text();
+        }).then(liketext => {
+            console.log('Server response:', liketext);
+        }).catch(error => console.error('Error toggling like:', error));
+    }
+
+    function deleteBlike(boardIdx, userIdx) {
+        fetch(`/Api/Board/\${boardIdx}/\${userIdx}/deleteBlike`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ board_idx: boardIdx, user_idx: userIdx})
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to toggle like');
+            }
+            return response.text();
+        }).then(liketext => {
+            console.log('Server response:', liketext);
+        }).catch(error => console.error('Error toggling like:', error));
+    }
+
+    blikeButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            toggleBlike(button);
+            console.log('Button clicked');
+        });
+    });
+});
+
+ 
 /*------------------------------------------------------------------------*/
 /*답글
 

@@ -61,13 +61,13 @@
 
 <div class="form-container">
   <h2>동행친구찾기 글쓰기</h2>
-  <form action="/Board/FriendWrite" method="post">
+  <form action="/Board/FriendWrite?id=${id}" method="post">
     <!-- <input type="hidden" name="board_idx" value="${board.board_idx}"> -->
-    <!-- <input type="hidden" name="user_idx" value="${ user_idx }"> -->
+    <%--  <input type="hidden" name="id" value="${sessionScope.login.id }"> --%>
     <!-- <input type="hidden" name="nowpage" value="${ nowpage }"> -->
     <div class="form-group">
       <label for="user_idx">아이디</label>
-      <input type="text" class="form-control" id="user_idx" name="user_idx">
+      <input type="text" class="form-control" id="user_idx" name="user_idx"  value="${user_idx}" readonly> <!-- user_idx -->
     </div>
     <div class="form-group">
       <label for="title">제목</label>
@@ -89,6 +89,13 @@
       <label for="content">내용</label>
       <textarea class="form-control" id="content" name="content" rows="15" wrap="soft" style="resize: none;"></textarea>
     </div>
+    <!-- 
+    <form action="/item" method="post" enctype="multipart/form-data">
+ <ul>
+ 	<li>이미지 파일들<input type="file" multiple="multiple" name="imageFiles" ></li>
+ </ul>
+ </form> -->
+    
     <div style="text-align: center;">
       <button type="submit" class="btn btn-primary">글 작성</button>
     </div>
