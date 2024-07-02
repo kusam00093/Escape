@@ -11,16 +11,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Package_imageVo {
+public class Package_imageVo2 {
 	
 	private int     package_image_idx;
 	private int     package_idx;
 	private String  image;
 	private List<MultipartFile> file;
 	
-	public Package_imageVo(String image) {
-		this.image = image;
-	}
 
 
 }

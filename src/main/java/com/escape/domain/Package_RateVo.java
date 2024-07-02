@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Package_RateVo {
-	int package_rate_idx;
-	int package_review_idx;
-	int user_idx;
-	int rate;
+	private int package_rate_idx;
+	private int package_review_idx;
+	private int user_idx;
+	private int rate;
 }

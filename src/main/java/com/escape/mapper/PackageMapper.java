@@ -8,6 +8,7 @@ import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
 import com.escape.domain.LocationVo;
 import com.escape.domain.PackageVo;
+import com.escape.domain.PackageVo2;
 import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
@@ -27,9 +28,6 @@ public interface PackageMapper {
 
 	PackageVo getPackage(int package_idx);
 
-
-
-
 	List<Package_ReviewVo> getReviews(int package_idx);
 
 
@@ -42,22 +40,13 @@ public interface PackageMapper {
 
 
 	Package_ReviewVo getAverageRate(int package_idx);
-
-
 	Package_ReviewVo getMaxRate(int package_idx);
-
-
 	Package_ReviewVo getReviewCount(int package_idx);
-
-
-
 
 	List<PackageVo> getPackageList();
 
 
 	List<PackageVo> getPackageList_Sub();
-
-
 
 
 	List<PackageVo> getPackageList_Sub_Category(int category_idx);
@@ -81,12 +70,6 @@ public interface PackageMapper {
 	void insertReview(Package_ReviewVo reviewVo);
 
 
-
-
-
-
-
-
 	void insertReviewRaterate(int user_idx, int rate);
 
 
@@ -95,28 +78,30 @@ public interface PackageMapper {
 
 	List<LocationVo> getLocation();
 
-
-
-
 	List<ConvenienceVo> getConvenienceList();
 
 
+	void insertPackage(PackageVo2 packageVo);
 
-
-	void insertPackage(PackageVo packageVo);
-
-		
-
+	void insertPackageImg(List<Package_imageVo> imgList);
 
 
 
 
+	void insertPackageCategory(int[] categoryIdxArray);
 
 
+	void insertPackageLocation(int[] locationIdxArrayList);
 
 
+	//void insertPackageCategory(List<Integer> categoryIdxArrayList);
 
-		
+
+	//void insertPackageCategory(String[] list1);
+
+
+	//void insertPackageCategory(int[] list1);
+
 
 
 }

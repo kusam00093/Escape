@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConvenienceVo {
-	int convenience_idx;
-	String name;
+	private int convenience_idx;
+	private String name;
 }

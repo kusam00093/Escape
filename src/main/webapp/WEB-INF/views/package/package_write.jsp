@@ -66,16 +66,16 @@ div[name="start_date"], div[name="end_date"] {
 <body>
 
 
-    <form action="/Package/Write" method="post" id="myForm">
+    <form action="/Package/Write" method="post" id="myForm" enctype="multipart/form-data" >
     	<input type="hidden" value="${ user_idx }" name="user_idx">
     	
-        <input type="text" name="title" placeholder="제목을 입력하세요" required>
+        <input type="text" name="title" placeholder="제목을 입력하세요" required value="제목1">
         <hr>
-        <input type="text" name="price" placeholder="가격을 입력하세요" required>
+        <input type="text" name="price" placeholder="가격을 입력하세요" required value="10000">
         <hr>
-        <textarea rows="4" cols="50" name="detail1" placeholder="상세 내용 1"></textarea>
-        <textarea rows="4" cols="50" name="detail2" placeholder="상세 내용 2"></textarea>
-        <textarea rows="4" cols="50" name="detail3" placeholder="상세 내용 3"></textarea>
+        <textarea rows="4" cols="50" name="detail1" placeholder="상세 내용 1">ㅇㅁㄴㅇㄻㄴㅇ</textarea>
+        <textarea rows="4" cols="50" name="detail2" placeholder="상세 내용 2">ㅁㄴㅇㄹㄴㅁㅇ</textarea>
+        <textarea rows="4" cols="50" name="detail3" placeholder="상세 내용 3">ㅅㅁㄴㅇㄹㄴㅁ</textarea>
         
         <hr>
         
@@ -108,23 +108,23 @@ div[name="start_date"], div[name="end_date"] {
 		<input type="hidden" id="selectedConvenience" name="convenience_idx">
         <hr>
         
-        <input type="text" name="zip_code" placeholder="우편번호" readonly="readonly"/>
+        <input type="text" name="zip_code" placeholder="우편번호" readonly="readonly" value="123452"/>
         <input type="button"  onclick="daumPost()" value="우편번호 찾기" />
-        <br><input type="text" name="address1" placeholder="상세주소"></br>
-        <br><input type="text" name="address2" placeholder="상세주소"></br>
+        <br><input type="text" name="address1" placeholder="상세주소" value="서울"></br>
+        <br><input type="text" name="address2" placeholder="상세주소" value="강남"></br>
         
         <hr>
         
         
         
         <div id="preview-container"></div>
-        <input type="file" name="image" id="image" multiple style="display: none;">
+        <input type="file" name="file" id="file" multiple style="display: none;">
         <button id="AddFileBtn">이미지 추가</button>
         
         <hr>
         
         <div>제한인원</div>
-        <input type="number" min="1" max="2000" step="1" name="limited_person">
+        <input type="number" min="1" max="2000" step="1" name="limited_person" value="44">
         
         
         <hr>
@@ -304,10 +304,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('AddFileBtn').addEventListener('click', function(e) {
         	 e.preventDefault();
-            document.getElementById('image').click();
+            document.getElementById('file').click();
         });
 
-        document.getElementById('image').addEventListener('change', function(event) {
+        document.getElementById('file').addEventListener('change', function(event) {
             const files = Array.from(event.target.files);
             
             // Update selectedFiles array

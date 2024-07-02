@@ -10,12 +10,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,11 +30,13 @@ import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
 import com.escape.domain.LocationVo;
 import com.escape.domain.PackageVo;
+import com.escape.domain.PackageVo2;
 import com.escape.domain.Package_RateVo;
 import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
 import com.escape.domain.Package_Review_ImgVo;
 import com.escape.domain.Package_imageVo;
+import com.escape.domain.Package_imageVo2;
 import com.escape.login.domain.User;
 import com.escape.login.mapper.UserMapper;
 import com.escape.mapper.PackageMapper;
@@ -303,6 +308,7 @@ public class PackageController {
 	    // 리뷰 등록 후 상세 페이지로 리다이렉트
 	    ModelAndView mv = new ModelAndView();
 	    mv.setViewName("redirect:/Package/Detail?package_idx=" + package_idx);
+	    //mv.setViewName("/Package/Home");
 	    return mv;
 	}
 	
@@ -328,19 +334,109 @@ public class PackageController {
 	
 	@RequestMapping("/Write")
 	public ModelAndView packageWrite(
-			@SessionAttribute(name = "login", required = false) User user,
-			PackageVo packageVo,
-			Package_imageVo imageVo,
-			CategoryVo categoryVo,
-			LocationVo locationVo
-			
-			) {
-		
-		packageMapper.insertPackage(packageVo);
-		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/Package/Home/Sub");
-		return mv; 
+	        @SessionAttribute(name = "login", required = false) User user,
+	        PackageVo2 packageVo,
+	        Package_imageVo2 imageVo,
+	        @RequestParam("file") MultipartFile[] files, // 여러 파일을 받을 수 있도록 설정
+	        @Value("${file.upload-dir}") String uploadDir,
+	        @RequestParam("category_idx") String categoryIdxString,
+	        @RequestParam("location_idx") String LocationIdxString,
+	        @RequestParam("convenience_idx") String ConvenienceIdxString
+	) {
+
+	    List<String> imagePaths = new ArrayList<>(); // 파일 경로를 저장할 리스트
+
+	    if (files != null && files.length > 0) {
+	        for (MultipartFile file : files) {
+	            if (file.isEmpty()) {
+	                System.out.println("파일이 비어 있습니다.");
+	                continue;  // 파일이 비어 있으면 처리하지 않고 다음 파일로 넘어갑니다.
+	            }
+
+	            System.out.println("파일이 성공적으로 수신되었습니다: " + file.getOriginalFilename());
+
+	            try {
+	                String baseDir = System.getProperty("user.dir");
+	                String imagesDirPath = baseDir + "/" + uploadDir;
+	                System.out.println("현재 작업 디렉토리: " + baseDir);
+	                System.out.println("파일 업로드 경로: " + imagesDirPath);
+
+	                File directory = new File(imagesDirPath);
+	                if (!directory.exists()) {
+	                    directory.mkdirs();
+	                    System.out.println("디렉토리가 생성되었습니다: " + imagesDirPath);
+	                } else {
+	                    System.out.println("디렉토리가 이미 존재합니다: " + imagesDirPath);
+	                }
+
+	                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+	                ZonedDateTime current = ZonedDateTime.now();
+	                String namePattern = current.format(format);
+
+	                String originalFileName = file.getOriginalFilename();
+	                if (originalFileName == null) {
+	                    throw new IOException("Original file name is null");
+	                }
+	                System.out.println("파일 이름: " + originalFileName);
+
+	                String extension = "";
+	                if (originalFileName.contains(".")) {
+	                    extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	                }
+
+	                String fileName = namePattern + "_" + originalFileName;
+	                String filePath = Paths.get(imagesDirPath, fileName).toString();
+
+	                Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+	                System.out.println("파일이 성공적으로 저장되었습니다: " + filePath);
+
+	                String relativePath = "/package_image/" + fileName; // 상대 경로 설정
+	                imagePaths.add(relativePath); // 경로를 리스트에 추가
+
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                System.out.println("파일 저장 중 오류가 발생했습니다.");
+	                return new ModelAndView("errorPage"); // 에러 페이지로 리다이렉트 (적절한 페이지로 변경)
+	            }
+	        }
+	    }
+
+	    // packageVo 저장
+	    packageMapper.insertPackage(packageVo);
+	    
+	    
+	    List<Package_imageVo> imageList = new ArrayList<>();
+	    for (String path : imagePaths) {
+	    	imageList.add(new Package_imageVo(path));
+	    }
+	    System.out.println("=--=-=-=-======================================================="+imageList);
+	    // 이미지 정보 저장
+	    packageMapper.insertPackageImg(imageList); // 이미지 리스트를 DB에 저장
+	    
+	    String[] categoryArray = categoryIdxString.split(",");
+
+	    // 문자열 배열을 int 배열로 변환
+	    int[] categoryIdxArrayList = Arrays.stream(categoryArray)
+	                                   .map(String::trim)  // 문자열의 공백 제거
+	                                   .mapToInt(Integer::parseInt)  // 문자열을 정수로 변환
+	                                   .toArray();  // int 배열로 변환
+	    packageMapper.insertPackageCategory(categoryIdxArrayList);
+	    	
+	    
+//	    String[] locationArray = categoryIdxString.split(",");
+//	    
+//	    int[] locationIdxArrayList = Arrays.stream(locationArray)
+//                .map(String::trim)  // 문자열의 공백 제거
+//                .mapToInt(Integer::parseInt)  // 문자열을 정수로 변환
+//                .toArray();  // int 배열로 변환
+//	    
+//	    packageMapper.insertPackageLocation(locationIdxArrayList);
+	    
+	    
+
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("redirect:/Package/Home/Sub");
+	    return mv;
 	}
 	
 }

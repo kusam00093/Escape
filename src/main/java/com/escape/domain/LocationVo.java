@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationVo {
-	int location_idx;
-	String name;
+	private int location_idx;
+	private String name;
 }

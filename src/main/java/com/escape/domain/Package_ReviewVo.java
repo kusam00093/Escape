@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Package_ReviewVo {
-	int package_review_idx;
-	int package_idx;
-	String content;
-	int person_idx;
-	String created;
-	String full_name;
-	String image;
-	int rate;
-	int count;
+	private int package_review_idx;
+	private int package_idx;
+	private String content;
+	private int person_idx;
+	private String created;
+	private String full_name;
+	private String image;
+	private int rate;
+	private int count;
 
 }

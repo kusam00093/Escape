@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Package_ReservationVo {
-	int package_reservation_idx;
-	int user_idx;
-	int package_idx;
-	int reservation_su;
-	int reservation_price;
-	int state;
-	String created;
+	private int package_reservation_idx;
+	private int user_idx;
+	private int package_idx;
+	private int reservation_su;
+	private int reservation_price;
+	private int state;
+	private String created;
 }

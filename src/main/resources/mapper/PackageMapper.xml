@@ -709,7 +709,7 @@ INSERT INTO package_tb (
     (select 
     nvl(max(package_idx),0)+1
 from package_tb),
-    1,
+    #{user_idx},
     #{title},
     #{start_date},
     #{end_date},
@@ -725,5 +725,50 @@ from package_tb),
 )
 
 </insert>
+
+<!-- <insert id="insertPackageImg"> -->
+<!-- INSERT INTO package_image_tb ( -->
+<!--     package_image_idx, -->
+<!--     package_idx, -->
+<!--     image -->
+<!-- ) VALUES ( -->
+<!--     (select  -->
+<!--     nvl(max(package_image_idx),0)+1 -->
+<!-- 	from package_image_tb), -->
+<!--     (select nvl(max(package_idx),0) -->
+<!-- 	from package_tb), -->
+<!--     #{image} -->
+<!-- 	); -->
+<!-- </insert> -->
+
+
+<insert id="insertPackageImg">
+   <foreach collection="list" item="imageList"
+        index      = "i"  
+        open       = "INSERT ALL"    
+        close      = "SELECT * FROM DUAL"
+        separator  = " " >
+        INTO  PACKAGE_IMAGE_TB VALUES (
+             GET_FILENUM(),
+             (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
+             #{ imageList.image }
+        )
+   </foreach>
+</insert>
+
+<insert id="insertPackageCategory">
+   <foreach collection="array" item="arg0"
+        index      = "i"  
+        open       = "INSERT ALL"    
+        close      = "SELECT * FROM DUAL"
+        separator  = " " >
+        INTO  PACKAGE_CATEGORY_TB VALUES (
+             GET_FILENUM(),
+             (SELECT MAX(NVL(PACKAGE_IDX,0))FROM   PACKAGE_TB),
+             #{arg0}
+        )
+   </foreach>
+</insert>
+
 
 </mapper>
