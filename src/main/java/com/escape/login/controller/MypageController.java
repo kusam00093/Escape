@@ -325,9 +325,12 @@ public class MypageController {
   	
     	List<Pkg> pkg = mypageMapper.getPkgBysellerUser_idx(user.getUser_idx());
     	
+    	List<Room> room = mypageMapper.getRoomBysellerUser_idx(user.getUser_idx());
+    	
     	mv.addObject("user", user);
     	mv.addObject("seller", seller);
     	mv.addObject("pkg", pkg);
+    	mv.addObject("room", room);
     	
     	mv.setViewName("member/sellergoods");
     	

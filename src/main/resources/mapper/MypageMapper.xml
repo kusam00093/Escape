@@ -133,7 +133,15 @@ from PACKAGE_TB
 where user_idx = #{user_idx}
 </select>
 
-
+<select id="getRoomBysellerUser_idx">
+SELECT ROOM_TB.*
+FROM 
+(select HOTEL_TB.HOTEL_IDX
+from HOTEL_TB
+where user_idx = #{user_idx}) AA
+LEFT JOIN ROOM_TB
+ON AA.HOTEL_IDX = ROOM_TB.HOTEL_IDX
+</select>
 
 
 

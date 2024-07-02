@@ -33,7 +33,7 @@
         	margin-top: 20px;
             font-size: 19px;
             text-align: center;
-            width: 200px;
+            width: 250px;
             background-color: #6e8efb;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -243,8 +243,9 @@
                             <tr>
                                 <th>번호</th>
                                 <th>Title</th>
-                                <th>정원</th>
                                 <th>가격</th>
+                                <th>정원</th>
+                                <th>예약가능일</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -252,8 +253,9 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${Room.title}</td>
-                                    <td>${Room.max_preson}</td>
                                     <td>${Room.price}</td>
+                                    <td>${Room.max_preson}</td>
+                                    <td>${Room.available_date}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
