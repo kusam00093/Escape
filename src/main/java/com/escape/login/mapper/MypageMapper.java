@@ -50,6 +50,8 @@ public interface MypageMapper {
 
 
 
+
+
 	// List<Pkg> getPackageBypackage_idx(List<Apply> apply);
 
 	// List<Pkg> getPackageBypackage_idx();

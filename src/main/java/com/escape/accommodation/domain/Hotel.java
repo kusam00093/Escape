@@ -19,4 +19,8 @@ public class Hotel {
 	private String detail2;
 	private String detail3;
 	private int hit;
+	
+	// 호텔 편의 사항
+	private int hotel_facility_idx;
+	private int facility_idx;
 }

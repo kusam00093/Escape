@@ -57,5 +57,58 @@
     	WHERE
     		HOTEL_IDX = #{hotel_idx}  	
     </select>
+    
+    <select id="getHotelById" parameterType="int">
+        SELECT *
+        FROM HOTEL_TB
+        WHERE HOTEL_IDX = #{hotel_idx}
+    </select>
+    
+    <select id="getHotelFacilities" parameterType="int" resultType="Map">
+        SELECT 
+        	hf.HOTEL_IDX,
+            f.NAME
+        FROM facility_tb f
+        JOIN HOTEL_FACILITY_TB hf ON f.FACILITY_IDX = hf.FACILITY_IDX
+        WHERE hf.hotel_idx = #{hotel_idx}
+    </select>
+    
+    <select id="getRoomsByHotelId" parameterType="int" resultType="com.escape.accommodation.domain.Room">
+        SELECT * FROM room_tb WHERE hotel_idx = #{hotelIdx}
+    </select>
+    
+    <select id="getRoomById" parameterType="int" resultType="com.escape.accommodation.domain.Room">
+	    SELECT *
+	    FROM room_tb
+	    WHERE room_idx = #{room_idx}
+	</select>
+
+	<select id="getPointsByPersonIdx" parameterType="int" resultType="int">
+	    SELECT point
+	    FROM point_tb
+	    WHERE person_idx = #{person_idx}
+	</select>
+	
+	<update id="usePoints" parameterType="map">
+	    UPDATE point_tb
+	    SET point = point - #{pointsToUse}
+	    WHERE person_idx = #{person_idx} AND point >= #{pointsToUse}
+	</update>
+
+    <!-- RoomReservation 삽입 -->
+    <insert id="insertRoomReservation" parameterType="com.escape.accommodation.domain.RoomReservation" useGeneratedKeys="true" keyProperty="room_reservation_idx">
+        INSERT INTO ROOM_RESERVATION_TB 
+        (ROOM_RESERVATION_IDX, USER_IDX, ROOM_IDX, RESERVATION_GUEST, RESERVATION_PRICE, CHECK_IN_DATE, CHECK_OUT_DATE, STATE, CREATED) 
+        VALUES 
+        (ROOM_RESERVATION_SEQ.NEXTVAL, #{user_idx}, #{room_idx}, #{reservation_guest}, #{reservation_price}, #{check_in_date}, #{check_out_date}, #{state}, SYSDATE)
+    </insert>
+
+    <!-- Payment 삽입 -->
+    <insert id="insertPayment" parameterType="com.escape.accommodation.domain.Payment">
+        INSERT INTO ROOM_PAY_TB 
+        (ROOM_PAY_IDX, USER_IDX, ROOM_RESERVATION_IDX, PRICE, STATE, CREATED) 
+        VALUES 
+        (ROOM_PAY_SEQ.NEXTVAL, #{user_idx}, #{room_reservation_idx}, #{price}, #{state}, SYSDATE)
+    </insert>
 
 </mapper>

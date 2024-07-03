@@ -454,7 +454,7 @@
 								</div>
 <!-- 							    여기서 부터 반복			 -->
 						        <c:forEach var="hotel" items="${hotels}" varStatus="stat">
-								    <c:set var="hotelInfo" value="${hotelInfoMap[hotel.hotel_idx]}" />
+								    <c:set var="hotelInfo" value="${hotelPriceMap[hotel.hotel_idx]}" />
 								    <c:set var="lowestPrice" value="${hotelInfo.LOWEST_PRICE}" />
 								    <c:set var="discountRate" value="${hotelInfo.DISCOUNT_RATE}" />
 								    <c:set var="discountAmount" value="${hotelInfo.DISCOUNT_AMOUNT}" />
