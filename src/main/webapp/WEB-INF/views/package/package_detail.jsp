@@ -35,7 +35,7 @@
 #container1 .sidebar1 {
   position: sticky;
   top: 20px;
-  width: 300px;
+  width: 300px; 
   margin-left: 20px;
   background-color: #ffe3e3
 }
