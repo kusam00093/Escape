@@ -829,6 +829,13 @@ h1 {
 
     <div class="sidebar-section">
       <h4>코멘트</h4>
+<c:choose>
+    <c:when test="${not empty user_idx and packageVo.user_idx == user_idx}">
+        <button id="goUpdateForm">수정하기</button>
+    </c:when>
+    <c:otherwise>
+    </c:otherwise>
+</c:choose>
     </div>
     
   </aside>
@@ -933,7 +940,20 @@ h1 {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+	const goUpdateBtn = document.getElementById('goUpdateForm');
+	goUpdateBtn.addEventListener('click',(e)=>{
+		e.preventDefault();
+		let package_idx = ${packageVo.package_idx};
+		let url = '/Package/Detail/UpdateForm?package_idx='+package_idx;
+		window.location.href=url;
+	})
 
+})
+
+
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     var fileInput = document.getElementById('file');

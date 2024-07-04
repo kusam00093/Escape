@@ -15,6 +15,7 @@ import com.escape.domain.Package_ReservationVo;
 import com.escape.domain.Package_ReviewVo;
 import com.escape.domain.Package_Review_ImgVo;
 import com.escape.domain.Package_imageVo;
+import com.escape.domain.Package_imageVo2;
 
 @Mapper
 public interface PackageMapper {
@@ -49,5 +50,6 @@ public interface PackageMapper {
 	void insertPackageLocation(int[] locationIdxArrayList);
 	void insertPackageConvenience(int[] convenienceIdxArrayList);
 	void insertPackageDiscount(int user_idx, int discount_percent, int discount_integer);
+	List<Package_imageVo2> getPackageDetailImgList(int package_idx);
 
 }

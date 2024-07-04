@@ -126,6 +126,8 @@ public class PackageController {
 			@RequestParam("package_idx") int package_idx,
 			@SessionAttribute(name = "login", required = false) User user) {		
 		
+		
+		
 		List<ConvenienceVo> coList = packageMapper.getConvenience(package_idx);
 		PackageVo packageVo = packageMapper.getPackage(package_idx);
 		List<Package_ReviewVo> reviewList = packageMapper.getReviews(packageVo.getPackage_idx());
@@ -157,6 +159,9 @@ public class PackageController {
 	    }
 	    
 		
+	    
+	    
+	    
 		mv.addObject("coList", coList);
 		mv.addObject("package_idx", package_idx);
 		mv.addObject("packageVo", packageVo);
@@ -173,6 +178,56 @@ public class PackageController {
 		return mv;
 	}
 	
+	@RequestMapping("/Detail/UpdateForm")
+	public ModelAndView detailUpdateForm(
+			@RequestParam("package_idx") int package_idx,
+			@SessionAttribute(name = "login", required = false) User user,
+	        PackageVo2 packageVo,
+	        Package_imageVo2 imageVo,
+	        DiscountVo discountVo
+) {		
+		
+		PackageVo packageVo1 = packageMapper.getPackage(package_idx);
+		
+		//List<ConvenienceVo> coList = packageMapper.getConvenience(package_idx);
+		List<CategoryVo> categoryList = packageMapper.getCategory();
+		List<LocationVo> locationList = packageMapper.getLocation();
+		List<ConvenienceVo> convenienceList = packageMapper.getConvenienceList();
+		
+		List<Package_imageVo2> imageList = packageMapper.getPackageDetailImgList(package_idx);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		
+	    int userIdx = user != null ? user.getUser_idx() : 0; 
+
+	    if (userIdx > 0) {
+	        User usertype = userMapper.findUserType(userIdx);
+			int paycount = packageMapper.countPay(user.getUser_idx());
+	        mv.addObject("usertype", usertype);
+	        mv.addObject("user_idx",userIdx);
+	        mv.addObject("paycount",paycount);
+	    }else {
+	    	
+	    	
+	    }
+	    
+		
+	    
+	    
+	    
+		//mv.addObject("coList", coList);
+	    mv.addObject("categoryList",categoryList);
+	    mv.addObject("locationList",locationList);
+	    mv.addObject("convenienceList",convenienceList);
+		mv.addObject("package_idx", package_idx);
+		mv.addObject("packageVo", packageVo1);
+		mv.addObject("imageList", imageList);
+
+
+		mv.setViewName("package/package_detail_updateForm");
+		return mv;
+	}
 	
 	
 	
