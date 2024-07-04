@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.naming.directory.SearchResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,8 @@ import com.escape.accommodation.domain.Payment;
 import com.escape.accommodation.domain.RoomReservation;
 import com.escape.accommodation.domain.SearchRequest;
 import com.escape.accommodation.service.AccommodationApiService;
+import com.escape.accommodation.service.KakaoPayService;
+import com.escape.accommodation.service.NaverPayService;
 import com.escape.login.domain.Person;
 import com.escape.login.domain.User;
 import com.escape.login.mapper.MypageMapper;
@@ -33,23 +36,27 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/AccommodationApi")
 public class AccommodationApiController {
-	
-	@Autowired
-	private AccommodationApiService accommodationApiService;
-	@Autowired
-	private MypageMapper mypageMapper;
-	
-	// /AccommodationApi/Search
-	@PostMapping("/Search")
-	public List<SearchResult> search(@RequestBody SearchRequest request) {
-
-		return accommodationApiService.search(request.getQuery());
-	}
-	
+    
+    @Autowired
+    private AccommodationApiService accommodationApiService;
+    @Autowired
+    private MypageMapper mypageMapper;
+    @Autowired
+    @Qualifier("hotelKakaoPayService")
+    private KakaoPayService kakaoPayService;
+    @Autowired
+    @Qualifier("hotelNaverPayService")
+    private NaverPayService naverPayService;
+    
+    // /AccommodationApi/Search
+    @PostMapping("/Search")
+    public List<SearchResult> search(@RequestBody SearchRequest request) {
+        return accommodationApiService.search(request.getQuery());
+    }
+    
     @PostMapping("/usePoints")
     public ResponseEntity<String> usePoints(@RequestParam int pointsToUse, HttpSession session) {
-	   
-    	User user = (User) session.getAttribute("login");
+        User user = (User) session.getAttribute("login");
         Person person = mypageMapper.getPersonByuser_idx(user.getUser_idx());
         
         System.out.println("user========" + user);
@@ -70,26 +77,32 @@ public class AccommodationApiController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized"));
         }
 
-        String date = (String) paymentData.get("date");
-        String place = (String) paymentData.get("place");
-        int guest = 0;
-        int room_idx = 0;
-        int reservationPrice = 0;
-
         // 디버깅 로그 추가
         System.out.println("paymentData: " + paymentData);
 
+        String date = (String) paymentData.get("date");
+        String place = (String) paymentData.get("place");
+        int guest;
+        int room_idx;
+        int reservationPrice;
+        int finalPrice;
+        int pointsToUse;
+        String paymentMethod;
+        
         try {
-            guest = Integer.parseInt((String) paymentData.get("guest"));
-            room_idx = Integer.parseInt((String) paymentData.get("room_idx"));
-            reservationPrice = (int) paymentData.get("reservationPrice");
+            guest = Integer.parseInt(paymentData.get("guest").toString());
+            room_idx = Integer.parseInt(paymentData.get("room_idx").toString());
+            reservationPrice = Integer.parseInt(paymentData.get("reservationPrice").toString());
+            finalPrice = Integer.parseInt(paymentData.get("finalPrice").toString());
+            pointsToUse = Integer.parseInt(paymentData.get("pointsToUse").toString());
+            paymentMethod = (String) paymentData.get("paymentMethod");
         } catch (ClassCastException | NumberFormatException e) {
             e.printStackTrace(); // 예외 로그 출력
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Invalid number format"));
         }
 
         // 디버깅 로그 추가
-        System.out.println("Parsed values - guest: " + guest + ", room_idx: " + room_idx + ", reservationPrice: " + reservationPrice);
+        System.out.println("Parsed values - guest: " + guest + ", room_idx: " + room_idx + ", reservationPrice: " + reservationPrice + ", finalPrice: " + finalPrice);
 
         // 날짜 파싱 로직
         String[] dateSplit = date.split("~");
@@ -102,7 +115,7 @@ public class AccommodationApiController {
             String checkInDateString = dateSplit[0].trim().split("\\(")[0].trim();
             String checkOutDateString = dateSplit[1].trim().split("\\(")[0].trim();
             int currentYear = LocalDate.now().getYear();
-            
+
             checkInDate = LocalDate.parse(checkInDateString + " " + currentYear, formatter);
             checkOutDate = LocalDate.parse(checkOutDateString + " " + currentYear, formatter);
         } catch (DateTimeParseException e) {
@@ -113,34 +126,54 @@ public class AccommodationApiController {
         // 디버깅 로그 추가
         System.out.println("Parsed dates - checkInDate: " + checkInDate + ", checkOutDate: " + checkOutDate);
 
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String checkInDateFormatted = checkInDate.format(dateFormatter);
+        String checkOutDateFormatted = checkOutDate.format(dateFormatter);
+        
         // RoomReservation 객체 생성 및 설정
         RoomReservation roomReservation = new RoomReservation();
         roomReservation.setUser_idx(user.getUser_idx());
         roomReservation.setRoom_idx(room_idx);
         roomReservation.setReservation_guest(guest);
-        roomReservation.setReservation_price(reservationPrice);
-        roomReservation.setCheck_in_date(checkInDate);
-        roomReservation.setCheck_out_date(checkOutDate);
+        roomReservation.setReservation_price(finalPrice);
+        roomReservation.setCheck_in_date(checkInDateFormatted); // 문자열로 설정
+        roomReservation.setCheck_out_date(checkOutDateFormatted); // 문자열로 설정
         roomReservation.setState(2); // 예약 상태를 대기 중으로 설정
         roomReservation.setCreated(LocalDateTime.now());
 
-        boolean reservationSuccess = accommodationApiService.createRoomReservation(roomReservation);
-
-        // 디버깅 로그 추가
-        System.out.println("Room reservation success: " + reservationSuccess);
-
-        // Payment 객체 생성 및 설정
         Payment payment = new Payment();
         payment.setUser_idx(user.getUser_idx());
-        payment.setPrice(reservationPrice);
+        payment.setPrice(finalPrice);
         payment.setState(1); // 결제 상태를 완료로 설정
         payment.setCreated(LocalDateTime.now());
 
         boolean success = accommodationApiService.createRoomReservationAndPayment(roomReservation, payment);
         if (success) {
-            return ResponseEntity.ok("Payment processed successfully");
+            // 포인트 사용을 성공적으로 처리했는지 확인
+            if (pointsToUse > 0) {
+                boolean pointsUsed = accommodationApiService.usePoints(user.getUser_idx(), pointsToUse);
+                if (!pointsUsed) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("error", "Points usage failed"));
+                }
+            }
+
+            if ("KAKAOPAY".equals(paymentMethod)) {
+                String orderId = "order_" + System.currentTimeMillis();
+                String itemName = "호텔 예약";
+                String paymentResponse = kakaoPayService.initiatePayment(finalPrice, orderId, itemName);
+                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse));
+            } else if ("NAVERPAY".equals(paymentMethod)) {
+                String orderId = "order_" + System.currentTimeMillis();
+                String itemName = "호텔 예약";
+                String paymentResponse = naverPayService.initiatePayment(finalPrice, orderId, itemName);
+                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse));
+            }
+
+            return ResponseEntity.ok(Map.of("success", true));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Payment or Reservation failed");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Payment or Reservation failed"));
         }
     }
 }

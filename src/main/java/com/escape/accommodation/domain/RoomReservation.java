@@ -16,8 +16,8 @@ public class RoomReservation {
     private int room_idx;
     private int reservation_guest;
     private int reservation_price;
-    private LocalDate check_in_date;
-    private LocalDate check_out_date;
+    private String check_in_date; // 변경
+    private String check_out_date; // 변경
     private int state;
     private LocalDateTime created;
 }

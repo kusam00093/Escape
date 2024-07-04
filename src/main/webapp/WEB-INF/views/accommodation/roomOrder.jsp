@@ -463,6 +463,13 @@
 							        </button>
 					            </span>
 					        </div>
+							<!-- 모달 -->
+							<div id="paymentModal" class="modal">
+							    <div class="modal-content">
+							        <span class="close">&times;</span>
+							        <iframe id="paymentIframe" style="width: 100%; height: 800px;"></iframe>
+							    </div>
+							</div>					        
 					    </div>
 					</div>
 				</div>
@@ -479,7 +486,7 @@
 	    });
 	
 	    document.getElementById('pointsToUse').addEventListener('input', function() {
-	        let pointsToUse = parseInt(this.value, 10);
+	    	let pointsToUse = parseInt(this.value.replace(/[^0-9]/g, ''), 10);
 	        const availablePoints = parseInt(document.querySelector('.css-1iuiezq--Point-style--holdingPoint').textContent.replace(/[^0-9]/g, ''), 10);
 	
 	        if (isNaN(pointsToUse) || pointsToUse < 0) {
@@ -530,13 +537,17 @@
 	            img.classList.toggle('selected');
 	        });
 	    });
-	
+		
+        const modal = document.getElementById('paymentModal');
+        const iframe = document.getElementById('paymentIframe');
+        const span = document.getElementsByClassName('close')[0];
+	    
 	    document.getElementById('purchaseButton').addEventListener('click', function() {
 	        const urlParams = new URLSearchParams(window.location.search);
 	        const guest = urlParams.get('guest');
 	        const place = urlParams.get('place');
 	        const date = urlParams.get('date');
-	        const room_idx = window.location.pathname.split('/').pop(); // URL에서 room_idx 추출
+	        const room_idx = window.location.pathname.split('/').pop();
 	        const finalPriceElement = document.getElementById('finalPrice');
 	        const discountedPrice = parseInt(finalPriceElement.getAttribute('data-discounted-price'), 10);
 	        const totalNights = parseInt(finalPriceElement.getAttribute('data-total-nights'), 10);
@@ -549,13 +560,14 @@
 	        const checkOutDate = urlParams.get('date').split('~')[1].trim();
 
 	        const paymentData = {
-                date: date, // Check-in and Check-out date
-                place: place, // Place
-                guest: guest, // Number of guests
-                room_idx: room_idx, // Room index
-                reservationPrice: originalTotalPrice, // Reservation price before discount
-                finalPrice: finalPrice, // Final price after discount
-                paymentMethod: selectedPaymentMethod // Selected payment method
+	                date: date,
+	                place: place,
+	                guest: guest,
+	                room_idx: room_idx,
+	                reservationPrice: originalTotalPrice,
+	                finalPrice: finalPrice,
+	                pointsToUse: pointsToUse,
+	                paymentMethod: selectedPaymentMethod
 	        };
 
 	        fetch('/AccommodationApi/Payment', {
@@ -565,11 +577,24 @@
 	            },
 	            body: JSON.stringify(paymentData)
 	        })
-	        .then(response => response.json())
+	        .then(response => {
+	            return response.json().then(data => {
+	                if (!response.ok) {
+	                    // 서버에서 오류 메시지를 반환한 경우
+	                    throw new Error(data.error || 'Unknown error');
+	                }
+	                return data;
+	            });
+	        })
 	        .then(data => {
 	            if (data.success) {
-	                alert('결제가 성공적으로 완료되었습니다.');
-	                // 결제 성공 후 처리 로직
+	                alert('결제하시겠습니까?');
+	                  if (data.paymentResponse) {
+	                        // 모달 열기
+	                        modal.style.display = "block";
+	                        // iframe에 결제 페이지 로드
+	                        iframe.src = data.paymentResponse;
+	                    }
 	            } else {
 	                alert('결제에 실패했습니다. 다시 시도해 주세요.');
 	                // 결제 실패 후 처리 로직
@@ -577,8 +602,9 @@
 	        })
 	        .catch(error => {
 	            console.error('결제 요청 중 오류가 발생했습니다.', error);
-	            alert('결제 요청 중 오류가 발생했습니다.');
+	            alert('결제 요청 중 오류가 발생했습니다. ' + error.message);
 	        });
+
 	    });
 	});
 </script>	

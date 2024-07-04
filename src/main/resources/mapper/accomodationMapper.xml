@@ -95,20 +95,18 @@
 	    WHERE person_idx = #{person_idx} AND point >= #{pointsToUse}
 	</update>
 
-    <!-- RoomReservation 삽입 -->
-    <insert id="insertRoomReservation" parameterType="com.escape.accommodation.domain.RoomReservation" useGeneratedKeys="true" keyProperty="room_reservation_idx">
-        INSERT INTO ROOM_RESERVATION_TB 
-        (ROOM_RESERVATION_IDX, USER_IDX, ROOM_IDX, RESERVATION_GUEST, RESERVATION_PRICE, CHECK_IN_DATE, CHECK_OUT_DATE, STATE, CREATED) 
-        VALUES 
-        (ROOM_RESERVATION_SEQ.NEXTVAL, #{user_idx}, #{room_idx}, #{reservation_guest}, #{reservation_price}, #{check_in_date}, #{check_out_date}, #{state}, SYSDATE)
-    </insert>
-
-    <!-- Payment 삽입 -->
-    <insert id="insertPayment" parameterType="com.escape.accommodation.domain.Payment">
-        INSERT INTO ROOM_PAY_TB 
-        (ROOM_PAY_IDX, USER_IDX, ROOM_RESERVATION_IDX, PRICE, STATE, CREATED) 
-        VALUES 
-        (ROOM_PAY_SEQ.NEXTVAL, #{user_idx}, #{room_reservation_idx}, #{price}, #{state}, SYSDATE)
-    </insert>
+	<insert id="insertRoomReservation" parameterType="com.escape.accommodation.domain.RoomReservation" useGeneratedKeys="true" keyProperty="room_reservation_idx" keyColumn="ROOM_RESERVATION_IDX">
+	    INSERT INTO ROOM_RESERVATION_TB 
+	    (ROOM_RESERVATION_IDX, USER_IDX, ROOM_IDX, RESERVATION_GUEST, RESERVATION_PRICE, CHECK_IN_DATE, CHECK_OUT_DATE, STATE, CREATED) 
+	    VALUES 
+	    (ROOM_RESERVATION_SEQ.NEXTVAL, #{user_idx}, #{room_idx}, #{reservation_guest}, #{reservation_price}, TO_DATE(#{check_in_date}, 'YYYY-MM-DD'), TO_DATE(#{check_out_date}, 'YYYY-MM-DD'), #{state}, SYSDATE)
+	</insert>
+	
+	<insert id="insertPayment" parameterType="com.escape.accommodation.domain.Payment">
+	    INSERT INTO ROOM_PAY_TB 
+	    (ROOM_PAY_IDX, USER_IDX, ROOM_RESERVATION_IDX, PRICE, STATE, CREATED) 
+	    VALUES 
+	    (ROOM_PAY_SEQ.NEXTVAL, #{user_idx}, #{room_reservation_idx}, #{price}, #{state}, SYSDATE)
+	</insert>
 
 </mapper>

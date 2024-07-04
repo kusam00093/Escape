@@ -35,25 +35,20 @@ public class AccommodationApiService {
         return accommodationMapper.insertPayment(payment) > 0;
     }
 
-    @Transactional // 트랜잭션을 시작합니다.
+    @Transactional
     public boolean createRoomReservationAndPayment(RoomReservation roomReservation, Payment payment) {
-        // Room reservation 데이터 삽입
-        boolean reservationSuccess = createRoomReservation(roomReservation);
-        
-        if (!reservationSuccess) {
-            return false;
+        int reservationInsertedRows = accommodationMapper.insertRoomReservation(roomReservation);
+        if (reservationInsertedRows > 0) {
+            // roomReservation 객체의 room_reservation_idx 값이 자동으로 설정됨
+            payment.setRoom_reservation_idx(roomReservation.getRoom_reservation_idx());
+            int paymentInsertedRows = accommodationMapper.insertPayment(payment);
+            if (paymentInsertedRows > 0) {
+                return true;
+            } else {
+                throw new RuntimeException("Payment insertion failed");
+            }
+        } else {
+            throw new RuntimeException("Room reservation insertion failed");
         }
-        
-        // 삽입된 roomReservation의 IDX를 가져옵니다.
-        int roomReservationIdx = roomReservation.getRoom_reservation_idx();
-        
-        // Payment 데이터 설정
-        payment.setRoom_reservation_idx(roomReservationIdx);
-
-        // Payment 데이터 삽입
-        boolean paymentSuccess = createPayment(payment);
-
-        // 성공 여부 반환
-        return paymentSuccess;
     }
 }
