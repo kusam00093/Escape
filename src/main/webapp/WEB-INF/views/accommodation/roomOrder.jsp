@@ -463,13 +463,13 @@
 							        </button>
 					            </span>
 					        </div>
-							<!-- 모달 -->
-							<div id="paymentModal" class="modal">
-							    <div class="modal-content">
-							        <span class="close">&times;</span>
-							        <iframe id="paymentIframe" style="width: 100%; height: 800px;"></iframe>
-							    </div>
-							</div>					        
+<!-- 							모달 -->
+<!-- 							<div id="paymentModal" class="modal"> -->
+<!-- 							    <div class="modal-content"> -->
+<!-- 							        <span class="close">&times;</span> -->
+<!-- 							        <iframe id="paymentIframe" style="width: 100%; height: 800px;"></iframe> -->
+<!-- 							    </div> -->
+<!-- 							</div>					         -->
 					    </div>
 					</div>
 				</div>
@@ -538,9 +538,9 @@
 	        });
 	    });
 		
-        const modal = document.getElementById('paymentModal');
-        const iframe = document.getElementById('paymentIframe');
-        const span = document.getElementsByClassName('close')[0];
+//         const modal = document.getElementById('paymentModal');
+//         const iframe = document.getElementById('paymentIframe');
+//         const span = document.getElementsByClassName('close')[0];
 	    
 	    document.getElementById('purchaseButton').addEventListener('click', function() {
 	        const urlParams = new URLSearchParams(window.location.search);
@@ -577,27 +577,18 @@
 	            },
 	            body: JSON.stringify(paymentData)
 	        })
-	        .then(response => {
-	            return response.json().then(data => {
-	                if (!response.ok) {
-	                    // 서버에서 오류 메시지를 반환한 경우
-	                    throw new Error(data.error || 'Unknown error');
-	                }
-	                return data;
-	            });
-	        })
+	        .then(response => response.json())
 	        .then(data => {
 	            if (data.success) {
-	                alert('결제하시겠습니까?');
-	                  if (data.paymentResponse) {
-	                        // 모달 열기
-	                        modal.style.display = "block";
-	                        // iframe에 결제 페이지 로드
-	                        iframe.src = data.paymentResponse;
-	                    }
+	                alert('결제 하시겠습니까?');
+	                if (data.paymentResponse) {
+	                    // QR 코드 URL을 새 창에서 열기
+	                    window.open(data.paymentResponse, '_blank');
+	                }
+	                // 결제가 완료되면 지정된 페이지로 리다이렉트
+	                window.location.href = data.redirectUrl;
 	            } else {
 	                alert('결제에 실패했습니다. 다시 시도해 주세요.');
-	                // 결제 실패 후 처리 로직
 	            }
 	        })
 	        .catch(error => {

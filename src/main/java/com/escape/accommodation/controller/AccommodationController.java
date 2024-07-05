@@ -269,4 +269,20 @@ public class AccommodationController {
 		return mv;
 	}
 	
+	@RequestMapping("/RoomOrderCompleted")
+	public ModelAndView RoomOrderCompleted(
+				HttpSession session) {
+		ModelAndView  mv         =  new ModelAndView();
+ 
+	   	User user = (User) session.getAttribute("login");
+        Person person = mypageMapper.getPersonByuser_idx(user.getUser_idx());
+		
+        int finalPrice = (int) session.getAttribute("finalPrice"); // 세션에서 최종 금액 가져오기
+       
+        mv.addObject("finalPrice",finalPrice);
+    	mv.setViewName("accommodation/roomOrderCompleted");
+
+		return mv;
+	}
+	
 }

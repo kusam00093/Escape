@@ -6,7 +6,7 @@
 a {
     all: unset;
     cursor: pointer;
-}
+}r
 
 ul, ol, dl {
     list-style: none;
@@ -1334,8 +1334,8 @@ a, area, button, [role="button"], input, label, select, summary, textarea {
     cursor: pointer;
 }
 
-iframe {
-    width: 100%;
-    height: calc(100% - 40px); /* Close 버튼 높이만큼 뺀다 */
-    border: none;
-}
+/* iframe { */
+/*     width: 100%; */
+/*     height: calc(100% - 40px); Close 버튼 높이만큼 뺀다 */
+/*     border: none; */
+/* } */

@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.accommodation.domain.Payment;
 import com.escape.accommodation.domain.RoomReservation;
@@ -169,11 +171,23 @@ public class AccommodationApiController {
                 String paymentResponse = naverPayService.initiatePayment(finalPrice, orderId, itemName);
                 return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse));
             }
-
-            return ResponseEntity.ok(Map.of("success", true));
+            
+            session.setAttribute("finalPrice", finalPrice); // 최종 금액 세션에 저장
+            String redirectUrl = "/Accommodation/RoomOrderCompleted";
+            return ResponseEntity.ok(Map.of("success", true, "redirectUrl", redirectUrl));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Payment or Reservation failed"));
         }
+    }
+    
+    // 카카오페이 결제 완료 콜백 처리
+    @GetMapping("/payment/success")
+    public ModelAndView paymentSuccess(@RequestParam Map<String, String> params) {
+        // 결제 완료 처리 로직 추가 (예: 결제 검증, DB 업데이트 등)
+        
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("accommodation/roomOrderCompleted");
+        return mv;
     }
 }

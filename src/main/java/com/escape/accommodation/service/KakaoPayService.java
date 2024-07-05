@@ -42,7 +42,7 @@ public class KakaoPayService {
         params.add("total_amount", String.valueOf(amount));
         params.add("vat_amount", "0");
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:9089/payment/success");
+        params.add("approval_url", "http://localhost:9089/AccommodationApi/payment/success");
         params.add("cancel_url", "http://localhost:9089/payment/cancel");
         params.add("fail_url", "http://localhost:9089/payment/fail");
 
