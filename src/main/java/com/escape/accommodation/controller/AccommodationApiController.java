@@ -164,16 +164,18 @@ public class AccommodationApiController {
                 String orderId = "order_" + System.currentTimeMillis();
                 String itemName = "호텔 예약";
                 String paymentResponse = kakaoPayService.initiatePayment(finalPrice, orderId, itemName);
-                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse));
+                String redirectUrl = "/AccommodationApi/payment/success";
+                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse, "redirectUrl", redirectUrl));
             } else if ("NAVERPAY".equals(paymentMethod)) {
                 String orderId = "order_" + System.currentTimeMillis();
                 String itemName = "호텔 예약";
                 String paymentResponse = naverPayService.initiatePayment(finalPrice, orderId, itemName);
-                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse));
+                String redirectUrl = "/AccommodationApi/payment/success";
+                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse, "redirectUrl", redirectUrl));
             }
             
             session.setAttribute("finalPrice", finalPrice); // 최종 금액 세션에 저장
-            String redirectUrl = "/Accommodation/RoomOrderCompleted";
+            String redirectUrl = "/AccommodationApi/payment/success";
             return ResponseEntity.ok(Map.of("success", true, "redirectUrl", redirectUrl));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -183,10 +185,11 @@ public class AccommodationApiController {
     
     // 카카오페이 결제 완료 콜백 처리
     @GetMapping("/payment/success") 
-    public ModelAndView paymentSuccess(@RequestParam Map<String, String> params) {
+    public ModelAndView paymentSuccess(@RequestParam Map<String, String> params, HttpSession session) {
         // 결제 완료 처리 로직 추가 (예: 결제 검증, DB 업데이트 등)
         
         ModelAndView mv = new ModelAndView();
+        mv.addObject("finalPrice", session.getAttribute("finalPrice")); // 세션에서 최종 금액 가져와서 추가
         mv.setViewName("accommodation/roomOrderCompleted");
         return mv;
     }
