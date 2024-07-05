@@ -54,6 +54,10 @@ public interface MypageMapper {
 
 	List<Pkg> getPkgcostomerBysellerUser_idx(int user_idx);
 
+	List<Pkg> getPkgsoldoutBysellerUser_idx(int user_idx);
+
+	List<Room> getRoomsoldoutBysellerUser_idx(int user_idx);
+
 
 
 

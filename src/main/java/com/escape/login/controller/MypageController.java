@@ -348,16 +348,33 @@ public class MypageController {
     	List<Room> room = mypageMapper.getRoomcostomerBysellerUser_idx(user.getUser_idx());
     	List<Pkg> pkg = mypageMapper.getPkgcostomerBysellerUser_idx(user.getUser_idx());
     	
+    	mv.addObject("user", user);
+    	mv.addObject("room", room);
+    	mv.addObject("pkg", pkg);
+    	mv.addObject("seller", seller);
     	
+    	mv.setViewName("member/sellercostomer");
     	
+    	return mv;
+    }
+    
+    // seller 마감된 상품
+    @RequestMapping("/sellersoldout")
+    public ModelAndView sellersoldout(HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	
+    	User user = (User) session.getAttribute("login");
+    	Seller seller = mypageMapper.getSellerByuser_idx(user.getUser_idx());
+  	
+    	List<Room> room = mypageMapper.getRoomsoldoutBysellerUser_idx(user.getUser_idx());
+    	List<Pkg> pkg = mypageMapper.getPkgsoldoutBysellerUser_idx(user.getUser_idx());
     	
     	mv.addObject("user", user);
     	mv.addObject("room", room);
     	mv.addObject("pkg", pkg);
     	mv.addObject("seller", seller);
-
     	
-    	mv.setViewName("member/sellercostomer");
+    	mv.setViewName("member/sellersoldout");
     	
     	return mv;
     }
