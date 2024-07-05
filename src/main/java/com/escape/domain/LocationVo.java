@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConvenienceVo {
-	private int convenience_idx;
+public class LocationVo {
+	private int location_idx;
 	private String name;
 }

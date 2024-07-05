@@ -12,15 +12,12 @@
 <link rel="stylesheet" href="/css/header.css" />
 
 
+
 <style>
     body {
       padding: 40px;
     }
-     * {
-      margin: 0;
-      padding: 0px 20px 0px 20px;
-      box-sizing: border-box;
-    }
+
     li {
       list-style: none;
     }

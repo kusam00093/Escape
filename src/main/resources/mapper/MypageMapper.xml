@@ -6,31 +6,31 @@
 
 <select id="getPersonByuser_idx" resultType="com.escape.login.domain.Person">
 SELECT 
-	PERSON_TB.*
+   PERSON_TB.*
 FROM PERSON_TB
 WHERE USER_IDX = #{user_idx}
 </select>
 
 <select id="getSellerByuser_idx" resultType="com.escape.login.domain.Seller">
 SELECT 
-	SELLER_IDX,
-	USER_IDX,
-	NAME,
-	CNUM,
-	PHONE,
-	LOGO
+   SELLER_IDX,
+   USER_IDX,
+   NAME,
+   CNUM,
+   PHONE,
+   LOGO
 FROM SELLER_TB
 WHERE USER_IDX = #{user_idx}
 </select>
 
 <select id="getAirlineByuser_idx" resultType="com.escape.login.domain.Airline">
 SELECT 
-	AIRLINE_IDX,
-	USER_IDX,
-	NAME,
-	CNUM,
-	PHONE,
-	LOGO 
+   AIRLINE_IDX,
+   USER_IDX,
+   NAME,
+   CNUM,
+   PHONE,
+   LOGO 
 FROM AIRLINE_TB
 WHERE USER_IDX = #{user_idx}
 </select>
@@ -57,7 +57,7 @@ on rr_tb.room_idx = room_tb.room_idx
 
 <select id="getPkgByuser_idx">
 select 
-	package_tb.title,
+   package_tb.title,
     prtb.RESERVATION_SU,
     package_tb.start_date,    
     package_tb.end_date,
@@ -82,12 +82,12 @@ select
     reservation_su,
     reservation_price,
     created,
-	start_date,
-	start_time,
-	end_date,
-	end_time,
-	departure_loc,
-	arrival_loc
+   start_date,
+   start_time,
+   end_date,
+   end_time,
+   departure_loc,
+   arrival_loc
 from
 (select *
 from
@@ -240,49 +240,49 @@ GROUP BY BB.ROOM_IDX, BB.TITLE, BB.MAX_PRESON
 
 
 <update id="updateUser">
-	UPDATE USER_TB
-		SET 
-	PASSWD = #{passwd},
-	EMAIL = #{email}
-		where user_idx = #{user_idx}
+   UPDATE USER_TB
+      SET 
+   PASSWD = #{passwd},
+   EMAIL = #{email}
+      where user_idx = #{user_idx}
 </update>
 
 <update id="updatePerson">
-	UPDATE PERSON_TB
-		SET 
-	FIRST_NAME = #{first_name},
-	LAST_NAME = #{last_name},
-	SOCIAL_NUM = #{social_num},
-	PHONE = #{phone},
-	ZIP_CODE = #{zip_code},
-	ADDRESS1 = #{address1},
-	ADDRESS2 = #{address2},
-	NICKNAME = #{nickname}
-		where person_idx = #{person_idx}
+   UPDATE PERSON_TB
+      SET 
+   FIRST_NAME = #{first_name},
+   LAST_NAME = #{last_name},
+   SOCIAL_NUM = #{social_num},
+   PHONE = #{phone},
+   ZIP_CODE = #{zip_code},
+   ADDRESS1 = #{address1},
+   ADDRESS2 = #{address2},
+   NICKNAME = #{nickname}
+      where person_idx = #{person_idx}
 </update>
 
 <update id="updateSeller">
-	UPDATE SELLER_TB
-		SET 
-	NAME = #{name},
-	CNUM = #{cnum},
-	PHONE = #{phone},
-	LOGO = #{logo}
-		where user_idx = #{user_idx}
+   UPDATE SELLER_TB
+      SET 
+   NAME = #{name},
+   CNUM = #{cnum},
+   PHONE = #{phone},
+   LOGO = #{logo}
+      where user_idx = #{user_idx}
 </update>
 
 <update id="updateAirline">
-	UPDATE AIRLINE_TB
-		SET 
-	NAME = #{name},
-	CNUM = #{cnum},
-	PHONE = #{phone},
-	LOGO = #{logo}
-		where user_idx = #{user_idx}
+   UPDATE AIRLINE_TB
+      SET 
+   NAME = #{name},
+   CNUM = #{cnum},
+   PHONE = #{phone},
+   LOGO = #{logo}
+      where user_idx = #{user_idx}
 </update>
 
 
 
 
-	
+   
 </mapper>
