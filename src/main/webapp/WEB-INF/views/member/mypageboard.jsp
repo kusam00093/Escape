@@ -237,7 +237,7 @@
             <div class="profile-card">
                 <h3>작성글 목록</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -252,7 +252,9 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${BoardVo.title}</td>
-                                    <td>${BoardVo.content}</td>
+                                    <td>
+<a href="http://localhost:9089/Board/FriendView?board_idx=${BoardVo.board_idx}&nowpage=1">${BoardVo.content}</a>
+                                    </td>
                                     <td>${BoardVo.created}</td>
                                     <td>${BoardVo.hit}</td>
                                 </tr>
