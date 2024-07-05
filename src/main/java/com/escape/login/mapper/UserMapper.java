@@ -18,4 +18,9 @@ public interface UserMapper {
     
 	int checkIdExists(@Param("id") String id);
 
+
+	int findUserId(String id);
+
+	User findUserType(int user_idx);
+
 }

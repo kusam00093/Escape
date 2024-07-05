@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.board.mapper.BoardLikeMapper">
+
+<!-- 
+<resultMap id="UserResultMap" type="com.escape.login.domain.User">
+    <result property="user_idx" column="USER_IDX"/>
+    <result property="id" column="ID"/>
+    <result property="passwd" column="PASSWD"/>
+    <result property="email" column="EMAIL"/>
+    <result property="type" column="TYPE"/>
+</resultMap>
+
+<select id="getUserList"  resultMap="UserResultMap">
+SELECT USER_IDX
+		,ID
+		,PASSWD
+		,EMAIL
+		,TYPE
+FROM   USER_TB
+WHERE ID=#{id}		
+</select>
+ -->
+<!-- 좋아요 -->
+
+<select id="selectBlike">
+SELECT
+	BOARD_LIKE_IDX
+    ,BOARD_IDX
+    ,USER_IDX
+FROM
+	BOARD_LIKE_TB
+WHERE
+    USER_IDX = #{user_idx}
+</select>
+ 
+<insert id="addBlike"  >
+INSERT INTO BOARD_LIKE_TB (
+     BOARD_LIKE_IDX
+    ,BOARD_IDX
+    ,USER_IDX
+    ) 
+VALUES (
+      (SELECT (NVL(MAX(BOARD_LIKE_IDX), 0)+1) FROM BOARD_LIKE_TB )
+    ,#{board_idx}
+    ,#{user_idx}
+    )
+</insert>
+
+
+<delete id="deleteBlike">
+DELETE FROM BOARD_LIKE_TB
+WHERE BOARD_LIKE_IDX = #{board_like_idx}
+</delete>
+
+
+
+</mapper>

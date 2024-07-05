@@ -245,13 +245,42 @@ create table hotel_tb(
     ON DELETE CASCADE
 );
 
+create table hotel_image_tb(
+    hotel_image_idx number(20) primary key,
+    hotel_idx   number(20) not null,      
+    image     varchar2(500),
+    CONSTRAINT fk_hotel_3
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE
+);
+
+CREATE SEQUENCE SEQ_HOTEL_IMAGE_IDX START WITH 1 INCREMENT BY 1;
+
+ALTER TABLE HOTEL_IMAGE_TB ADD (IMAGE_PATH VARCHAR2(500));
+
+create table hotel_bookmark_tb(
+    hotel_bookmark_idx number(20) primary key,
+    user_idx number(20),
+    hotel_idx number(20),
+    state    number(20),
+    created date  default sysdate,
+    CONSTRAINT fk_user_31
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_hotel_30
+    FOREIGN KEY (hotel_idx) 
+    REFERENCES hotel_tb(hotel_idx)
+    ON DELETE CASCADE
+);
 
 create table hotel_review_tb(
     hotel_review_idx number(20) primary key,
     hotel_idx  number(20) not null,      
     content     varchar2(500) not null,
     person_idx  number(20) not null,      
-    created     date    default sysdate ,
+    created     date    default sysdate,
     CONSTRAINT fk_hotel
     FOREIGN KEY (hotel_idx) 
     REFERENCES hotel_tb(hotel_idx)
@@ -309,25 +338,87 @@ create table hotel_facility_tb(
     
 );
 
-create table room_tb(
-    room_idx number(20) primary key,
-    hotel_idx  number(20) not null,      
-    title     varchar2(200) not null,
-    price     varchar2(200) not null,
-    max_preson number(5)  not null,
-    check_in   date ,
-    check_out   date ,
-    available_date date default sysdate,
-    ptype_idx number(20),
-    CONSTRAINT fk_ptype_1
+CREATE TABLE room_tb (
+    room_idx NUMBER(20) PRIMARY KEY,
+    hotel_idx NUMBER(20) NOT NULL,      
+    title VARCHAR2(200) NOT NULL,
+    max_person NUMBER(5) NOT NULL,
+    check_in_time VARCHAR2(10) NOT NULL,
+    check_out_time VARCHAR2(10) NOT NULL,
+    ptype_idx NUMBER(20),
+    price NUMBER(20) NOT NULL,
+    CONSTRAINT fk_ptype_1 
     FOREIGN KEY (ptype_idx) 
-    REFERENCES ptype_tb(ptype_idx)
+    REFERENCES ptype_tb(ptype_idx) 
     ON DELETE CASCADE,
-    CONSTRAINT fk_hotel_1
-    FOREIGN KEY (hotel_idx) 
-    REFERENCES hotel_tb(hotel_idx)
+    CONSTRAINT fk_hotel_1 
+    FOREIGN KEY (hotel_idx)
+    REFERENCES hotel_tb(hotel_idx) 
     ON DELETE CASCADE
-    
+);
+
+ALTER TABLE room_tb ADD (AVAILABLE_ROOMS NUMBER DEFAULT 0);
+
+create table room_reservation_tb(
+    room_reservation_idx number(20) primary key,
+    user_idx number(20),
+    room_idx number(20),
+    reservation_guest number(20),
+    reservation_price number(20),
+    state  number(2),
+    created date default sysdate,  
+    CONSTRAINT fk_user_36
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_room_34
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx)
+    ON DELETE CASCADE
+);
+
+ALTER TABLE ROOM_RESERVATION_TB 
+ADD (CHECK_IN_DATE DATE, CHECK_OUT_DATE DATE);
+
+CREATE SEQUENCE ROOM_RESERVATION_SEQ
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+create table room_pay_tb(
+    room_pay_idx number(20) primary key,
+    user_idx number(20),
+    room_reservation_idx number(20),
+    price number(20),
+    state number(2),
+    created date default sysdate,
+    CONSTRAINT fk_user_39
+    FOREIGN KEY (user_idx) 
+    REFERENCES user_tb(user_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_room_35
+    FOREIGN KEY (room_reservation_idx) 
+    REFERENCES room_reservation_tb(room_reservation_idx)
+    ON DELETE CASCADE
+);
+
+CREATE SEQUENCE ROOM_PAY_SEQ
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+CREATE TABLE room_discount_tb (
+    room_discount_idx NUMBER(20) PRIMARY KEY,
+    room_idx NUMBER(20) NOT NULL,
+    discount_rate NUMBER(5, 2), 
+    discount_amount NUMBER(10),
+    created DATE DEFAULT SYSDATE,
+    CONSTRAINT fk_room_33 
+    FOREIGN KEY (room_idx) 
+    REFERENCES room_tb(room_idx) 
+    ON DELETE CASCADE
 );
 
 create table room_image_tb(
@@ -778,5 +869,27 @@ create table card_tb(
     ON DELETE CASCADE
 );
 
+create table category_tb(
+    category_idx number(20)  primary key,
+    name    varchar2(200)
 
+);
+
+
+create table package_category_tb(
+    package_category_idx number(20)  primary key,
+    package_idx  number(20),  
+    category_idx number(20),
+    CONSTRAINT fk_package_20
+    FOREIGN KEY (package_idx)
+    REFERENCES package_tb(package_idx)
+    ON DELETE CASCADE,
+    CONSTRAINT fk_category
+    FOREIGN KEY (category_idx)
+    REFERENCES category_tb(category_idx)
+    ON DELETE CASCADE
+);
+
+ALTER TABLE apply_tb ADD price NUMBER(20);
+ALTER TABLE card_tb ADD price NUMBER(20);
 

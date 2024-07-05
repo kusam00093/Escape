@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryVo {
-	int category_idx;
-	String name;
+
+	private int category_idx;
+	private String name;
 }

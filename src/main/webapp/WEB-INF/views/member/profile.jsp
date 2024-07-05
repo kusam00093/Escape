@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Person 마이페이지</title>
+    <title>Person 프로필</title>
     
     <style>
         /* 스타일링을 위한 CSS */
@@ -89,16 +89,16 @@
         }
         h2::after {
             content: '';
-            width: 245px;
+            width: 500px;
             height: 3px;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             display: block;
             margin: 10px auto 0;
             border-radius: 2px;
         }
-        h3::after {
+        #sidebartitle::after {
             content: '';
-            width: 115px;
+            width: 140px;
             height: 3px;
             background: #fff;
             display: block;
@@ -160,7 +160,7 @@
             margin-bottom: 15px;
         }
         button[type="submit"], #goList {
-            width: 100%;
+            width: 150px;
             padding: 15px;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             border: none;
@@ -191,21 +191,21 @@
 
     <div class="container1">
         <div class="sidebar">
-            <h3>마이페이지</h3>
+            <h3 id="sidebartitle">마이페이지</h3>
             <ul>
-                <li><a href="/mypage">회원정보</a></li>
+                <li><a href="/profile">회원정보</a></li>
                 <li><a href="/mypagebuy">신청내역</a></li>
-                <li><a href="#">위시리스트</a></li>
-                <li><a href="#">대화목록</a></li>
+                <li><a href="/mypagebookmark">위시리스트</a></li>
+                <li><a href="/mypageboard">대화목록</a></li>
             </ul>
         </div>
 
         <div class="register-container">
             <div class="profile-card">
-                <h2>프로필</h2>
-                
+                <h2>${person.last_name}${person.first_name}님 프로필</h2>
+          	  <form action="/mypageUpdateForm" method="post">
                 <div class="profile-picture">
-                    <img src="images/기본프사2.png" alt="Default Profile Picture">
+                    <img src="${person.image}">
                 </div>
                 
                 <div class="profile-details">
@@ -220,11 +220,26 @@
                     <div class="form-group">
                         <label for="phone">Phone: ${person.phone}</label>
                     </div>
+                    
+                    <div class="form-group">
+                    	<label for="address1">주소: ${person.address1}</label>
+                	</div>
+                
+               	 	<div class="form-group">
+                    	<label for="address2">상세주소: ${person.address2}</label>
+                	</div>
                 
                     <div class="form-group">
                         <label for="nickname">Nickname: ${person.nickname}</label>
                     </div>
+                    
+                <button type="submit">정보수정</button>
+                <input type="button" value="취소" id="goList">
+                
                 </div>
+                
+                 </form>
+                 
             </div>
         </div>
     </div>

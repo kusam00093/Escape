@@ -1,6 +1,6 @@
 package com.escape.accommodation.domain;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchHistory {
-	
-	private int search_history_idx;
+public class Payment {    
+	private int room_pay_idx;
 	private int user_idx;
-	private String search_query;
-	private Timestamp search_time;
+	private int room_reservation_idx;
+	private int price;
+	private int state;
+	private LocalDateTime created;
 }

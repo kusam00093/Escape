@@ -19,4 +19,11 @@ public class Airplane_time {
 	private int departure_loc;
 	private int arrival_loc;
 	private int known;
+	
+    private int airline_idx;
+    private String name;
+    
+    private int reservation_su;
+    private int reservation_price;
+    private String created;
 }

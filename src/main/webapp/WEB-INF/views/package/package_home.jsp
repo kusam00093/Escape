@@ -294,6 +294,74 @@ body {
   }
 
 
+
+
+
+
+.rating {
+  width: 100px;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-left: 20px;;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.rating__label .star-icon {
+  width: 10px;
+  height: 20px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("/images/star.svg");
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("/images/star_fill.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating__label--half .star-icon {
+  background-position: left;
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.rating__label.half-filled .star-icon {
+  background-position: left;
+  width: 15px; /* 반 채워진 별의 너비 설정 */
+}
+
+.package_title{
+	margin : 10px;
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
 </style> 
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/mixins.css">
@@ -305,6 +373,8 @@ body {
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
+
+<link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
 
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
@@ -345,8 +415,8 @@ body {
 <div>&nbsp;</div>
 
 <h4><img src="/images/icons_search_2.png" class="nav_icon"/>가고싶은곳을 검색하세요</h4>
-<form class="package_search_main">
-  <input class="package_search" type="search" placeholder="가고싶은 여행지를 검색하세요" aria-label="Search">
+<form class="package_search_main" action="/Package/Home/Sub" method="POST">
+  <input class="package_search" type="search" name="keyword" placeholder="가고싶은 여행지를 검색하세요" aria-label="Search">
   <button class="btn btn-outline-success" type="submit">
     검색
   </button>
@@ -371,100 +441,77 @@ body {
    <div class="container1">
     <div class="card-container">
   
-    
+    <c:forEach var="pa" items="${ packageList }">
       <div class="card">
-        <a href="#">
-    <div class="image">
-        <img src="/package_image/package_paris.jpg">
+        <a href="/Package/Detail?package_idx=${ pa.package_idx }">
+    <div class="image" style="margin-bottom:10px;">
+        <img src="${ pa.image }" style="width : 305px; height: 240px;">
         <div class="icon-container">
             <img src="/images/icons_best.png" class="nav_icon" />
         </div>
         <div><i class="fas fa-external-link-alt"></i></div>
     </div>
-    <div class="details">
-        <h2>Jhon Deo</h2>
-        <p>화가</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
+    <div class="details packageList" >
+    
+    <div class="package1">
+<div style="display: flex; align-items: center;" >
+    <c:choose>
+        <c:when test="${not empty pa.category_name}">
+            <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
+        </c:when>
+    </c:choose>
+
+    <c:choose>
+        <c:when test="${not empty pa.location_name}" >
+            <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
+        </c:when>
+    </c:choose>
+</div>
+
+    <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
+<div style="display: flex; align-items: center;">
+    <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
     </div>
+    <p style="margin-top:20px;">(${pa.count})</p>
+</div>
+<c:choose>
+    <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
+        <div style="display: flex; align-items: center; margin-left:10px;;">
+            <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
+            <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
+            <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
+        </div>
+    </c:when>
+    <c:otherwise>
+<div style="display: flex; align-items: center; gap: 10px;">
+    <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
+    <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
+</div>
+    </c:otherwise>
+</c:choose>
+
+
+        
+    </div>
+    </div>
+    
+    
     </a>
 </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>Emma Smith</h2>
-          <p>배우</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>작가1</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가2</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가3</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="image">
-          <img src="/package_image/package_paris.jpg">
-          <div><a href="#"><i class="fas fa-external-link-alt"></i></a></div>
-        </div>
-        <div class="details">
-          <h2>James Martin</h2>
-          <p>사진작가4</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing sit amet consectetur adipisicing elit. Maiores earum ab nihil</p>
-        </div>
-      </div>
+</c:forEach>
+
+
+
     </div>
     <div class="button-container">
       <button id="prevButton">이전</button>
@@ -472,6 +519,46 @@ body {
     </div>
   </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+// document.addEventListener("DOMContentLoaded", function() {
+//     const searchForm = document.querySelector(".package_search_main");
+//     const searchInput = document.querySelector(".package_search");
+
+//     searchForm.addEventListener("submit", function(event) {
+//         event.preventDefault(); // 기본 제출 이벤트 막기
+
+//         const searchTerm = searchInput.value.trim(); // 검색어 가져오기 (공백 제거)
+        
+//         if (searchTerm) { // 검색어가 비어있지 않을 경우에만 요청 보내기
+//         	const url = '/Package/Search/Sub?keyword=' + encodeURIComponent(searchTerm); // 검색어를 인코딩하여 URL 생성
+
+//             fetch(url)
+//                 .then(response => response.json())
+//                 .then(data => {
+//                     // 검색 결과를 처리하는 함수 호출 (renderSearchResults 등)
+//                     console.log("Received search results:", data);
+//                 })
+//                 .catch(error => {
+//                     console.error("Error fetching search results:", error);
+//                 });
+//         }
+//     });
+// });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryButtons = document.querySelectorAll(".category_btn");
+
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const categoryIdx = this.value;
+            const url = "/Package/Home/Sub?category_idx=" + categoryIdx;
+            window.location.href = url;
+        });
+    });
+});
+</script>
 <script>
 let currentIndex = 0;
 const cards = document.querySelectorAll('.card');
@@ -518,7 +605,6 @@ function showNextCards() {
 
 updateCardContainer();
 </script>
->>>>>>> branch 'develop' of https://github.com/kusam00093/Escape.git
 <script>
 const images = document.querySelectorAll('.package_img');
 const texts = document.querySelectorAll('.text');
@@ -545,6 +631,33 @@ texts[index].style.opacity = '1';
 
 // 5초마다 이미지 전환하기
 setInterval(showNextImage, 3000);
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.rating');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate')); // data-rate 값을 정수로 변환
+            //console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+            if (rate % 1 !== 0) {
+                starIcons[Math.floor(rate)].classList.add('half-filled');
+            }
+        });
+    });
 </script>
 
 <div>&nbsp;</div>

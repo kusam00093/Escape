@@ -5,71 +5,284 @@
 
 
 <select id="getPersonByuser_idx" resultType="com.escape.login.domain.Person">
-SELECT * FROM PERSON_TB
+SELECT 
+   PERSON_TB.*
+FROM PERSON_TB
 WHERE USER_IDX = #{user_idx}
 </select>
 
 <select id="getSellerByuser_idx" resultType="com.escape.login.domain.Seller">
-SELECT * FROM SELLER_TB
+SELECT 
+   SELLER_IDX,
+   USER_IDX,
+   NAME,
+   CNUM,
+   PHONE,
+   LOGO
+FROM SELLER_TB
 WHERE USER_IDX = #{user_idx}
 </select>
 
 <select id="getAirlineByuser_idx" resultType="com.escape.login.domain.Airline">
-SELECT * FROM AIRLINE_TB
+SELECT 
+   AIRLINE_IDX,
+   USER_IDX,
+   NAME,
+   CNUM,
+   PHONE,
+   LOGO 
+FROM AIRLINE_TB
 WHERE USER_IDX = #{user_idx}
 </select>
 
-<select id="getApplyByuser_idx" resultType="com.escape.login.domain.Apply">
-SELECT * FROM APPLY_TB
-WHERE USER_IDX = #{user_idx}
+<select id="getRoomByuser_idx">
+select 
+    room_tb.hotel_idx,
+    room_tb.title,
+    rr_tb.reservation_price,
+    rr_tb.reservation_su,
+    room_tb.max_preson,
+    rr_tb.created
+from
+(select
+   room_reservation_tb.room_idx,
+    room_reservation_tb.reservation_su,
+    room_reservation_tb.reservation_price,
+    room_reservation_tb.created
+from room_reservation_tb
+where user_idx = #{user_idx}) rr_tb
+left join room_tb 
+on rr_tb.room_idx = room_tb.room_idx
 </select>
+
+<select id="getPkgByuser_idx">
+select 
+   package_tb.title,
+    prtb.RESERVATION_SU,
+    package_tb.start_date,    
+    package_tb.end_date,
+    package_tb.limited_person,
+    prtb.RESERVATION_PRICE,
+    package_tb.detail1,
+    package_tb.detail2,
+    package_tb.detail3,
+    package_tb.zip_code, 
+    prtb.CREATED
+from
+(select package_reservation_tb.*
+from package_reservation_tb
+where user_idx = #{user_idx}) prtb
+left join package_tb
+on prtb.package_idx = package_tb.package_idx
+</select>
+
+<select id="getAirtimeByuser_idx">
+select     
+    airplane_tb.name,
+    reservation_su,
+    reservation_price,
+    created,
+   start_date,
+   start_time,
+   end_date,
+   end_time,
+   departure_loc,
+   arrival_loc
+from
+(select *
+from
+(select *
+from AIRPLANE_RESERVATION_TB
+where user_idx = #{user_idx}) attb
+left join AIRPLANE_TIME_TB
+on attb.AIRPLANE_TIME_IDX = AIRPLANE_TIME_TB.AIRPLANE_TIME_IDX) aa
+left join AIRPLANE_TB
+on AIRPLANE_TB.AIRPLANE_IDX = AA.AIRPLANE_IDX
+</select>
+
+<select id="getHotelByuser_idx">
+select hotel_tb.*
+from
+(select hotel_bookmark_tb.hotel_idx
+from hotel_bookmark_tb
+where user_idx = #{user_idx}) hbtb
+left join hotel_tb
+on hotel_tb.hotel_idx = hbtb.hotel_idx
+</select>
+
+<select id="getPkgbookmarkByuser_idx">
+select PACKAGE_TB.*
+from
+(select PACKAGE_BOOKMARK_TB.package_idx
+from PACKAGE_BOOKMARK_TB
+where user_idx = #{user_idx}) pbtb
+left join PACKAGE_TB
+on PACKAGE_TB.PACKAGE_IDX = pbtb.PACKAGE_IDX
+</select>
+
+
+<select id="getBoardVoByuser_idx">
+select BOARD_TB.*
+from BOARD_TB
+where user_idx = #{user_idx}
+</select>
+
+<select id="getPkgBysellerUser_idx">
+select PACKAGE_TB.*
+from PACKAGE_TB
+where user_idx = #{user_idx}
+</select>
+
+<select id="getRoomBysellerUser_idx">
+SELECT ROOM_TB.*
+FROM 
+(select HOTEL_TB.HOTEL_IDX
+from HOTEL_TB
+where user_idx = #{user_idx}) AA
+LEFT JOIN ROOM_TB
+ON AA.HOTEL_IDX = ROOM_TB.HOTEL_IDX
+</select>
+
+<select id="getRoomcostomerBysellerUser_idx">
+SELECT 
+    CC.TITLE,
+    PERSON_TB.FIRST_NAME,
+    PERSON_TB.LAST_NAME,
+    PERSON_TB.PHONE
+FROM 
+(SELECT 
+    ROOM_RESERVATION_TB.USER_IDX,
+    BB.TITLE
+FROM
+ROOM_RESERVATION_TB
+LEFT JOIN
+(SELECT ROOM_TB.*
+FROM 
+(select HOTEL_TB.HOTEL_IDX
+from HOTEL_TB
+where user_idx = #{user_idx}) AA
+LEFT JOIN ROOM_TB
+ON AA.HOTEL_IDX = ROOM_TB.HOTEL_IDX) BB
+ON BB.ROOM_IDX = ROOM_RESERVATION_TB.ROOM_IDX) CC
+LEFT JOIN PERSON_TB
+ON CC.USER_IDX = PERSON_TB.USER_IDX
+</select>
+
+<select id="getPkgcostomerBysellerUser_idx">
+SELECT
+    BB.TITLE,
+    PERSON_TB.LAST_NAME,
+    PERSON_TB.FIRST_NAME,
+    PERSON_TB.PHONE
+FROM 
+(SELECT 
+    *
+FROM
+(SELECT 
+    PACKAGE_IDX,
+    TITLE
+FROM PACKAGE_TB
+WHERE USER_IDX =#{user_idx}) AA
+LEFT JOIN PACKAGE_RESERVATION_TB
+ON AA.PACKAGE_IDX = PACKAGE_RESERVATION_TB.PACKAGE_IDX) BB
+LEFT JOIN PERSON_TB
+ON BB.USER_IDX = PERSON_TB.USER_IDX
+</select>
+
+
+<select id="getPkgsoldoutBysellerUser_idx">
+SELECT
+    AA.PACKAGE_IDX,
+    AA.TITLE,
+    AA.LIMITED_PERSON,
+    SUM(PACKAGE_RESERVATION_TB.RESERVATION_SU) reservation_su
+FROM
+(SELECT
+    PACKAGE_IDX,
+    TITLE,
+    LIMITED_PERSON
+FROM PACKAGE_TB
+WHERE USER_IDX = #{user_idx}) AA
+INNER JOIN PACKAGE_RESERVATION_TB
+ON AA.PACKAGE_IDX = PACKAGE_RESERVATION_TB.PACKAGE_IDX
+GROUP BY AA.PACKAGE_IDX, AA.TITLE, AA.LIMITED_PERSON
+</select>
+
+<select id="getRoomsoldoutBysellerUser_idx">
+SELECT
+    BB.ROOM_IDX,
+    BB.TITLE,
+    BB.MAX_PRESON,
+    SUM(ROOM_RESERVATION_TB.RESERVATION_SU) reservation_su
+FROM
+(select 
+    ROOM_TB.ROOM_IDX,
+    ROOM_TB.TITLE,
+    ROOM_TB.MAX_PRESON
+from
+(select HOTEL_IDX
+from HOTEL_TB
+where user_idx = #{user_idx}) AA
+left join ROOM_TB
+on AA.hotel_idx = ROOM_TB.HOTEL_IDX) BB
+INNER JOIN ROOM_RESERVATION_TB
+ON BB.ROOM_IDX = ROOM_RESERVATION_TB.ROOM_IDX
+GROUP BY BB.ROOM_IDX, BB.TITLE, BB.MAX_PRESON
+</select>
+
+
+
+
+
+
+
 
 
 
 <update id="updateUser">
-	UPDATE USER_TB
-		SET 
-	PASSWD = #{passwd},
-	EMAIL = #{email}
-		where user_idx = #{user_idx}
+   UPDATE USER_TB
+      SET 
+   PASSWD = #{passwd},
+   EMAIL = #{email}
+      where user_idx = #{user_idx}
 </update>
 
 <update id="updatePerson">
-	UPDATE PERSON_TB
-		SET 
-	FIRST_NAME = #{first_name},
-	LAST_NAME = #{last_name},
-	SOCIAL_NUM = #{social_num},
-	PHONE = #{phone},
-	ZIP_CODE = #{zip_code},
-	ADDRESS1 = #{address1},
-	ADDRESS2 = #{address2},
-	NICKNAME = #{nickname}
-		where person_idx = #{person_idx}
+   UPDATE PERSON_TB
+      SET 
+   FIRST_NAME = #{first_name},
+   LAST_NAME = #{last_name},
+   SOCIAL_NUM = #{social_num},
+   PHONE = #{phone},
+   ZIP_CODE = #{zip_code},
+   ADDRESS1 = #{address1},
+   ADDRESS2 = #{address2},
+   NICKNAME = #{nickname}
+      where person_idx = #{person_idx}
 </update>
 
 <update id="updateSeller">
-	UPDATE SELLER_TB
-		SET 
-	NAME = #{name},
-	CNUM = #{cnum},
-	PHONE = #{phone},
-	LOGO = #{logo}
-		where user_idx = #{user_idx}
+   UPDATE SELLER_TB
+      SET 
+   NAME = #{name},
+   CNUM = #{cnum},
+   PHONE = #{phone},
+   LOGO = #{logo}
+      where user_idx = #{user_idx}
 </update>
 
 <update id="updateAirline">
-	UPDATE AIRLINE_TB
-		SET 
-	NAME = #{name},
-	CNUM = #{cnum},
-	PHONE = #{phone},
-	LOGO = #{logo}
-		where user_idx = #{user_idx}
+   UPDATE AIRLINE_TB
+      SET 
+   NAME = #{name},
+   CNUM = #{cnum},
+   PHONE = #{phone},
+   LOGO = #{logo}
+      where user_idx = #{user_idx}
 </update>
 
 
 
 
-	
+   
 </mapper>

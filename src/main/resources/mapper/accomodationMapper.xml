@@ -2,13 +2,111 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.escape.accommodation.mapper.AccommodationMapper">
-    <select id="search" resultType="com.escape.accommodation.domain.SearchResult">
-<!--         SELECT NAME FROM COUNTRY_TB WHERE NAME LIKE '%' || #{query} || '%' -->
-<!--         UNION -->
-        SELECT NAME FROM HOTEL_TB WHERE NAME LIKE '%' || #{query} || '%'
-        UNION
-        SELECT NAME FROM CITY_TB WHERE NAME LIKE '%' || #{query} || '%'
+
+	<select id="search" resultType="com.escape.accommodation.domain.SearchResult">
+	    SELECT NAME, ADDRESS1, ADDRESS2, 2 AS PRIORITY
+	    FROM HOTEL_TB
+	    WHERE NAME LIKE '%' || #{query} || '%'
+	       OR ADDRESS1 LIKE '%' || #{query} || '%'
+	       OR ADDRESS2 LIKE '%' || #{query} || '%'
+	    UNION ALL
+	    SELECT NAME, NULL AS ADDRESS1, NULL AS ADDRESS2, 1 AS PRIORITY
+	    FROM CITY_TB
+	    WHERE NAME LIKE '%' || #{query} || '%'
+	    ORDER BY PRIORITY
+	</select>
+
+    <select id="searchHotels" resultType="com.escape.accommodation.domain.Hotel">
+        SELECT HOTEL_IDX, NAME, ADDRESS1, ADDRESS2, DETAIL1, DETAIL2, DETAIL3, USER_IDX, PHONE, ZIP_CODE, HIT
+        FROM HOTEL_TB
+        WHERE 1=1
+        <if test="place != null and place != ''">
+            AND (
+                ADDRESS1 LIKE '%' || #{place} || '%'
+                OR ADDRESS2 LIKE '%' || #{place} || '%'
+                OR NAME LIKE '%' || #{place} || '%'
+            )
+        </if>
     </select>
     
+    <select id="getHotelPrice" resultType="map">
+        SELECT 
+            r.HOTEL_IDX, 
+            r.LOWEST_PRICE,
+            d.DISCOUNT_RATE, 
+            d.DISCOUNT_AMOUNT
+        FROM 
+            (SELECT 
+                HOTEL_IDX, 
+                MIN(PRICE) AS LOWEST_PRICE
+            FROM 
+                ROOM_TB
+            GROUP BY 
+                HOTEL_IDX) r
+        LEFT JOIN 
+            ROOM_TB rt ON r.HOTEL_IDX = rt.HOTEL_IDX AND r.LOWEST_PRICE = rt.PRICE
+        LEFT JOIN 
+            ROOM_DISCOUNT_TB d ON rt.ROOM_IDX = d.ROOM_IDX
+    </select>
     
+    <select id="getHotelImages" resultType="String">
+    	SELECT 
+    		IMAGE_PATH
+    	FROM
+    		HOTEL_IMAGE_TB
+    	WHERE
+    		HOTEL_IDX = #{hotel_idx}  	
+    </select>
+    
+    <select id="getHotelById" parameterType="int">
+        SELECT *
+        FROM HOTEL_TB
+        WHERE HOTEL_IDX = #{hotel_idx}
+    </select>
+    
+    <select id="getHotelFacilities" parameterType="int" resultType="Map">
+        SELECT 
+        	hf.HOTEL_IDX,
+            f.NAME
+        FROM facility_tb f
+        JOIN HOTEL_FACILITY_TB hf ON f.FACILITY_IDX = hf.FACILITY_IDX
+        WHERE hf.hotel_idx = #{hotel_idx}
+    </select>
+    
+    <select id="getRoomsByHotelId" parameterType="int" resultType="com.escape.accommodation.domain.Room">
+        SELECT * FROM room_tb WHERE hotel_idx = #{hotelIdx}
+    </select>
+    
+    <select id="getRoomById" parameterType="int" resultType="com.escape.accommodation.domain.Room">
+	    SELECT *
+	    FROM room_tb
+	    WHERE room_idx = #{room_idx}
+	</select>
+
+	<select id="getPointsByPersonIdx" parameterType="int" resultType="int">
+	    SELECT point
+	    FROM point_tb
+	    WHERE person_idx = #{person_idx}
+	</select>
+	
+	<update id="usePoints" parameterType="map">
+	    UPDATE point_tb
+	    SET point = point - #{pointsToUse}
+	    WHERE person_idx = #{person_idx} AND point >= #{pointsToUse}
+	</update>
+
+	<insert id="insertRoomReservation" parameterType="com.escape.accommodation.domain.RoomReservation" useGeneratedKeys="true" keyProperty="room_reservation_idx" keyColumn="ROOM_RESERVATION_IDX">
+	    INSERT INTO ROOM_RESERVATION_TB 
+	    (ROOM_RESERVATION_IDX, USER_IDX, ROOM_IDX, RESERVATION_GUEST, RESERVATION_PRICE, CHECK_IN_DATE, CHECK_OUT_DATE, STATE, CREATED) 
+	    VALUES 
+	    (ROOM_RESERVATION_SEQ.NEXTVAL, #{user_idx}, #{room_idx}, #{reservation_guest}, #{reservation_price}, TO_DATE(#{check_in_date}, 'YYYY-MM-DD'), TO_DATE(#{check_out_date}, 'YYYY-MM-DD'), #{state}, SYSDATE)
+	</insert>
+	
+	<insert id="insertPayment" parameterType="com.escape.accommodation.domain.Payment">
+	    INSERT INTO ROOM_PAY_TB 
+	    (ROOM_PAY_IDX, USER_IDX, ROOM_RESERVATION_IDX, PRICE, STATE, CREATED) 
+	    VALUES 
+	    (ROOM_PAY_SEQ.NEXTVAL, #{user_idx}, #{room_reservation_idx}, #{price}, #{state}, SYSDATE)
+	</insert>
+
 </mapper>

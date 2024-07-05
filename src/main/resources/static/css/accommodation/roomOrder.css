@@ -1,0 +1,1341 @@
+*, ::before, ::after {
+    font-family: Pretendard, "SF Pro KR", "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+a {
+    all: unset;
+    cursor: pointer;
+}r
+
+ul, ol, dl {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar-nav {
+    flex-direction: row !important;
+}
+
+input, input:focus, input::before, input::after {
+    border: 0;
+    outline: 0;
+    touch-action: manipulation;
+}
+
+@media (min-width: 768px) {
+    .css-17i062k--OrderFormBase--OrderFormContainer {
+        width: 1060px;
+        margin: auto;
+        padding-top: 40px;
+    }
+}
+
+.css-17dobcw--OrderForm--Title {
+    margin: 24px 16px 16px;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: -0.4px;
+    line-height: 32px;
+    justify-content: flex-start;
+}
+
+@media (min-width: 768px) {
+    .css-17dobcw--OrderForm--Title {
+        margin: auto 0px 32px;
+        font-weight: bold;
+        font-size: 28px;
+        letter-spacing: -0.4px;
+        line-height: 36px;
+    }
+}
+
+.css-17i062k--OrderFormBase--OrderFormContainer {
+    border-bottom: 120px solid white;
+}
+
+.css-d4sm79--OrderFormBase--Form {
+    background-color: white;
+    margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+    .css-17dobcw--OrderForm--Title {
+        margin: auto 0px 32px;
+        font-weight: bold;
+        font-size: 28px;
+        letter-spacing: -0.4px;
+        line-height: 36px;
+    }
+}
+
+
+.css-1ch2iob--OrderForm--Content {
+    display: flex;
+    flex-direction: row;
+}
+
+.css-ttzwrq--OrderForm--Wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+}
+
+.css-19p5kql--OrderForm--CommonPurchaseContainer {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .css-19p5kql--OrderForm--CommonPurchaseContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 768px) {
+    .css-1yqvzrw--SectionContainer--Container {
+        max-width: 680px;
+    }
+}
+
+.css-z4djww--SectionContainer--Body--ProductInfo--mainContentStyle {
+    padding: 20px 16px;
+}
+
+@media (min-width: 768px) {
+    .css-z4djww--SectionContainer--Body--ProductInfo--mainContentStyle {
+        padding: 32px 0px;
+    }
+}
+
+@media (min-width: 769px) {
+    .css-z4djww--SectionContainer--Body--ProductInfo--mainContentStyle {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+}
+
+.css-9e4tkg--ProductInfoSummary--Container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.css-n2xyg7--ProductInfoSummary--ImageWrapper {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    box-shadow: rgba(33, 37, 41, 0.15) 0px 0px 0px 1px inset;
+    border-radius: 4px;
+    margin-right: 16px;
+}
+
+.css-170w93a--ProductInfoSummary--Image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+    .css-1hgeeeb--ProductInfoSummary--Title {
+        font-size: 18px;
+    }
+}
+
+.css-1hgeeeb--ProductInfoSummary--Title {
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.css-18inzct--ProductInfoSchedule--ScheduleItem {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 6px;
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 19px;
+    letter-spacing: -0.4px;
+}
+
+@media (min-width: 768px) {
+    .css-jx2h8f--SectionContainer--Container--Price--containerStyle {
+        max-width: 680px;
+    }
+}
+
+@media (min-width: 769px) {
+    .css-jx2h8f--SectionContainer--Container--Price--containerStyle {
+        border-top: 1px solid #dcdcdc;
+        margin-top: 24px;
+    }
+}
+
+.css-10zndy8--SectionContainer--Body--Price--mainContentStyle {
+    padding: 20px 16px;
+}
+
+@media (min-width: 768px) {
+    .css-10zndy8--SectionContainer--Body--Price--mainContentStyle {
+        padding: 32px 0px;
+    }
+}
+
+@media (min-width: 769px) {
+    .css-10zndy8--SectionContainer--Body--Price--mainContentStyle {
+        padding-top: 24px;
+    }
+}
+
+.css-v6wk68--PriceList--OptionWrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    gap: 2px;
+}
+
+.css-1xtyir3--OptionInfoList--Option {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.css-v6wk68--PriceList--OptionWrapper > li {
+    background-color: #f0f0f0;
+    padding: 12px;
+}
+
+.css-81epwr--OptionInfoList--OptionText {
+    flex: 1 1 0%;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+}
+
+.css-16q01t6--OptionInfoList--OptionName {
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.css-mnnvnj--OptionInfoList--OptionPrice {
+    width: 100px;
+    margin-left: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    text-align: right;
+}
+
+.css-qcgeyu--ExtraInfoList--Option {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+
+
+.css-1gf28m5--ExtraInfoList--OptionText {
+    flex: 1 1 0%;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+}
+
+.css-17r2s3v--ExtraInfoList--OptionPrice {
+    width: 100px;
+    margin-left: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    text-align: right;
+}
+
+.css-qb575q--ExtraInfoList--OptionName {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.css-17r2s3v--ExtraInfoList--OptionPrice {
+    width: 100px;
+    margin-left: 4px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    text-align: right;
+}
+
+.css-71xvha--PriceTotal--Container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.css-wdcz2a--PriceTotal--TotalPriceWrapper {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.css-u0gcr6--PriceTotal--TotalPriceText {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.css-1qt89sm--PriceTotal--TotalPriceNumber {
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 24px;
+}
+
+.css-13hdby9--SectionContainerHeader--Wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 16px;
+    letter-spacing: -0.6px;
+}
+
+@media (min-width: 768px) {
+    .css-13hdby9--SectionContainerHeader--Wrapper {
+        padding: 0px 0px 16px;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+    }
+}
+
+.css-1m5d5b0--SectionContainerHeader--Box {
+    display: flex;
+}
+
+.css-1espa7k--SectionContainerHeader--Title {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -0.6px;
+}
+
+@media (min-width: 768px) {
+    .css-1espa7k--SectionContainerHeader--Title {
+        font-size: 22px;
+    }
+}
+
+.css-73gmso {
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-image: initial;
+    margin: 0px;
+    border-bottom: 1px solid gray;
+    padding: 0px;
+    width: auto;
+}
+
+@media (min-width: 768px) {
+    .css-73gmso {
+        border-bottom: 1px solid #9ca3af;
+    }
+}
+
+.css-1xjf2qv--SectionContainer--Body {
+    padding: 20px 16px;
+}
+
+@media (min-width: 768px) {
+    .css-1xjf2qv--SectionContainer--Body {
+        padding: 32px 0px;
+    }
+}
+
+.css-dnxl79--Point-style--labelWrapper {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+    .css-dnxl79--Point-style--labelWrapper {
+        font-size: 17px;
+    }
+}
+
+.css-xht1av--Point-style--label {
+     color: #333333;
+}
+
+.css-1iuiezq--Point-style--holdingPoint {
+    color: #737373;
+    margin-left: 8px;
+}
+
+.css-1ci03y3--Point-style--inputWrapper {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+    .css-1ci03y3--Point-style--inputWrapper {
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+    }
+}
+
+.css-1vqiqg7 {
+    display: inline-block;
+    position: relative;
+}
+
+.css-1ci03y3--Point-style--inputWrapper .checkout-point-inputbox {
+    width: 100%;
+    margin-right: 8px;
+}
+
+@media (min-width: 768px) {
+    .css-1ci03y3--Point-style--inputWrapper .checkout-point-inputbox {
+        width: auto;
+    }
+}
+
+.css-o9jzai:disabled {
+    box-shadow: inset 0 0 0 1px #f3f4f6;
+    background-color: #f9fafb;
+    color: #9ca3af;
+}
+
+@media (min-width: 768px) {
+    .css-1ci03y3--Point-style--inputWrapper .checkout-point-inputbox input {
+        width: 380px;
+    }
+}
+
+.css-1fwrkpi {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    color: rgb(132, 140, 148);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.css-1ci03y3--Point-style--inputWrapper .checkout-point-inputbox span {
+    font-size: 14px;
+    top: 52%;
+}
+
+[role="button"] {
+    cursor: pointer;
+}
+
+a, area, button, [role="button"], input, label, select, summary, textarea {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+.css-mkihkg {
+    position: relative;
+    display: inline-flex;
+}
+
+.css-1ci03y3--Point-style--inputWrapper .checkout-point-button {
+    display: contents;
+}
+
+.css-1fq9c2a {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    text-align: center;
+    border: 0px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: -0.2px;
+    transition: all 0.3s ease 0s;
+    user-select: none;
+    outline-style: none;
+    cursor: pointer;
+    height: 40px;
+    padding: 0px 16px;
+    font-size: 14px;
+    color: #374151;
+    background-color: #f3f4f6;
+}
+
+button[disabled], html input[disabled] {
+    cursor: default;
+}
+
+button[disabled], a[disabled] {
+    pointer-events: none !important;
+}
+
+.css-1fq9c2a:disabled {
+    opacity: 0.3;
+    background-color: #f7fafc;
+    pointer-events: none;
+}
+
+.css-1ci03y3--Point-style--inputWrapper .checkout-point-button button:disabled {
+    background-color: #f3f4f6;
+}
+
+.css-o9jzai {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    box-shadow: inset 0 0 0 1px #d1d5db;
+    border-radius: 4px;
+    border: 0px;
+    outline-style: none;
+    color:  #1f2937;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    height: 40px;
+    font-size: 14px;
+    padding: 11px 36px 11px 11px;
+    text-align: right;
+}
+
+.css-73gmso {
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    border-image: initial;
+    margin: 0px;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 0px;
+    width: auto;
+}
+
+@media (min-width: 768px) {
+    .css-73gmso {
+        border-bottom: 1px solid #9ca3af;
+    }
+}
+
+@media (min-width: 768px) {
+    .css-19p5kql--OrderForm--CommonPurchaseContainer > * + * {
+        margin-top: 80px;
+    }
+}
+
+@media (min-width: 768px) {
+    .css-jx2h8f--SectionContainer--Container--Price--containerStyle {
+        margin-top: 20px;
+    }
+}
+
+.css-1jsagqa--ReservationPerson--Container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background: #f9fafb;
+    margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+    .css-1jsagqa--ReservationPerson--Container {
+        margin-bottom: 16px;
+    }
+}
+
+.css-cv06j6--EditForm--Container {
+    position: relative;
+    border-radius: 12px;
+    background: #f9fafb;
+    padding: 16px;
+}
+
+.css-9yldiq--EditForm--KoreanNameWrapper {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 6px;
+    cursor: pointer;
+    max-width: calc(100% - 80px);
+}
+
+.css-119aw1b--EditForm--KoreanName--getEllipsisStyle--getEllipsisStyle {
+    font-size: 16px;
+    font-weight: 600;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.css-labkkb {
+    display: inline-block;
+    border: 0px;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.css-1qn2m1l--Email--Info--getEllipsisStyle--getEllipsisStyle {
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.css-1qn2m1l--Email--Info--getEllipsisStyle--getEllipsisStyle:not(:last-of-type) {
+    margin-bottom: 2px;
+}
+
+.css-19x6daw--KorName--Info--getEllipsisStyle--getEllipsisStyle {
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.css-19x6daw--KorName--Info--getEllipsisStyle--getEllipsisStyle:not(:last-of-type) {
+    margin-bottom: 2px;
+}
+
+.css-1d7kmj6--Phone--Info {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.css-1d7kmj6--Phone--Info:not(:last-of-type) {
+    margin-bottom: 2px;
+}
+
+.css-7s5oja--EditForm--WarningWrapper {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.css-4q637n--EditForm--WarningDescription {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 138%;
+    color: #f87171;
+    margin-left: 4px;
+}
+
+.css-14dhszq--EngName--Wrapper {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 16px;
+}
+
+.css-txmszs--AdditionalInfoContainer--Label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    letter-spacing: -0.2px;
+    margin-bottom: 8px;
+}
+
+input:not([type="checkbox"]):not([type="radio"]), button, textarea, select {
+    appearance: none;
+}
+
+.css-14dhszq--EngName--Wrapper > :not(:first-of-type) {
+    margin-left: 8px;
+}
+
+.css-mexqx--AdditionalInfoContainer--Container--AdditionalInfoContainer--Container:not(:first-of-type) {
+    margin-top: 0px;
+}
+
+.css-1oehzqs--EditForm--EditBtn {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.css-19vy8jy--ReservationPerson--NoticeWrapper {
+    margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+    .css-19vy8jy--ReservationPerson--NoticeWrapper {
+        margin-bottom: 48px;
+    }
+}
+
+.css-1ibdkp7--ReservationPerson--Notice {
+    font-size: 14px;
+    font-weight: 500;
+    color: #3b82f6;
+}
+
+.css-kumkj--Companion--Container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .css-2mpmz3--Companion--Title {
+        font-size: 18px;
+    }
+}
+
+.css-2mpmz3--Companion--Title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.css-1mp7jgw--Companion--SubTitle {
+    font-size: 14px;
+    font-weight: normal;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.css-5suex {
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin-top: -8px;
+}
+
+.css-1y9xciw {
+    margin-right: 6px;
+}
+
+.css-5suex > div {
+    margin-top: 8px;
+}
+
+.css-1o5qkcj {
+    height: 40px;
+    border-radius: 40px;
+    padding: 0px 12px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    transition: background 0.2s ease-out 0s, color 0.2s ease-out 0s;
+    color: #4b5563;
+    background-color: #f7fafc;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.css-zstt25 {
+    font-size: 14px;
+    padding-left: 2px;
+    letter-spacing: -0.4px;
+}
+
+.css-1mrjn5z--SectionContainerHeader--Required {
+    font-size: 14px;
+    letter-spacing: -0.4px;
+    align-self: flex-end;
+    padding-left: 4px;
+}
+
+.css-vjrmsf--PartnerCustomInfos--OptionTitle {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 24px;
+    margin-bottom: 6px;
+}
+
+.css-q0yy64--AdditionalInfoContainer--Container:not(:first-of-type) {
+    margin-top: 16px;
+}
+
+.css-txmszs--AdditionalInfoContainer--Label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    letter-spacing: -0.2px;
+    margin-bottom: 8px;
+}
+
+.css-uqj3ax--TextArea--TextAreaInput {
+    width: 100%;
+    padding: 12px;
+    min-width: 238px;
+    min-height: 85px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    color: #1f2937;
+    border-radius: 4px;
+    border: 0px;
+    box-shadow: inset 0 0 0 1px #d1d5db;
+}
+
+.css-m52mdb--PartnerCustomInfos--GuideText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.2px;
+    color: #374151;
+}
+
+.css-1nr0q3l--FloatingContainer--Container {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    position: sticky;
+    top: 32px;
+    left: 0px;
+    margin-left: 40px;
+    border-radius: 4px;
+    background-color: white;
+    border: solid 1px #d1d5db;
+}
+
+.css-2ww8q5--FloatingContainer--Wrapper {
+    padding: 32px 24px;
+    width: 340px;
+}
+
+
+.css-1m5d5b0--SectionContainerHeader--Box {
+    display: flex;
+}
+
+.css-1espa7k--SectionContainerHeader--Title {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -0.6px;
+}
+
+.css-1dc0kte--SectionContainer--Body {
+    padding: 20px 16px;
+}
+
+.css-mfhjnq--SettledInfo--Container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.css-1kfh5n5--SettledInfo--Info {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.css-1vtu6gt--SettledInfo--Text {
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    font-weight: 400;
+    color: #1f2937;
+}
+
+.css-1gf7fex--TotalPriceInfo--Container {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.css-1a4bcnz--TotalPriceInfo--MainTextWrapper {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.css-8lm0oe--TotalPriceInfo--Text {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 19px;
+    letter-spacing: -0.4px;
+}
+
+@media (max-width: 768px) {
+    .css-kz1cl5--TotalPriceInfo--PriceWrapper {
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        align-items: center;
+        gap: 2px;
+    }
+}
+
+.css-bla3vs--TotalPriceInfo--Price {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 135%;
+}
+
+@media (min-width: 768px) {
+    .css-bla3vs--TotalPriceInfo--Price {
+        font-size: 24px;
+        line-height: 29px;
+    }
+}
+
+.css-1ab299y--PaymentInfo--Wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0px 0px;
+    gap: 8px;
+}
+
+.css-1b76hqd--ProductNoticeInfo--Wrapper {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.css-1t882oi--ProductNoticeInfo--Text--ProductNoticeInfo--Button {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    text-decoration: underline;
+    margin-right: 2px;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.css-pqepq8--ProductNoticeInfo--customIconStyle {
+    display: inline-block;
+    border: 0px;
+    width: 12px;
+    height: 12px;
+}
+
+@media (min-width: 768px) {
+    .css-1yqvzrw--SectionContainer--Container {
+        max-width: 680px;
+    }
+}
+
+.css-rzod1--Term--Container {
+    padding: 28px 16px 0px;
+}
+
+@media (min-width: 769px) {
+    .css-rzod1--Term--Container {
+        padding: 0px;
+    }
+}
+
+.css-1ofmo3h--TermCheckList--Wrapper {
+    padding: 20px 12px 20px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.css-1ofmo3h--TermCheckList--Wrapper > div {
+    margin-bottom: 20px;
+}
+
+.css-1ofmo3h--TermCheckList--Wrapper .mrt-required-term {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.css-1sgaj0v--CheckTerm--TermTitle {
+    font-size: 14px;
+    font-weight: normal;
+    color: #1f2937;
+    letter-spacing: -0.3px;
+    cursor: pointer;
+}
+
+.css-xqn2lt {
+    display: inline-block;
+    border: 0px;
+    cursor: pointer;
+}
+
+.css-z6jvpf--TermCheckList--ConfirmStatement {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #6b7280;
+    letter-spacing: -0.3px;
+}
+
+.css-1rn2pqw--RefundPolicy--Container {
+    padding: 16px;
+    margin-top: 16px;
+    background-color: #f9fafb;
+}
+
+@media (min-width: 769px) {
+    .css-1rn2pqw--RefundPolicy--Container {
+        margin-top: 40px;
+    }
+}
+
+.css-k4xfv6--RefundPolicy--Text--RefundPolicy--Title {
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.css-93wur2--RefundPolicy--Text {
+    line-height: 22px;
+    letter-spacing: -0.4px;
+    font-weight: 400;
+    font-size: 14px;
+    color: #374151;
+}
+
+.css-1vct4yp--RenderMultiLineText--Line {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.css-13h99hv--PurchaseButton--Wrapper {
+    background-color: white;
+    padding: 16px 16px 24px;
+}
+
+@media (min-width: 768px) {
+    .css-13h99hv--PurchaseButton--Wrapper {
+        margin: auto 0px;
+        padding: 0px 16px 16px;
+    }
+}
+
+.css-w0pi5v {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+}
+
+.css-jgs6n {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    text-align: center;
+    border: 0px;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: -0.2px;
+    transition: all 0.3s ease 0s;
+    user-select: none;
+    outline-style: none;
+    cursor: pointer;
+    height: 48px;
+    padding: 0px 32px;
+    font-size: 16px;
+    color: white;
+    background-color: #3b82f6;
+    width: 100%;
+}
+
+.css-w0pi5v > button {
+    width: 100%;
+    padding: 0px 8px;
+}
+
+.css-1s4v6ia {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.mrt-chip-item-wrapper.selected {
+    background-color: lightblue;
+    color: white; /* 텍스트 색상을 흰색으로 설정 */
+}
+
+.mrt-chip-item-wrapper {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 클릭 시 노란색 배경 추가 */
+.mrt-required-term img.selected {
+    background-color: yellow;
+}
+
+.css-8mjhao--PaymentMethods--RefHolder {
+    display: none;
+}
+
+.css-13hdby9--SectionContainerHeader--Wrapper {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 20px 16px;
+    letter-spacing: -0.6px;
+}
+
+.css-1tu548c--PaymentBenefits--Container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 4px;
+}
+
+[role="button"] {
+    cursor: pointer;
+}
+
+.css-yojrs6--PaymentBenefitCollectionItem--Item {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.css-1ye5zyg--PaymentBenefitCollectionItem--LogoWrapper {
+    margin-right: 4px;
+    flex: 0 0 auto;
+}
+
+.css-1j6vtio--PaymentBenefitCollectionItem--TextWrapper {
+    flex: unset;
+    margin-right: 8px;
+}
+
+.css-cltgrd--PaymentBenefitCollectionItem--Text {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 13px;
+    line-height: 16px;
+    word-break: break-all;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.css-5cdge0--PaymentBenefitCollectionItem--GuideWrapper {
+    display: flex;
+    flex: 1 0 auto;
+}
+
+.css-1k97q2g--PaymentBenefitCollectionItem--Text {
+    font-weight: 400;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 16px;
+    word-break: break-all;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.css-4ohlto--PaymentBenefitCollectionItem--customIconStyle {
+    display: inline-block;
+    border: 0px;
+    width: 16px;
+    height: 16px;
+}
+
+.css-116ga3z--PaymentMethodItem--Wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 0px;
+    margin-bottom: 4px;
+}
+
+.css-x4i4r9--PaymentMethodItem--Content {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.css-d4sm79--OrderFormBase--Form input {
+    scroll-margin: 80px;
+}
+
+.css-1d0zz7p--PaymentMethodItem--RadioButtonLabel {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.css-13vtxn4--CreditCardSelectContent--Wrapper {
+    max-width: 380px;
+    margin-bottom: 4px;
+}
+
+.css-p9ea29--CreditCardSelectContent--Select--CreditCardSelectContent--Select {
+    width: 100%;
+    font-size: 14px;
+    padding: 13px 12px;
+    border: 0px;
+    box-shadow: inset 0 0 0 1px #d1d5db;
+    border-radius: 4px;
+    appearance: none;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5IiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgOSAxOCI+CiAgICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik0wIDBIOVYxOEgweiIvPgogICAgICAgIDxnIGZpbGw9IiM2NjZENzUiPgogICAgICAgICAgICA8cGF0aCBkPSJNLjU1MSAxMy4wMTRMNC40MDEgMTcuNTM5IDguMjUxIDEzLjAxNHpNOC4yNTEgNC45MzZMLjU1MSA0LjkzNiA0LjQwMS40MTF6Ii8+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4K);
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    max-width: 250px;
+}
+
+.css-lkitu7--PaymentMethodItem--Wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 0px;
+    margin-bottom: 4px;
+}
+
+.css-x4i4r9--PaymentMethodItem--Content {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 8px;
+}
+a, area, button, [role="button"], input, label, select, summary, textarea {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+.css-1sg2lsz {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.css-1t940od {
+    height: 16px;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;  /* 모달의 너비를 90%로 설정 */
+    max-width: 1000px; /* 모달의 최대 너비를 1000px로 설정 */
+    height: 80%;  /* 모달의 높이를 80%로 설정 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* iframe { */
+/*     width: 100%; */
+/*     height: calc(100% - 40px); Close 버튼 높이만큼 뺀다 */
+/*     border: none; */
+/* } */

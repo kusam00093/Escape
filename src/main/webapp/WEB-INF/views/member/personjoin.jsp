@@ -97,6 +97,30 @@
             transform: scale(1.05);
         }
         
+        
+         /* 기존 파일 입력 숨기기 */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* 사용자 정의 파일 업로드 버튼 스타일 */
+        .custom-file-upload {
+            width: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: #fff;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
        
 }
     </style>
@@ -213,7 +237,7 @@ function validateForm(event) {
 <body>
     <div class="register-container">
         <h2>개인 회원가입</h2>
-        <form action="/personjoin" method="post" onsubmit="validateForm(event)">
+        <form action="/personjoin" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
         
            <div class="form-group">
     			<label for="id">ID:</label>
@@ -274,13 +298,16 @@ function validateForm(event) {
                 <label for="nickname">Nickname:</label>
                 <input type="text" id="nickname" name="nickname">
             </div>
+            <div class="form-group">
+                <label for="">프로필이미지:</label>
+                <label for="image" class="custom-file-upload">파일 선택</label>
+                <input type="file" id="image" name="file">
+            </div>
             
             <input type="hidden" id="type" name="type" value="1">
             
-            
             <button type="submit">회원가입</button>
             <input type="button" value="취소" id="goList">
-            
         </form>
     </div>
     

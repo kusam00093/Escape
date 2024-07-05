@@ -95,8 +95,14 @@ public class UserController {
     //개인 회원가입
     @PostMapping("/personjoin")
     @Transactional
-    public ModelAndView write(Person person, User user) {
+    public ModelAndView write(MultipartFile file, Person person, User user) {
     	
+    	String filePath = sellerService.storeFile(file);
+        person.setImage(filePath);
+        
+        System.out.println("============filePath:"+ filePath);
+
+          
     	userMapper.insertUser(user);
     	personMapper.insertPerson(person);
 
@@ -114,14 +120,14 @@ public class UserController {
     	
     	String id = request.getParameter("id");
     	String passwd = request.getParameter("passwd");
-    	
+    	 
     	user = userMapper.login(id, passwd);
     	
     	if (user != null) { 
     		HttpSession session = request.getSession();
     		session.setMaxInactiveInterval(60*60);
     		session.setAttribute("login", user);
-    		session.setAttribute("isLoggedIn", true);
+    		session.setAttribute("isLoggedIn", true); 
     		mv.setViewName("redirect:/");
     	
     	} else { // 로그인 실패시
@@ -133,6 +139,7 @@ public class UserController {
     	    out.close();
     	    mv.setViewName("redirect:/personlogin");
     	}
+    	
 		return mv;
     }
     
@@ -172,7 +179,6 @@ public class UserController {
  	            String filePath = sellerService.storeFile(file);
  	            seller.setLogo(filePath);
  	            
- 	            System.out.println("============filePath:"+ filePath);
 
  	            // 데이터베이스 저장
  	            userMapper.insertUser(user);

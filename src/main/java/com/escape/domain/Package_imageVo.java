@@ -1,5 +1,9 @@
 package com.escape.domain;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Package_imageVo {
-	int package_image_idx;
-	int package_idx;
-	String image;
+	
+	private int     package_image_idx;
+	private int     package_idx;
+	private String  image;
+	private List<MultipartFile> file;
+	
+	public Package_imageVo(String image) {
+		this.image = image;
+	}
+
+
 }

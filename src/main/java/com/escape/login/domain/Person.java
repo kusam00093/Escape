@@ -22,6 +22,8 @@ public class Person {
     private String address1;
     private String address2;
     private String nickname;
+    private String image;
 	
+    
     
 }
