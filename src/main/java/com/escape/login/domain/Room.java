@@ -24,4 +24,8 @@ public class Room {
 	private int reservation_su;
 	private String created;
 	
+	private String first_name;
+    private String last_name;
+    private int social_num;
+    private String phone;
 }

@@ -53,6 +53,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -69,7 +70,7 @@
             </nav>
             <div>
                 <c:choose>
-                    <c:when test="${sessionScope.isLoggedIn}">
+                    <c:when test="${not empty sessionScope.login}">
                         <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
                             <li><a href="/profile" class="btn-nav">마이페이지</a></li>
                             <li><a href="/logout" class="btn-nav">로그아웃</a></li>
@@ -89,5 +90,3 @@
 </html>
 
 
-    </header>
-  </div>

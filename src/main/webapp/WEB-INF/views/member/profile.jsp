@@ -222,17 +222,18 @@
                     </div>
                     
                     <div class="form-group">
-                    <label for="address1">주소: ${person.address1}</label>
-                </div>
+                    	<label for="address1">주소: ${person.address1}</label>
+                	</div>
                 
-                <div class="form-group">
-                    <label for="address2">상세주소: ${person.address2}</label>
-                </div>
+               	 	<div class="form-group">
+                    	<label for="address2">상세주소: ${person.address2}</label>
+                	</div>
                 
                     <div class="form-group">
                         <label for="nickname">Nickname: ${person.nickname}</label>
                     </div>
-                       <button type="submit">정보수정</button>
+                    
+                <button type="submit">정보수정</button>
                 <input type="button" value="취소" id="goList">
                 
                 </div>

@@ -160,7 +160,7 @@
             margin-bottom: 15px;
         }
         button[type="submit"], #goList {
-            width: 100%;
+            width: 150px;
             padding: 15px;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             border: none;
@@ -193,18 +193,17 @@
         <div class="sidebar">
             <h3>마이페이지</h3>
             <ul>
-               <li><a href="/mypage">회원정보</a></li>
+               <li><a href="/profile">회원정보</a></li>
                 <li><a href="/sellergoods">내가 등록한 상품</a></li>
-                <li><a href="#">신청자 목록</a></li>
-                <li><a href="#">마감된 상품</a></li>
-                <li><a href="#">대화내역</a></li>
+                <li><a href="/sellercostomer">신청자 목록</a></li>
+                <li><a href="/sellersoldout">마감된 상품</a></li>
             </ul>
         </div>
 
         <div class="register-container">
             <div class="profile-card">
                 <h2>${seller.name}님 프로필</h2>
-                
+          	  <form action="/mypageSellerUpdateForm" method="post">
                 <div class="profile-picture">
                     <img src="${seller.logo}">
                 </div>
@@ -225,9 +224,12 @@
                     <div class="form-group">
                         <label for="phone">Phone:      ${seller.phone}</label>
                     </div>
-               
-                   
+                    
+                     <button type="submit">정보수정</button>
+               		 <input type="button" value="취소" id="goList">
                 </div>
+                </form>
+                   
             </div>
         </div>
     </div>
