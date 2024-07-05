@@ -56,56 +56,440 @@
         padding: 30px;
         text-align: center;
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      .slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 1050px; /* 이미지의 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    overflow: hidden; /* 넘치는 이미지 숨기기 */
+    height: 600px; /* 높이 설정 */
+  }
+  .slideshow-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slideshow-container img {
+    width: 1050px;
+    height: 600px;
+    object-fit: cover; /* 이미지 비율 유지 및 자르기 */
+    opacity: 0; /* 초기에 모든 이미지를 투명하게 설정 */
+    transition: opacity 1s ease; /* 페이드 인/아웃 효과 설정 */
+    position: absolute; /* 이미지 위치 설정 */
+    top: 0;
+    left: 0;
+  }
+  .showing {
+    opacity: 1 !important; /* 현재 이미지를 보이게 설정 */
+  }
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    outline: none;
+    z-index: 100;
+  }
+  .prev {
+    left: 0;
+    transform: translateY(-50%);
+  }
+  .next {
+    right: 0;
+    transform: translateY(-50%);
+  }
+  
+  .h2{
+  	text-align: center;
+  }
+  
+  .slide {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* 텍스트도 수평 가운데 정렬 */
+  }
+
+  .text {
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    opacity: 0; /* 초기에 텍스트를 투명하게 설정 */
+    transition: opacity 1s ease; /* 텍스트 페이드 인/아웃 효과 설정 */
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px; /* 좌우 여백 설정 */
+    padding-bottom: 150px;
+  }
+  
+  h4{
+    width : 62%;
+    margin : 0 auto ;
+  	text-align:  left;
+  	font-weight: bolder;
+  	padding-top: 30px;
+  	padding-bottom: 30px;
+  }
+  .package_search_main {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* 필요에 따라 조절 */
+  }
+
+  .package_search {
+    width: 1000px; /* 원하는 넓이로 조절 */
+  }
+
+  .btn-outline-success {
+    margin-left: 10px; /* 버튼과 입력 창 사이 여백 조절 */
+  }
+  .package_search {
+    padding-left: 30px; /* 이미지를 표시할 공간 확보 */
+    background-image: url('/images/icons_search.png');
+    background-repeat: no-repeat;
+    background-position: 5px center; /* 이미지 위치 조정 */
+    background-size: 20px; /* 이미지 크기 조정 */
+  }
+
+
+
+.more{
+	width : 70%;
+	margin : 0 auto;
+	text-align: right;
+	color: blue;
+}
+.more a{
+	color :blue;
+	
+	
+}
+.more a:hover{
+	color :#f0f;
+	text-decoration: none;
+	
+	
+}
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.container1 {
+  width : 70%;
+  margin : 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  place-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 18rem;
+  display: grid;
+  overflow: hidden;
+  transition: 0.4s;
+  margin: 10px 10px;
+  position: relative;
+  border-radius: 5px;
+  place-items: center;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px 0.1rem rgb(0 0 0 / 8%);
+}
+
+.card:hover {
+  transform: translate(0px, -10px);
+  box-shadow: 0px 10px 10px 0.1rem rgb(0 0 0 / 15%);
+}
+
+.card h2 {
+  letter-spacing: 1px;
+}
+
+.image {
+  position: relative;
+}
+
+.image img {
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+.image div {
+  top: 0;
+  left: 0;
+  opacity: 1;
+  height: 97%;
+  width: 100%;
+  font-size: 2rem;
+  position: absolute;
+  border-radius: 0.5rem;
+}
+
+.image:hover div {
+  opacity: 0.4;
+  background-color: #202020;
+}
+
+.image:hover div a {
+  display: block;
+}
+
+.image div a {
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+  color: #fff;
+  display: none;
+  font-size: 3rem;
+  cursor: pointer;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.details {
+  max-width: 90%;
+  text-align: center;
+  padding: 0 0 10px 0;
+}
+
+.details p:last-child {
+  color: #000c;
+  padding: 0px 10px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+.card-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.card {
+    flex: 0 0 25%;
+}
+.image {
+    position: relative;
+}
+
+.icon-container {
+    position: absolute;
+    top: 10px; /* 상단에서의 거리 */
+    right: 10px; /* 오른쪽에서의 거리 */
+}
+
+.nav_icon {
+    width: 30px; /* 아이콘의 크기 */
+    height: 30px;
+}
+
+  .category {
+    width: 60%;
+    display: flex;
+    padding: 10px;
+    margin: 10px auto;
+    gap: 10px;
+    flex-wrap: wrap; /* 요소가 너비를 넘어갈 경우 줄 바꿈 */
+    justify-content: flex-start; /* 가로 중앙 정렬 */
+  }
+
+  .category_container {
+    margin: 2px; /* 버튼 간격 조절을 위해 사용 */
+  }
+
+  .category_btn {
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f5f6f7;
+    transition: box-shadow 0.3s, background-color 0.3s;
+  }
+
+  .category_btn:hover {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    background-color: #d9d9d9;
+  }
+
+
+
+
+
+
+.rating {
+  width: 100px;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-left: 20px;;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.rating__label .star-icon {
+  width: 10px;
+  height: 20px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("/images/star.svg");
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("/images/star_fill.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating__label--half .star-icon {
+  background-position: left;
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.rating__label.half-filled .star-icon {
+  background-position: left;
+  width: 15px; /* 반 채워진 별의 너비 설정 */
+}
+
+.package_title{
+	margin : 10px;
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+        
+        
+        
+        
+        
+        
     </style>
+    
+    <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
+	<link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/mixins.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+	<link rel="stylesheet" href="/css/common.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap" rel="stylesheet">
+    
+    
+    
 </head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
-
 	<%@include file="/WEB-INF/include/nav.jsp"%>
+
+
+
+
+ <br>
 <body>
+   <h2 id="title">ESCAPE와 함께 Escape 하자</h2>
+   
+   
+  
+  
+ <br>
+ <br>
 
-
-<div><a href="/Board/Boardhome">메인 공고</a></div>
-
-
-
-
-
-<body>
-    <h2 id="title">Escape 경로와 일정 검색하기</h2>
-    <!-- 검색란 -->
-    <div class="search-box">
-        <select id="destination">
-            <option value="">어디로 떠나시나요?</option>
-            <option value="서울">서울</option>
-            <option value="부산">부산</option>
-            <option value="제주">제주</option>
-            <!-- 원하는 여행지를 추가하세요 -->
-        </select>
-        <input id="departure" type="date" placeholder="언제 출발하시나요?">
-        <select id="companion">
-            <option value="">몇명과 떠나시나요?</option>
-            <option value="1">나혼자</option>
-            <option value="2">2명</option>
-            <option value="3">3명</option>
-            <option value="3">4명</option>
-        </select>
-        <!-- 여행가는 총 인원 추가하세요 -->
-        <button onclick="search()">검색하기</button>
+<div class="slideshow-container">
+  <div class="slideshow-content">
+    <button class="prev" onclick="showPrevImage()">❮</button>
+    <div class="slide">
+      <img src="/package_image/escape3.jpg" class="package_img showing"/>
+      <div class="text">진짜 나다운 여행 ESCAPE</div>
     </div>
-    
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <!-- 인기 여행지 사진 -->
-    <div class="popular-destinations">
-        <img src="images/삿포로.jpg" alt="여행지1">
-        <img src="images/괌.jpg" alt="여행지2">
-        <img src="images/사이판.jpg" alt="여행지3">
+    <div class="slide">
+      <img src="/package_image/escape4.jpg" class="package_img"/>
+      <div class="text">꿈꾸는대로 펼쳐진다</div>
     </div>
+    <div class="slide">
+      <img src="/package_image/escape2.jpg" class="package_img"/>
+      <div class="text">여름 휴가 가보자고</div>
+    </div>
+    <div class="slide">
+      <img src="/package_image/escape1.jpg" class="package_img"/>
+      <div class="text">당신의 ESCAPE를 완성할 완벽한 여행사이트</div>
+    </div>
+   
+    <button class="next" onclick="showNextImage()">❯</button>
+  </div>
+</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div> 
+<div>&nbsp;</div>
+<div>&nbsp;</div>
 
-<%@include file="/WEB-INF/include/footer.jsp"%>
+
+
+
+
+
+
+
+
     <script>
         function search() {
             var destination = document.getElementById('destination').value;
@@ -120,6 +504,128 @@
             console.log('동행: ' + companion);
         }
     </script>
+    
+    
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryButtons = document.querySelectorAll(".category_btn");
+
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const categoryIdx = this.value;
+            const url = "/Package/Home/Sub?category_idx=" + categoryIdx;
+            window.location.href = url;
+        });
+    });
+});
+</script>
+<script>
+let currentIndex = 0;
+const cards = document.querySelectorAll('.card');
+const totalCards = cards.length;
+const cardsPerPage = 4;
+
+// 초기 화면 설정
+document.addEventListener('DOMContentLoaded', () => {
+    updateCardContainer();
+});
+
+document.getElementById('prevButton').addEventListener('click', showPrevCards);
+document.getElementById('nextButton').addEventListener('click', showNextCards);
+
+function updateCardContainer() {
+    cards.forEach((card, index) => {
+        if (index >= currentIndex && index < currentIndex + cardsPerPage) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function showPrevCards() {
+    if (currentIndex > 0) {
+        currentIndex -= cardsPerPage;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+        updateCardContainer();
+    }
+}
+
+function showNextCards() {
+    if (currentIndex < totalCards - cardsPerPage) {
+        currentIndex += cardsPerPage;
+        if (currentIndex > totalCards - cardsPerPage) {
+            currentIndex = totalCards - cardsPerPage;
+        }
+        updateCardContainer();
+    }
+}
+
+updateCardContainer();
+</script>
+<script>
+const images = document.querySelectorAll('.package_img');
+const texts = document.querySelectorAll('.text');
+let index = 0;
+
+function showPrevImage() {
+  images[index].style.opacity = '0';
+  texts[index].style.opacity = '0';
+  index = (index - 1 + images.length) % images.length;
+  images[index].style.opacity = '1';
+  texts[index].style.opacity = '1';
+}
+
+function showNextImage() {
+  images[index].style.opacity = '0';
+  texts[index].style.opacity = '0';
+  index = (index + 1) % images.length;
+  images[index].style.opacity = '1';
+  texts[index].style.opacity = '1';
+}
+
+images[index].style.opacity = '1';
+texts[index].style.opacity = '1';
+
+// 5초마다 이미지 전환하기
+setInterval(showNextImage, 3000);
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        const reviews = document.querySelectorAll('.rating');
+
+        reviews.forEach(review => {
+            const rate = parseInt(review.getAttribute('data-rate')); // data-rate 값을 정수로 변환
+            //console.log(rate)
+
+            // 별 아이콘들을 가져옴
+            const starIcons = review.querySelectorAll('.star-icon');
+
+            // 별을 채우기 위한 클래스
+            const filledClass = 'filled';
+
+            // rate 값에 따라 별 아이콘에 클래스를 적용
+            for (let i = 0; i < Math.floor(rate); i++) {
+                starIcons[i].classList.add(filledClass); // 정수 부분에 filled 클래스 추가
+            }
+
+            // rate 값이 정수가 아닐 때 (소수점이 있을 때), 반 채워진 별 처리
+            if (rate % 1 !== 0) {
+                starIcons[Math.floor(rate)].classList.add('half-filled');
+            }
+        });
+    });
+</script>
+
+
+
+
 </body>
 
 </html>
+
+
+	<%@include file="/WEB-INF/include/footer.jsp"%>
