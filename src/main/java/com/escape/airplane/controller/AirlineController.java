@@ -104,41 +104,105 @@ public class AirlineController {
 	}
 	
 	@PostMapping("/Filter")
-    public ResponseEntity<Map<String, Object>> filter(@RequestParam Map<String, Object> params, AirplaneTimeVo airplaneTimeVo) {
+	public ResponseEntity<Map<String, Object>> filter(@RequestParam Map<String, Object> params, AirplaneTimeVo airplaneTimeVo) {
 
-    	System.out.println("===== Airline/Filter === params1: " + params);
-      
-	      int stype = Integer.parseInt((String) params.get("stype"));
-	      int adultCount = Integer.parseInt((String) params.get("adultCount"));
-	      int childCount = Integer.parseInt((String) params.get("childCount"));
-	      int infantCount = Integer.parseInt((String) params.get("infantCount"));
-	      
-	      List<Integer> ptypeList = new ArrayList<>();
-	      if (adultCount > 0) ptypeList.add(1);
-	      if (childCount > 0) ptypeList.add(2);
-	      if (infantCount > 0) ptypeList.add(3);
-	
-	      params.put("ptypeList", ptypeList);
-	      System.out.println("===== Airline/Filter === params2: " + params);
-	      
-	      String initform = (String) params.get("initform");
-	      List<AirplaneTimeVo> flightInfo;
-	
-	      if ("OW".equalsIgnoreCase(initform)) {
-	          flightInfo = flightService.getOneWayFlightInfo(params);
-	      } else {
-	          flightInfo = flightService.getRoundTripFlightInfo(params);
-	      }
-	      
-	      calculateDuration(flightInfo);
-	      calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
-	      System.out.println("===== Airline/Filter === flightInfo: " + flightInfo);
-    	
-        Map<String, Object> response = new HashMap<>(); 
-        response.put("params", params);
-        response.put("flightInfo", flightInfo);
+	    System.out.println("===== Airline/Filter === params1: " + params);
 
-        return ResponseEntity.ok(response);
-    }
+	    int stype = Integer.parseInt((String) params.get("stype"));
+	    int adultCount = Integer.parseInt((String) params.get("adultCount"));
+	    int childCount = Integer.parseInt((String) params.get("childCount"));
+	    int infantCount = Integer.parseInt((String) params.get("infantCount"));
+
+	    List<Integer> ptypeList = new ArrayList<>();
+	    if (adultCount > 0) ptypeList.add(1);
+	    if (childCount > 0) ptypeList.add(2);
+	    if (infantCount > 0) ptypeList.add(3);
+
+	    params.put("ptypeList", ptypeList);
+
+	    // Handle time ranges
+	    //boolean isChecked = (Boolean) params.get("isChecked");
+	    boolean isChecked = Boolean.parseBoolean((String) params.get("isChecked"));
+        int checkboxValue = Integer.parseInt((String) params.get("checkboxValue"));
+        System.out.println("===== Airline/Filter === isChecked: " + isChecked);
+        System.out.println("===== Airline/Filter === checkboxValue: " + checkboxValue);
+
+        List<TimeRange> departureTimes = new ArrayList<>();
+        List<TimeRange> excludedTimes = new ArrayList<>();
+
+        switch (checkboxValue) {
+            case 6:
+                if (isChecked) {
+                    departureTimes.add(new TimeRange("00:00:00", "06:00:00"));
+                } else {
+                    excludedTimes.add(new TimeRange("00:00:00", "06:00:00"));
+                }
+                break;
+            case 12:
+                if (isChecked) {
+                    departureTimes.add(new TimeRange("06:00:00", "12:00:00"));
+                } else {
+                    excludedTimes.add(new TimeRange("06:00:00", "12:00:00"));
+                }
+                break;
+            case 18:
+                if (isChecked) {
+                    departureTimes.add(new TimeRange("12:00:00", "18:00:00"));
+                } else {
+                    excludedTimes.add(new TimeRange("12:00:00", "18:00:00"));
+                }
+                break;
+            case 24:
+                if (isChecked) {
+                    departureTimes.add(new TimeRange("18:00:00", "24:00:00"));
+                } else {
+                    excludedTimes.add(new TimeRange("18:00:00", "24:00:00"));
+                }
+                break;
+        }
+
+        params.put("departureTimes", departureTimes);
+        params.put("excludedTimes", excludedTimes);
+
+	    System.out.println("===== Airline/Filter === params2: " + params);
+
+	    String initform = (String) params.get("initform");
+	    List<AirplaneTimeVo> flightInfo;
+
+	    if ("OW".equalsIgnoreCase(initform)) {
+	        flightInfo = flightService.getOneWayFilterInfo(params);
+	    } else {
+	        flightInfo = flightService.getRoundTripFilterInfo(params);
+	    }
+
+	    calculateDuration(flightInfo);
+	    calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
+	    System.out.println("===== Airline/Filter === flightInfo: " + flightInfo);
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("params", params);
+	    response.put("flightInfo", flightInfo);
+
+	    return ResponseEntity.ok(response);
+	}
+	
+	public class TimeRange {
+	    private String start;
+	    private String end;
+
+	    public TimeRange(String start, String end) {
+	        this.start = start;
+	        this.end = end;
+	    }
+
+	    public String getStart() {
+	        return start;
+	    }
+
+	    public String getEnd() {
+	        return end;
+	    }
+	}
+
     
 }

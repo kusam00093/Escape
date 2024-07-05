@@ -324,5 +324,258 @@
     	A.STYPE_IDX = #{stype}
 </select>
 
+<!-- <select id="getRoundTripFilterInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+SELECT
+  A.AIRPLANE_IDX,
+  A.AIRLINE_IDX,
+  A.NAME,
+  A.LOGO,
+  A.DEPARTURE_LOC,
+  A.DEPCITY1,
+  A.DEPCITYCODE1,
+  A.ARRIVAL_LOC,
+  A.ARRCITY1,
+  A.ARRCITYCODE1,
+  A.STARTTIME1,
+  A.ENDTIME1,
+  A.AIRPLANE_TIME_IDX,
+  A.PTYPE_IDX,
+  A.STYPE_IDX,
+  A.PRICE,
+  B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+  B.AIRLINE_IDX AS B_AIRLINE_IDX,
+  B.NAME AS B_NAME,
+  B.LOGO AS B_LOGO,
+  B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+  B.DEPCITY2 AS DEPCITY2,
+  B.DEPCITYCODE2 AS DEPCITYCODE2,
+  B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+  B.ARRCITY2 AS ARRCITY2,
+  B.ARRCITYCODE2 AS ARRCITYCODE2,
+  B.STARTTIME2 AS STARTTIME2,
+  B.ENDTIME2 AS ENDTIME2,
+  B.AIRPLANE_TIME_IDX AS B_AIRPLANE_TIME_IDX,
+  B.PTYPE_IDX AS B_PTYPE_IDX,
+  B.STYPE_IDX AS B_STYPE_IDX,
+  B.PRICE AS B_PRICE
+FROM
+  (
+    SELECT
+      DISTINCT ATT.AIRPLANE_IDX,
+      AT.AIRLINE_IDX,
+      AL.NAME,
+      AL.LOGO,
+      ATT.DEPARTURE_LOC,
+      CT1.NAME AS DEPCITY1,
+      CT1.ENAME AS DEPCITYCODE1,
+      ATT.ARRIVAL_LOC,
+      CT2.NAME AS ARRCITY1,
+      CT2.ENAME AS ARRCITYCODE1,
+      ATT.START_TIME AS STARTTIME1,
+      ATT.END_TIME AS ENDTIME1,
+      ATT.AIRPLANE_TIME_IDX,
+      AP.PTYPE_IDX,
+      AP.STYPE_IDX,
+      AP.PRICE
+    FROM
+      AIRPLANE_TIME_TB ATT
+      LEFT OUTER JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+      LEFT OUTER JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+      INNER JOIN AIRPLANE_PRICE_TB AP ON ATT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
+      INNER JOIN AIRPLANE_TB AT ON ATT.AIRPLANE_IDX = AT.AIRPLANE_IDX
+      INNER JOIN AIRLINE_TB AL ON AT.AIRLINE_IDX = AL.AIRLINE_IDX
+    WHERE
+      ATT.START_TIME >= #{depDate}
+      AND ATT.START_TIME &lt;= #{arrDate}
+      AND CT1.NAME = #{depCity1}
+      AND CT2.NAME = #{arrCity1}
+      AND AP.STYPE_IDX = #{stype}
+      AND AP.PTYPE_IDX IN 
+        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+          #{ptype}
+        </foreach>
+      <if test="departureTimes != null and !departureTimes.isEmpty()">
+        AND (
+          <foreach item="time" collection="departureTimes" open="" separator="OR" close="">
+            TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') BETWEEN #{time.start} AND #{time.end}
+          </foreach>
+        )
+      </if>
+  ) A
+  INNER JOIN (
+    SELECT
+      DISTINCT ATT.AIRPLANE_IDX,
+      AT.AIRLINE_IDX,
+      AL.NAME,
+      AL.LOGO,
+      ATT.DEPARTURE_LOC,
+      CT2.NAME AS DEPCITY2,
+      CT2.ENAME AS DEPCITYCODE2,
+      ATT.ARRIVAL_LOC,
+      CT1.NAME AS ARRCITY2,
+      CT1.ENAME AS ARRCITYCODE2,
+      ATT.START_TIME AS STARTTIME2,
+      ATT.END_TIME AS ENDTIME2,
+      ATT.AIRPLANE_TIME_IDX,
+      AP.PTYPE_IDX,
+      AP.STYPE_IDX,
+      AP.PRICE
+    FROM
+      AIRPLANE_TIME_TB ATT
+      LEFT OUTER JOIN CITY_TB CT2 ON ATT.DEPARTURE_LOC = CT2.CITY_IDX
+      LEFT OUTER JOIN CITY_TB CT1 ON ATT.ARRIVAL_LOC = CT1.CITY_IDX
+      INNER JOIN AIRPLANE_PRICE_TB AP ON ATT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
+      INNER JOIN AIRPLANE_TB AT ON ATT.AIRPLANE_IDX = AT.AIRPLANE_IDX
+      INNER JOIN AIRLINE_TB AL ON AT.AIRLINE_IDX = AL.AIRLINE_IDX
+    WHERE
+      ATT.START_TIME >= #{depDate}
+      AND ATT.START_TIME &lt;= #{arrDate}
+      AND CT1.NAME = #{arrCity2}
+      AND CT2.NAME = #{depCity2}
+      AND AP.STYPE_IDX = #{stype}
+      AND AP.PTYPE_IDX IN 
+        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+          #{ptype}
+        </foreach>
+  ) B ON A.DEPCITY1 = B.ARRCITY2
+  AND A.ARRCITY1 = B.DEPCITY2
+  AND A.NAME = B.NAME
+WHERE
+  A.STYPE_IDX = B.STYPE_IDX
+  AND A.PTYPE_IDX = B.PTYPE_IDX
+  AND A.STYPE_IDX = #{stype}
+</select> -->
+
+<select id="getRoundTripFilterInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+SELECT
+  A.AIRPLANE_IDX,
+  A.AIRLINE_IDX,
+  A.NAME,
+  A.LOGO,
+  A.DEPARTURE_LOC,
+  A.DEPCITY1,
+  A.DEPCITYCODE1,
+  A.ARRIVAL_LOC,
+  A.ARRCITY1,
+  A.ARRCITYCODE1,
+  A.STARTTIME1,
+  A.ENDTIME1,
+  A.AIRPLANE_TIME_IDX,
+  A.PTYPE_IDX,
+  A.STYPE_IDX,
+  A.PRICE,
+  B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+  B.AIRLINE_IDX AS B_AIRLINE_IDX,
+  B.NAME AS B_NAME,
+  B.LOGO AS B_LOGO,
+  B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+  B.DEPCITY2 AS DEPCITY2,
+  B.DEPCITYCODE2 AS DEPCITYCODE2,
+  B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+  B.ARRCITY2 AS ARRCITY2,
+  B.ARRCITYCODE2 AS ARRCITYCODE2,
+  B.STARTTIME2 AS STARTTIME2,
+  B.ENDTIME2 AS ENDTIME2,
+  B.AIRPLANE_TIME_IDX AS B_AIRPLANE_TIME_IDX,
+  B.PTYPE_IDX AS B_PTYPE_IDX,
+  B.STYPE_IDX AS B_STYPE_IDX,
+  B.PRICE AS B_PRICE
+FROM
+  (
+    SELECT
+      DISTINCT ATT.AIRPLANE_IDX,
+      AT.AIRLINE_IDX,
+      AL.NAME,
+      AL.LOGO,
+      ATT.DEPARTURE_LOC,
+      CT1.NAME AS DEPCITY1,
+      CT1.ENAME AS DEPCITYCODE1,
+      ATT.ARRIVAL_LOC,
+      CT2.NAME AS ARRCITY1,
+      CT2.ENAME AS ARRCITYCODE1,
+      ATT.START_TIME AS STARTTIME1,
+      ATT.END_TIME AS ENDTIME1,
+      ATT.AIRPLANE_TIME_IDX,
+      AP.PTYPE_IDX,
+      AP.STYPE_IDX,
+      AP.PRICE
+    FROM
+      AIRPLANE_TIME_TB ATT
+      LEFT OUTER JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+      LEFT OUTER JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+      INNER JOIN AIRPLANE_PRICE_TB AP ON ATT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
+      INNER JOIN AIRPLANE_TB AT ON ATT.AIRPLANE_IDX = AT.AIRPLANE_IDX
+      INNER JOIN AIRLINE_TB AL ON AT.AIRLINE_IDX = AL.AIRLINE_IDX
+    WHERE
+      ATT.START_TIME >= #{depDate}
+      AND ATT.START_TIME &lt;= #{arrDate}
+      AND CT1.NAME = #{depCity1}
+      AND CT2.NAME = #{arrCity1}
+      AND AP.STYPE_IDX = #{stype}
+      AND AP.PTYPE_IDX IN 
+        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+          #{ptype}
+        </foreach>
+      <if test="departureTimes != null and !departureTimes.isEmpty()">
+        AND (
+          <foreach item="time" collection="departureTimes" open="" separator="OR" close="">
+            TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') BETWEEN #{time.start} AND #{time.end}
+          </foreach>
+        )
+      </if>
+      <if test="excludedTimes != null and !excludedTimes.isEmpty()">
+        AND (
+          <foreach item="time" collection="excludedTimes" open="" separator="AND" close="">
+            TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') NOT BETWEEN #{time.start} AND #{time.end}
+          </foreach>
+        )
+      </if>
+  ) A
+  INNER JOIN (
+    SELECT
+      DISTINCT ATT.AIRPLANE_IDX,
+      AT.AIRLINE_IDX,
+      AL.NAME,
+      AL.LOGO,
+      ATT.DEPARTURE_LOC,
+      CT2.NAME AS DEPCITY2,
+      CT2.ENAME AS DEPCITYCODE2,
+      ATT.ARRIVAL_LOC,
+      CT1.NAME AS ARRCITY2,
+      CT1.ENAME AS ARRCITYCODE2,
+      ATT.START_TIME AS STARTTIME2,
+      ATT.END_TIME AS ENDTIME2,
+      ATT.AIRPLANE_TIME_IDX,
+      AP.PTYPE_IDX,
+      AP.STYPE_IDX,
+      AP.PRICE
+    FROM
+      AIRPLANE_TIME_TB ATT
+      LEFT OUTER JOIN CITY_TB CT2 ON ATT.DEPARTURE_LOC = CT2.CITY_IDX
+      LEFT OUTER JOIN CITY_TB CT1 ON ATT.ARRIVAL_LOC = CT1.CITY_IDX
+      INNER JOIN AIRPLANE_PRICE_TB AP ON ATT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
+      INNER JOIN AIRPLANE_TB AT ON ATT.AIRPLANE_IDX = AT.AIRPLANE_IDX
+      INNER JOIN AIRLINE_TB AL ON AT.AIRLINE_IDX = AL.AIRLINE_IDX
+    WHERE
+      ATT.START_TIME >= #{depDate}
+      AND ATT.START_TIME &lt;= #{arrDate}
+      AND CT1.NAME = #{arrCity2}
+      AND CT2.NAME = #{depCity2}
+      AND AP.STYPE_IDX = #{stype}
+      AND AP.PTYPE_IDX IN 
+        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+          #{ptype}
+        </foreach>
+  ) B ON A.DEPCITY1 = B.ARRCITY2
+  AND A.ARRCITY1 = B.DEPCITY2
+  AND A.NAME = B.NAME
+WHERE
+  A.STYPE_IDX = B.STYPE_IDX
+  AND A.PTYPE_IDX = B.PTYPE_IDX
+  AND A.STYPE_IDX = #{stype}
+</select>
+
+
+
 
 </mapper>

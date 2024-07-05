@@ -20,13 +20,6 @@ public class FlightService {
     @Autowired
     private AirplaneMapper airplaneMapper;
 
-    /*
-    public List<AirplaneTimeVo> getFlightInfo(Map<String, Object> params) {
-        formatDateParams(params);
-        return airplaneMapper.getFlightInfo(params);
-    }
-    */
-    
     public List<AirplaneTimeVo> getOneWayFlightInfo(Map<String, Object> params) {
         formatDateParams(params);
         List<AirplaneTimeVo> flights = airplaneMapper.getOneWayFlightInfo(params);
@@ -75,16 +68,26 @@ public class FlightService {
         return new ArrayList<>(flightMap.values());
     }
     
-    // 필터링-시간대
-    public List<AirplaneTimeVo> filterFlights(List<String> departureTimes, List<String> returnTimes, String day) {
-        // 필터링 로직 구현
-        // departureTimes와 returnTimes를 사용하여 데이터베이스에서 필터링된 항공편을 가져옵니다.
-        // 이 예제에서는 단순히 전체 목록을 반환합니다. 실제로는 적절한 쿼리를 사용하여 필터링해야 합니다.
-        //List<AirplaneTimeVo> flights = airplaneMapper.getAllFlights();
-        List<AirplaneTimeVo> flights = airplaneMapper.getRoundTripFlightInfo();
-        return flights.stream()
-            .filter(flight -> (day.equals("가는날") && departureTimes.contains(flight.getStartTime1().toString())) ||
-                              (day.equals("오는날") && returnTimes.contains(flight.getStartTime2().toString())))
-            .collect(Collectors.toList());
-    }
+    // 필터링-편도
+	public List<AirplaneTimeVo> getOneWayFilterInfo(Map<String, Object> params) {
+		
+		formatDateParams(params);
+        List<AirplaneTimeVo> flights = airplaneMapper.getOneWayFilterInfo(params);
+
+        // Consolidate flights by unique airplane_time_idx
+        return consolidateFlights(flights);
+        
+	}
+
+	// 필터링-왕복
+	public List<AirplaneTimeVo> getRoundTripFilterInfo(Map<String, Object> params) {
+		
+		formatDateParams(params);
+		System.out.println("===== Service/getRoundTripFilterInfo === params: " + params );
+        List<AirplaneTimeVo> flights = airplaneMapper.getRoundTripFilterInfo(params);
+
+        // Consolidate flights by unique airplane_time_idx
+        return consolidateFlights(flights);
+        
+	}
 }
