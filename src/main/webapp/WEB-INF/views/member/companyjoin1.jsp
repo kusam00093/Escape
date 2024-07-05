@@ -267,7 +267,7 @@ function validateForm(event) {
             </div>
            
            <div class="form-group">
-    			<label for="image">로고:</label>
+    			<label for="">로고:</label>
                 <label for="image" class="custom-file-upload">파일 선택</label>
     			<input type="file" id="image" name="file">
 			</div>

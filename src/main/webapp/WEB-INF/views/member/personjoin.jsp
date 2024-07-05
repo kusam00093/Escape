@@ -299,7 +299,7 @@ function validateForm(event) {
                 <input type="text" id="nickname" name="nickname">
             </div>
             <div class="form-group">
-                <label for="image">프로필이미지:</label>
+                <label for="">프로필이미지:</label>
                 <label for="image" class="custom-file-upload">파일 선택</label>
                 <input type="file" id="image" name="file">
             </div>
