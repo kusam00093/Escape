@@ -357,6 +357,8 @@ CREATE TABLE room_tb (
     ON DELETE CASCADE
 );
 
+ALTER TABLE room_tb ADD (AVAILABLE_ROOMS NUMBER DEFAULT 0);
+
 create table room_reservation_tb(
     room_reservation_idx number(20) primary key,
     user_idx number(20),
@@ -375,6 +377,15 @@ create table room_reservation_tb(
     ON DELETE CASCADE
 );
 
+ALTER TABLE ROOM_RESERVATION_TB 
+ADD (CHECK_IN_DATE DATE, CHECK_OUT_DATE DATE);
+
+CREATE SEQUENCE ROOM_RESERVATION_SEQ
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
 create table room_pay_tb(
     room_pay_idx number(20) primary key,
     user_idx number(20),
@@ -391,6 +402,12 @@ create table room_pay_tb(
     REFERENCES room_reservation_tb(room_reservation_idx)
     ON DELETE CASCADE
 );
+
+CREATE SEQUENCE ROOM_PAY_SEQ
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
 
 CREATE TABLE room_discount_tb (
     room_discount_idx NUMBER(20) PRIMARY KEY,
