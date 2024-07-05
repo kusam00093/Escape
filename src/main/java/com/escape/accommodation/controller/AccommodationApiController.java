@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -183,6 +184,19 @@ public class AccommodationApiController {
         }
     }
     
+ // 결제 상태 확인 API
+    @PostMapping("/checkPaymentStatus")
+    public ResponseEntity<?> checkPaymentStatus(@RequestBody Map<String, Object> requestData) {
+        String orderId = (String) requestData.get("orderId");
+        boolean paymentCompleted = accommodationApiService.checkPaymentStatus(orderId);
+        
+        if (paymentCompleted) {
+            return ResponseEntity.ok(Map.of("paymentCompleted", true));
+        } else {
+            return ResponseEntity.ok(Map.of("paymentCompleted", false));
+        }
+    }
+    
     // 카카오페이 결제 완료 콜백 처리
     @GetMapping("/payment/success") 
     public ModelAndView paymentSuccess(@RequestParam Map<String, String> params, HttpSession session) {
@@ -192,5 +206,20 @@ public class AccommodationApiController {
         mv.addObject("finalPrice", session.getAttribute("finalPrice")); // 세션에서 최종 금액 가져와서 추가
         mv.setViewName("accommodation/roomOrderCompleted");
         return mv;
+    }
+    
+    @PostMapping("/checkAvailableRooms")
+    public ResponseEntity<Integer> checkAvailableRooms(@RequestBody Map<String, Object> requestData) {
+        int roomIdx = Integer.parseInt(requestData.get("room_idx").toString());
+        String checkInDate = requestData.get("check_in_date").toString();
+        String checkOutDate = requestData.get("check_out_date").toString();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("room_idx", roomIdx);
+        params.put("check_in_date", checkInDate);
+        params.put("check_out_date", checkOutDate);
+
+        int availableRooms = accommodationApiService.checkAvailableRooms(params);
+        return ResponseEntity.ok(availableRooms);
     }
 }

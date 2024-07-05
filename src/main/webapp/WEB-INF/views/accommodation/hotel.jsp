@@ -797,6 +797,35 @@
 	        changeDateDropdown.style.display = changeDateDropdown.style.display === 'none' ? 'block' : 'none';
 	    });
 		
+	    document.getElementById('changeDateButton').addEventListener('click', function() {
+	        // 새로운 날짜를 가져와서 API 호출
+	        const newCheckInDate = '2024-07-03'; // 변경된 체크인 날짜
+	        const newCheckOutDate = '2024-07-18'; // 변경된 체크아웃 날짜
+	        const roomIdx = 1; // 실제 room_idx 값을 여기에 설정
+
+	        const requestData = {
+	            room_idx: roomIdx,
+	            check_in_date: newCheckInDate,
+	            check_out_date: newCheckOutDate
+	        };
+
+	        fetch('/AccommodationApi/checkAvailableRooms', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify(requestData)
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            // 새로운 가용 객실 수를 화면에 반영
+	            document.querySelector('.css-bgkldf').innerText = '객실이 ' + data + '개 남았어요';
+	        })
+	        .catch(error => {
+	            console.error('객실 수 업데이트 중 오류가 발생했습니다.', error);
+	        });
+	    });
+	    
 		// place 관련 로직
 		loadSearchHistory();
 		
@@ -1048,6 +1077,53 @@
 
 	    initializeDatepicker(datepicker, dateDetails);
 	    initializeDatepicker(datepicker2, dateDetailsChange);
+	    
+	    $(function() {
+	        $("#datepicker2").datepicker({
+	            onSelect: function(dateText) {
+	                const dates = dateText.split(" - ");
+	                const checkInDate = dates[0];
+	                const checkOutDate = dates[1];
+
+	                document.getElementById('newCheckInDateInput').value = checkInDate;
+	                document.getElementById('newCheckOutDateInput').value = checkOutDate;
+	            }
+	        });
+	    });
+	    
+	    document.getElementById('changeDateButton').addEventListener('click', function() {
+	        // Get the selected dates from the hidden inputs
+	        const newCheckInDate = document.getElementById('newCheckInDateInput').value;
+	        const newCheckOutDate = document.getElementById('newCheckOutDateInput').value;
+	        const roomIdx = document.getElementById('roomIdxInput').value;
+
+	        if (!newCheckInDate || !newCheckOutDate) {
+	            alert("먼저 날짜를 선택하세요.");
+	            return;
+	        }
+
+	        const requestData = {
+	            room_idx: roomIdx,
+	            check_in_date: newCheckInDate,
+	            check_out_date: newCheckOutDate
+	        };
+
+	        fetch('/AccommodationApi/checkAvailableRooms', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify(requestData)
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            // 새로운 가용 객실 수를 화면에 반영
+	            document.querySelector('.css-bgkldf').innerText = `객실이 ${data}개 남았어요`;
+	        })
+	        .catch(error => {
+	            console.error('객실 수 업데이트 중 오류가 발생했습니다.', error);
+	        });
+	    });
 	    
 		// "인원" 항목 클릭 이벤트
 

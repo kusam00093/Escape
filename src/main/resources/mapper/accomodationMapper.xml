@@ -109,4 +109,41 @@
 	    (ROOM_PAY_SEQ.NEXTVAL, #{user_idx}, #{room_reservation_idx}, #{price}, #{state}, SYSDATE)
 	</insert>
 
+    <!-- 특정 날짜에 객실 이용 가능 여부 확인 -->
+    <!-- 가용 객실 수 확인 -->
+    <select id="checkAvailableRooms" parameterType="map" resultType="int">
+        <![CDATA[
+	    SELECT AVAILABLE_ROOMS - (
+	        SELECT COUNT(*)
+	        FROM ROOM_RESERVATION_TB
+	        WHERE ROOM_IDX = #{room_idx}
+	        AND (
+	            (CHECK_IN_DATE <= TO_DATE(#{check_out_date}, 'YYYY-MM-DD') AND CHECK_OUT_DATE >= TO_DATE(#{check_in_date}, 'YYYY-MM-DD'))
+	        )
+	    ) AS AVAILABLE_ROOMS
+	    FROM ROOM_TB
+	    WHERE ROOM_IDX = #{room_idx}
+        ]]>
+    </select>
+
+    <!-- 예약 성공 시 객실 수 감소 -->
+    <update id="updateAvailableRooms" parameterType="map">
+        <![CDATA[
+        UPDATE ROOM_TB
+        SET AVAILABLE_ROOMS = (
+            SELECT AVAILABLE_ROOMS - 1
+            FROM ROOM_TB
+            WHERE ROOM_IDX = #{room_idx}
+        )
+        WHERE ROOM_IDX = #{room_idx}
+        AND EXISTS (
+            SELECT 1
+            FROM ROOM_RESERVATION_TB
+            WHERE ROOM_IDX = #{room_idx}
+            AND (CHECK_IN_DATE < TO_DATE(#{check_out_date}, 'YYYY-MM-DD')
+            AND CHECK_OUT_DATE > TO_DATE(#{check_in_date}, 'YYYY-MM-DD'))
+        )
+        ]]>
+    </update>
+    
 </mapper>

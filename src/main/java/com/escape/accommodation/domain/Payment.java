@@ -16,4 +16,5 @@ public class Payment {
 	private int price;
 	private int state;
 	private LocalDateTime created;
+    private String partner_order_id; // 추가된 필드
 }

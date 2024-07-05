@@ -7,6 +7,7 @@ import javax.naming.directory.SearchResult;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.escape.accommodation.domain.Hotel;
 import com.escape.accommodation.domain.Payment;
@@ -39,5 +40,11 @@ public interface AccommodationMapper {
     int insertRoomReservation(RoomReservation roomReservation);
 
     int insertPayment(Payment payment);
+    
+    @Select("SELECT * FROM ROOM_PAY_TB WHERE PARTNER_ORDER_ID = #{orderId}")
+	Payment findPaymentByOrderId(String orderId);
 
+    // 가용 객실 수 확인 및 업데이트 메서드 추가
+    int checkAvailableRooms(Map<String, Object> params);
+    int updateAvailableRooms(Map<String, Object> params);
 }
