@@ -893,6 +893,7 @@ function toggleVisibility(elementId) {
             const flightInfo = data.flightInfo;
             const params = data.params;
             const contentDiv = document.querySelector('.content');
+            contentDiv.innerHTML = '';
 
             if (flightInfo && flightInfo.length > 0) {
                 const goingDayWrapper = document.createElement('div');
