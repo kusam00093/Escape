@@ -97,6 +97,30 @@
             transform: scale(1.05);
         }
         
+        
+         /* 기존 파일 입력 숨기기 */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* 사용자 정의 파일 업로드 버튼 스타일 */
+        .custom-file-upload {
+            width: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: #fff;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
        
 }
     </style>
@@ -276,6 +300,7 @@ function validateForm(event) {
             </div>
             <div class="form-group">
                 <label for="image">프로필이미지:</label>
+                <label for="image" class="custom-file-upload">파일 선택</label>
                 <input type="file" id="image" name="file">
             </div>
             
