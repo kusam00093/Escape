@@ -182,7 +182,7 @@ public class AccommodationApiController {
     }
     
     // 카카오페이 결제 완료 콜백 처리
-    @GetMapping("/payment/success")
+    @GetMapping("/payment/success") 
     public ModelAndView paymentSuccess(@RequestParam Map<String, String> params) {
         // 결제 완료 처리 로직 추가 (예: 결제 검증, DB 업데이트 등)
         
