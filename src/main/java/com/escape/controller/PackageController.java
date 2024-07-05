@@ -38,6 +38,7 @@ import com.escape.domain.Package_ReviewVo;
 import com.escape.domain.Package_Review_ImgVo;
 import com.escape.domain.Package_imageVo;
 import com.escape.domain.Package_imageVo2;
+import com.escape.domain.UserVo;
 import com.escape.login.domain.User;
 import com.escape.login.mapper.UserMapper;
 import com.escape.mapper.PackageMapper;
@@ -239,10 +240,13 @@ public class PackageController {
 			@SessionAttribute(name = "login", required = false) User user) {
 		
 		PackageVo packageVo = packageMapper.getPackage(package_idx);
-		
+		int package_price = packageMapper.getPrice(package_idx);
 		User usertype = userMapper.findUserType(user.getUser_idx());
-		
-		
+		int date = packageMapper.getDate(package_idx);
+		int point = userMapper.getPoint(user.getUser_idx());
+		UserVo userInfo = userMapper.getUserInfo(user.getUser_idx());
+		String image = packageMapper.getImage(package_idx);
+		int reservation_su_count = packageMapper.getReservation_su(package_idx);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("reservation_price", reservation_price);
@@ -251,7 +255,13 @@ public class PackageController {
 		mv.addObject("packageVo", packageVo);
 		mv.addObject("usertype", usertype);
 		mv.addObject("user_idx", user.getUser_idx());
-		mv.setViewName("package/package_reservation");
+		mv.addObject("package_price",package_price);
+		mv.addObject("date",date);
+		mv.addObject("reservation_su_count",reservation_su_count);
+		mv.addObject("point",point);
+		mv.addObject("image",image);
+		mv.addObject("userInfo",userInfo);
+		mv.setViewName("package/package_reservation1");
 		return mv;
 	}
 	

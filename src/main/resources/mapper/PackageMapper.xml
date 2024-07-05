@@ -311,7 +311,41 @@ WHERE
     OR LOWER(P.DETAIL3) LIKE '%' || LOWER(#{keyword}) || '%'
 
 </select>
+<select id="getPrice">
+select 
+    case 
+        when pd.discount_percent is not null 
+        then TO_NUMBER(p.price) * (1 - pd.discount_percent / 100) 
+        else TO_NUMBER(p.price)
+    end as price
+from 
+    package_tb p
+left join 
+    package_discount_tb pd on p.package_idx = pd.package_idx 
+where 
+    p.package_idx = #{arg0}
+</select>
+<select id="getDate">
+select 
 
+    end_date - start_date as days_difference
+from 
+    package_tb
+where 
+    package_idx = #{arg0}
+
+</select>
+<select id="getImage">
+
+select 
+    pi.image
+from package_image_tb pi
+join package_tb p on pi.package_idx = p.package_idx
+where p.package_idx=#{arg0}
+and 
+    rownum = 1
+ 
+</select>
 <select id="getCategory">
 SELECT
 	CATEGORY_IDX,
@@ -332,6 +366,24 @@ SELECT
     NAME
 FROM CONVENIENCE_TB
 
+</select>
+
+<select id="getReservation_su">
+SELECT
+    (pt.limited_person - COALESCE(prt.total_reservation_su, 0)) AS available_slots
+FROM
+    package_tb pt
+LEFT JOIN (
+    SELECT
+        package_idx,
+        COALESCE(SUM(reservation_su), 0) AS total_reservation_su
+    FROM
+        package_reservation_tb
+    GROUP BY
+        package_idx
+) prt ON pt.package_idx = prt.package_idx
+WHERE
+    pt.package_idx = #{arg0}
 
 </select>
 
@@ -789,6 +841,44 @@ INSERT INTO package_discount_tb (
     #{arg1},
     #{arg2}
 )
+
+</insert>
+
+<insert id="insertPackage_Reservation">
+INSERT INTO package_reservation_tb (
+    package_reservation_idx,
+    user_idx,
+    package_idx,
+    reservation_su,
+    reservation_price,
+    state
+) VALUES (
+    (select nvl(max(PACKAGE_RESERVATION_IDX),0)+1
+	from   package_reservation_tb),
+    #{user_idx},
+    #{package_idx},
+    #{reservation_su},
+    #{reservation_price},
+    2
+)
+</insert>
+<insert id="insertPackage_Payment">
+
+INSERT INTO package_pay_tb (
+    package_pay_idx,
+    user_idx,
+    package_reservation_idx,
+    price,
+    state
+) VALUES (
+    (SELECT NVL(MAX(PACKAGE_PAY_IDX),0)+1 FROM   PACKAGE_PAY_TB),
+    #{user_idx},
+    (SELECT MAX(NVL(PACKAGE_RESERVATION_IDX,0))FROM   PACKAGE_RESERVATION_TB),
+    #{price},
+    2
+)
+
+
 
 </insert>
 

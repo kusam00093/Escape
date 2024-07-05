@@ -1,5 +1,6 @@
 package com.escape.login.mapper;
 
+import com.escape.domain.UserVo;
 import com.escape.login.domain.Person;
 import com.escape.login.domain.Seller;
 import com.escape.login.domain.User;
@@ -22,5 +23,9 @@ public interface UserMapper {
 	int findUserId(String id);
 
 	User findUserType(int user_idx);
+
+	int getPoint(int user_idx);
+
+	UserVo getUserInfo(int user_idx);
 
 }

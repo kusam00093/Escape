@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.escape.accommodation.domain.Payment;
 import com.escape.domain.CategoryVo;
 import com.escape.domain.ConvenienceVo;
 import com.escape.domain.DiscountVo;
@@ -51,5 +52,11 @@ public interface PackageMapper {
 	void insertPackageConvenience(int[] convenienceIdxArrayList);
 	void insertPackageDiscount(int user_idx, int discount_percent, int discount_integer);
 	List<Package_imageVo2> getPackageDetailImgList(int package_idx);
+	int getPrice(int package_idx);
+	int getDate(int package_idx);
+	String getImage(int package_idx);
+	int getReservation_su(int package_idx);
+	int insertPackage_Reservation(Package_ReservationVo reservationVo);
+	int insertPackage_Payment(Payment payment);
 
 }
