@@ -53,6 +53,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -60,7 +61,7 @@
                 <img id="headerlogo" src="/images/rocket.png" alt="제작예정">
             </a>
             <nav class="navbar navbar-light" style="background-color: #fff;">
-                <div class="container-fluid package_search_1">
+                <div class="container-fluid">
                     <form class="d-flex">
                         <input class="form-control" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">검색</button>
@@ -68,20 +69,20 @@
                 </div>
             </nav>
             <div>
-					<c:choose>
-					<c:when test="${not empty sessionScope.login}">
-				        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
-				            <li><a href="/profile" class="btn-nav">마이페이지</a></li>
-				            <li><a href="/logout" class="btn-nav">로그아웃</a></li>
-				        </ul>
-				    </c:when>
-				    <c:otherwise>
-				        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
-				            <li><a href="/personlogin" class="btn-nav">로그인</a></li>
-				            <li><a href="/join" class="btn-nav">회원가입</a></li>
-				        </ul>
-				    </c:otherwise>
-				</c:choose>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.login}">
+                        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
+                            <li><a href="/profile" class="btn-nav">마이페이지</a></li>
+                            <li><a href="/logout" class="btn-nav">로그아웃</a></li>
+                        </ul>
+                    </c:when>
+                    <c:otherwise>
+                        <ul class="nav col-12 col-lg-auto me-3 mb-2 justify-content-center mb-md-0">
+                            <li><a href="/personlogin" class="btn-nav">로그인</a></li>
+                            <li><a href="/join" class="btn-nav">회원가입</a></li>
+                        </ul>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </header>
     </div>
@@ -89,5 +90,3 @@
 </html>
 
 
-    </header>
-  </div>

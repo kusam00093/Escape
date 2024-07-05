@@ -237,7 +237,7 @@
             <div class="profile-card">
                 <h3>숙박</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -269,7 +269,7 @@
              <div class="profile-card">
                 <h3>패키지</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>번호</th>

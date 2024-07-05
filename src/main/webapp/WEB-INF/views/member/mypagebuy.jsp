@@ -267,7 +267,7 @@
              <div class="profile-card">
                 <h3>패키지 정보</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -301,7 +301,7 @@
               <div class="profile-card">
                 <h3>비행기 정보</h3>
                 <div class="table-container">
-                    <table style="width: 200%;">
+                    <table style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -309,12 +309,7 @@
                                 <th>예약인수</th>
                                 <th>가격</th>
                                 <th>예약일자</th>
-                                <th>출발일자</th>
-                                <th>출발시각</th>
-                                <th>도착일자</th>
-                                <th>도착시각</th>
-                                <th>출발지번호</th>
-                                <th>도착지번호</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -325,12 +320,7 @@
                                     <td>${Airplane_time.reservation_su}</td>
                                     <td>${Airplane_time.reservation_price}</td>
                                     <td>${Airplane_time.created}</td>
-                                    <td>${Airplane_time.start_date}</td>
-                                    <td>${Airplane_time.start_time}</td>
-                                    <td>${Airplane_time.end_date}</td>
-                                    <td>${Airplane_time.end_time}</td>
-                                    <td>${Airplane_time.departure_loc}</td>
-                                    <td>${Airplane_time.arrival_loc}</td>
+                                    
                                 </tr>
                             </c:forEach>
                         </tbody>
