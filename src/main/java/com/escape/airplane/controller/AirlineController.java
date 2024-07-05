@@ -134,7 +134,7 @@ public class AirlineController {
 	      calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
 	      System.out.println("===== Airline/Filter === flightInfo: " + flightInfo);
     	
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>(); 
         response.put("params", params);
         response.put("flightInfo", flightInfo);
 
