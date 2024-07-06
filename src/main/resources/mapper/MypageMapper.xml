@@ -5,10 +5,14 @@
 
 
 <select id="getPersonByuser_idx" resultType="com.escape.login.domain.Person">
-SELECT 
+SELECT *
+FROM
+(SELECT 
    PERSON_TB.*
 FROM PERSON_TB
-WHERE USER_IDX = #{user_idx}
+WHERE USER_IDX = #{user_idx}) AA
+INNER JOIN POINT_TB
+ON AA.PERSON_IDX = POINT_TB.PERSON_IDX
 </select>
 
 <select id="getSellerByuser_idx" resultType="com.escape.login.domain.Seller">
@@ -229,6 +233,12 @@ INNER JOIN ROOM_RESERVATION_TB
 ON BB.ROOM_IDX = ROOM_RESERVATION_TB.ROOM_IDX
 GROUP BY BB.ROOM_IDX, BB.TITLE, BB.MAX_PRESON
 </select>
+
+
+
+
+
+
 
 
 
