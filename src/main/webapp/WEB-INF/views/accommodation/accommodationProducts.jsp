@@ -28,6 +28,7 @@
     display: block;
   }
 </style>
+
 </head>
 <%@include file="/WEB-INF/include/header.jsp"%>
 
@@ -191,7 +192,7 @@
 <!-- 					두번째 사이드 -->
 					<div class="filter_bigBox">
 						<div class="filter_bigBox_details1">
-							<h4 class="css-1bjjy4l">호텔 성급</h4>
+							<h4 class="css-1bjjy4l">호텔 평점</h4>
 							<p class="e1kcc1jp2 css-j950kd"></p>
 						</div>
 						<div role="checkbox" class="css-ls5l09 e1iur2ag0">
@@ -209,7 +210,7 @@
 									</div>
 								</div>
 								<div color="" class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">1성급 이하</span>
+									<span class="e1iur2ag1 css-gnwfui">1점 이하</span>
 								</div>
 						   </label>
 						   
@@ -226,7 +227,7 @@
 									</div>
 								</div>
 								<div color="" class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">2성급</span>
+									<span class="e1iur2ag1 css-gnwfui">2점</span>
 								</div>
 						   </label>
 						   
@@ -243,7 +244,7 @@
 									</div>
 								</div>
 								<div color="" class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">3성급</span>
+									<span class="e1iur2ag1 css-gnwfui">3점</span>
 								</div>
 						   </label>
 						   
@@ -260,7 +261,7 @@
 									</div>
 								</div>
 								<div color="" class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">4성급</span>
+									<span class="e1iur2ag1 css-gnwfui">4점</span>
 								</div>
 						   </label>
 						   
@@ -277,7 +278,7 @@
 									</div>
 								</div>
 								<div color="" class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">5성급 이상</span>
+									<span class="e1iur2ag1 css-gnwfui">5점</span>
 								</div>
 						   </label>
 						</div>
@@ -291,19 +292,6 @@
 							<p class="e1kcc1jp2 css-j950kd"></p>
 						</div>
 						<div role="radiogroup" class="css-ls5l09 e1iur2ag0">
-						
-							<label class="css-1dkg27r css-19bfog6" for="추천순">
-								<div class="css-1ert3cq">
-									<div class="css-75qw4d">
-										<input id="추천순" type="radio" name="checkbox" class="css-12a4kog" value="order:recommended" checked="">
-										<div class="css-3wrzi8"></div>
-										<div class="css-1dxdjkp"></div>
-									</div>
-								</div>
-								<div class="css-6mvyws">
-									<span class="e1iur2ag1 css-gnwfui">추천순</span>
-								</div>
-							</label>
 							
 							<label class="css-1dkg27r css-19bfog6" for="낮은 가격순">
 								<div class="css-1ert3cq">
@@ -369,89 +357,7 @@
 					<div id="container" class="css-183vxbl e62ns3u1">
 						<div style="height: 1000px; width: 100%; position: relative;">
 							<div class="css-1wcdk3y e62ns3u2" style="transform: translateY(0px);">
-							
-								<div data-index="x">
-									<div class="css-1xdhyk6">
-										<a target="_blank" href="a">
-											<div class="css-jk17ry erljagq0">
-												<div class="thumbnail css-0 e6oouci0" aria-hidden="true" tabindex="-1">
-													<div aria-hidden="true" role="presentation" class="css-1l5ilpc e6oouci1">
-														<img alt="상품 썸네일" loading="lazy" decoding="async" data-nimg="fill" class="css-g81ghj e6oouci2" src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/02/01/LLzo/IrDeXWFGBi.jpg?width=980&amp;height=735&amp;quality=90" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
-													</div>
-												</div>
-												<div class="css-xwfdi9 erljagq1">
-													<div class="mb-half-3 css-p58936 erljagq2">
-														<div class="css-1iwf967 erljagq3">
-															<div class="css-tjdujr edi3p4g1">
-																<span class="edi3p4g0 css-121peml">신천 잠실 NU호텔 (이건 샘플용)</span>
-																<h3 class="edi3p4g2 css-16kmqln">모텔 · 강남 중심에 위치</h3>
-															</div>
-														</div>
-													</div>
-													<div class="css-1l1txbn erljagq9">
-														<button class="css-9ha9cd e1bx4bg61">
-															<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="mrt-web-icons" color="#adb5bd">
-																<path fill-rule="evenodd" d="M2.644 9.91C2.644 6.454 5.16 4 8.316 4c2.096 0 3.585 1.47 4.401 2.935a.848.848 0 0 1-.31 1.145.817.817 0 0 1-1.124-.316C10.616 6.568 9.576 5.68 8.316 5.68c-2.24 0-4.022 1.698-4.022 4.23 0 1.473.644 3.01 1.912 4.57 1.267 1.56 3.119 3.088 5.423 4.518.11.069.219.128.31.168.044.019.075.03.093.034.441.018.793.387.793.84 0 .463-.37.84-.825.84-.279 0-.538-.095-.708-.17a4.148 4.148 0 0 1-.522-.278c-2.4-1.49-4.414-3.132-5.835-4.88-1.422-1.748-2.291-3.653-2.291-5.643Zm9.399 9.293h-.002.002Z" clip-rule="evenodd"></path>
-																<path fill-rule="evenodd" d="M21.356 9.91c0-3.455-2.517-5.91-5.672-5.91-2.096 0-3.585 1.47-4.401 2.935a.848.848 0 0 0 .31 1.145c.396.229.9.087 1.124-.316.667-1.196 1.707-2.084 2.967-2.084 2.24 0 4.022 1.698 4.022 4.23 0 1.473-.644 3.01-1.912 4.57-1.267 1.56-3.119 3.088-5.423 4.518-.11.069-.219.128-.31.168a.758.758 0 0 1-.093.034.833.833 0 0 0-.793.84c0 .463.37.84.825.84.279 0 .538-.095.708-.17.19-.081.372-.184.522-.278 2.4-1.49 4.414-3.132 5.835-4.88 1.422-1.748 2.291-3.653 2.291-5.643Zm-9.399 9.293h.002-.002Z" clip-rule="evenodd"></path>
-															</svg>
-															<div class="css-fzwid6 e1bx4bg62">
-																<span color="#848c94" class="e1bx4bg63 css-11dtkcp">2</span>
-															</div>
-														</button>
-														<div class="css-l9rw6n erljagq4">
-														
-															<div class="css-1p1fdq5 erljagq7">
-																<div class="css-1yxdl8j erljagq5">
-																	<span class="erljagq8 css-15rrz1f">무료취소</span>
-																</div>
-															</div>
-															
-															<div class="css-dl3kio e1lavvxd0">  <!-- 방이 있을 경우 -->
-																<ul class="css-qzcwn1 e1lavvxd1">
-																	<li class="css-5i1dh6 e1lavvxd2"> 
-																		<span class="mr-half-3 e1lavvxd3 css-1e4wxax">일반판매가</span>
-																		<span class="e1lavvxd3 css-1e4wxax">140,000원</span>
-																	</li>
-																	<li class="css-5i1dh6 e1lavvxd2">
-																		<span class="mr-half-3 css-12buyiw" style="color: rgb(250, 91, 74);">할인가</span>
-																		<span>
-																			<div class="css-5i1dh6 e1lavvxd2" style="justify-content: flex-end;">
-																				<span class="mr-half-1 css-4409ec" style="color: rgb(250, 91, 74);"></span>
-																				<span class="css-19kftx2" style="color: rgb(250, 91, 74);">138,254원/박</span>
-																			</div>
-																			<span class="css-bgkldf" style="color: rgb(250, 91, 74);"></span>
-																		</span>
-																	</li>
-																</ul>
-															</div>
-															
-															<div class="css-dl3kio e1lavvxd0" style="display: none"> <!-- 방이 없을 경우 -->
-																<ul class="css-qzcwn1 e1lavvxd1">
-																	<li class="css-5i1dh6 e1lavvxd2"> 
-																		<span class="mr-half-3 e1lavvxd3 css-1e4wxax"></span>
-																		<span class="e1lavvxd3 css-1e4wxax"></span>
-																	</li>
-																	<li class="css-5i1dh6 e1lavvxd2">
-																		<span class="mr-half-3 css-12buyiw" style="color: rgb(132, 140, 148);"></span>
-																		<span>
-																			<div class="css-5i1dh6 e1lavvxd2" style="justify-content: flex-end;">
-																				<span class="mr-half-1 css-4409ec" style="color: rgb(132, 140, 148);"></span>
-																				<span class="css-19kftx2" style="color: rgb(132, 140, 148);">판매완료</span>
-																			</div>
-																			<span class="css-bgkldf" style="color: rgb(132, 140, 148);">일정을 변경해보세요</span>
-																		</span>
-																	</li>
-																</ul>
-															</div>
-															
-														</div>
-													</div>
-												</div>
-											</div>
-										</a>
-									</div>
-									<hr class="css-1646u5b" type="LINE_80_10">
-								</div>
+	
 <!-- 							    여기서 부터 반복			 -->
 						        <c:forEach var="hotel" items="${hotels}" varStatus="stat">
 								    <c:set var="hotelInfo" value="${hotelPriceMap[hotel.hotel_idx]}" />
@@ -494,15 +400,15 @@
 						                                </div>
 						                            </div>
 						                            <div class="css-1l1txbn erljagq9">
-						                                <button class="css-9ha9cd e1bx4bg61">
-						                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="mrt-web-icons" color="#adb5bd">
-						                                        <path fill-rule="evenodd" d="M2.644 9.91C2.644 6.454 5.16 4 8.316 4c2.096 0 3.585 1.47 4.401 2.935a.848.848 0 0 1-.31 1.145.817.817 0 0 1-1.124-.316C10.616 6.568 9.576 5.68 8.316 5.68c-2.24 0-4.022 1.698-4.022 4.23 0 1.473.644 3.01 1.912 4.57 1.267 1.56 3.119 3.088 5.423 4.518.11.069.219.128.31.168.044.019.075.03.093.034.441.018.793.387.793.84 0 .463-.37.84-.825.84-.279 0-.538-.095-.708-.17a4.148 4.148 0 0 1-.522-.278c-2.4-1.49-4.414-3.132-5.835-4.88-1.422-1.748-2.291-3.653-2.291-5.643Zm9.399 9.293h-.002-.002Z" clip-rule="evenodd"></path>
-						                                        <path fill-rule="evenodd" d="M21.356 9.91c0-3.455-2.517-5.91-5.672-5.91-2.096 0-3.585 1.47-4.401 2.935a.848.848 0 0 0 .31 1.145c.396.229.9.087 1.124-.316.667-1.196 1.707-2.084 2.967-2.084 2.24 0 4.022 1.698 4.022 4.23 0 1.473-.644 3.01-1.912 4.57-1.267 1.56-3.119 3.088-5.423 4.518-.11.069-.219.128-.31.168a.758.758 0 0 1-.093.034.833.833 0 0 0-.793.84c0 .463.37.84.825.84.279 0 .538-.095.708-.17.19-.081.372-.184.522-.278 2.4-1.49 4.414-3.132 5.835-4.88 1.422-1.748 2.291-3.653 2.291-5.643Zm-9.399 9.293h-.002-.002Z" clip-rule="evenodd"></path>
-						                                    </svg>
-						                                    <div class="css-fzwid6 e1bx4bg62">
-						                                        <span color="#848c94" class="e1bx4bg63 css-11dtkcp">2</span>
-						                                    </div>
-						                                </button>
+													    <button class="css-9ha9cd e1bx4bg61 bookmarkButton" data-hotel-id="${hotel.hotel_idx}">
+													        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="mrt-web-icons" color="#adb5bd">
+													            <path fill-rule="evenodd" d="M2.644 9.91C2.644 6.454 5.16 4 8.316 4c2.096 0 3.585 1.47 4.401 2.935a.848.848 0 0 1-.31 1.145.817.817 0 0 1-1.124-.316C10.616 6.568 9.576 5.68 8.316 5.68c-2.24 0-4.022 1.698-4.022 4.23 0 1.473.644 3.01 1.912 4.57 1.267 1.56 3.119 3.088 5.423 4.518.11.069.219.128.31.168.044.019.075.03.093.034.441.018.793.387.793.84 0 .463-.37.84-.825.84-.279 0-.538-.095-.708-.17a4.148 4.148 0 0 1-.522-.278c-2.4-1.49-4.414-3.132-5.835-4.88-1.422-1.748-2.291-3.653-2.291-5.643Zm9.399 9.293h-.002-.002Z" clip-rule="evenodd"></path>
+													            <path fill-rule="evenodd" d="M21.356 9.91c0-3.455-2.517-5.91-5.672-5.91-2.096 0-3.585 1.47-4.401 2.935a.848.848 0 0 0 .31 1.145c.396.229.9.087 1.124-.316.667-1.196 1.707-2.084 2.967-2.084 2.24 0 4.022 1.698 4.022 4.23 0 1.473-.644 3.01-1.912 4.57-1.267 1.56-3.119 3.088-5.423 4.518-.11.069-.219.128-.31.168a.758.758 0 0 1-.093.034.833.833 0 0 0-.793.84c0 .463.37.84.825.84.279 0 .538-.095.708-.17.19-.081.372-.184.522-.278 2.4-1.49 4.414-3.132 5.835-4.88 1.422-1.748 2.291-3.653 2.291-5.643Zm-9.399 9.293h-.002-.002Z" clip-rule="evenodd"></path>
+													        </svg>
+													        <div class="css-fzwid6 e1bx4bg62">
+													            <span color="#848c94" class="e1bx4bg63 css-11dtkcp">2</span>
+													        </div>
+													    </button>
 						                                <div class="css-l9rw6n erljagq4">
 						                                    <div class="css-1p1fdq5 erljagq7">
 						                                        <div class="css-1yxdl8j erljagq5">

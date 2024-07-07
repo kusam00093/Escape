@@ -16,11 +16,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.escape.accommodation.domain.Payment;
@@ -208,18 +211,107 @@ public class AccommodationApiController {
         return mv;
     }
     
-    @PostMapping("/checkAvailableRooms")
-    public ResponseEntity<Integer> checkAvailableRooms(@RequestBody Map<String, Object> requestData) {
-        int roomIdx = Integer.parseInt(requestData.get("room_idx").toString());
-        String checkInDate = requestData.get("check_in_date").toString();
-        String checkOutDate = requestData.get("check_out_date").toString();
+//    @PostMapping("/checkAvailableRooms")
+//    public ResponseEntity<Integer> checkAvailableRooms(@RequestBody Map<String, Object> requestData) {
+//        int roomIdx = Integer.parseInt(requestData.get("room_idx").toString());
+//        String checkInDate = requestData.get("check_in_date").toString();
+//        String checkOutDate = requestData.get("check_out_date").toString();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("room_idx", roomIdx);
+//        params.put("check_in_date", checkInDate);
+//        params.put("check_out_date", checkOutDate);
+//
+//        int availableRooms = accommodationApiService.checkAvailableRooms(requestData);
+//        return ResponseEntity.ok(availableRooms);
+//    }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("room_idx", roomIdx);
-        params.put("check_in_date", checkInDate);
-        params.put("check_out_date", checkOutDate);
+    @PostMapping("/uploadHotelImage")
+    @ResponseBody
+    public Map<String, Object> uploadHotelImage(@RequestParam("image") MultipartFile image, @RequestParam("hotelIdx") int hotelIdx) {
+        Map<String, Object> response = new HashMap<>();
+        String imageUrl = accommodationApiService.saveHotelImage(image, hotelIdx);
+        
+        if (imageUrl != null) {
+            response.put("success", true);
+            response.put("imageUrl", imageUrl);
+        } else {
+            response.put("success", false);
+            response.put("message", "Image upload failed");
+        }
+        return response;
+    }
+    
+    // 전체 북마크 수와 사용자가 북마크했는지 여부를 확인하는 API
+    @GetMapping("/bookmarkInfo")
+    public ResponseEntity<Map<String, Object>> getBookmarkInfo(@RequestParam("hotelId") int hotelId, HttpSession session) {
+        User user = (User) session.getAttribute("login");
+        Map<String, Object> response = new HashMap<>();
+        
+        if (user != null) {
+            int totalBookmarks = accommodationApiService.getTotalBookmarks(hotelId);
+            boolean isBookmarked = accommodationApiService.isBookmarkedByUser(user.getUser_idx(), hotelId);
+            
+            response.put("totalBookmarks", totalBookmarks);
+            response.put("isBookmarked", isBookmarked);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
-        int availableRooms = accommodationApiService.checkAvailableRooms(params);
-        return ResponseEntity.ok(availableRooms);
+    @PostMapping("/toggleBookmark")
+    public ResponseEntity<Map<String, Object>> toggleBookmark(@RequestParam("hotelId") int hotelId, HttpSession session) {
+        User user = (User) session.getAttribute("login");
+        Map<String, Object> response = new HashMap<>();
+
+        if (user != null) {
+            boolean isBookmarked = accommodationApiService.isBookmarkedByUser(user.getUser_idx(), hotelId);
+
+            try {
+                if (isBookmarked) {
+                	accommodationApiService.deleteBookmark(user.getUser_idx(), hotelId);
+                    response.put("message", "북마크가 취소되었습니다.");
+                } else {
+                	accommodationApiService.insertBookmark(user.getUser_idx(), hotelId, 1); // 예시로 state를 1로 설정
+                    response.put("message", "북마크가 추가되었습니다.");
+                }
+                int totalBookmarks = accommodationApiService.getTotalBookmarks(hotelId);
+                response.put("totalBookmarks", totalBookmarks);
+                response.put("isBookmarked", !isBookmarked);
+                response.put("success", true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.put("success", false);
+                response.put("message", "북마크 처리에 실패했습니다.");
+            }
+        } else {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/getRateInfo")
+    public Map<String, Object> getRateInfo(@RequestParam int hotelIdx) {
+        return accommodationApiService.getAverageRateAndCount(hotelIdx);
+    }
+    
+    @GetMapping("/reviews/{hotelIdx}")
+    public List<Map<String, Object>> getReviews(
+            @PathVariable("hotelIdx") int hotelIdx,
+            @RequestParam("orderBy") String orderBy) {
+        return accommodationApiService.getReviewsWithDetailsApi(hotelIdx, orderBy);
+    }
+    
+    @GetMapping("/hotelsFiltering")
+    public List<Map<String, Object>> hotelsFiltering(
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) Integer minRating,
+            @RequestParam(required = false) Integer maxRating) {
+        return accommodationApiService.hotelsFiltering(orderBy, minPrice, maxPrice, minRating, maxRating);
     }
 }

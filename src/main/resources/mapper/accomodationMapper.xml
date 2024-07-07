@@ -64,6 +64,21 @@
         WHERE HOTEL_IDX = #{hotel_idx}
     </select>
     
+    <select id="getRoomPricesWithDiscounts" resultType="map">
+	    SELECT
+	        r.ROOM_IDX,
+	        r.PRICE,
+	        rd.DISCOUNT_RATE,
+	        rd.DISCOUNT_AMOUNT
+	    FROM
+	        ROOM_TB r
+	    LEFT JOIN
+	        ROOM_DISCOUNT_TB rd ON r.ROOM_IDX = rd.ROOM_IDX
+	    WHERE
+	        r.HOTEL_IDX = #{hotel_idx}
+	</select>
+    
+    
     <select id="getHotelFacilities" parameterType="int" resultType="Map">
         SELECT 
         	hf.HOTEL_IDX,
@@ -146,4 +161,172 @@
         ]]>
     </update>
     
+     <select id="countSellersByUserIdx" parameterType="int" resultType="int">
+        SELECT COUNT(*) 
+        FROM SELLER_TB 
+        WHERE USER_IDX = #{userIdx}
+    </select>
+    
+    <insert id="insertHotelImage">
+        INSERT INTO HOTEL_IMAGE_TB (HOTEL_IDX, IMAGE, IMAGE_PATH)
+        VALUES (#{hotelIdx}, #{image}, #{imagePath})
+    </insert>
+    
+
+    <insert id="insertBookmark">
+        INSERT INTO HOTEL_BOOKMARK_TB (HOTEL_BOOKMARK_IDX, USER_IDX, HOTEL_IDX, STATE, CREATED)
+        VALUES (HOTEL_BOOKMARK_SEQ.NEXTVAL, #{userIdx}, #{hotelIdx}, #{state}, SYSDATE)
+    </insert>
+
+    <delete id="deleteBookmark">
+        DELETE FROM HOTEL_BOOKMARK_TB 
+        WHERE USER_IDX = #{userIdx} 
+        AND HOTEL_IDX = #{hotelIdx}
+    </delete>
+
+    <select id="getTotalBookmarks" resultType="int">
+        SELECT COUNT(*) 
+        FROM HOTEL_BOOKMARK_TB 
+        WHERE HOTEL_IDX = #{hotelId}
+    </select>
+
+    <select id="isBookmarkedByUser" resultType="int">
+        SELECT COUNT(*) 
+        FROM HOTEL_BOOKMARK_TB 
+        WHERE USER_IDX = #{userIdx} 
+        AND HOTEL_IDX = #{hotelId}
+    </select>
+    
+    <select id="getAverageRateAndCount" resultType="Map">
+        SELECT AVG(R.RATE) as averageRate, COUNT(R.RATE) as totalRatings
+        FROM HOTEL_RATE_TB R
+        JOIN HOTEL_REVIEW_TB RV ON R.HOTEL_REVIEW_IDX = RV.HOTEL_REVIEW_IDX
+        WHERE RV.HOTEL_IDX = #{hotelIdx}
+    </select>
+    
+	<select id="getRateDistribution" resultType="map">
+	    SELECT RATE, CAST(COUNT(*) AS INTEGER) AS count
+	    FROM HOTEL_RATE_TB
+	    WHERE HOTEL_REVIEW_IDX IN (
+	        SELECT HOTEL_REVIEW_IDX
+	        FROM HOTEL_REVIEW_TB
+	        WHERE HOTEL_IDX = #{hotelIdx}
+	    )
+	    GROUP BY RATE
+	</select>
+	
+	<select id="getTopReviewOptions" resultType="java.util.HashMap">
+	    <![CDATA[
+	    SELECT * FROM (
+	        SELECT NAME, count, IMAGE_URL FROM (
+	            SELECT o.NAME, COUNT(hro.OPTION_IDX) AS count, o.IMAGE_URL
+	            FROM HOTEL_REVIEW_OPTION hro
+	            JOIN OPTION_TB o ON hro.OPTION_IDX = o.OPTION_IDX
+	            JOIN HOTEL_REVIEW_TB hr ON hro.HOTEL_REVIEW_IDX = hr.HOTEL_REVIEW_IDX
+	            WHERE hr.HOTEL_IDX = #{hotelIdx}
+	            GROUP BY o.NAME, o.IMAGE_URL
+	            ORDER BY COUNT(hro.OPTION_IDX) DESC
+	        ) WHERE ROWNUM <= 3
+	    )
+	    ]]>
+	</select>
+
+	<select id="getReviewsWithDetails" resultType="java.util.HashMap">
+	    SELECT hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX,
+	           p.LAST_NAME || ' ' || p.FIRST_NAME AS PERSON_NAME,
+	           LISTAGG(DISTINCT o.NAME, ',') WITHIN GROUP (ORDER BY o.NAME) AS OPTIONS,
+	           LISTAGG(DISTINCT hri.IMAGE, ',') WITHIN GROUP (ORDER BY hri.IMAGE) AS REVIEW_IMAGES,
+	           NVL(AVG(hotel_rate.RATE), 0) AS AVG_RATE
+	    FROM HOTEL_REVIEW_TB hr
+	    LEFT JOIN HOTEL_REVIEW_OPTION hro ON hr.HOTEL_REVIEW_IDX = hro.HOTEL_REVIEW_IDX
+	    LEFT JOIN OPTION_TB o ON hro.OPTION_IDX = o.OPTION_IDX
+	    LEFT JOIN HOTEL_REVIEW_IMAGE_TB hri ON hr.HOTEL_REVIEW_IDX = hri.HOTEL_REVIEW_IDX
+	    LEFT JOIN PERSON_TB p ON hr.PERSON_IDX = p.PERSON_IDX
+	    LEFT JOIN HOTEL_RATE_TB hotel_rate ON hr.HOTEL_REVIEW_IDX = hotel_rate.HOTEL_REVIEW_IDX
+	    WHERE hr.HOTEL_IDX = #{hotelIdx}
+	    GROUP BY hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX, p.LAST_NAME, p.FIRST_NAME
+	    ORDER BY hr.CREATED DESC
+	</select>
+	
+	<select id="getReviewsWithDetailsApi" resultType="java.util.HashMap">
+	    SELECT hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX,
+	           p.LAST_NAME || p.FIRST_NAME AS PERSON_NAME,
+	           LISTAGG(o.NAME, ',') WITHIN GROUP (ORDER BY o.NAME) AS OPTIONS,
+	           (
+	               SELECT LISTAGG(hri.IMAGE, ',') WITHIN GROUP (ORDER BY hri.IMAGE)
+	               FROM HOTEL_REVIEW_IMAGE_TB hri
+	               WHERE hri.HOTEL_REVIEW_IDX = hr.HOTEL_REVIEW_IDX
+	           ) AS REVIEW_IMAGES,
+	           COALESCE(hr_rate.TOTAL_RATE, 0) AS TOTAL_RATE
+	    FROM HOTEL_REVIEW_TB hr
+	    LEFT JOIN HOTEL_REVIEW_OPTION hro ON hr.HOTEL_REVIEW_IDX = hro.HOTEL_REVIEW_IDX
+	    LEFT JOIN OPTION_TB o ON hro.OPTION_IDX = o.OPTION_IDX
+	    LEFT JOIN PERSON_TB p ON hr.PERSON_IDX = p.PERSON_IDX
+	    LEFT JOIN (
+	        SELECT HOTEL_REVIEW_IDX, AVG(RATE) AS TOTAL_RATE
+	        FROM HOTEL_RATE_TB
+	        GROUP BY HOTEL_REVIEW_IDX
+	    ) hr_rate ON hr.HOTEL_REVIEW_IDX = hr_rate.HOTEL_REVIEW_IDX
+	    WHERE hr.HOTEL_IDX = #{hotelIdx}
+	    GROUP BY hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX, p.LAST_NAME, p.FIRST_NAME, hr_rate.TOTAL_RATE
+	    ORDER BY
+	    <choose>
+	        <when test="orderBy == 'latest'">
+	            hr.CREATED DESC
+	        </when>
+	        <when test="orderBy == 'highRating'">
+	            TOTAL_RATE DESC
+	        </when>
+	        <when test="orderBy == 'lowRating'">
+	            TOTAL_RATE ASC
+	        </when>
+	        <otherwise>
+	            hr.CREATED DESC
+	        </otherwise>
+	    </choose>
+	</select>
+    
+	<select id="hotelsFiltering" resultType="java.util.HashMap">
+	    SELECT h.HOTEL_IDX, h.NAME, h.ADDRESS, h.PRICE, hr.AVG_RATE,
+	           LISTAGG(hi.IMAGE, ',') WITHIN GROUP (ORDER BY hi.IMAGE) AS IMAGES
+	    FROM HOTEL_TB h
+	    LEFT JOIN (
+	        SELECT HOTEL_IDX, AVG(RATE) AS AVG_RATE
+	        FROM HOTEL_RATE_TB
+	        GROUP BY HOTEL_IDX
+	    ) hr ON h.HOTEL_IDX = hr.HOTEL_IDX
+	    LEFT JOIN HOTEL_IMAGE_TB hi ON h.HOTEL_IDX = hi.HOTEL_IDX
+	    WHERE 1=1
+	    <if test="minPrice != null">
+	        AND h.PRICE &gt;= #{minPrice}
+	    </if>
+	    <if test="maxPrice != null">
+	        AND h.PRICE &lt;= #{maxPrice}
+	    </if>
+	    <if test="minRating != null">
+	        AND hr.AVG_RATE &gt;= #{minRating}
+	    </if>
+	    <if test="maxRating != null">
+	        AND hr.AVG_RATE &lt;= #{maxRating}
+	    </if>
+	    GROUP BY h.HOTEL_IDX, h.NAME, h.ADDRESS, h.PRICE, hr.AVG_RATE
+	    <![CDATA[
+	    ORDER BY
+	    <choose>
+	        <when test="orderBy == 'price_asc'">
+	            h.PRICE ASC
+	        </when>
+	        <when test="orderBy == 'price_desc'">
+	            h.PRICE DESC
+	        </when>
+	        <when test="orderBy == 'discount_rate_desc'">
+	            hr.AVG_RATE DESC
+	        </when>
+	        <otherwise>
+	            h.NAME ASC
+	        </otherwise>
+	    </choose>
+	    ]]>
+	</select>
+	
 </mapper>

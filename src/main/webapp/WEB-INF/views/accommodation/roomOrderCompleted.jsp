@@ -59,9 +59,9 @@
 	          </button>
 	        </span>
 	        <span role="button" class="css-13zq7d4--OrderResultButton--button">
-	          <button type="button" class="mrt-button css-17x5dyz">
-	            <span class="css-1s4v6ia">예약상세 보기</span>
-	          </button>
+				<button type="button" class="mrt-button css-17x5dyz" onclick="location.href='/Accommodation/MyPageBuy'">
+				    <span class="css-1s4v6ia">예약상세 보기</span>
+				</button>
 	        </span>
 	      </div>
 	    </div>

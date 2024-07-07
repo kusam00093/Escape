@@ -418,4 +418,49 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 	});
+	
+     document.querySelectorAll('.bookmarkButton').forEach(function(button) {
+        const hotelId = button.getAttribute('data-hotel-id');
+        fetch(`/AccommodationApi/bookmarkInfo?hotelId=${hotelId}`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.isBookmarked) {
+                button.querySelector('svg').setAttribute('color', '#000000'); // 검정색 하트
+            }
+            button.querySelector('span').innerText = data.totalBookmarks; // 북마크 수 설정
+        })
+        .catch(error => console.error('Error:', error));
+
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // 페이지 이동 방지
+            e.stopPropagation(); // 이벤트 전파 방지
+
+            fetch('/AccommodationApi/toggleBookmark', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'hotelId': hotelId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    button.querySelector('span').innerText = data.totalBookmarks; // 북마크 수 업데이트
+                    if (data.isBookmarked) {
+                        button.querySelector('svg').setAttribute('color', '#000000'); // 검정색 하트로 변경
+                    } else {
+                        button.querySelector('svg').setAttribute('color', '#adb5bd'); // 원래 색으로 변경
+                    }
+                } else {
+                    alert('북마크 처리에 실패했습니다: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
 });

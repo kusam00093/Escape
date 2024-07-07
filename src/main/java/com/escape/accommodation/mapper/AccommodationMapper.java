@@ -5,10 +5,12 @@ import java.util.Map;
 
 import javax.naming.directory.SearchResult;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.escape.accommodation.domain.Bookmark;
 import com.escape.accommodation.domain.Hotel;
 import com.escape.accommodation.domain.Payment;
 import com.escape.accommodation.domain.Room;
@@ -47,4 +49,33 @@ public interface AccommodationMapper {
     // 가용 객실 수 확인 및 업데이트 메서드 추가
     int checkAvailableRooms(Map<String, Object> params);
     int updateAvailableRooms(Map<String, Object> params);
+
+	List<Map<String, Object>> getRoomPricesWithDiscounts(int hotel_idx);
+
+	int countSellersByUserIdx(@Param("userIdx") Integer userIdx);
+
+	void insertHotelImage(@Param("hotelIdx") int hotelIdx, @Param("image") String image, @Param("imagePath") String imagePath);
+
+    void insertBookmark(Map<String, Object> params);
+    
+    void deleteBookmark(@Param("userIdx") int userIdx, @Param("hotelIdx") int hotelIdx);
+    
+    int getTotalBookmarks(@Param("hotelId") int hotelId);
+    
+    int isBookmarkedByUser(@Param("userIdx") int userIdx, @Param("hotelId") int hotelId);
+    
+    Map<String, Object> getAverageRateAndCount(int hotelIdx);
+    
+    List<Map<String, Object>> getRateDistribution(int hotelIdx);
+
+    List<Map<String, Object>> getReviewOptions(int hotelIdx);
+    
+    List<Map<String, Object>> getTopReviewOptions(@Param("hotelIdx") int hotelIdx);
+
+    List<Map<String, Object>> getReviewsWithDetailsApi(@Param("hotelIdx") int hotelIdx, @Param("orderBy") String orderBy);
+
+	List<Map<String, Object>> getReviewsWithDetails(int hotelIdx);
+
+	List<Map<String, Object>> hotelsFiltering(String orderBy, Integer minPrice, Integer maxPrice, Integer minRating,
+			Integer maxRating);
 }

@@ -36,6 +36,20 @@ input::before, input:after {
 .lodging_search_information {
 	padding: 0 8px;
 	margin-bottom: 40px;
+	display: flex;
+}
+
+.register-lodging {
+	margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.register-lodging:hover {
+    background-color: #0056b3;
 }
 
 .lodging_search_detail {

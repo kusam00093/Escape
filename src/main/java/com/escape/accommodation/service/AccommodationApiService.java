@@ -1,15 +1,24 @@
 package com.escape.accommodation.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.naming.directory.SearchResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.escape.accommodation.domain.Bookmark;
 import com.escape.accommodation.domain.Payment;
 import com.escape.accommodation.domain.RoomReservation;
 import com.escape.accommodation.mapper.AccommodationMapper;
@@ -73,7 +82,53 @@ public class AccommodationApiService {
         return payment != null && payment.getState() == 1; // 결제 완료 상태
     }
     
-    public int checkAvailableRooms(Map<String, Object> params) {
-        return accommodationMapper.checkAvailableRooms(params);
+    private final String uploadDir = "/path/to/upload/dir"; // 실제 파일 시스템 경로로 변경
+
+    public String saveHotelImage(MultipartFile image, int hotelIdx) {
+        try {
+            String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            
+            // DB에 이미지 경로 저장
+            accommodationMapper.insertHotelImage(hotelIdx, fileName, filePath.toString());
+
+            return "/images/hotel/" + fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public void insertBookmark(Integer userIdx, Integer hotelIdx, Integer state) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("userIdx", userIdx);
+        params.put("hotelIdx", hotelIdx);
+        params.put("state", state);
+        accommodationMapper.insertBookmark(params);
+    }
+
+    public void deleteBookmark(Integer userIdx, Integer hotelIdx) {
+        accommodationMapper.deleteBookmark(userIdx, hotelIdx);
+    }
+
+    public int getTotalBookmarks(int hotelId) {
+        return accommodationMapper.getTotalBookmarks(hotelId);
+    }
+
+    public boolean isBookmarkedByUser(int userIdx, int hotelId) {
+        return accommodationMapper.isBookmarkedByUser(userIdx, hotelId) > 0;
+    }
+    
+    public Map<String, Object> getAverageRateAndCount(int hotelIdx) {
+        return accommodationMapper.getAverageRateAndCount(hotelIdx);
+    }
+
+    public List<Map<String, Object>> getReviewsWithDetailsApi(int hotelIdx, String orderBy) {
+        return accommodationMapper.getReviewsWithDetailsApi(hotelIdx, orderBy);
+    }
+    
+    public List<Map<String, Object>> hotelsFiltering(String orderBy, Integer minPrice, Integer maxPrice, Integer minRating, Integer maxRating) {
+        return accommodationMapper.hotelsFiltering(orderBy, minPrice, maxPrice, minRating, maxRating);
     }
 }
