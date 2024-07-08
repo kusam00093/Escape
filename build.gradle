@@ -60,6 +60,9 @@ dependencies {
    
    // 웹소켓 기능 추가
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.7'
 
 }
 
