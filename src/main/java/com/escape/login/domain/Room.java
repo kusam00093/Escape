@@ -21,7 +21,7 @@ public class Room {
 	private int ptype_idx;
 
 	private int reservation_price;
-	private int reservation_su;
+	private int reservation_guest;
 	private String created;
 	
 	private String first_name;

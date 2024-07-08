@@ -253,13 +253,13 @@
                                     <td>${status.index + 1}</td>
                                     <td>${Room.title}</td>
                                     <td>${Room.max_preson}</td>
-                                    <td>${Room.reservation_su}</td>
+                                    <td>${Room.reservation_guest}</td>
                                     <td>
                             <c:choose>
-                                <c:when test="${Room.reservation_su == 0}">
+                                <c:when test="${Room.reservation_guest == 0}">
                                     예약가능
                                 </c:when>
-                                <c:when test="${Room.reservation_su > 0}">
+                                <c:when test="${Room.reservation_guest > 0}">
                                     마감
                                 </c:when>
                             </c:choose>
