@@ -3,11 +3,12 @@ package com.escape.airplane.domain;
 public class AirplaneTimeVo {
 
 	// Field
-	private String id;
 	private int airplane_idx;
     private int airline_idx;
-    private String name;	// airline_tb 의 name, 항공사 이름
-    private String logo;	// airline_tb 의 logo, 항공사 로고
+    private String name1;	// airline_tb 의 name, 항공사 이름
+    private String name2;	// airline_tb 의 name, 항공사 이름
+    private String logo1;	// airline_tb 의 logo, 항공사 로고
+    private String logo2;	// airline_tb 의 logo, 항공사 로고
     private int departure_loc;
     private String depCity1;
     private String depCityCode1;
@@ -39,18 +40,20 @@ public class AirplaneTimeVo {
 	
 	// Constructor
 	public AirplaneTimeVo() {}
-	public AirplaneTimeVo(String id, int airplane_idx, int airline_idx, String name, String logo, int departure_loc,
-			String depCity1, String depCityCode1, String depCity2, String depCityCode2, int arrival_loc,
-			String arrCity1, String arrCityCode1, String arrCity2, String arrCityCode2, String startTime1,
-			String endTime1, String startTime2, String endTime2, int airplane_time_idx, int adultCount, int childCount,
-			int infantCount, String seatClass, int stype, int price, String depDate, String arrDate, int ptype_idx,
-			int stype_idx, String durationhour, String durationminute, int totalPrice) {
+	public AirplaneTimeVo(int airplane_idx, int airline_idx, String name1, String name2, String logo1, String logo2,
+			int departure_loc, String depCity1, String depCityCode1, String depCity2, String depCityCode2,
+			int arrival_loc, String arrCity1, String arrCityCode1, String arrCity2, String arrCityCode2,
+			String startTime1, String endTime1, String startTime2, String endTime2, int airplane_time_idx,
+			int adultCount, int childCount, int infantCount, String seatClass, int stype, String depDate,
+			String arrDate, int ptype_idx, int stype_idx, String durationhour, String durationminute, int price,
+			int totalPrice) {
 		super();
-		this.id = id;
 		this.airplane_idx = airplane_idx;
 		this.airline_idx = airline_idx;
-		this.name = name;
-		this.logo = logo;
+		this.name1 = name1;
+		this.name2 = name2;
+		this.logo1 = logo1;
+		this.logo2 = logo2;
 		this.departure_loc = departure_loc;
 		this.depCity1 = depCity1;
 		this.depCityCode1 = depCityCode1;
@@ -71,23 +74,17 @@ public class AirplaneTimeVo {
 		this.infantCount = infantCount;
 		this.seatClass = seatClass;
 		this.stype = stype;
-		this.price = price;
 		this.depDate = depDate;
 		this.arrDate = arrDate;
 		this.ptype_idx = ptype_idx;
 		this.stype_idx = stype_idx;
 		this.durationhour = durationhour;
 		this.durationminute = durationminute;
+		this.price = price;
 		this.totalPrice = totalPrice;
 	}
 
 	// Getter/Setter
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public int getAirplane_idx() {
 		return airplane_idx;
 	}
@@ -100,17 +97,29 @@ public class AirplaneTimeVo {
 	public void setAirline_idx(int airline_idx) {
 		this.airline_idx = airline_idx;
 	}
-	public String getName() {
-		return name;
+	public String getName1() {
+		return name1;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setName1(String name1) {
+		this.name1 = name1;
 	}
-	public String getLogo() {
-		return logo;
+	public String getName2() {
+		return name2;
 	}
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+	public String getLogo1() {
+		return logo1;
+	}
+	public void setLogo1(String logo1) {
+		this.logo1 = logo1;
+	}
+	public String getLogo2() {
+		return logo2;
+	}
+	public void setLogo2(String logo2) {
+		this.logo2 = logo2;
 	}
 	public int getDeparture_loc() {
 		return departure_loc;
@@ -284,13 +293,13 @@ public class AirplaneTimeVo {
 	// toString
 	@Override
 	public String toString() {
-		return "AirplaneTimeVo [id=" + id + ", airplane_idx=" + airplane_idx + ", airline_idx=" + airline_idx
-				+ ", name=" + name + ", logo=" + logo + ", departure_loc=" + departure_loc + ", depCity1=" + depCity1
-				+ ", depCityCode1=" + depCityCode1 + ", depCity2=" + depCity2 + ", depCityCode2=" + depCityCode2
-				+ ", arrival_loc=" + arrival_loc + ", arrCity1=" + arrCity1 + ", arrCityCode1=" + arrCityCode1
-				+ ", arrCity2=" + arrCity2 + ", arrCityCode2=" + arrCityCode2 + ", startTime1=" + startTime1
-				+ ", endTime1=" + endTime1 + ", startTime2=" + startTime2 + ", endTime2=" + endTime2
-				+ ", airplane_time_idx=" + airplane_time_idx + ", adultCount=" + adultCount + ", childCount="
+		return "AirplaneTimeVo [airplane_idx=" + airplane_idx + ", airline_idx=" + airline_idx + ", name1=" + name1
+				+ ", name2=" + name2 + ", logo1=" + logo1 + ", logo2=" + logo2 + ", departure_loc=" + departure_loc
+				+ ", depCity1=" + depCity1 + ", depCityCode1=" + depCityCode1 + ", depCity2=" + depCity2
+				+ ", depCityCode2=" + depCityCode2 + ", arrival_loc=" + arrival_loc + ", arrCity1=" + arrCity1
+				+ ", arrCityCode1=" + arrCityCode1 + ", arrCity2=" + arrCity2 + ", arrCityCode2=" + arrCityCode2
+				+ ", startTime1=" + startTime1 + ", endTime1=" + endTime1 + ", startTime2=" + startTime2 + ", endTime2="
+				+ endTime2 + ", airplane_time_idx=" + airplane_time_idx + ", adultCount=" + adultCount + ", childCount="
 				+ childCount + ", infantCount=" + infantCount + ", seatClass=" + seatClass + ", stype=" + stype
 				+ ", depDate=" + depDate + ", arrDate=" + arrDate + ", ptype_idx=" + ptype_idx + ", stype_idx="
 				+ stype_idx + ", durationhour=" + durationhour + ", durationminute=" + durationminute + ", price="

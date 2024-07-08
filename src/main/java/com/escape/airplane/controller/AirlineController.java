@@ -3,6 +3,11 @@ package com.escape.airplane.controller;
 import com.escape.airplane.domain.AirplaneTimeVo;
 import com.escape.airplane.mapper.AirplaneMapper;
 import com.escape.airplane.service.FlightService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/Airline")
@@ -98,111 +104,88 @@ public class AirlineController {
 	        int infantPrice = airplaneMapper.getPriceInfo(airplaneTimeIdx, 3, stype) * infantCount;
 
 	        int totalPrice = adultPrice + childPrice + infantPrice;
+	        
+	        //flight.setTotalPrice(totalPrice);
 
-	        flight.setTotalPrice(totalPrice);
+	        if (initform.equals("RT")) {
+	        	flight.setTotalPrice(totalPrice*2);
+	        } else {
+	        	flight.setTotalPrice(totalPrice);
+	        }
 	    }
 	}
 	
 	@PostMapping("/Filter")
-	public ResponseEntity<Map<String, Object>> filter(@RequestParam Map<String, Object> params, AirplaneTimeVo airplaneTimeVo) {
+    public ResponseEntity<Map<String, Object>> filter(
+            @RequestParam Map<String, Object> params,
+            @RequestParam(value = "checkboxId[]", required = false) List<String> checkboxIds,
+            @RequestParam(value = "airlineNames[]", required = false) List<String> airlineNames,
+            @RequestParam(value = "priceRange", required = false) String priceRange
+            ) throws JsonMappingException, JsonProcessingException {
+		
+        System.out.println("Airline/Filter-params1: " + params);
+        System.out.println("Airline/Filter-airlineNames: " + airlineNames);
+        System.out.println("Airline/Filter-priceRange: " + priceRange);
 
-	    System.out.println("===== Airline/Filter === params1: " + params);
+        int stype = Integer.parseInt((String) params.get("stype"));
+        int adultCount = Integer.parseInt((String) params.get("adultCount"));
+        int childCount = Integer.parseInt((String) params.get("childCount"));
+        int infantCount = Integer.parseInt((String) params.get("infantCount"));
 
-	    int stype = Integer.parseInt((String) params.get("stype"));
-	    int adultCount = Integer.parseInt((String) params.get("adultCount"));
-	    int childCount = Integer.parseInt((String) params.get("childCount"));
-	    int infantCount = Integer.parseInt((String) params.get("infantCount"));
+        List<Integer> ptypeList = new ArrayList<>();
+        if (adultCount > 0) ptypeList.add(1);
+        if (childCount > 0) ptypeList.add(2);
+        if (infantCount > 0) ptypeList.add(3);
 
-	    List<Integer> ptypeList = new ArrayList<>();
-	    if (adultCount > 0) ptypeList.add(1);
-	    if (childCount > 0) ptypeList.add(2);
-	    if (infantCount > 0) ptypeList.add(3);
+        params.put("ptypeList", ptypeList);
 
-	    params.put("ptypeList", ptypeList);
+        boolean isChecked = Boolean.parseBoolean((String) params.get("isChecked"));
+        System.out.println("Airline/Filter-isChecked: " + isChecked);
+        System.out.println("Airline/Filter-checkboxIds: " + checkboxIds);
 
-	    // Handle time ranges
-	    //boolean isChecked = (Boolean) params.get("isChecked");
-	    boolean isChecked = Boolean.parseBoolean((String) params.get("isChecked"));
-        int checkboxValue = Integer.parseInt((String) params.get("checkboxValue"));
-        System.out.println("===== Airline/Filter === isChecked: " + isChecked);
-        System.out.println("===== Airline/Filter === checkboxValue: " + checkboxValue);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String timeRangesJson1 = (String) params.get("timeRanges1");
+        List<Map<String, String>> timeRanges1 = objectMapper.readValue(timeRangesJson1, new TypeReference<List<Map<String, String>>>(){});
+        System.out.println("===== Airline/Filter-timeRanges1: " + timeRanges1);
+        String timeRangesJson2 = (String) params.get("timeRanges2");
+        List<Map<String, String>> timeRanges2 = objectMapper.readValue(timeRangesJson2, new TypeReference<List<Map<String, String>>>(){});
+        System.out.println("===== Airline/Filter-timeRanges2: " + timeRanges2);
 
-        List<TimeRange> departureTimes = new ArrayList<>();
-        List<TimeRange> excludedTimes = new ArrayList<>();
-
-        switch (checkboxValue) {
-            case 6:
-                if (isChecked) {
-                    departureTimes.add(new TimeRange("00:00:00", "06:00:00"));
-                } else {
-                    excludedTimes.add(new TimeRange("00:00:00", "06:00:00"));
-                }
-                break;
-            case 12:
-                if (isChecked) {
-                    departureTimes.add(new TimeRange("06:00:00", "12:00:00"));
-                } else {
-                    excludedTimes.add(new TimeRange("06:00:00", "12:00:00"));
-                }
-                break;
-            case 18:
-                if (isChecked) {
-                    departureTimes.add(new TimeRange("12:00:00", "18:00:00"));
-                } else {
-                    excludedTimes.add(new TimeRange("12:00:00", "18:00:00"));
-                }
-                break;
-            case 24:
-                if (isChecked) {
-                    departureTimes.add(new TimeRange("18:00:00", "24:00:00"));
-                } else {
-                    excludedTimes.add(new TimeRange("18:00:00", "24:00:00"));
-                }
-                break;
+        params.put("timeRanges1", timeRanges1);
+        params.put("timeRanges2", timeRanges2);
+        params.put("airlineNames", airlineNames);
+        if (priceRange != null) {
+            params.put("priceRange", Integer.parseInt(priceRange));
         }
 
-        params.put("departureTimes", departureTimes);
-        params.put("excludedTimes", excludedTimes);
+        System.out.println("Airline/Filter-params2: " + params);
 
-	    System.out.println("===== Airline/Filter === params2: " + params);
+        String initform = (String) params.get("initform");
+        List<AirplaneTimeVo> flightInfo;
 
-	    String initform = (String) params.get("initform");
-	    List<AirplaneTimeVo> flightInfo;
+        if ("OW".equalsIgnoreCase(initform)) {
+            flightInfo = flightService.getOneWayFilterInfo(params);
+        } else {
+            flightInfo = flightService.getRoundTripFilterInfo(params);
+        }
 
-	    if ("OW".equalsIgnoreCase(initform)) {
-	        flightInfo = flightService.getOneWayFilterInfo(params);
-	    } else {
-	        flightInfo = flightService.getRoundTripFilterInfo(params);
-	    }
+        calculateDuration(flightInfo);
+        calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
+        
+        // 필터링: totalPrice가 priceRange 이하인 항공편만 남김
+        int priceRangeInt = params.containsKey("priceRange") ? (int) params.get("priceRange") : Integer.MAX_VALUE;
+        System.out.println("Airline/Filter-priceRangeInt: " + priceRangeInt);
+        flightInfo = flightInfo.stream()
+                .filter(flight -> flight.getTotalPrice() <= priceRangeInt)
+                .collect(Collectors.toList());
+        
+        System.out.println("Airline/Filter-flightInfo: " + flightInfo);
 
-	    calculateDuration(flightInfo);
-	    calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
-	    System.out.println("===== Airline/Filter === flightInfo: " + flightInfo);
+        Map<String, Object> response = new HashMap<>();
+        response.put("params", params);
+        response.put("flightInfo", flightInfo);
 
-	    Map<String, Object> response = new HashMap<>();
-	    response.put("params", params);
-	    response.put("flightInfo", flightInfo);
-
-	    return ResponseEntity.ok(response);
-	}
+        return ResponseEntity.ok(response);
+    }
 	
-	public class TimeRange {
-	    private String start;
-	    private String end;
-
-	    public TimeRange(String start, String end) {
-	        this.start = start;
-	        this.end = end;
-	    }
-
-	    public String getStart() {
-	        return start;
-	    }
-
-	    public String getEnd() {
-	        return end;
-	    }
-	}
-
-    
 }
