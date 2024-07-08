@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.escape.chat.mapper.ChatMapper">
+<!-- 방 생성 -->
+    <insert id="createRoom" parameterType="com.escape.chat.domain.Room">
+        INSERT INTO GROUP_CHATTING_TB (ROOM_NUMBER
+,USER_IDX
+,BOARD_IDX
+,ROOM_NAME
+,CONTENT)
+        VALUES ((SELECT NVL(MAX(ROOM_NUMBER), 0) + 1 FROM GROUP_CHATTING_TB)
+        ,1
+        ,5
+        ,#{room_name}
+        ,CASE WHEN #{content} IS NULL OR #{content} = '' THEN 'default content' ELSE #{content} END)
+    </insert>
+    
+    <!-- 모든 방 가져오기 -->
+    <select id="getAllRooms" resultType="com.escape.chat.domain.Room">
+        SELECT room_number AS roomNumber, room_name AS roomName
+        FROM GROUP_CHATTING_TB
+    </select>
+ 
+ <!--    
+    <insert id="saveMessage">
+        INSERT INTO GROUP_CHATTING_TB (user_idx, room_number, content)
+        VALUES (#{user_idx}, #{roomNumber}, #{msg})
+    </insert>
+<update id="saveMessage">
+    UPDATE GROUP_CHATTING_TB
+    SET CONTENT = COALESCE(CONTENT || ', ' || #{content}, #{content})
+    WHERE ROOM_NAME = #{roomName}
+</update>
+-->
+
+
+</mapper>
