@@ -17,4 +17,13 @@ public class Room {
 	private int ptype_idx;
 	private int price;
 	private int available_rooms;
+	
+	// 할인정책
+	private int room_discount_idx;
+	private int discount_rate;
+	private int discount_amount;
+	private String created;
+	
+    // 할인된 가격
+    private int discountedPrice;
 }

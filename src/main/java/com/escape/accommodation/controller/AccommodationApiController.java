@@ -4,25 +4,36 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.naming.directory.SearchResult;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.escape.accommodation.domain.Option;
 import com.escape.accommodation.domain.Payment;
+import com.escape.accommodation.domain.Review;
+import com.escape.accommodation.domain.ReviewForm;
+import com.escape.accommodation.domain.ReviewImage;
 import com.escape.accommodation.domain.RoomReservation;
 import com.escape.accommodation.domain.SearchRequest;
 import com.escape.accommodation.service.AccommodationApiService;
@@ -49,6 +60,8 @@ public class AccommodationApiController {
     @Autowired
     @Qualifier("hotelNaverPayService")
     private NaverPayService naverPayService;
+    @Autowired
+    private SqlSession sqlSession;
     
     // /AccommodationApi/Search
     @PostMapping("/Search")
@@ -183,6 +196,19 @@ public class AccommodationApiController {
         }
     }
     
+ // 결제 상태 확인 API
+    @PostMapping("/checkPaymentStatus")
+    public ResponseEntity<?> checkPaymentStatus(@RequestBody Map<String, Object> requestData) {
+        String orderId = (String) requestData.get("orderId");
+        boolean paymentCompleted = accommodationApiService.checkPaymentStatus(orderId);
+        
+        if (paymentCompleted) {
+            return ResponseEntity.ok(Map.of("paymentCompleted", true));
+        } else {
+            return ResponseEntity.ok(Map.of("paymentCompleted", false));
+        }
+    }
+    
     // 카카오페이 결제 완료 콜백 처리
     @GetMapping("/payment/success") 
     public ModelAndView paymentSuccess(@RequestParam Map<String, String> params, HttpSession session) {
@@ -192,5 +218,161 @@ public class AccommodationApiController {
         mv.addObject("finalPrice", session.getAttribute("finalPrice")); // 세션에서 최종 금액 가져와서 추가
         mv.setViewName("accommodation/roomOrderCompleted");
         return mv;
+    }
+    
+//    @PostMapping("/checkAvailableRooms")
+//    public ResponseEntity<Integer> checkAvailableRooms(@RequestBody Map<String, Object> requestData) {
+//        int roomIdx = Integer.parseInt(requestData.get("room_idx").toString());
+//        String checkInDate = requestData.get("check_in_date").toString();
+//        String checkOutDate = requestData.get("check_out_date").toString();
+//
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("room_idx", roomIdx);
+//        params.put("check_in_date", checkInDate);
+//        params.put("check_out_date", checkOutDate);
+//
+//        int availableRooms = accommodationApiService.checkAvailableRooms(requestData);
+//        return ResponseEntity.ok(availableRooms);
+//    }
+
+    @PostMapping("/uploadHotelImage")
+    @ResponseBody
+    public Map<String, Object> uploadHotelImage(@RequestParam("image") MultipartFile image, @RequestParam("hotelIdx") int hotelIdx) {
+        Map<String, Object> response = new HashMap<>();
+        String imageUrl = accommodationApiService.saveHotelImage(image, hotelIdx);
+        
+        if (imageUrl != null) {
+            response.put("success", true);
+            response.put("imageUrl", imageUrl);
+        } else {
+            response.put("success", false);
+            response.put("message", "Image upload failed");
+        }
+        return response;
+    }
+    
+    // 전체 북마크 수와 사용자가 북마크했는지 여부를 확인하는 API
+    @GetMapping("/bookmarkInfo")
+    public ResponseEntity<Map<String, Object>> getBookmarkInfo(@RequestParam("hotelId") int hotelId, HttpSession session) {
+        User user = (User) session.getAttribute("login");
+        Map<String, Object> response = new HashMap<>();
+        
+        if (user != null) {
+            int totalBookmarks = accommodationApiService.getTotalBookmarks(hotelId);
+            boolean isBookmarked = accommodationApiService.isBookmarkedByUser(user.getUser_idx(), hotelId);
+            
+            response.put("totalBookmarks", totalBookmarks);
+            response.put("isBookmarked", isBookmarked);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+    @PostMapping("/toggleBookmark")
+    public ResponseEntity<Map<String, Object>> toggleBookmark(@RequestParam("hotelId") int hotelId, HttpSession session) {
+        User user = (User) session.getAttribute("login");
+        Map<String, Object> response = new HashMap<>();
+
+        if (user != null) {
+            boolean isBookmarked = accommodationApiService.isBookmarkedByUser(user.getUser_idx(), hotelId);
+
+            try {
+                if (isBookmarked) {
+                	accommodationApiService.deleteBookmark(user.getUser_idx(), hotelId);
+                    response.put("message", "북마크가 취소되었습니다.");
+                } else {
+                	accommodationApiService.insertBookmark(user.getUser_idx(), hotelId, 1); // 예시로 state를 1로 설정
+                    response.put("message", "북마크가 추가되었습니다.");
+                }
+                int totalBookmarks = accommodationApiService.getTotalBookmarks(hotelId);
+                response.put("totalBookmarks", totalBookmarks);
+                response.put("isBookmarked", !isBookmarked);
+                response.put("success", true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.put("success", false);
+                response.put("message", "북마크 처리에 실패했습니다.");
+            }
+        } else {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/getRateInfo")
+    public Map<String, Object> getRateInfo(@RequestParam int hotelIdx) {
+        return accommodationApiService.getAverageRateAndCount(hotelIdx);
+    }
+    
+    @GetMapping("/reviews/{hotelIdx}")
+    public List<Map<String, Object>> getReviews(
+            @PathVariable("hotelIdx") int hotelIdx,
+            @RequestParam("orderBy") String orderBy) {
+        return accommodationApiService.getReviewsWithDetailsApi(hotelIdx, orderBy);
+    }
+    
+
+    @GetMapping("/hotelsFiltering")
+    public List<Map<String, Object>> hotelsFiltering(
+            @RequestParam(required = false) String orderBy,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) Integer minRating,
+            @RequestParam(required = false) Integer maxRating) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderBy", orderBy);
+        params.put("minPrice", minPrice);
+        params.put("maxPrice", maxPrice);
+        params.put("minRating", minRating);
+        params.put("maxRating", maxRating);
+
+        return sqlSession.selectList("hotelsFiltering", params);
+    }
+    
+    
+    @PostMapping("/submitReview")
+    public ResponseEntity<Map<String, Object>> submitReview(
+            @RequestParam("hotelIdx") int hotelIdx,
+            @RequestParam("content") String content,
+            @RequestParam("rating") int rating,
+            @RequestParam("options") List<Integer> options,
+            @RequestParam("reviewImages") List<MultipartFile> reviewImages,
+            HttpSession session) {
+        User user = (User) session.getAttribute("login");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인이 필요합니다."));
+        }
+
+        Review review = new Review();
+        review.setHotelIdx(hotelIdx);
+        review.setContent(content);
+        review.setRate(rating);
+        review.setPersonIdx(user.getUser_idx());
+        review.setCreated(LocalDateTime.now());
+        review.setOptions(options);
+
+        List<ReviewImage> reviewImageList = new ArrayList<>();
+        for (MultipartFile file : reviewImages) {
+            ReviewImage reviewImage = new ReviewImage();
+            reviewImage.setImage(file.getOriginalFilename());
+            reviewImageList.add(reviewImage);
+        }
+        review.setReviewImages(reviewImageList);
+
+        boolean success = accommodationApiService.addReview(review);
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", success);
+        return ResponseEntity.ok(response);
+    }
+
+    
+    @GetMapping("/getReviewOptions")
+    public ResponseEntity<List<Option>> getReviewOptions() {
+        List<Option> options = accommodationApiService.getReviewOptions();
+        return ResponseEntity.ok(options);
     }
 }

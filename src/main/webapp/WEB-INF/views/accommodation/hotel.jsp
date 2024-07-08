@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -33,6 +34,88 @@
     display: block;
   }
 </style>
+     <script>
+        function fetchReviews(orderBy) {
+            var hotelIdx = ${hotel.hotel_idx}; // 호텔 ID를 동적으로 가져옵니다.
+
+            $.ajax({
+                url: '/AccommodationApi/reviews/' + hotelIdx,
+                type: 'GET',
+                data: { orderBy: orderBy },
+                success: function(reviews) {
+                    // 리뷰 목록을 업데이트하는 로직을 여기에 추가합니다.
+                    var reviewsContainer = $('#reviewsContainer');
+                    reviewsContainer.empty();
+                    $.each(reviews, function(index, review) {
+                    	var reviewDate = new Date(review.CREATED).toISOString().split('T')[0];
+                        var reviewHtml = '<div class="css-x0ee88 e17edoke0">' +
+                            '<div class="css-13ovph5 e126udd70">' +
+                            '<div class="css-q1ewhp e126udd72">' +
+                            '<div class="css-1meotse eiua2q0">' +
+                            '<div class="css-ua4zwz e1aoll0l0">' +
+                            generateStars(review.TOTAL_RATE) +
+                            '</div>' +
+                            '<span class="css-akej1n eiua2q1">' + review.PERSON_NAME + '</span>' +
+                            '</div>' +
+                            '<div class="css-vjkoi3 eiua2q2">' +
+                            '<span class="css-f7fpqi eiua2q3">' + reviewDate  + '</span>' +
+                            '</div>' +
+                            '<div class="e126udd73 css-1qhcaz0">' + review.CONTENT + '</div>' +
+                            '</div>' +
+                            '<div class="e126udd74 css-1dz9tqv">';
+                        
+                        if (review.REVIEW_IMAGES) {
+                            var images = review.REVIEW_IMAGES.split(',');
+                            $.each(images, function(i, image) {
+                                reviewHtml += '<img alt="" loading="lazy" class="css-y5m0bt" src="' + image + '">';
+                            });
+                        }
+
+                        reviewHtml += '<div class="css-2z6lb8" hidden="">' +
+                            '<img src="https://dffoxz5he03rp.cloudfront.net/etc/img-placeholder.svg" alt="Placeholder Thumbnail" class="css-1ydfimi">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="css-hozfwu e286p9y0">';
+                        
+                        if (review.OPTIONS) {
+                            var options = review.OPTIONS.split(',');
+                            $.each(options, function(i, option) {
+                                reviewHtml += '<span class="e286p9y1 css-htjz8p">' + option + '</span>';
+                            });
+                        }
+
+                        reviewHtml += '</div></div></div>';
+
+                        reviewsContainer.append(reviewHtml);
+                    });
+                },
+                error: function() {
+                    alert('리뷰를 가져오는 중 오류가 발생했습니다.');
+                }
+            });
+        }
+
+        function generateStars(rating) {
+            var stars = '';
+            for (var i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-flfwei e1aoll0l1">' +
+                             '<path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>' +
+                             '</svg>';
+                } else {
+                    stars += '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-flfwei e1aoll0l1">' +
+                             '<path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>' +
+                             '</svg>';
+                }
+            }
+            return stars;
+        }
+
+        $(document).ready(function() {
+            // 페이지가 로드될 때 최신순으로 리뷰를 가져옵니다.
+            fetchReviews('latest');
+        });
+    </script>
 </head>
 <%@include file="/WEB-INF/include/header.jsp"%>
 
@@ -232,27 +315,40 @@
 				</div>
 <!-- 				호텔 이름/좋아요/가격/객실 선택 -->
 		
-				<c:set var="hotelInfo" value="${hotelPriceMap[hotel.hotel_idx]}" />
-				<c:set var="lowestPrice" value="${hotelInfo.LOWEST_PRICE}" />
-				<c:set var="discountRate" value="${hotelInfo.DISCOUNT_RATE}" />
-				<c:set var="discountAmount" value="${hotelInfo.DISCOUNT_AMOUNT}" />
+				<!-- 초기값 설정 -->
+				<c:set var="lowestPrice" value="99999999" />
+				<c:set var="lowestDiscountedPrice" value="99999999" />
+
+				<!-- 각 방의 가격과 할인된 가격 계산 -->
+				<c:forEach var="room" items="${rooms}">
+				    <c:set var="price" value="${room.price}" />
+				    <c:set var="discountRate" value="${room.discount_rate}" />
+				    <c:set var="discountAmount" value="${room.discount_amount}" />
+				    
+				    <!-- 할인 가격 계산 -->
+				    <c:set var="discountedPrice" value="${price}" />
+				    <c:if test="${discountRate > 0}">
+				        <c:set var="discountedPrice" value="${price - (price * discountRate / 100)}" />
+				    </c:if>
+				    <c:if test="${discountAmount > 0}">
+				        <c:set var="discountedPrice" value="${price - discountAmount}" />
+				    </c:if>
+				    
+				    <!-- 최저 가격 비교 및 설정 -->
+				    <c:if test="${price < lowestPrice}">
+				        <c:set var="lowestPrice" value="${price}" />
+				        <c:set var="lowestDiscountedPrice" value="${discountedPrice}" />
+				    </c:if>
+				</c:forEach>
 				
-				<c:choose>
-				    <c:when test="${discountRate > 0}">
-				        <c:set var="discountedPrice" value="${lowestPrice - (lowestPrice * discountRate / 100)}" />
-				    </c:when>
-				    <c:otherwise>
-				        <c:set var="discountedPrice" value="${lowestPrice - discountAmount}" />
-				    </c:otherwise>
-				</c:choose>
-				
+				<!-- 포맷된 가격 설정 -->
 				<c:set var="formattedLowestPrice">
 				    <fmt:formatNumber value="${lowestPrice}" type="number" pattern="#,###"/>
 				</c:set>
-				<c:set var="formattedDiscountedPrice">
-				    <fmt:formatNumber value="${discountedPrice}" type="number" pattern="#,###"/>
+				<c:set var="formattedLowestDiscountedPrice">
+				    <fmt:formatNumber value="${lowestDiscountedPrice}" type="number" pattern="#,###"/>
 				</c:set>
-				
+								
 				<div class="css-yd8sa2 e18lo67g2">
 					<div>
 						<div class="css-1s91mnt e18lo67g3">
@@ -271,8 +367,7 @@
 											<span class="css-12wooir e157n2fq2">${formattedLowestPrice}원/박</span>
 										</div>
 										<div class="css-1n2mv2k e157n2fq3">
-											<span class="mr-half-1 css-1kjy5hl" style="color: rgb(250, 91, 74);">${formattedDiscountedPrice}원</span>
-										
+											<span class="mr-half-1 css-1kjy5hl" style="color: rgb(250, 91, 74);">${formattedLowestDiscountedPrice}원</span>
 										</div>
 									</div>
 								</div>
@@ -484,33 +579,26 @@
 						<div class="css-51dg7o e16f95a3">
 							<c:forEach var="room" items="${rooms}">
 								
-								<c:set var="hotelInfo" value="${hotelPriceMap[hotel.hotel_idx]}" />
-								<c:set var="lowestPrice" value="${hotelInfo.LOWEST_PRICE}" />
-								<c:set var="discountRate" value="${hotelInfo.DISCOUNT_RATE}" />
-								<c:set var="discountAmount" value="${hotelInfo.DISCOUNT_AMOUNT}" />
-								<c:set var="price" value="${room.price}" />
+						        <c:set var="price" value="${room.price}" />
+						        <c:set var="discountRate" value="${room.discount_rate}" />
+						        <c:set var="discountAmount" value="${room.discount_amount}" />
 								
-								<c:choose>
-								    <c:when test="${discountRate > 0}">
-								        <c:set var="discountedPrice" value="${price - (price * discountRate / 100)}" />
-								    </c:when>
-								    <c:otherwise>
-								        <c:set var="discountedPrice" value="${lowestPrice - discountAmount}" />
-								    </c:otherwise>
-								</c:choose>
+					        	<!-- 할인 가격 계산 -->
+						        <c:set var="discountedPrice" value="${price}" />
+						        <c:if test="${discountRate > 0}">
+						            <c:set var="discountedPrice" value="${price - (price * discountRate / 100)}" />
+						        </c:if>
+						        <c:if test="${discountAmount > 0}">
+						            <c:set var="discountedPrice" value="${price - discountAmount}" />
+						        </c:if>
 								
-								<c:set var="formattedLowestPrice">
-								    <fmt:formatNumber value="${lowestPrice}" type="number" pattern="#,###"/>
-								</c:set>
-								<c:set var="formattedDiscountedPrice">
-								    <fmt:formatNumber value="${discountedPrice}" type="number" pattern="#,###"/>
-								</c:set>
-								<c:set var="formattedPrice">
-								    <fmt:formatNumber value="${price}" type="number" pattern="#,###"/>
-								</c:set>								
-								
+						        <c:set var="formattedPrice">
+						            <fmt:formatNumber value="${price}" type="number" pattern="#,###"/>
+						        </c:set>
+						        <c:set var="formattedDiscountedPrice">
+						            <fmt:formatNumber value="${discountedPrice}" type="number" pattern="#,###"/>
+						        </c:set>					
 									
-														
 								<div class="css-10c7qg5 ekdnpbz0">
 									<div class="css-0 ekdnpbz1">
 										<span class="css-1kjy5hl">${room.title} (오후 ${room.check_in_time} ~ 오전 ${room.check_out_time} 까지)</span>
@@ -577,11 +665,6 @@
 															</div>
 														</div>
 													</div>
-<!-- 													<div class="css-0 e10uix0a0"> -->
-<!-- 														<button class="e10uix0a1 css-19kbtvr"> -->
-<!-- 															<span class="css-17cznx6">객실 정보 더보기</span> -->
-<!-- 														</button> -->
-<!-- 													</div> -->
 												</div>
 											</div>
 										</div>
@@ -591,14 +674,6 @@
 													<div class="css-1ni1io2 e1q9d9301">
 														<div class="css-j7qwjs e17p53lv0">
 															<div class="css-i7tjzy e17p53lv2">
-<!-- 																<div class="css-159hdns e61jlzk0"> -->
-<!-- 																	<div class="css-v71nea e61jlzk1"> -->
-<!-- 																		<img alt="예약 무료 취소 가능 (2024년 7월 4일 00:00까지)" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_verified_option_attribute_3x.png"> -->
-<!-- 																	</div> -->
-<!-- 																	<div class="css-70qvj9 e61jlzk2"> -->
-<!-- 																		<span style="color:#1C9674" class="css-bgkldf">예약 무료 취소 가능 (2024년 7월 4일 00:00까지)</span> -->
-<!-- 																	</div> -->
-<!-- 																</div> -->
 																<div class="css-159hdns e61jlzk0">
 																	<div class="css-v71nea e61jlzk1">
 																		<img alt="추가 침대 불가" loading="lazy" width="14" height="14" decoding="async" data-nimg="1" style="color:transparent" src="https://dffoxz5he03rp.cloudfront.net/icons/ico_checked_option_attribute_3x.png">
@@ -620,31 +695,36 @@
 													</div>
 													<div class="css-1g90fsm e1q9d9302">
 														<div class="css-1jqfg0 e1q9d9303">
-															<div class="css-16fffon e16iha2r0">
-																<div class="css-fjt9ki e16iha2r1">
-																	<span class="css-pglvi5 e16iha2r3">할인가</span>
-																	<span class="css-1e8aui5 e16iha2r4">${formattedPrice}원/박</span>
-																</div>
-																<div class="css-114g9yd e16iha2r5">
-																	<div class="css-12dy4dz e16iha2r2">
-																		<span class="css-1bg0z7j e16iha2r6">${formattedDiscountedPrice}원/박</span>
-<!-- 																		<img height="13" src="https://dffoxz5he03rp.cloudfront.net/icons/zero_margin_3x.png" alt="뱃지"> -->
-																	</div>
-																</div>
-																<div class="css-12dy4dz e16iha2r2">
-																	<div class="css-w9c0d8 e16iha2r7">
-																		<span class="css-1njnize e16iha2r8">세금 및 수수료 포함</span>
-																	</div>
-																</div>
-<!-- 																<button type="button" class="e16iha2r9 css-xekm6i"> -->
-<!-- 																	<span class="css-17cznx6">할인 상세 보기</span> -->
-<!-- 																</button> -->
-															</div>
-														</div>
+								                           <div class="css-16fffon e16iha2r0">
+								                                <c:if test="${discountRate > 0 or discountAmount > 0}">
+								                                    <div class="css-fjt9ki e16iha2r1">
+								                                        <span class="css-pglvi5 e16iha2r3">할인가</span>
+								                                        <span class="css-1e8aui5 e16iha2r4">${formattedPrice}원/박</span>
+								                                    </div>
+									                                <div class="css-114g9yd e16iha2r5">
+									                                    <div class="css-12dy4dz e16iha2r2">
+									                                        <span class="css-1bg0z7j e16iha2r6">${formattedDiscountedPrice}원/박</span>
+									                                    </div>
+									                                </div>
+								                                </c:if>
+								                                <c:if test="${discountRate == 0 and discountAmount == 0}">
+								                                    <div class="css-114g9yd e16iha2r5">
+								                                        <div class="css-12dy4dz e16iha2r2">
+								                                            <span class="css-1bg0z7j e16iha2r6">${formattedPrice}원/박</span>
+								                                        </div>
+								                                    </div>
+								                                </c:if>
+								                                <div class="css-12dy4dz e16iha2r2">
+								                                    <div class="css-w9c0d8 e16iha2r7">
+								                                        <span class="css-1njnize e16iha2r8">세금 및 수수료 포함</span>
+								                                    </div>
+								                                </div>
+								                            </div>
+								                        </div>
 														
 														<div class="css-me3ito e1q9d9304">
 															<input type="hidden" name="hotel_idx" value="${hotel.hotel_idx}" class="hotel-idx">
-															<a href="/Accommodation/RoomOrder/${room.room_idx}?id=1" class="roomBtn e14snjrl0 css-m0pn6q reserve-btn" data-room-id="${room.room_idx}">
+															<a href="/Accommodation/RoomOrder/${room.room_idx}" class="roomBtn e14snjrl0 css-m0pn6q reserve-btn" data-room-id="${room.room_idx}">
 																<div class="css-pszfx5">
 																	<span class="css-1bjjy4l">예약하기</span>
 																</div>
@@ -666,6 +746,402 @@
 									</div>
 								</div>
 							</c:forEach>
+						</div>
+					</div>
+				</div>
+<!-- 			이용자 후기 -->
+				<div class="css-1n36r0e e2o1h7g2">
+					<div class="e2ze88m0 css-9vd5ud">
+						<div class="css-8atqhb e1b6nef70">
+							<div class="css-y8aj3r efdb0sb0">
+								<div class="css-1nyh2zz efdb0sb2">
+									<div class="css-1jgjkq5 efdb0sb3">
+										<span class="css-1k1esfp">이용자 후기</span>
+									</div>
+									<div class=" css-1uk1gs8 efdb0sb1">
+<!-- 									평점 -->
+										<div class=" css-0 ehc7ir60">
+											<div class=" css-1ig3hb9 eltv0cm0">
+												<div class="css-xi606m eltv0cm1">
+												    <div class="css-yyghs0 eltv0cm2">${rateInfo.AVERAGERATE}</div>
+												    <div class="css-ua4zwz e1aoll0l0">
+												        <c:set var="averageRate" value="${rateInfo.AVERAGERATE}" />
+												        <c:forEach var="i" begin="1" end="5">
+												            <c:choose>
+												                <c:when test="${i <= averageRate}">
+												                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1ypszv9 e1aoll0l1">
+												                        <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+												                    </svg>
+												                </c:when>
+												                <c:otherwise>
+												                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-1ypszv9 e1aoll0l1">
+												                        <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+												                    </svg>
+												                </c:otherwise>
+												            </c:choose>
+												        </c:forEach>
+												    </div>
+												</div>
+												<div class="css-1d86pdh eltv0cm3"></div>
+												<div>
+												    <c:forEach var="entry" items="${rateDistribution}">
+												        <div class="css-7pf6at e3e1et10">
+												            <div class="css-1ay9vb9 e3e1et11">
+												                <div class="css-16la138 e1aoll0l0">
+												                    <c:forEach var="i" begin="1" end="${entry.key}">
+												                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1ypszv9 e1aoll0l1">
+												                            <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+												                        </svg>
+												                    </c:forEach>
+												                    <c:forEach var="i" begin="${entry.key + 1}" end="5">
+												                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-1ypszv9 e1aoll0l1">
+												                            <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+												                        </svg>
+												                    </c:forEach>
+												                </div>
+												            </div>
+												            <div class="css-1re6qlw css-1ckuzyr e96vwor0">
+												                <div class="css-1w3k4j7 e96vwor1"></div>
+												            </div>
+												            <div class="css-1r79v93 e3e1et12">${entry.value}명</div>
+												        </div>
+												    </c:forEach>
+												</div>
+											</div>
+										</div>
+<!-- 										여행자들이 뽑은 좋은 점 -->
+										<div class="css-ks0b9v e1bdqd1e0">
+										    <strong class="css-1wmbu1r e1bdqd1e1">여행자들이 뽑은 좋은 점</strong>
+										    <div class="css-udz7ce e1bdqd1e2">
+										        <c:forEach var="option" items="${topReviewOptions}" varStatus="status">
+										            <div class="css-k008qs ejclplo0">
+										                <span class="css-1t9pz9x ejclplo1">
+										                    <img src="${option.IMAGE_URL}" alt="Score" class="css-8atqhb ejclplo4">
+										                </span>
+										                <span class="css-v3n1cv ejclplo2">${option.NAME}</span>
+										                <span class="css-rqty1l ejclplo3">
+										                    <c:choose>
+										                        <c:when test="${status.index == 0}">
+										                            <img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2021/10/19/FpLq/YImwecX4o3.png" alt="Rank" class="css-8atqhb ejclplo4">
+										                        </c:when>
+										                        <c:when test="${status.index == 1}">
+										                            <img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2021/10/19/0Bo5/GGMYaHoOea.png" alt="Rank" class="css-8atqhb ejclplo4">
+										                        </c:when>
+										                        <c:when test="${status.index == 2}">
+										                            <img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2021/10/19/UQV9/ALPgKP36Z6.png" alt="Rank" class="css-8atqhb ejclplo4">
+										                        </c:when>
+										                    </c:choose>
+										                </span>
+										            </div>
+										        </c:forEach>
+										    </div>
+										</div>
+<!-- 										사진 후기 -->
+										<div class="css-11yrzj9 e1ofz58j0">
+										    <ul class="css-982b5g e1q2t7rb0">
+										        <li class="css-p4bbom etgtirl0">
+										            <button class="css-tnyp0k" type="button">
+										                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" type="gray" class="css-159ijcc">
+										                    <path d="M7.025 17.075h9.95c.217 0 .383-.104.5-.313.117-.208.1-.412-.05-.612L14.7 12.5a.54.54 0 0 0-.462-.25.54.54 0 0 0-.463.25l-2.525 3.375L9.475 13.5a.54.54 0 0 0-.463-.25.54.54 0 0 0-.462.25l-1.975 2.65c-.15.2-.17.404-.062.612a.539.539 0 0 0 .512.313ZM5.075 21.2c-.633 0-1.17-.22-1.612-.662a2.195 2.195 0 0 1-.663-1.613V5.075c0-.633.221-1.171.663-1.613A2.194 2.194 0 0 1 5.075 2.8h13.85c.633 0 1.171.22 1.613.662.441.442.662.98.662 1.613v13.85c0 .633-.22 1.171-.662 1.613-.442.441-.98.662-1.613.662H5.075Z"></path>
+										                </svg>사진 후기
+										            </button>
+										        </li>
+										        <li class="css-p4bbom etgtirl0">
+										            <button class="css-tnyp0k" type="button">
+										                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" type="gray" class="css-159ijcc">
+										                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                </svg>평점
+										            </button>
+										            <div class="ekrgk9v1 css-ujouc">
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="all">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="all" type="radio" class="css-12a4kog" value="0" checked="">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div class="css-6mvyws"><span>전체</span></div>
+										                    </label>
+										                </div>
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="5">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="5" type="radio" class="css-12a4kog" value="5">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div class="css-6mvyws" color="">
+										                            <div class="css-t298uz e1aoll0l0">
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                            </div>
+										                        </div>
+										                    </label>
+										                </div>
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="4">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="4" type="radio" class="css-12a4kog" value="4">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div color="" class="css-6mvyws">
+										                            <div class="css-t298uz e1aoll0l0">
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                            </div>
+										                        </div>
+										                    </label>
+										                </div>
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="3">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="3" type="radio" class="css-12a4kog" value="3">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div color="" class="css-6mvyws">
+										                            <div class="css-t298uz e1aoll0l0">
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                            </div>
+										                        </div>
+										                    </label>
+										                </div>
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="2">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="2" type="radio" class="css-12a4kog" value="2">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div color="" class="css-6mvyws">
+										                            <div class="css-t298uz e1aoll0l0">
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                            </div>
+										                        </div>
+										                    </label>
+										                </div>
+										                <div role="button" tabindex="0" class="css-19tqikr ekrgk9v0">
+										                    <label class=" css-19bfog6" for="1">
+										                        <div class="css-1ert3cq">
+										                            <div class="css-75qw4d">
+										                                <input id="1" type="radio" class="css-12a4kog" value="1">
+										                                <div class="css-3wrzi8"></div>
+										                                <div class="css-1dxdjkp"></div>
+										                            </div>
+										                        </div>
+										                        <div color="" class="css-6mvyws">
+										                            <div class="css-t298uz e1aoll0l0">
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-1hntmln e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" hidden="" class="css-1h97awa e1aoll0l1">
+										                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+										                                </svg>
+										                            </div>
+										                        </div>
+										                    </label>
+										                </div>
+										            </div>
+										        </li>
+										    </ul>
+										    
+										    <ul class="css-e13tn ejeqkl0">
+										        <li>
+										            <button type="button" class="css-13i95we e1qq2zjq0" onclick="fetchReviews('latest')">
+										                <span class="css-1lyhns4 e1qq2zjq1"></span>
+										                <span class="css-12kom43 e1qq2zjq2">최신순</span>
+										            </button>
+										        </li>
+										        <li>
+										            <button type="button" class="css-13i95we e1qq2zjq0" onclick="fetchReviews('highRating')">
+										                <span class="css-1lyhns4 e1qq2zjq1"></span>
+										                <span class="css-12kom43 e1qq2zjq2">높은 평점순</span>
+										            </button>
+										        </li>
+										        <li>
+										            <button type="button" class="css-13i95we e1qq2zjq0" onclick="fetchReviews('lowRating')">
+										                <span class="css-1lyhns4 e1qq2zjq1"></span>
+										                <span class="css-12kom43 e1qq2zjq2">낮은 평점순</span>
+										            </button>
+										        </li>
+										    </ul>
+										</div>
+<!-- 										후기 댓글 -->
+<div id="reviewsContainer">
+    <c:forEach var="review" items="${reviews}">
+        <div class="css-x0ee88 e17edoke0">
+            <div class="css-13ovph5 e126udd70">
+                <div class="css-q1ewhp e126udd72">
+                    <div class="css-1meotse eiua2q0">
+                        <div class="css-ua4zwz e1aoll0l0">
+                            <c:forEach var="i" begin="1" end="${review.AVG_RATE}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-flfwei e1aoll0l1">
+                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+                                </svg>
+                            </c:forEach>
+                            <c:forEach var="i" begin="${review.AVG_RATE + 1}" end="5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-flfwei e1aoll0l1">
+                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+                                </svg>
+                            </c:forEach>
+                        </div>
+                        <span class="css-akej1n eiua2q1">${review.PERSON_NAME}</span>
+                    </div>
+                    <div class="css-vjkoi3 eiua2q2">
+                        <span class="css-f7fpqi eiua2q3">${review.CREATED}</span>
+                    </div>
+                    <div class="e126udd73 css-1qhcaz0">${review.CONTENT}</div>
+                </div>
+				<div class="e126udd74 css-1dz9tqv">
+				    <c:forEach var="image" items="${fn:split(review.reviewImages, ',')}">
+				        <img alt="" loading="lazy" class="css-y5m0bt" src="${pageContext.request.contextPath}/images/hotel/${image}">
+				    </c:forEach>
+				    <div class="css-2z6lb8" hidden="">
+				        <img src="https://dffoxz5he03rp.cloudfront.net/etc/img-placeholder.svg" alt="Placeholder Thumbnail" class="css-1ydfimi">
+				    </div>
+				</div>
+                <div class=" css-hozfwu e286p9y0">
+                    <c:forEach var="option" items="${fn:split(review.OPTIONS, ',')}">
+                        <span class="e286p9y1 css-htjz8p">${option}</span>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+</div>
+
+										
+<form id="reviewForm" onsubmit="submitReview(event)" method="POST">
+    <input type="hidden" id="hotelIdx" name="hotelIdx">
+    <textarea id="reviewContent" name="content" placeholder="리뷰 내용을 입력하세요"></textarea>
+
+    <div>
+        <label>평점:</label>
+        <label><input type="radio" name="rating" value="1"> 1</label>
+        <label><input type="radio" name="rating" value="2"> 2</label>
+        <label><input type="radio" name="rating" value="3"> 3</label>
+        <label><input type="radio" name="rating" value="4"> 4</label>
+        <label><input type="radio" name="rating" value="5"> 5</label>
+    </div>
+
+    <div>
+        <label>옵션:</label>
+        <button type="button" id="optionsButton">옵션 선택</button>
+        <div id="optionsContainer" style="display: none;"></div>
+    </div>
+
+    <div>
+        <label>리뷰 이미지:</label>
+        <input type="file" name="reviewImages" multiple>
+    </div>
+
+    <button type="submit">리뷰 제출</button>
+</form>
+<!-- 										페이징 -->
+										<div class="css-kknodv">
+										    <div class="css-aymlz4">
+										        <li>
+										            <button type="button" class="css-6dqveo">
+										                <span class="css-5lup2s">
+										                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" fill="currentColor" viewBox="0 0 12 24" class="mrt-web-icons" color="#ced4da">
+										                        <path d="m6.925 17.4-4.6-4.6a1.057 1.057 0 0 1-.25-.375A1.2 1.2 0 0 1 2 12c0-.15.025-.292.075-.425.05-.133.133-.258.25-.375l4.6-4.6c.217-.217.483-.325.8-.325.317 0 .583.108.8.325.217.217.325.483.325.8 0 .317-.108.583-.325.8l-3.8 3.8 3.8 3.8c.217.217.325.483.325.8 0 .317-.108.583-.325.8a1.087 1.087 0 0 1-.8.325c-.317 0-.583-.108-.8-.325Z"></path>
+										                    </svg>
+										                </span>
+										            </button>
+										        </li>
+										        <li>
+										            <button type="button" class="css-4t7rh3">
+										                <span class="css-5lup2s">1</span>
+										            </button>
+										        </li>
+										        <li>
+										            <button type="button" class="css-6dqveo">
+										                <span class="css-5lup2s">
+										                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" fill="currentColor" viewBox="0 0 12 24" class="mrt-web-icons" color="#ced4da">
+										                        <path d="M3.475 17.4a1.087 1.087 0 0 1-.325-.8c0-.317.108-.583.325-.8l3.8-3.8-3.8-3.8a1.087 1.087 0 0 1-.325-.8c0-.317.108-.583.325-.8.217-.217.483-.325.8-.325.317 0 .583.108.8.325l4.6 4.6c.117.117.2.242.25.375A1.2 1.2 0 0 1 10 12a1.2 1.2 0 0 1-.075.425c-.05.133-.133.258-.25.375l-4.6 4.6a1.087 1.087 0 0 1-.8.325c-.317 0-.583-.108-.8-.325Z"></path>
+										                    </svg>
+										                </span>
+										            </button>
+										        </li>
+										    </div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -691,6 +1167,14 @@
 	    const pathArray = window.location.pathname.split('/');
 	    const hotel_idx = pathArray[pathArray.length - 1]; // URL 마지막 부분이 hotel_idx
 		
+	    // hotelIdx 값을 히든 필드에 설정
+	    const hotelIdxInput = document.createElement('input');
+	    hotelIdxInput.type = 'hidden';
+	    hotelIdxInput.id = 'hotelIdx';
+	    hotelIdxInput.name = 'hotelIdx';
+	    hotelIdxInput.value = hotelIdx;
+	    document.getElementById('reviewForm').appendChild(hotelIdxInput);
+	    
 		// dropdown 활성화
 		const placeDropdown = document.querySelector('.place-dropdown');
 		const dateDropdown = document.querySelector('.date-dropdown');
@@ -723,6 +1207,7 @@
 		const placeInput = document.getElementById('placeInput');
 		const dateInput = document.getElementById('dateInput');
 		const guestInput = document.getElementById('guestInput');
+
 		
 		// dropdown 관련
 		const placeElements = document.querySelectorAll('.e1gvp92b0')
@@ -797,6 +1282,35 @@
 	        changeDateDropdown.style.display = changeDateDropdown.style.display === 'none' ? 'block' : 'none';
 	    });
 		
+	    document.getElementById('changeDateButton').addEventListener('click', function() {
+	        // 새로운 날짜를 가져와서 API 호출
+	        const newCheckInDate = '2024-07-03'; // 변경된 체크인 날짜
+	        const newCheckOutDate = '2024-07-18'; // 변경된 체크아웃 날짜
+	        const roomIdx = 1; // 실제 room_idx 값을 여기에 설정
+
+	        const requestData = {
+	            room_idx: roomIdx,
+	            check_in_date: newCheckInDate,
+	            check_out_date: newCheckOutDate
+	        };
+
+	        fetch('/AccommodationApi/checkAvailableRooms', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify(requestData)
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            // 새로운 가용 객실 수를 화면에 반영
+	            document.querySelector('.css-bgkldf').innerText = '객실이 ' + data + '개 남았어요';
+	        })
+	        .catch(error => {
+	            console.error('객실 수 업데이트 중 오류가 발생했습니다.', error);
+	        });
+	    });
+	    
 		// place 관련 로직
 		loadSearchHistory();
 		
@@ -1049,6 +1563,53 @@
 	    initializeDatepicker(datepicker, dateDetails);
 	    initializeDatepicker(datepicker2, dateDetailsChange);
 	    
+	    $(function() {
+	        $("#datepicker2").datepicker({
+	            onSelect: function(dateText) {
+	                const dates = dateText.split(" - ");
+	                const checkInDate = dates[0];
+	                const checkOutDate = dates[1];
+
+	                document.getElementById('newCheckInDateInput').value = checkInDate;
+	                document.getElementById('newCheckOutDateInput').value = checkOutDate;
+	            }
+	        });
+	    });
+	    
+	    document.getElementById('changeDateButton').addEventListener('click', function() {
+	        // Get the selected dates from the hidden inputs
+	        const newCheckInDate = document.getElementById('newCheckInDateInput').value;
+	        const newCheckOutDate = document.getElementById('newCheckOutDateInput').value;
+	        const roomIdx = document.getElementById('roomIdxInput').value;
+
+	        if (!newCheckInDate || !newCheckOutDate) {
+	            alert("먼저 날짜를 선택하세요.");
+	            return;
+	        }
+
+	        const requestData = {
+	            room_idx: roomIdx,
+	            check_in_date: newCheckInDate,
+	            check_out_date: newCheckOutDate
+	        };
+
+	        fetch('/AccommodationApi/checkAvailableRooms', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify(requestData)
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            // 새로운 가용 객실 수를 화면에 반영
+	            document.querySelector('.css-bgkldf').innerText = `객실이 ${data}개 남았어요`;
+	        })
+	        .catch(error => {
+	            console.error('객실 수 업데이트 중 오류가 발생했습니다.', error);
+	        });
+	    });
+	    
 		// "인원" 항목 클릭 이벤트
 
 		// guest 값 설정
@@ -1158,7 +1719,83 @@
 	            form.submit();
 	        });
 	    });
-	})
+
+		    document.getElementById('optionsButton').addEventListener('click', toggleOptions);	
+		    
+            function toggleOptions() {
+                const optionsContainer = document.getElementById('optionsContainer');
+                if (optionsContainer.style.display === 'none') {
+                    fetchOptions();
+                    optionsContainer.style.display = 'block';
+                } else {
+                    optionsContainer.style.display = 'none';
+                }
+            }
+
+            function fetchOptions() {
+            	
+                fetch('/AccommodationApi/getReviewOptions')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!Array.isArray(data)) {
+                            throw new Error("Invalid data format");
+                        }
+                        console.log('Fetched options:', data); // 디버깅 로그 추가
+                        const optionsContainer = document.getElementById('optionsContainer');
+                        optionsContainer.innerHTML = ''; // 기존 옵션 초기화
+                        data.forEach(option => {
+                            const label = document.createElement('label');
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.name = 'options';
+                            checkbox.value = option.optionIdx; // optionIdx를 사용
+                            label.appendChild(checkbox);
+                            label.appendChild(document.createTextNode(option.optionName)); // optionName을 사용
+                            optionsContainer.appendChild(label);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching options:', error));
+            }
+			
+            
+            
+            function submitReview(event) {
+                event.preventDefault();
+                
+                const hotelIdx = document.getElementById('hotelIdx').value;
+                console.log("Extracted hotelIdx from form:", hotelIdx); // 디버깅용 로그 추가
+
+                const form = document.getElementById('reviewForm');
+                const formData = new FormData(form);
+
+                formData.append('hotelIdx', hotelIdx);
+                formData.append('content', formData.get('content'));
+                formData.append('rating', parseInt(formData.get('rating')));
+                formData.getAll('options').forEach(option => formData.append('options', option));
+                formData.getAll('reviewImages').forEach(image => formData.append('reviewImages', image));
+
+                fetch('/AccommodationApi/submitReview', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('리뷰가 성공적으로 제출되었습니다.');
+                    } else {
+                        alert('리뷰 제출에 실패했습니다.');
+                    }
+                })
+                .catch(error => console.error('Error submitting review:', error));
+            }
+
+            // 옵션을 선택할 수 있는 버튼 이벤트 리스너
+            document.getElementById('optionsButton').addEventListener('click', toggleOptions);
+
+            // 리뷰 제출 폼 이벤트 리스너
+            document.getElementById('reviewForm').addEventListener('submit', submitReview);
+    
+	});
 </script>	 
 </body>
 

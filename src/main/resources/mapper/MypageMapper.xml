@@ -44,13 +44,11 @@ select
     room_tb.hotel_idx,
     room_tb.title,
     rr_tb.reservation_price,
-    rr_tb.reservation_su,
-    room_tb.max_preson,
+    room_tb.max_person,
     rr_tb.created
 from
 (select
    room_reservation_tb.room_idx,
-    room_reservation_tb.reservation_su,
     room_reservation_tb.reservation_price,
     room_reservation_tb.created
 from room_reservation_tb
