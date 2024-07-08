@@ -353,6 +353,13 @@ input.form-control::placeholder {
             font-size: 18px;
             margin-bottom: 10px;
         }
+        
+        
+        
+        
+        
+        
+        
         .review-content {
             line-height: 1.6;
         }
@@ -360,7 +367,7 @@ input.form-control::placeholder {
             position: static;
             top: 10px;
             right: 10px;
-            width: 100px;
+            max-width: 100px;
             height: auto;
         }
         
@@ -526,16 +533,186 @@ h1 {
         }
     }
 }
-
-
-
-
         .img-thumbnail {
             max-width: 100px; /* 최대 너비 100px로 설정 */
             max-height: 100px; /* 최대 높이 100px로 설정 */
             margin: 5px; /* 이미지 사이의 간격 설정 */
         }
+</style>
+<style>
+ .rating_count{
+ 	padding-top:10px;
+ 	color:black;
+ }
+</style>
+
+<style>
+.convenienceList {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;  /* Flexbox 사용 */
+    flex-wrap: wrap; /* 넘칠 경우 줄 바꿈 */
+    gap: 5px; /* 버튼 간격 설정 */
+}
+
+
+/* 각 섹션의 제목 스타일링 */
+.convenienceList h4 {
+    flex-basis: 100%; /* 가로 전체 너비 차지 */
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 2px;
+    margin-bottom: 1px;
+}
+
+.convenience_btn {
+max-width: 100px;/* 한 줄에 6개의 버튼이 오도록 *//*     height: 50px; */
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: black; /* 기본 배경색 */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.convenience_btn:hover {
+    background-color: #A7B0D6; /* 호버 시 배경색 변경 */
+    color : black;
+}
+
+
+
+/* 버튼 그룹 사이의 간격 조정 */
+.convenienceList .convenience_container:last-child {
+    margin-bottom: 0;
+}
+
+
+
 </style> 
+<style>
+
+.Period {
+    text-align: center;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.spacer {
+    margin: 10px 0;
+}
+
+.Perioddate {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+}
+
+.dateString{
+display:inline-block;
+	font-weight: bolder;
+}
+</style>
+    <style>
+        .slide {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+        }
+        .review_img {
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+        .detail_rate_content2 {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .button2, .button3 {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .button2 {
+            background-color: #007bff;
+            color: white;
+        }
+        .button3 {
+            background-color: #28a745;
+            color: white;
+        }
+        
+
+    </style>
+    
+<style>
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none; /* 처음에는 숨겨짐 */
+            justify-content: center;
+            align-items: center;
+        }
+
+</style>
+
+<style>
+        /* Optional styling for preview container */
+        #preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .preview-item {
+            text-align: center;
+        }
+
+        .preview-item img {
+            max-width: 100px; /* 원하는 이미지 너비 */
+            height: 100px; /* 원하는 이미지 높이 */
+            display: block; /* 이미지를 블록 요소로 설정하여 가로 정렬을 적용합니다. */
+            margin: 0 auto; /* 자동 마진을 사용하여 이미지를 중앙에 배치합니다. */
+        }
+            .delete-button-wrapper {
+        text-align: right; /* 삭제하기 버튼을 오른쪽 정렬합니다. */
+    }
+    </style>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -556,7 +733,7 @@ h1 {
  <div id="container1" >
  
   <div class="content1" data-rate1="${package_Rate.rate}">
- 	<h2>${ packageVo.title } 스위스 (K-드라마) 촬영지와 블라우제 호수 투어 (스위스/인터라켄)</h2>
+ 	<h2>${ packageVo.title }</h2>
  	
  	<c:set var="user_idx" value="${user_idx}" />
 
@@ -574,14 +751,27 @@ h1 {
                 <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
                 <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
                 <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+     			<div class="rating_count">(${ package_ReviewCount.count })</div>
             </div>
-     <div>(${ package_ReviewCount.count })</div>
 <hr>
 <div class="convenienceList">
 
+	<h4>편의사항</h4>
 	<c:forEach var="co" items="${ coList }">
 		<div class="convenience_container">
 				<button type="button" class="convenience_btn" name="convenience_idx" value="${ co.convenience_idx }" style="width: 200px; height: 50px;">${co.name }</button>
+		</div>
+	</c:forEach>
+		<h4>나라</h4>
+	<c:forEach var="co" items="${ locationList }">
+		<div class="convenience_container">
+				<button type="button" class="convenience_btn" name="convenience_idx" value="${ co.location_idx }" style="width: 200px; height: 50px;">${co.name }</button>
+		</div>
+	</c:forEach>
+		<h4>카테고리</h4>
+	<c:forEach var="co" items="${ categoryList }">
+		<div class="convenience_container">
+				<button type="button" class="convenience_btn" name="convenience_idx" value="${ co.category_idx }" style="width: 200px; height: 50px;">${co.name }</button>
 		</div>
 	</c:forEach>
 </div>
@@ -602,10 +792,11 @@ h1 {
 
 <hr>
 
+<div class="Period">
+<p class="dateString">${dateString.start_date }</p>&nbsp;&nbsp;부터&nbsp;&nbsp;<p class="dateString">${dateString.end_date }</p> &nbsp;&nbsp;까지일정입니다
+<p class="Perioddate">${ period_date }일간 즐거운 여행되세요</p>
+</div>
 
-<button class="btn btn-primary">${packageVo.start_date }</button>
-<span>${ packageVo.duration }</span>
-<button class="btn btn-primary">${packageVo.end_date }</button>
 
     
 
@@ -640,35 +831,13 @@ h1 {
 <hr>
 
 <div class=detail>
-	🏞[드라마 촬영지 + 블라우제호수 투어] 스위스여행에서 꼭 가보고 싶었던 곳을 모두 볼수 있는 투어~~
-[에델바이스가 피는 나라에서 만나자~] 
-에델바이스가 피는 나라 스위스에서 그중에서도 가장 아름답게 보여주었던 곳으로 여러분의 스위스 여행를 빛내드립니다.
-드라마 화면에서도 다 담아지지 않을만큼 아름다운 스위스의 아름다움. 
-웅장한 알프스의  절경. 동화같은 마을을 함께 여행해 드립니다.
-🚘단독차량+가이드 투어로 편안하게 여행하세요.
-(대중교통으로 이동하기 어려운⚡ 놓칠수 없는 여행지만  쏙쏙~)👌
-
-[유명한 K-드라마] 촬영지 투어 +숲속의 에메랄드 빛 호수를 품고 있는 블라우제 여행
-09:00 : 가이드 미팅 후 
-1.	시그리스 빌(Sigriswil) - 남,녀 주인공이 만나는 장면
-                                           거미(Gummi)협곡 위에 놓인 넓이 340m, 지상 180m 높이의 보행자 현수교에서 바라보는 툰호수 배경.
-2.	이젤트발트(lseltwald)- 남자 주인공이 유람선 선착장에서 피아노를 치며, 브리엔츠 호수를 배경으로 동화같이 
-                                                펼쳐진 이젤트발트 마을.
-3.	블라우제(Blausee)-'마법의 숲, 고독한 풍경 속의 보석, 이라고 불리는 호수는 에메랄드 빛 보석의 색깔을 가지고 있는 스위  
-                                           스에서는 유명한 숲속의 호수이다.
-
-가이드와 차량으로 이동하며 여행하는 투어입니다.
-
-스위스는 특히 눈으로 보는 풍경이 사진이나 영상에 다 담아지지 않는다는 말씀들 많이 하십니다.
-영상에 보여진 모습보다 눈으로 직접 보면 더 아름다운 곳이 스위스, 알프스 모습입니다.
-
--일생에 한번 허니문 여행
--소중한 가족과 함께 하는 여행
--연인과 잊지 못할 추억을 위한 여행
--혼자만의 힐링여행
-
-대중교통과 기차로는 이동하기 힘든 여러 곳을 차량으로 가이드와 함께 콕 짚어 여행할 수 있는 좋은 기회입니다.
-스위스 여행에서 한번쯤은 잊지 못할 추억을 남겨보세요.
+${packageVo.detail1}
+</div>
+<div class=detail>
+${packageVo.detail1}
+</div>
+<div class=detail>
+${packageVo.detail1}
 </div>
 <button class="button">더보기</button>
 
@@ -676,8 +845,7 @@ h1 {
 
 <div class="detail_rate">
 <div class="detail_rate_content1">
-<h2>${ package_Rate_Max.rate/2 }</h2>
-<div class="detail_rate_star" data-rate2="${ package_Rate_Max.rate }">
+<div class="detail_rate_star" data-rate2="${ max_review.rate }">
  	<div class="rating" >
          <div class="rating" >
          <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
@@ -692,23 +860,23 @@ h1 {
          <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
      </div>
 </div>
-
+<h2>${ max_review.rate/2 }</h2>
 </div>
-<div>무언가</div>
 </div>
 
 
-<div class="detail_rate_content2">
-
-<h3>이름</h3>
-<p>날짜</p>
-<div > <img src="/package_image/package_paris.jpg" alt="Paris Package" class="review_img"></div>
-<p class="review">움직이기 힘든 지역들은 차로 편안하게 볼 수 있어서 좋았어요!
-엄마랑 파리에서 많이 걸어다니면서 체력적으로 많이 힘들었는데 너무 좋은 투어를 만나 힐링할 수 있었습니다💕움직이기 힘든 지역들은 차로 편안하게 볼 수 있어서 좋았어요!
-엄마랑 파리에서 많이 걸어다니면서 체력적으로 많이 힘들었는데 너무 좋은 투어를 만나 힐링할 수 있었습니다💕움직이기 힘든 지역들은 차로 편안하게 볼 수 있어서 좋았어요!
-</p>
-<button class="button2">더보기</button>
-<button class="button3">더많은후기 보러가기</button>
+    <div class="detail_rate_content2">
+        <h3>${max_review.full_name}</h3>
+        <p>${max_review.created}</p>
+        <div id="imageContainer"> 
+            <!-- 이미지가 JavaScript로 추가될 자리 -->
+        </div>
+<!--         <img src="/package_image/package_paris.jpg" alt="Paris Package" class="review_img"> -->
+        <p class="review">
+            ${max_review.content}
+        </p>
+        <button id="toggleButton" class="button2" onclick="toggleContent()">더보기</button>
+        <button class="button3" onclick="scrollToReviews()">더많은후기 보러가기</button>
 
 
 </div>
@@ -722,13 +890,19 @@ h1 {
 
 <div class="meeting">
 <h2>이용안내</h2>
-<h4>만나는 시간</h4>
-<div>시간</div>
-<h4>만나는 장소</h4>
-<div>장소 글</div>
+<h4>집합시간</h4>
+<div>${dateTime}</div>
+<h4>집합장소</h4>
+<div>${ packageVo.address1 }</div>
+<hr>
+<div>&nbsp;</div>
+<h2>지도</h2>
+<div>&nbsp;</div>
  <input type="hidden" id="address" value="${ packageVo.address1 }">
  <div id="map" style="width: 100%; height: 400px; margin: 0 auto;"></div>
+ <div>&nbsp;</div>
 <h4>필수 안내</h4>
+<div>&nbsp;</div>
 <div>* 본 상품에는 여행자보험이 포함되어 있지 않습니다. 여행자보험 가입후 투어 참여해 주세요.
 * 최소 모객 인원은 4인입니다. (투어 7일 전까지 4인이 모객되지 않을 경우 투어가 취소될 수 있습니다. )
 *4인 단독으로 진행을 원하실경우 .(단독진행시 비용추가 발생이 있으십니다. 문의 후 진행 가능여부 안내드립니다.)
@@ -740,8 +914,10 @@ h1 {
 * 여행자 보험을 꼭 가입하고 투어에 참여하시길 권유합니다.</div>
 
 </div>
+<div>&nbsp;</div>
 
 <h4>취소 및 환불 규정</h4>
+<div>&nbsp;</div>
 <div>
 - 여행시작 30일 전까지 (~30) 통보 시 : 여행 요금 전액 환불
 - 여행시작 20일 전까지 (29~20) 통보 시 : 총 상품 금액에서 10% 공제 후 환불
@@ -753,22 +929,26 @@ h1 {
 <hr>
 
 <div class="flex-container">
+<div>&nbsp;</div>
   <h3 style="display: inline-block;">리뷰</h3>
+<div>&nbsp;</div>
   <div class="button-container">
     <c:if test="${not empty paycount and paycount > 0}">
 <button class="ReviewRate btn btn-primary" style="display: inline-block;" id="goReviewWrite">리뷰쓰기</button>
     </c:if>
-
+<div>&nbsp;</div>
   </div>
 </div>
 <div class="reviews">
     <c:forEach var="re" items="${reviewList}">
         <div class="review1" data-rate="${re.rate}" >
+      
 <c:set var="imageArray" value="${re.image.split(',')}"/>
 <c:forEach var="img" items="${imageArray}">
-    <img src="${img}" class="review-img">
+    <img src="${img}" class="review-img" style="width: 100px; height: 100px; float: right; margin:3px;" >
 </c:forEach>
             <div class="review-title">${re.created}</div>
+              <input type="hidden" value="${ re.package_review_idx}" class="package_review_idx">
             <div class="rating">
                 <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
                 <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
@@ -786,6 +966,11 @@ h1 {
             <div class="review-content">
                 ${re.content}
             </div>
+            <c:if test ="${person_idx == re.person_idx}">
+         <div class="delete-button-wrapper">
+            <button class="ReviewDelete btn btn-danger">삭제하기</button>
+        </div>
+        </c:if>
         </div>
     </c:forEach>
 </div>
@@ -794,9 +979,19 @@ h1 {
   <aside class="sidebar1">
     <div class="sidebar-section">
       <h4>금액/제한인원</h4>
-      <p>금액: ${ packageVo.price }원</p>
-      <input type="hidden" value="${ packageVo.price }" id="money">
-      <p>제한 인원: ${ packageVo.limited_person }명</p>
+      
+    <c:choose>
+        <c:when test="${discount_price != null && discount_price != 0}">
+            <p>할인: ${discount_price}원</p>
+            <input type="hidden" value="${discount_price}" id="money">
+        </c:when>
+        <c:otherwise>
+            <p>금액: ${packageVo.price}원</p>
+            <input type="hidden" value="${packageVo.price}" id="money">
+        </c:otherwise>
+    </c:choose>
+
+
     </div>
 
     <div class="sidebar-section">
@@ -821,7 +1016,21 @@ h1 {
   <div class="sidebar-section">
     <form action="#" method="post">
       <div id="finalmoney"></div>
-      <input type="submit" value="예약하기" id="goApply">
+          <c:choose>
+        <c:when test="${remain_person == 0}">
+            <p>마감된 패키지 상품입니다</p>
+        </c:when>
+        <c:when test="${remain_person > 0 && remain_person <= (packageVo.limited_person * 0.1)}">
+            <p>${ remain_person } 명 남았습니다</p>
+            <p>곧 마감입니다!!</p>
+                 <input type="submit" value="예약하기" id="goApply">
+        </c:when>
+        <c:otherwise>
+              <input type="submit" value="예약하기" id="goApply">
+        </c:otherwise>
+    </c:choose>
+      
+
     </form>
     <button id="bookmarkbtn">스크랩하기</button>
   </div>
@@ -843,7 +1052,12 @@ h1 {
 
 
 
-
+       <button id="scrollToTopBtn" class="scroll-to-top" onclick="scrollToTop()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M12 2L0 12h5v10h14V12h5z"/>
+        </svg>
+    </button>
+    
 
 
 
@@ -851,21 +1065,19 @@ h1 {
 <div class="modal2" id="exampleModal2">
   <div class="modal2-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">리뷰 작성하기</h5>
+      <h2 class="modal-title" id="exampleModalLabel" style="font-weight: bolder;">리뷰 작성하기</h2>
     </div>
     <div class="modal-body">
-      <h2 class="fs-5">모달 안의 팝오버</h2>
-  <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
-      <h2 class="fs-5">모달 안의 툴팁</h2>
-      <p><a href="#" data-bs-toggle="tooltip" title="툴팁">이 링크</a>와 <a href="#" data-bs-toggle="tooltip" title="툴팁">저 링크</a>에 마우스를 올리면 툴팁이 나타납니다.</p>
     </div>
-    
+    <hr>
     <div class="wrap">
-    <h1>별점</h1>
+    
+   
     <form action="/Package/Insert/Review" enctype="multipart/form-data" method="post">
     
     
     <input type="hidden" value="${ package_idx }" name="package_idx">
+     <h4>별점</h4>
     <div class="rating">
         <label class="rating__label rating__label--half" for="starhalf">
             <input type="radio" id="starhalf" class="rating__input" name="rate" value="1"><span class="star-icon"></span>
@@ -903,6 +1115,9 @@ h1 {
 
     <!-- 파일 선택 input 및 파일 추가 버튼 -->
     <div class="input-group mb-3 mt-3">
+        <div id="preview-container">
+        <!-- 미리보기 이미지가 표시될 영역 -->
+    </div>
         <input type="file" class="form-control" id="file" name="file" aria-describedby="logo" multiple style="display: none;">
         <label class="input-group-text" for="inputGroupFile02" id="file-add-btn">Add Files</label>
     </div>
@@ -910,7 +1125,7 @@ h1 {
     
     
     <div>
-    <textarea rows="5" cols="" name="content" placeholder="리뷰내용을 입력하세요"></textarea>
+    <textarea class="form-control" rows="5" cols="160" style="width: 500px;"name="content" placeholder="리뷰내용을 입력하세요"></textarea>
     
     <hr>
     <input type="submit" value="리뷰 등록" class="btn btn-primary">
@@ -922,8 +1137,7 @@ h1 {
         </form>
 </div>
     
-    
-    
+ 
     
 
     
@@ -938,8 +1152,118 @@ h1 {
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const geDeleteReview = document.querySelectorAll('.ReviewDelete');
 
+    geDeleteReview.forEach(button => {
+        button.addEventListener('click', function() {
+            const parentReview = this.closest('.review1');
+            const packageReviewIdxElement = parentReview.querySelector('.package_review_idx');
+            
+            if (!packageReviewIdxElement) {
+                console.error('package_review_idx 요소를 찾을 수 없습니다.');
+                return;
+            }
 
+            const packageReviewIdx = packageReviewIdxElement.value;
+
+            // AJAX 요청을 보내서 리뷰 삭제 처리
+            let url = '/Package/Delete/Review?package_review_idx=' + packageReviewIdx;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('삭제 실패');
+                }
+                // 삭제 성공 시 해당 리뷰 삭제
+                parentReview.remove(); // 해당 리뷰 요소 삭제
+
+                alert('리뷰가 성공적으로 삭제되었습니다.');
+            })
+            .catch(error => {
+                console.error('삭제 에러:', error);
+                alert('리뷰 삭제 중 오류가 발생했습니다.');
+            });
+        });
+    });
+});
+</script>
+<script>
+        // 버튼 요소 가져오기
+        var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // 버튼을 화면에 보여주는 함수
+        function showScrollToTopButton() {
+            if (window.scrollY > window.innerHeight / 2) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        }
+
+        // 최상단으로 스크롤하는 함수
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // 스크롤 이벤트 감지하여 버튼을 표시/숨기기
+        window.addEventListener('scroll', function() {
+            showScrollToTopButton();
+        });
+
+        // 페이지 로드 시 초기 버튼 상태 설정
+        showScrollToTopButton();
+    </script>
+    <script>
+        // JSP에서 EL을 사용하여 이미지 문자열을 JavaScript 변수로 전달합니다.
+        var imageString = "${max_review.image}";
+
+        // 이미지 문자열을 컴마(,)로 분할하여 배열로 변환합니다.
+        var imageList = imageString.split(',');
+
+        // 페이지 로드 시 이미지를 추가하는 함수
+        window.onload = function() {
+            var container = document.getElementById('imageContainer');
+
+            // 이미지 배열을 반복하면서 <img> 요소를 추가합니다.
+            imageList.forEach(function(image) {
+                var imgElement = document.createElement('img');
+                imgElement.src = image.trim();
+                imgElement.alt = 'Paris Package';
+                imgElement.className = 'slide active';
+                container.appendChild(imgElement);
+            });
+        };
+
+        // 더보기 버튼 클릭 시 내용을 확장/축소하는 함수
+        function toggleContent() {
+            var reviewText = document.getElementById('reviewText');
+            var toggleButton = document.getElementById('toggleButton');
+            if (reviewText.classList.contains('expanded')) {
+                reviewText.classList.remove('expanded');
+                toggleButton.textContent = '더보기';
+            } else {
+                reviewText.classList.add('expanded');
+                toggleButton.textContent = '접기';
+            }
+        }
+
+        // 더많은후기 보러가기 버튼 클릭 시 reviews 섹션으로 스크롤하는 함수
+        function scrollToReviews() {
+            var reviewsSection = document.querySelector('.reviews');
+            if (reviewsSection) {
+                reviewsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
 	const goUpdateBtn = document.getElementById('goUpdateForm');
@@ -955,76 +1279,70 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    var fileInput = document.getElementById('file');
-    var previewContainer = document.getElementById('preview-container');
-    var fileAddBtn = document.getElementById('file-add-btn');
+        document.addEventListener('DOMContentLoaded', () => {
+            var fileInput = document.getElementById('file');
+            var previewContainer = document.getElementById('preview-container');
+            var fileAddBtn = document.getElementById('file-add-btn');
 
-    // 파일 추가 버튼 클릭 시 파일 선택 input 클릭 이벤트 발생
-    fileAddBtn.addEventListener('click', function () {
-        fileInput.click(); // 파일 선택 input을 클릭하여 파일 선택 창 열기
-    });
-
-    // 파일 선택 input의 change 이벤트 처리
-    fileInput.addEventListener('change', function () {
-        // 미리보기 컨테이너 초기화
-        previewContainer.innerHTML = '';
-
-        // 선택된 모든 파일에 대해 반복 처리
-        for (let i = 0; i < fileInput.files.length; i++) {
-            let file = fileInput.files[i];
-            let reader = new FileReader();
-
-            reader.onload = function (e) {
-                // 이미지 태그를 생성하고 미리보기 이미지 설정
-                let img = new Image();
-                img.src = e.target.result;
-                img.className = 'img-thumbnail';
-                img.style.width = '100px'; // 원하는 너비
-                img.style.height = '100px'; // 원하는 높이
-
-                // 파일 이름 표시
-                let fileNamePara = document.createElement('p');
-                fileNamePara.textContent = file.name; // 파일 이름 설정
-                previewContainer.appendChild(fileNamePara); // 파일 이름 추가
-                previewContainer.appendChild(img); // 이미지 추가
-            };
-
-            // FileReader를 사용하여 파일 읽기 시작
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // 폼 제출 시
-    document.querySelector('form').addEventListener('submit', async function (e) {
-        e.preventDefault(); // 기본 제출 동작 방지
-
-        const formData = new FormData(this); // FormData 객체 생성
-
-        // FormData 객체에 파일 추가 (이미 파일들은 fileInput에 포함되어 있음)
-        // 파일 선택 input의 name 속성은 이미 "file"로 설정되어 있음
-        try {
-            const response = await fetch(this.action, {
-                method: 'POST',
-                body: formData
+            // 파일 추가 버튼 클릭 시 파일 선택 input 클릭 이벤트 발생
+            fileAddBtn.addEventListener('click', function () {
+                fileInput.click(); // 파일 선택 input을 클릭하여 파일 선택 창 열기
             });
 
-            if (response.ok) {
-                // 성공적으로 제출된 경우
-                const result = await response.json();
-                console.log('성공:', result);
-                // 성공 후 행동
-            } else {
-                // 실패한 경우
-                console.error('실패:', response.statusText);
-                // 실패 후 행동
-            }
-        } catch (error) {
-            console.error('에러:', error);
-        }
-    });
-});
+            // 파일 선택 input의 change 이벤트 처리
+            fileInput.addEventListener('change', function () {
+                // 미리보기 컨테이너 초기화
+                previewContainer.innerHTML = '';
 
+                // 선택된 모든 파일에 대해 반복 처리
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    let file = fileInput.files[i];
+                    let reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // 이미지 태그를 생성하고 미리보기 이미지 설정
+                        let img = new Image();
+                        img.src = e.target.result;
+                        img.className = 'preview-item'; // 클래스 추가
+                        img.style ='width:100px;'
+                        img.alt = file.name; // 이미지의 대체 텍스트 설정
+                        previewContainer.appendChild(img); // 이미지를 미리보기 컨테이너에 추가
+                    };
+
+                    // FileReader를 사용하여 파일 읽기 시작
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 폼 제출 시
+            document.querySelector('form').addEventListener('submit', async function (e) {
+                e.preventDefault(); // 기본 제출 동작 방지
+
+                const formData = new FormData(this); // FormData 객체 생성
+
+                // FormData 객체에 파일 추가 (이미 파일들은 fileInput에 포함되어 있음)
+                // 파일 선택 input의 name 속성은 이미 "file"로 설정되어 있음
+                try {
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        // 성공적으로 제출된 경우
+                        const result = await response.json();
+                        console.log('성공:', result);
+                        // 성공 후 행동
+                    } else {
+                        // 실패한 경우
+                        console.error('실패:', response.statusText);
+                        // 실패 후 행동
+                    }
+                } catch (error) {
+                    console.error('에러:', error);
+                }
+            });
+        });
     </script>
 <script>
 
@@ -1183,20 +1501,20 @@ function initStars() {
 
     <script>
     document.addEventListener('DOMContentLoaded', function(event) {
+        // remain_person 값을 JSP에서 JavaScript로 전달
+        const remainPerson = ${remain_person}; 
+
         let moneyString = document.querySelector('#money').value;
         let moneyInteger = parseInt(moneyString.replace(/,/g, ""));
-        
-        
-        
-        
 
-        
-        
-        
-        
+        // 숫자를 3자리마다 쉼표로 구분하여 포맷하는 함수
+        function formatMoney(value) {
+            let formatted = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return formatted + '원';
+        }
+
         // 1. 맨 처음에 moneyInteger 값을 출력
         let formattedMoney = formatMoney(moneyInteger);
-        //console.log(formattedMoney); // 콘솔에 출력
 
         var counterValueElement = document.getElementById('counter-value');
         var incrementButton = document.getElementById('incrementButton');
@@ -1209,9 +1527,13 @@ function initStars() {
         finalMoneyElement.textContent = formattedMoney;
 
         incrementButton.addEventListener('click', function() {
-            counterValue++;
-            updateFinalMoney();
-            updateCounterValue();
+            if (counterValue < remainPerson) { // remain_person 값으로 최대값 설정
+                counterValue++;
+                updateFinalMoney();
+                updateCounterValue();
+            } else {
+                alert('예약 가능한 인원이 초과되었습니다.');
+            }
         });
 
         decrementButton.addEventListener('click', function() {
@@ -1239,33 +1561,17 @@ function initStars() {
             }, 300);
         }
 
-        // 숫자를 3자리마다 쉼표로 구분하여 포맷하는 함수
-        function formatMoney(value) {
-            let formatted = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return formatted + '원';
-        }
-        
-        
-
-        
-        
-        
-        const applybtn =document.querySelector('#goApply');
-        applybtn.addEventListener('click',(event)=>{
-        	event.preventDefault();
-        	//console.log(finalMoneyElement)
-        	        let finalMoneyText = finalMoneyElement.textContent; // '400,000원' 형태의 문자열
-        let finalMoneyValue = parseInt(finalMoneyText.replace(/,/g, "").replace('원', '')); // '400000' 형태의 정수
-        const package_idx = ${packageVo.package_idx};
-        let reservation_su = counterValue;
-        let url = "/Package/Reservation?reservation_price="+finalMoneyValue+"&package_idx="+package_idx+"&reservation_su="+counterValue;
-        location.href = url;
-        })
-        
-        
-        
+        const applybtn = document.querySelector('#goApply');
+        applybtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            let finalMoneyText = finalMoneyElement.textContent; // '400,000원' 형태의 문자열
+            let finalMoneyValue = parseInt(finalMoneyText.replace(/,/g, "").replace('원', '')); // '400000' 형태의 정수
+            const package_idx = ${packageVo.package_idx};
+            let reservation_su = counterValue;
+            let url = "/Package/Reservation?reservation_price=" + finalMoneyValue + "&package_idx=" + package_idx + "&reservation_su=" + counterValue;
+            location.href = url;
+        });
     });
-
     
     
 </script>

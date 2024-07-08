@@ -39,6 +39,6 @@ public class PackageVo {
     private  int discount_percent;
     private    int discount_integer;
     private   int discounted_price;
-    private   int created;
+    private   String created;
 
 }
