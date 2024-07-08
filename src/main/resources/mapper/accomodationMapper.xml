@@ -57,6 +57,7 @@
     	WHERE
     		HOTEL_IDX = #{hotel_idx}  	
     </select>
+
     
     <select id="getHotelById" parameterType="int">
         SELECT *
@@ -231,21 +232,20 @@
 	    ]]>
 	</select>
 
-	<select id="getReviewsWithDetails" resultType="java.util.HashMap">
-	    SELECT hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX,
-	           p.LAST_NAME || ' ' || p.FIRST_NAME AS PERSON_NAME,
-	           LISTAGG(DISTINCT o.NAME, ',') WITHIN GROUP (ORDER BY o.NAME) AS OPTIONS,
-	           LISTAGG(DISTINCT hri.IMAGE, ',') WITHIN GROUP (ORDER BY hri.IMAGE) AS REVIEW_IMAGES,
-	           NVL(AVG(hotel_rate.RATE), 0) AS AVG_RATE
-	    FROM HOTEL_REVIEW_TB hr
-	    LEFT JOIN HOTEL_REVIEW_OPTION hro ON hr.HOTEL_REVIEW_IDX = hro.HOTEL_REVIEW_IDX
-	    LEFT JOIN OPTION_TB o ON hro.OPTION_IDX = o.OPTION_IDX
-	    LEFT JOIN HOTEL_REVIEW_IMAGE_TB hri ON hr.HOTEL_REVIEW_IDX = hri.HOTEL_REVIEW_IDX
-	    LEFT JOIN PERSON_TB p ON hr.PERSON_IDX = p.PERSON_IDX
-	    LEFT JOIN HOTEL_RATE_TB hotel_rate ON hr.HOTEL_REVIEW_IDX = hotel_rate.HOTEL_REVIEW_IDX
-	    WHERE hr.HOTEL_IDX = #{hotelIdx}
-	    GROUP BY hr.HOTEL_REVIEW_IDX, hr.CONTENT, hr.CREATED, hr.PERSON_IDX, hr.HOTEL_IDX, p.LAST_NAME, p.FIRST_NAME
-	    ORDER BY hr.CREATED DESC
+	<select id="getReviewsWithDetails" resultType="map">
+	    SELECT 
+	        r.HOTEL_REVIEW_IDX AS hotelReviewIdx, 
+	        r.CONTENT AS content, 
+	        r.CREATED AS created, 
+	        p.FIRST_NAME || ' ' || p.LAST_NAME AS personName,
+	        (SELECT AVG(RATE) FROM HOTEL_RATE_TB WHERE HOTEL_REVIEW_IDX = r.HOTEL_REVIEW_IDX) AS avgRate,
+	        (SELECT LISTAGG(o.NAME, ',') WITHIN GROUP (ORDER BY o.NAME) 
+	         FROM HOTEL_REVIEW_OPTION ro 
+	         JOIN OPTION_TB o ON ro.OPTION_IDX = o.OPTION_IDX 
+	         WHERE ro.HOTEL_REVIEW_IDX = r.HOTEL_REVIEW_IDX) AS options
+	    FROM HOTEL_REVIEW_TB r
+	    JOIN PERSON_TB p ON r.PERSON_IDX = p.PERSON_IDX
+	    WHERE r.HOTEL_IDX = #{hotel_idx}
 	</select>
 	
 	<select id="getReviewsWithDetailsApi" resultType="java.util.HashMap">
@@ -287,46 +287,110 @@
 	</select>
     
 	<select id="hotelsFiltering" resultType="java.util.HashMap">
-	    SELECT h.HOTEL_IDX, h.NAME, h.ADDRESS, h.PRICE, hr.AVG_RATE,
-	           LISTAGG(hi.IMAGE, ',') WITHIN GROUP (ORDER BY hi.IMAGE) AS IMAGES
+	    <![CDATA[
+	    SELECT h.HOTEL_IDX, h.NAME, COALESCE(hr.AVG_RATE, 0) AS AVG_RATE,
+	           LISTAGG(hi.IMAGE, ',') WITHIN GROUP (ORDER BY hi.IMAGE) AS IMAGES,
+	           MIN(r.PRICE) AS MIN_PRICE
 	    FROM HOTEL_TB h
 	    LEFT JOIN (
-	        SELECT HOTEL_IDX, AVG(RATE) AS AVG_RATE
-	        FROM HOTEL_RATE_TB
-	        GROUP BY HOTEL_IDX
+	        SELECT r.HOTEL_IDX, AVG(rt.RATE) AS AVG_RATE
+	        FROM ROOM_TB r
+	        JOIN HOTEL_REVIEW_TB rv ON r.HOTEL_IDX = rv.HOTEL_IDX
+	        JOIN HOTEL_RATE_TB rt ON rv.HOTEL_REVIEW_IDX = rt.HOTEL_REVIEW_IDX
+	        GROUP BY r.HOTEL_IDX
 	    ) hr ON h.HOTEL_IDX = hr.HOTEL_IDX
 	    LEFT JOIN HOTEL_IMAGE_TB hi ON h.HOTEL_IDX = hi.HOTEL_IDX
+	    JOIN ROOM_TB r ON h.HOTEL_IDX = r.HOTEL_IDX
 	    WHERE 1=1
+	    ]]>
 	    <if test="minPrice != null">
-	        AND h.PRICE &gt;= #{minPrice}
+	        <![CDATA[ AND r.PRICE >= #{minPrice} ]]>
 	    </if>
 	    <if test="maxPrice != null">
-	        AND h.PRICE &lt;= #{maxPrice}
+	        <![CDATA[ AND r.PRICE <= #{maxPrice} ]]>
 	    </if>
 	    <if test="minRating != null">
-	        AND hr.AVG_RATE &gt;= #{minRating}
+	        <![CDATA[ AND COALESCE(hr.AVG_RATE, 0) >= #{minRating} ]]>
 	    </if>
 	    <if test="maxRating != null">
-	        AND hr.AVG_RATE &lt;= #{maxRating}
+	        <![CDATA[ AND COALESCE(hr.AVG_RATE, 0) <= #{maxRating} ]]>
 	    </if>
-	    GROUP BY h.HOTEL_IDX, h.NAME, h.ADDRESS, h.PRICE, hr.AVG_RATE
 	    <![CDATA[
+	    GROUP BY h.HOTEL_IDX, h.NAME, hr.AVG_RATE
 	    ORDER BY
+	    ]]>
 	    <choose>
 	        <when test="orderBy == 'price_asc'">
-	            h.PRICE ASC
+	            <![CDATA[ MIN_PRICE ASC ]]>
 	        </when>
 	        <when test="orderBy == 'price_desc'">
-	            h.PRICE DESC
+	            <![CDATA[ MIN_PRICE DESC ]]>
 	        </when>
 	        <when test="orderBy == 'discount_rate_desc'">
-	            hr.AVG_RATE DESC
+	            <![CDATA[ hr.AVG_RATE DESC ]]>
 	        </when>
 	        <otherwise>
-	            h.NAME ASC
+	            <![CDATA[ h.NAME ASC ]]>
 	        </otherwise>
 	    </choose>
-	    ]]>
+	</select>
+	
+	<select id="selectAllOptions" resultType="com.escape.accommodation.domain.Option">
+	    SELECT OPTION_IDX, NAME
+	    FROM OPTION_TB
+	</select>
+	
+    <!-- 옵션 조회 -->
+    <select id="getReviewOptions" resultType="com.escape.accommodation.domain.Option">
+        SELECT OPTION_IDX AS optionIdx, NAME AS optionName
+        FROM OPTION_TB
+    </select>
+
+     <!-- 시퀀스 값 가져오기 -->
+    <select id="getNextReviewId" resultType="int">
+        SELECT HOTEL_REVIEW_TB_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <select id="getNextRateId" resultType="int">
+        SELECT HOTEL_RATE_TB_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <select id="getNextReviewImageId" resultType="int">
+        SELECT HOTEL_REVIEW_IMAGE_TB_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <select id="getNextReviewOptionId" resultType="int">
+        SELECT HOTEL_REVIEW_OPTION_TB_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <insert id="insertReview" parameterType="com.escape.accommodation.domain.Review">
+        INSERT INTO HOTEL_REVIEW_TB (HOTEL_REVIEW_IDX, HOTEL_IDX, CONTENT, PERSON_IDX, CREATED)
+        VALUES (#{hotelReviewIdx}, #{hotelIdx}, #{content}, #{personIdx}, #{created})
+    </insert>
+
+    <insert id="insertRate" parameterType="com.escape.accommodation.domain.Rate">
+        INSERT INTO HOTEL_RATE_TB (HOTEL_RATE_IDX, HOTEL_REVIEW_IDX, USER_IDX, RATE)
+        VALUES (#{hotelRateIdx}, #{hotelReviewIdx}, #{userIdx}, #{rate})
+    </insert>
+
+    <insert id="insertReviewImage" parameterType="com.escape.accommodation.domain.ReviewImage">
+        INSERT INTO HOTEL_REVIEW_IMAGE_TB (HOTEL_REVIEW_IMAGE_IDX, HOTEL_REVIEW_IDX, IMAGE)
+        VALUES (#{hotelReviewImageIdx}, #{hotelReviewIdx}, #{image})
+    </insert>
+
+    <insert id="insertReviewOptions" parameterType="com.escape.accommodation.domain.ReviewOption">
+        INSERT INTO HOTEL_REVIEW_OPTION_TB (HOTEL_REVIEW_OPTION_IDX, HOTEL_REVIEW_IDX, OPTION_IDX)
+        VALUES
+        <foreach collection="options" item="option" separator=",">
+            (#{hotelReviewOptionIdx}, #{hotelReviewIdx}, #{option})
+        </foreach>
+    </insert>
+    
+	      <!-- 리뷰 이미지 가져오기 -->
+	<select id="getReviewImages" resultType="string">
+	    SELECT IMAGE 
+	    FROM HOTEL_REVIEW_IMAGE_TB 
+	    WHERE HOTEL_REVIEW_IDX = #{reviewIdx}
 	</select>
 	
 </mapper>

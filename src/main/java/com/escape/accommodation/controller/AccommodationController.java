@@ -133,7 +133,26 @@ public class AccommodationController {
 		
 		// 데이터베이스에서 이미지 경로를 가져오는 로직
 		List<String> imagePaths = accommodationService.getHotelImages(hotel_idx);
-		
+	   
+		// 리뷰와 이미지를 함께 가져오기
+		List<Map<String, Object>> reviews = accommodationService.getReviewsWithDetails(hotel_idx, orderBy);
+		for (Map<String, Object> review : reviews) {
+		    Object reviewIdxObj = review.get("hotelReviewIdx");
+		    System.out.println("hotelReviewIdx: " + reviewIdxObj);
+
+		    if (reviewIdxObj != null) {
+		        try {
+		            int reviewIdx = Integer.parseInt(reviewIdxObj.toString());
+		            List<String> images = accommodationService.getReviewImages(reviewIdx);
+		            review.put("reviewImages", String.join(",", images));
+		        } catch (NumberFormatException e) {
+		            review.put("reviewImages", ""); // 또는 적절한 기본값
+		            System.out.println("Failed to convert reviewIdxObj to integer: " + e.getMessage());
+		        }
+		    } else {
+		        review.put("reviewImages", ""); // 또는 적절한 기본값
+		    }
+		}
 		
 		// 특정 호텔 정보 가져오기
 		Hotel hotel = accommodationService.getHotelById(hotel_idx);
@@ -194,9 +213,6 @@ public class AccommodationController {
         
         // 후기 옵션 정보 가져오기
         List<Map<String, Object>> topReviewOptions = accommodationService.getTopReviewOptions(hotel_idx);
-        
-        // 리뷰 정보 가져오기
-        List<Map<String, Object>> reviews = accommodationService.getReviewsWithDetails(hotel_idx);
         
 		System.out.println("params========" + params);
 		System.out.println("imagePaths========" + imagePaths);

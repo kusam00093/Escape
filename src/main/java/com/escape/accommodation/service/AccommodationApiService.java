@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +12,18 @@ import java.util.UUID;
 
 import javax.naming.directory.SearchResult;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.escape.accommodation.domain.Bookmark;
+import com.escape.accommodation.domain.Option;
 import com.escape.accommodation.domain.Payment;
+import com.escape.accommodation.domain.Rate;
+import com.escape.accommodation.domain.Review;
+import com.escape.accommodation.domain.ReviewImage;
+import com.escape.accommodation.domain.ReviewOption;
 import com.escape.accommodation.domain.RoomReservation;
 import com.escape.accommodation.mapper.AccommodationMapper;
 
@@ -28,6 +32,9 @@ public class AccommodationApiService {
     
     @Autowired
     private AccommodationMapper accommodationMapper;
+    @Autowired
+    private SqlSession sqlSession;
+
     
     public List<SearchResult> search(String query) {
         return accommodationMapper.search(query);
@@ -127,8 +134,41 @@ public class AccommodationApiService {
     public List<Map<String, Object>> getReviewsWithDetailsApi(int hotelIdx, String orderBy) {
         return accommodationMapper.getReviewsWithDetailsApi(hotelIdx, orderBy);
     }
-    
-    public List<Map<String, Object>> hotelsFiltering(String orderBy, Integer minPrice, Integer maxPrice, Integer minRating, Integer maxRating) {
-        return accommodationMapper.hotelsFiltering(orderBy, minPrice, maxPrice, minRating, maxRating);
+
+    @Transactional
+    public boolean addReview(Review review) {
+        // 시퀀스 값 가져오기
+        int nextReviewId = accommodationMapper.getNextReviewId();
+        review.setHotelReviewIdx(nextReviewId);
+
+        // 리뷰 삽입
+        accommodationMapper.insertReview(review);
+
+        // 평점 삽입
+        int nextRateId = accommodationMapper.getNextRateId();
+        Rate rate = new Rate(nextRateId, nextReviewId, review.getPersonIdx(), review.getRate());
+        accommodationMapper.insertRate(rate);
+
+        // 이미지 삽입
+        if (review.getReviewImages() != null && !review.getReviewImages().isEmpty()) {
+            for (ReviewImage image : review.getReviewImages()) {
+                int nextImageId = accommodationMapper.getNextReviewImageId();
+                image.setHotelReviewImageIdx(nextImageId);
+                image.setHotelReviewIdx(nextReviewId);
+                accommodationMapper.insertReviewImage(image);
+            }
+        }
+
+        // 옵션 삽입
+        if (review.getOptions() != null && !review.getOptions().isEmpty()) {
+            accommodationMapper.insertReviewOptions(nextReviewId, review.getOptions());
+        }
+
+        return true;
     }
+
+    public List<Option> getReviewOptions() {
+        return accommodationMapper.getReviewOptions();
+    }
+    
 }

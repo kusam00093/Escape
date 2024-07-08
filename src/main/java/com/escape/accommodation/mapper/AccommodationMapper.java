@@ -5,16 +5,21 @@ import java.util.Map;
 
 import javax.naming.directory.SearchResult;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.escape.accommodation.domain.Bookmark;
 import com.escape.accommodation.domain.Hotel;
+import com.escape.accommodation.domain.Option;
 import com.escape.accommodation.domain.Payment;
+import com.escape.accommodation.domain.Rate;
+import com.escape.accommodation.domain.Review;
+import com.escape.accommodation.domain.ReviewImage;
+import com.escape.accommodation.domain.ReviewOption;
 import com.escape.accommodation.domain.Room;
 import com.escape.accommodation.domain.RoomReservation;
+
+import jakarta.servlet.http.HttpSession;
 
 @Mapper
 public interface AccommodationMapper {
@@ -74,8 +79,38 @@ public interface AccommodationMapper {
 
     List<Map<String, Object>> getReviewsWithDetailsApi(@Param("hotelIdx") int hotelIdx, @Param("orderBy") String orderBy);
 
-	List<Map<String, Object>> getReviewsWithDetails(int hotelIdx);
+    List<Map<String, Object>> hotelsFiltering(
+            @Param("orderBy") String orderBy,
+            @Param("minPrice") Integer minPrice,
+            @Param("maxPrice") Integer maxPrice,
+            @Param("minRating") Integer minRating,
+            @Param("maxRating") Integer maxRating
+      );
+    
+    int getNextReviewId();
+    
+    int getNextRateId();
+    
+    int getNextReviewImageId();
+    
+    int getNextReviewOptionId();
+    
+    int insertReview(Review review);
 
-	List<Map<String, Object>> hotelsFiltering(String orderBy, Integer minPrice, Integer maxPrice, Integer minRating,
-			Integer maxRating);
+    int insertRate(Rate rate);
+
+    int insertReviewImage(ReviewImage reviewImage);
+    
+    void insertReviewOption(ReviewOption reviewOption);
+
+    int insertReviewOptions(@Param("hotelReviewIdx") int hotelReviewIdx, @Param("options") List<Integer> options);
+
+    List<Option> getReviewOptions();
+
+    void insertReviewImages(@Param("hotelReviewIdx") int hotelReviewIdx, @Param("reviewImages") List<ReviewImage> reviewImages);
+
+    List<Map<String, Object>> getReviewsWithDetails(@Param("hotel_idx") int hotelIdx);
+    
+    List<String> getReviewImages(@Param("reviewIdx") int reviewIdx);
+
 }

@@ -14,6 +14,8 @@ import com.escape.accommodation.domain.Room;
 import com.escape.accommodation.mapper.AccommodationMapper;
 import com.escape.login.mapper.MypageMapper;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Service
 public class AccommodationService {
@@ -102,7 +104,10 @@ public class AccommodationService {
         return accommodationMapper.getTopReviewOptions(hotelIdx);
     }
 
-    public List<Map<String, Object>> getReviewsWithDetails(int hotelIdx) {
+    public List<Map<String, Object>> getReviewsWithDetails(int hotelIdx, String orderBy) {
         return accommodationMapper.getReviewsWithDetails(hotelIdx);
+    }
+    public List<String> getReviewImages(int reviewIdx) {
+        return accommodationMapper.getReviewImages(reviewIdx);
     }
 }

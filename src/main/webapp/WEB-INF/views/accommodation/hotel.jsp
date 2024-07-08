@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
@@ -1041,48 +1041,76 @@
 										    </ul>
 										</div>
 <!-- 										후기 댓글 -->
-										<div id="reviewsContainer">
-											<c:forEach var="review" items="${reviews}">
-											    <div class="css-x0ee88 e17edoke0">
-											        <div class="css-13ovph5 e126udd70">
-											            <div class="css-q1ewhp e126udd72">
-											                <div class="css-1meotse eiua2q0">
-											                    <div class="css-ua4zwz e1aoll0l0">
-											                        <c:forEach var="i" begin="1" end="${review.AVG_RATE}">
-											                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-flfwei e1aoll0l1">
-											                                <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
-											                            </svg>
-											                        </c:forEach>
-											                        <c:forEach var="i" begin="${review.AVG_RATE + 1}" end="5">
-											                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-flfwei e1aoll0l1">
-											                                <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
-											                            </svg>
-											                        </c:forEach>
-											                    </div>
-											                    <span class="css-akej1n eiua2q1">${review.PERSON_NAME}</span>
-											                </div>
-											                <div class="css-vjkoi3 eiua2q2">
-											                    <span class="css-f7fpqi eiua2q3">${review.CREATED}</span>
-											                </div>
-											                <div class="e126udd73 css-1qhcaz0">${review.CONTENT}</div>
-											            </div>
-											            <div class="e126udd74 css-1dz9tqv">
-											                <c:forEach var="image" items="${fn:split(review.REVIEW_IMAGES, ',')}">
-											                    <img alt="" loading="lazy" class="css-y5m0bt" src="${image}?width=250">
-											                </c:forEach>
-											                <div class="css-2z6lb8" hidden="">
-											                    <img src="https://dffoxz5he03rp.cloudfront.net/etc/img-placeholder.svg" alt="Placeholder Thumbnail" class="css-1ydfimi">
-											                </div>
-											            </div>
-											            <div class=" css-hozfwu e286p9y0">
-											                <c:forEach var="option" items="${fn:split(review.OPTIONS, ',')}">
-											                    <span class="e286p9y1 css-htjz8p">${option}</span>
-											                </c:forEach>
-											            </div>
-											        </div>
-											    </div>
-											</c:forEach>
-										</div>	
+<div id="reviewsContainer">
+    <c:forEach var="review" items="${reviews}">
+        <div class="css-x0ee88 e17edoke0">
+            <div class="css-13ovph5 e126udd70">
+                <div class="css-q1ewhp e126udd72">
+                    <div class="css-1meotse eiua2q0">
+                        <div class="css-ua4zwz e1aoll0l0">
+                            <c:forEach var="i" begin="1" end="${review.AVG_RATE}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#51abf3" class="css-flfwei e1aoll0l1">
+                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+                                </svg>
+                            </c:forEach>
+                            <c:forEach var="i" begin="${review.AVG_RATE + 1}" end="5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24" color="#dee2e6" class="css-flfwei e1aoll0l1">
+                                    <path d="M11.439 2.999a.626.626 0 0 1 1.122 0l2.51 5.087a.626.626 0 0 0 .472.342l5.614.816a.626.626 0 0 1 .347 1.067l-4.063 3.96a.625.625 0 0 0-.18.554l.96 5.592a.626.626 0 0 1-.908.66l-5.022-2.64a.626.626 0 0 0-.582 0l-5.022 2.64a.626.626 0 0 1-.908-.66l.96-5.592a.626.626 0 0 0-.18-.553l-4.063-3.96a.626.626 0 0 1 .347-1.068l5.614-.816a.626.626 0 0 0 .471-.342L11.44 3Z"></path>
+                                </svg>
+                            </c:forEach>
+                        </div>
+                        <span class="css-akej1n eiua2q1">${review.PERSON_NAME}</span>
+                    </div>
+                    <div class="css-vjkoi3 eiua2q2">
+                        <span class="css-f7fpqi eiua2q3">${review.CREATED}</span>
+                    </div>
+                    <div class="e126udd73 css-1qhcaz0">${review.CONTENT}</div>
+                </div>
+				<div class="e126udd74 css-1dz9tqv">
+				    <c:forEach var="image" items="${fn:split(review.reviewImages, ',')}">
+				        <img alt="" loading="lazy" class="css-y5m0bt" src="${pageContext.request.contextPath}/images/hotel/${image}">
+				    </c:forEach>
+				    <div class="css-2z6lb8" hidden="">
+				        <img src="https://dffoxz5he03rp.cloudfront.net/etc/img-placeholder.svg" alt="Placeholder Thumbnail" class="css-1ydfimi">
+				    </div>
+				</div>
+                <div class=" css-hozfwu e286p9y0">
+                    <c:forEach var="option" items="${fn:split(review.OPTIONS, ',')}">
+                        <span class="e286p9y1 css-htjz8p">${option}</span>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+</div>
+
+										
+<form id="reviewForm" onsubmit="submitReview(event)" method="POST">
+    <input type="hidden" id="hotelIdx" name="hotelIdx">
+    <textarea id="reviewContent" name="content" placeholder="리뷰 내용을 입력하세요"></textarea>
+
+    <div>
+        <label>평점:</label>
+        <label><input type="radio" name="rating" value="1"> 1</label>
+        <label><input type="radio" name="rating" value="2"> 2</label>
+        <label><input type="radio" name="rating" value="3"> 3</label>
+        <label><input type="radio" name="rating" value="4"> 4</label>
+        <label><input type="radio" name="rating" value="5"> 5</label>
+    </div>
+
+    <div>
+        <label>옵션:</label>
+        <button type="button" id="optionsButton">옵션 선택</button>
+        <div id="optionsContainer" style="display: none;"></div>
+    </div>
+
+    <div>
+        <label>리뷰 이미지:</label>
+        <input type="file" name="reviewImages" multiple>
+    </div>
+
+    <button type="submit">리뷰 제출</button>
+</form>
 <!-- 										페이징 -->
 										<div class="css-kknodv">
 										    <div class="css-aymlz4">
@@ -1139,6 +1167,14 @@
 	    const pathArray = window.location.pathname.split('/');
 	    const hotel_idx = pathArray[pathArray.length - 1]; // URL 마지막 부분이 hotel_idx
 		
+	    // hotelIdx 값을 히든 필드에 설정
+	    const hotelIdxInput = document.createElement('input');
+	    hotelIdxInput.type = 'hidden';
+	    hotelIdxInput.id = 'hotelIdx';
+	    hotelIdxInput.name = 'hotelIdx';
+	    hotelIdxInput.value = hotelIdx;
+	    document.getElementById('reviewForm').appendChild(hotelIdxInput);
+	    
 		// dropdown 활성화
 		const placeDropdown = document.querySelector('.place-dropdown');
 		const dateDropdown = document.querySelector('.date-dropdown');
@@ -1171,6 +1207,7 @@
 		const placeInput = document.getElementById('placeInput');
 		const dateInput = document.getElementById('dateInput');
 		const guestInput = document.getElementById('guestInput');
+
 		
 		// dropdown 관련
 		const placeElements = document.querySelectorAll('.e1gvp92b0')
@@ -1682,9 +1719,83 @@
 	            form.submit();
 	        });
 	    });
-	    
 
-	})
+		    document.getElementById('optionsButton').addEventListener('click', toggleOptions);	
+		    
+            function toggleOptions() {
+                const optionsContainer = document.getElementById('optionsContainer');
+                if (optionsContainer.style.display === 'none') {
+                    fetchOptions();
+                    optionsContainer.style.display = 'block';
+                } else {
+                    optionsContainer.style.display = 'none';
+                }
+            }
+
+            function fetchOptions() {
+            	
+                fetch('/AccommodationApi/getReviewOptions')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!Array.isArray(data)) {
+                            throw new Error("Invalid data format");
+                        }
+                        console.log('Fetched options:', data); // 디버깅 로그 추가
+                        const optionsContainer = document.getElementById('optionsContainer');
+                        optionsContainer.innerHTML = ''; // 기존 옵션 초기화
+                        data.forEach(option => {
+                            const label = document.createElement('label');
+                            const checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.name = 'options';
+                            checkbox.value = option.optionIdx; // optionIdx를 사용
+                            label.appendChild(checkbox);
+                            label.appendChild(document.createTextNode(option.optionName)); // optionName을 사용
+                            optionsContainer.appendChild(label);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching options:', error));
+            }
+			
+            
+            
+            function submitReview(event) {
+                event.preventDefault();
+                
+                const hotelIdx = document.getElementById('hotelIdx').value;
+                console.log("Extracted hotelIdx from form:", hotelIdx); // 디버깅용 로그 추가
+
+                const form = document.getElementById('reviewForm');
+                const formData = new FormData(form);
+
+                formData.append('hotelIdx', hotelIdx);
+                formData.append('content', formData.get('content'));
+                formData.append('rating', parseInt(formData.get('rating')));
+                formData.getAll('options').forEach(option => formData.append('options', option));
+                formData.getAll('reviewImages').forEach(image => formData.append('reviewImages', image));
+
+                fetch('/AccommodationApi/submitReview', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('리뷰가 성공적으로 제출되었습니다.');
+                    } else {
+                        alert('리뷰 제출에 실패했습니다.');
+                    }
+                })
+                .catch(error => console.error('Error submitting review:', error));
+            }
+
+            // 옵션을 선택할 수 있는 버튼 이벤트 리스너
+            document.getElementById('optionsButton').addEventListener('click', toggleOptions);
+
+            // 리뷰 제출 폼 이벤트 리스너
+            document.getElementById('reviewForm').addEventListener('submit', submitReview);
+    
+	});
 </script>	 
 </body>
 
