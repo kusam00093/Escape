@@ -51,7 +51,7 @@
   }
   .prev {
     left: 0;
-    transform: translateY(-50%);
+    transform: translateY(-50%); 
   }
   .next {
     right: 0;
