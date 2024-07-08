@@ -1,152 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>상품 수정</title>
 <style>
-
-#container1 {
-  width : 80%;
-  margin : 0 auto;
-  margin-left : 250px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
 }
 
-#container1 > .content1, #container1 > .sidebar1 {
-  padding: 30px;
-  border: 1px solid #ccc
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#container1 .content1 {
-  width: calc(70% - 20px);
-  min-height: 1200px;
+.form-control {
+    border-radius: 1.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    margin-bottom: 15px;
 }
 
-#container1 .content1 p, #container1 .sidebar1 p {
-  font-size: 18px;
-  line-height: 1.8
+.btn {
+    border-radius: 1.25rem;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-#container1 .sidebar1 {
-  position: sticky;
-  top: 20px;
-  width: 300px; 
-  margin-left: 20px;
-  background-color: #ffe3e3
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
 }
 
-.sidebar-section {
-  margin-bottom: 20px;
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
-.sidebar-section h4 {
-  margin-bottom: 10px;
+.form-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-.sidebar-section table {
-  width: 100%;
-  border-collapse: collapse;
+.img-thumbnail {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 10px;
+    border: none;
 }
 
-.sidebar-section table, .sidebar-section th, .sidebar-section td {
-  border: 1px solid #ccc;
-  padding: 10px;
+.checkbox-label {
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.sidebar-section button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.date-input {
+    padding: 10px;
 }
 
-.sidebar-section button:hover {
-  background-color: #0056b3;
+.detail {
+    margin-top: 20px;
 }
 
-.sidebar-section .comment {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: vertical;
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-
-.rating {
-  float: none;
-  width: 200px;
-  display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    .form-control {
+        width: 100%;
+    }
 }
 
-.rating__input {
-  display: none;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.rating__label {
-  width: 20px;
-  overflow: hidden;
-  cursor: pointer;
+.content1 {
+    margin-bottom: 20px;
 }
-
-.rating__label .star-icon {
-  width: 20px;
-  height: 40px;
-  display: block;
-  position: relative;
-  left: 0;
-  background-image: url("/images/star.svg");
-  background-repeat: no-repeat;
-  background-size: 40px;
-}
-
-.rating__label .star-icon.filled {
-  background-image: url("/images/star_fill.svg");
-}
-
-.rating__label--full .star-icon {
-  background-position: right;
-}
-
-.rating__label--half .star-icon {
-  background-position: left;
-}
-
-.rating.readonly .star-icon {
-  opacity: 0.7;
-  cursor: default;
-}
-.rating__label--half .star-icon {
-    background-position: left;
-}
-
-.rating__label.half-filled .star-icon {
-    background-position: left;
-    width: 30px; /* 반 채워진 별의 너비 설정 */
-}
-
-
-
-
-
-
-
-.table{
-	border : 1px solid #0D0D0D;
-}
-
-
 
 /*
 *
@@ -164,378 +117,13 @@
 .datepicker {
     margin-bottom: 3rem;
 }
-
-
-
-
-.input-group {
-    border-radius: 30rem;
-}
-
-input.form-control {
-    border-radius: 30rem 0 0 30rem;
-    border: none;
-}
-
-input.form-control:focus {
-    box-shadow: none;
-}
-
-input.form-control::placeholder {
-    font-style: italic;
-}
-
-.input-group-text {
-    border-radius: 0 30rem 30rem 0;
-    border: none;
-}
-
-.datepicker-dropdown {
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-        .container3 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .row {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .row.first-row img {
-            width: 100%;
-        }
-        .row.second-row img {
-            width: calc(33.33% - 5px); /* Subtract margin */
-        }
-        .row.second-row img:nth-child(3) {
-            width: calc(34% - 5px); /* Subtract margin */
-        }
-        
-        
-        
-        
-        
-        
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 80%;
-            max-height: 80%;
-            text-align: center;
-            position: relative;
-        }
-        .modal-content img {
-            width: 100%;
-            height: auto;
-        }
-        .modal-content .slide-container {
-            position: relative;
-            display: inline-block;
-        }
-        .modal-content .slide {
-            display: none;
-        }
-        .modal-content .slide.active {
-            display: block;
-        }
-        .modal-content button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        .modal-content .prev {
-            left: 10px;
-        }
-        .modal-content .next {
-            right: 10px;
-        }
-        
-        
-        .detail_rate {
-            display: flex;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .detail_rate_content1 {
-            width: 25%;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-right: 1px solid #ddd;
-            text-align: left;
-        }
-        .detail_rate_content2 {
-            width: 75%;
-            padding: 20px;
-        }
-        .detail_rate_star {
-            margin-bottom: 20px;
-        }
-        .detail_rate_star h2 {
-            margin: 0;
-            font-size: 48px;
-            color: #ffcc00;
-        }
-       
-        .review_img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .review {
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .button2, .button3 {
-            background-color: #ffcc00;
-            border: none;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .button2:hover, .button3:hover {
-            background-color: #ffa500;
-        }
-
-
-
-
-.review_img{
-	width: 100px;
-	height: 100px;
-}    
-
-
-        .review1 {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .review-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .reviewer {
-            font-style: italic;
-            color: #666;
-            margin-bottom: 5px;
-        }
-        .rating {
-            color: #f90;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .review-content {
-            line-height: 1.6;
-        }
-        .review-img {
-            position: static;
-            top: 10px;
-            right: 10px;
-            width: 100px;
-            height: auto;
-        }
-        
-        
-        
-        
-        .container4 {
-            display: flex;
-            align-items: center;
-            background: white;
-            padding: 20px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .counter {
-            font-size: 1.5em;
-            margin: 0 20px;
-            width: 80px; /* 고정된 너비를 설정 */
-            text-align: center; /* 텍스트 중앙 정렬 */
-            transition: color 0.3s;
-        }
-        .button {
-            font-size: 1em;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .button:active {
-            transform: scale(0.98);
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-
-
-
-
-    .flex-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-    .button-container {
-      display: flex;
-      gap: 10px; /* 버튼 사이의 간격 조절 */
-      margin-left: auto;
-    }
-        
-        
-    /* 모달 스타일 */
-    .modal2 {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5);
-    }
-    
-    .modal2-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-      animation-name: animatetop;
-      animation-duration: 0.4s
-    }
-    
-    @keyframes animatetop {
-      from {top: -300px; opacity: 0}
-      to {top: 0; opacity: 1}
-    }
-    
-    .close {
-      color: #aaaaaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    
-    .close:hover,
-    .close:focus {
-      color: #000;
-      text-decoration: none;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-.wrap {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 32px;
-}
-
-h1 {
-    font-size: 40px;
-    font-weight: 600;
-}
-
-.rating {
-    float: none;
-    width: 200px;
-    display: flex;
-
-    &__input {
-        display: none;
-    }
-
-    &__label {
-        width: 20px;
-        overflow: hidden;
-        cursor: pointer;
-
-        .star-icon {
-            width: 20px;
-            height: 40px;
-            display: block;
-            position: relative;
-            left: 0;
-            background-image: url('https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg');
-            background-repeat: no-repeat;
-            background-size: 40px;
-          
-            &.filled {
-                background-image: url(' https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg');
-        }
-
-        &--full .star-icon {
-            background-position: right;
-        }
-
-        &--half .star-icon {
-            background-position: left;
-        }
-    }
-
-    &.readonly {
-        .star-icon {
-            opacity: 0.7;
-            cursor: default;
-        }
-    }
-}
-
-
-
-
-        .img-thumbnail {
+.img-thumbnail {
             max-width: 100px; /* 최대 너비 100px로 설정 */
             max-height: 100px; /* 최대 높이 100px로 설정 */
             margin: 10px; /* 이미지 사이의 간격 설정 */
         }
 </style> 
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -544,125 +132,207 @@ h1 {
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/header.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    
-</head>
 	<%@include file="/WEB-INF/include/header.jsp"%>
 
 	<%@include file="/WEB-INF/include/nav.jsp"%>
+</head>
 <body>
-<form action="/Package/Detail/Update" method="post" id="myForm" enctype="multipart/form-data" >
- <div id="container1" >
- 
-  <div class="content1">
-  <div>제목 : <input type="text" value="${ packageVo.title }" name="title"></div>
-  <div>가격 : <input type="text" value="${ price }" name="price"></div>
-  <div>상세정보 :<input type="text" value="${ detail1 }" name="detail1"></div>
-  <div>상세정보 :<input type="text" value="${ detail2 }" name="detail2"></div>
-  <div>상세정보 :<input type="text" value="${ detail3 }" name="detail3"></div>
- 	
+<form action="/Package/Detail/Update" method="post" id="myForm" enctype="multipart/form-data">
+    <div id="container1">
+        <div class="content1">
+            <div class="form-group">제목 : <input type="text" value="${packageVo.title}" name="title"></div>
+            <div class="form-group">가격 : <input type="text" value="${packageVo.price}" name="price"></div>
+            <div class="form-group">상세정보 : <input type="text" value="${packageVo.detail1}" name="detail1"></div>
+            <div class="form-group">상세정보 : <input type="text" value="${packageVo.detail2}" name="detail2"></div>
+            <div class="form-group">상세정보 : <input type="text" value="${packageVo.detail3}" name="detail3"></div>
 
-<div>주소</div>
-  <div><input type="text" name="zip_code" placeholder="우편번호" readonly="readonly" value="123452"/></div>
- <div> <input type="button"  onclick="daumPost()" value="우편번호 찾기" /></div>
-  <br><div><input type="text" name="address1" placeholder="상세주소" value="서울"></div></br>
-  <br><div><input type="text" name="address2" placeholder="상세주소" value="강남"></div></br>
+            <div>주소</div>
+            <div><input type="text" name="zip_code" placeholder="우편번호" readonly="readonly" value="123452"/></div>
+            <div><input type="button" onclick="daumPost()" value="우편번호 찾기"></div>
+            <br><div><input type="text" name="address1" placeholder="상세주소" value="서울"></div></br>
+            <br><div><input type="text" name="address2" placeholder="상세주소" value="강남"></div></br>
 
+            <div id="preview-container"></div>
+            <c:forEach var="lo" items="${imageList}">
+                <div><img alt="" src="${lo.image}" style="width: 100px; height: 100px; margin: 10px;"></div>
+            </c:forEach>
+            <input type="file" name="file" id="file" multiple style="display: none;">
+            <button id="AddFileBtn">이미지 추가</button>
 
-        
-        <div id="preview-container"></div>
-        		<c:forEach var="lo" items="${ imageList }">
- 					<div><img alt="" src="${ lo.image }" style="width: 100px; height: 100px; margin: 10px;"></div>       		
-		</c:forEach>
-        <input type="file" name="file" id="file" multiple style="display: none;">
-        <button id="AddFileBtn">이미지 추가</button>
+            <label for="location" class="form-label">국가를 선택하세요 (중복가능)</label>
+            <c:forEach var="lo" items="${locationList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary location-btn" name="location_idx" value="${lo.location_idx}">
+                        ${lo.name}
+                        <!-- package_convenienceList에 있는 항목과 일치하면 체크 표시 추가 -->
+                        <c:forEach var="plo" items="${package_locationList}">
+                            <c:if test="${plo.location_idx == lo.location_idx}">
+                                &#x2713; <!-- 체크 표시 (✔) -->
+                                <!-- 일치하는 항목을 찾으면 루프 종료 -->
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedLocation" name="location_idx">
 
+            <!-- package_convenienceList는 화면에 보이지 않도록 숨깁니다 -->
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_locationList}">
+                    <button type="button" class="btn btn-outline-danger location-btn" name="location_idx" value="${lo.location_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
+            <hr>
 
-<label for="location" class="form-label">국가를 선택하세요 (중복가능)</label>
-		<c:forEach var="lo" items="${ locationList }">
-			<div class="col-auto">
-					<button type="button" class="btn btn-outline-primary location-btn" name="location_idx" value="${ lo.location_idx }">${lo.name }</button>
-			</div>
-		</c:forEach>
-		<input type="hidden" id="selectedLocation" name="location_idx">
-		
-        <hr>
+            <label for="category" class="form-label">카테고리를 선택하세요 (중복가능)</label>
+            <c:forEach var="lo" items="${categoryList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary category-btn" name="category_idx" value="${lo.category_idx}">
+                        ${lo.name}
+                        <!-- package_locationList에 있는 항목과 일치하면 체크 표시 추가 -->
+                        <c:forEach var="plo" items="${package_categoryList}">
+                            <c:if test="${plo.category_idx == lo.category_idx}">
+                                &#x2713; <!-- 체크 표시 (✔) -->
+                                <!-- 일치하는 항목을 찾으면 루프 종료 -->
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedCategory" name="category_idx">
 
-		
-		<label for="category" class="form-label">카테고리를 선택하세요 (중복가능)</label>
-		<c:forEach var="ca" items="${ categoryList }">
-			<div class="col-auto">
-					<button type="button" class="btn btn-outline-primary category-btn" name="category_idx" value="${ ca.category_idx }">${ca.name }</button>
-			</div>
-		</c:forEach>
-		<input type="hidden" id="selectedCategory" name="category_idx">
-        
-        
-        <hr>
-		<label for="convenience" class="form-label">기타 사항을 선택하세요 (중복가능)</label>
-		<c:forEach var="co" items="${ convenienceList }">
-			<div class="col-auto">
-					<button type="button" class="btn btn-outline-primary convenience-btn" name="convenience_idx" value="${ co.convenience_idx }">${co.name }</button>
-			</div>
-		</c:forEach>
-		<input type="hidden" id="selectedConvenience" name="convenience_idx">
+            <!-- package_locationList는 화면에 보이지 않도록 숨깁니다 -->
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_categotyList}">
+                    <button type="button" class="btn btn-outline-danger category-btn" name="category_idx" value="${lo.category_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
 
-    
-        <div class="container">
-            <input type="text" id="datePickerInput" class="date-input" placeholder="날짜를 선택하세요" readonly>
-            <input type="text" name="start_date" id="start_date" placeholder="시작 날짜" readonly >
-            <input type="text" name="end_date" id="end_date" placeholder="끝 날짜" readonly>
+            <hr>
+            <label for="convenience" class="form-label">기타 사항을 선택하세요 (중복가능)</label>
+            <c:forEach var="lo" items="${convenienceList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary convenience-btn" name="convenience_idx" value="${lo.convenience_idx}">
+                        ${lo.name}
+                        <!-- package_convenienceList에 있는 항목과 일치하면 체크 표시 추가 -->
+                        <c:forEach var="plo" items="${package_convenienceList}">
+                            <c:if test="${plo.convenience_idx == lo.convenience_idx}">
+                                &#x2713; <!-- 체크 표시 (✔) -->
+                                <!-- 일치하는 항목을 찾으면 루프 종료 -->
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedConvenience" name="convenience_idx">
+
+            <!-- package_convenienceList는 화면에 보이지 않도록 숨깁니다 -->
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_convenienceList}">
+                    <button type="button" class="btn btn-outline-danger convenience-btn" name="convenience_idx" value="${lo.convenience_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
+
+            <div class="form-group">
+                <label for="datePickerInput" class="form-label">날짜 선택</label>
+                <input type="text" id="datePickerInput" class="date-input" placeholder="날짜를 선택하세요" readonly>
+                <input type="text" name="start_date" id="start_date" class="form-control" placeholder="시작 날짜" readonly>
+                <input type="text" name="end_date" id="end_date" class="form-control" placeholder="끝 날짜" readonly>
+            </div>
+            <hr>
+
+            <div>할인</div>
+            <input type="checkbox" id="discountCheckbox" value="할인을 하시려면 체크해주세요">
+            <div id="percentageInputContainer" name="discount_percent"></div>
+
+            <hr>
+
+            <div class=detail>
+
+            </div>
+
+            <hr>
         </div>
-        <hr>
-        
-    <div>할인</div>
-    <input type="checkbox" id="discountCheckbox" value="할인을 하시려면 체크해주세요">
-    <div id="percentageInputContainer" name="discount_percent"></div>
+    </div>
 
-<hr>
+    <hr>
 
-
-
-<hr>
-
-<div class=detail>
-
-</div>
-
-<hr>
-
-
-
-
-</div>
-<hr>
-
-
-
-
-
-</div>
-
-<h4></h4>
-<div>
-
-</div>
-
-<hr>
-
-
-
-
-<input type="submit" value="수정하기">
-
-</form>>
+    <input type="submit" value="수정하기">
+</form>
+<button id="Delete">삭제하기</button>
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd92b81e9a491dc389672165f361ad1a&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+document.getElementById('discountCheckbox').addEventListener('change', function() {
+	  const percentageInputContainer = document.getElementById('percentageInputContainer');
 
+	  if (this.checked) {
+	    // 기존의 입력 필드가 있다면 제거
+	    const existingInput = document.getElementById('percentageInput');
+	    if (existingInput) {
+	      percentageInputContainer.removeChild(existingInput.parentNode); // 래퍼 div와 입력 필드 모두 제거
+	    }
+
+	    // 줄을 추가하는 <br> 태그 생성
+	    const lineBreak = document.createElement('br');
+	    percentageInputContainer.appendChild(lineBreak);
+
+	    // 새 입력 필드 생성
+	    const input = document.createElement('input');
+	    input.type = 'number';
+	    input.id = 'percentageInput';
+	    input.name = 'discount_percent';
+	    input.className = 'form-control'; // 기본 폼 컨트롤 클래스
+	    input.placeholder = '할인 퍼센티지를 입력하세요';
+	    input.min = '1';
+	    input.max = '100';
+
+	    // 입력값 유효성 검사
+	    input.addEventListener('input', function() {
+	      const value = parseInt(input.value, 10);
+	      if (value < 1 || value > 100) {
+	        alert('1부터 100까지의 숫자만 입력하세요');
+	        input.value = '';
+	      }
+	    });
+
+	    // 줄 간격을 위한 div 래퍼 추가
+	    const wrapper = document.createElement('div');
+	    wrapper.className = 'mt-2'; // margin-top-2 클래스로 간격 추가
+	    wrapper.appendChild(input);
+
+	    // 새로운 입력 필드를 <div> 아래에 추가
+	    percentageInputContainer.appendChild(wrapper);
+	  } else {
+	    // 체크박스가 해제되면 추가된 태그만 제거
+	    const existingInput = document.getElementById('percentageInput');
+	    if (existingInput) {
+	      percentageInputContainer.removeChild(existingInput.parentNode); // 래퍼 div와 입력 필드 모두 제거
+	    }
+
+	    // 추가된 <br> 태그도 제거
+	    const lineBreak = percentageInputContainer.querySelector('br');
+	    if (lineBreak) {
+	      percentageInputContainer.removeChild(lineBreak);
+	    }
+	  }
+	});
+</script>
 <script>
 //선택된 버튼들의 값을 저장할 배열을 선언합니다.
 let selectedCategory = [];
@@ -750,101 +420,103 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
     <!-- 날짜 선택기용 HTML -->
    
-     <script>
-        let selectedFiles = [];
+<script>
+    let selectedFiles = [];
 
-        document.getElementById('AddFileBtn').addEventListener('click', function(e) {
-        	 e.preventDefault();
-            document.getElementById('file').click();
-        });
+    document.getElementById('AddFileBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('file').click();
+    });
 
-        document.getElementById('file').addEventListener('change', function(event) {
-            const files = Array.from(event.target.files);
-            
-            // Update selectedFiles array
-            selectedFiles = selectedFiles.concat(files);
+    document.getElementById('file').addEventListener('change', function(event) {
+        const files = Array.from(event.target.files);
+        
+        // Update selectedFiles array
+        selectedFiles = selectedFiles.concat(files);
 
-            // Clear the previous previews
-            const previewContainer = document.getElementById('preview-container');
-            previewContainer.innerHTML = '';
+        // Clear the previous previews
+        const previewContainer = document.getElementById('preview-container');
+        previewContainer.innerHTML = '';
 
-            selectedFiles.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        previewContainer.appendChild(img);
-                    };
+        selectedFiles.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+					
+                    // Set the image size
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.style.margin = '10px';
+                    img.style.objectFit = 'cover'; // Optional: to maintain aspect ratio and fill the box
 
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                    previewContainer.appendChild(img);
+                };
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const startDateInput = document.getElementById('start_date');
-        const endDateInput = document.getElementById('end_date');
-        const datePickerInput = document.getElementById('datePickerInput');
-        const form = document.getElementById('myForm');
-
-        // 날짜 포맷 함수
-        const formatDate = (date) => {
-            if (!date) return '';
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return year + '/' + month + '/' + day;
-        };
-
-        // Flatpickr 설정
-        flatpickr(datePickerInput, {
-            mode: "range",
-            dateFormat: "Y-m-d",
-            locale: {
-                firstDayOfWeek: 0,
-                weekdays: {
-                    shorthand: ['일', '월', '화', '수', '목', '금', '토'],
-                    longhand: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
-                },
-                months: {
-                    shorthand: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                    longhand: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-                }
-            },
-            onChange: (selectedDates) => {
-                if (selectedDates.length === 2) {
-                    const [startDate, endDate] = selectedDates;
-                    const startDateStr = formatDate(new Date(startDate));
-                    const endDateStr = formatDate(new Date(endDate));
-                    startDateInput.value = startDateStr;
-                    endDateInput.value = endDateStr;
-                    datePickerInput.value = '날짜를 선택하세요';
-
-                    // 선택된 날짜 확인을 위한 콘솔 출력
-                    console.log(`시작 날짜: ${startDateStr}`);
-                    console.log(`끝 날짜: ${endDateStr}`);
-                } else {
-                    startDateInput.value = '시작 날짜';
-                    endDateInput.value = '끝 날짜';
-                    datePickerInput.value = '날짜를 선택하세요';
-                }
-            }
-        });
-
-        // 폼 제출 이벤트 리스너
-        form.addEventListener('submit', (event) => {
-            if (!startDateInput.value || !endDateInput.value) {
-                event.preventDefault();
-                alert('시작 날짜와 끝 날짜를 선택해 주세요.');
+                reader.readAsDataURL(file);
             }
         });
     });
-    </script>
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    const datePickerInput = document.getElementById('datePickerInput');
+    const form = document.getElementById('myForm');
+
+    const formatDate = (date) => {
+      if (!date) return '';
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return year + '/' + month + '/' + day;
+    };
+
+    flatpickr(datePickerInput, {
+      mode: "range",
+      dateFormat: "Y-m-d",
+      locale: {
+        firstDayOfWeek: 0,
+        weekdays: {
+          shorthand: ['일', '월', '화', '수', '목', '금', '토'],
+          longhand: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+        },
+        months: {
+          shorthand: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+          longhand: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+        }
+      },
+      onChange: (selectedDates) => {
+        if (selectedDates.length === 2) {
+          const [startDate, endDate] = selectedDates;
+          const startDateStr = formatDate(new Date(startDate));
+          const endDateStr = formatDate(new Date(endDate));
+          startDateInput.value = startDateStr;
+          endDateInput.value = endDateStr;
+          datePickerInput.value = '날짜를 선택하세요';
+
+          console.log(`시작 날짜: ${startDateStr}`);
+          console.log(`끝 날짜: ${endDateStr}`);
+        } else {
+          startDateInput.value = '';
+          endDateInput.value = '';
+          datePickerInput.value = '날짜를 선택하세요';
+        }
+      }
+    });
+
+    form.addEventListener('submit', (event) => {
+      if (!startDateInput.value || !endDateInput.value) {
+        event.preventDefault();
+        alert('시작 날짜와 끝 날짜를 선택해 주세요.');
+      }
+    });
+  });
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

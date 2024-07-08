@@ -689,10 +689,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const urlParams = new URLSearchParams(window.location.search);
-        const guest = urlParams.get('guest');
-        const place = urlParams.get('place');
-        const date = urlParams.get('date');
-        const room_idx = window.location.pathname.split('/').pop();
+//         const guest = urlParams.get('guest');
+//         const place = urlParams.get('place');
+//         const date = urlParams.get('date');
+//         const room_idx = window.location.pathname.split('/').pop();
         const reservationCount = parseInt(reservationInput.value, 10) || 1;
 
         // Calculate the original total price based on reservation count
@@ -723,10 +723,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 alert('결제 하시겠습니까?');
                 if (data.paymentResponse) {
-                    iframe.src = data.paymentResponse;
-                    modal.style.display = 'block';
-                    alert(reservationCount);
-                    
+                    // QR 코드 URL을 새 창에서 열기
+                    window.open(data.paymentResponse, '_blank');
                 }
                 // 결제가 완료되면 지정된 페이지로 리다이렉트
                 window.location.href = data.redirectUrl;

@@ -28,4 +28,6 @@ public interface UserMapper {
 
 	UserVo getUserInfo(int user_idx);
 
+	int findUserType1(int userIdx);
+
 }

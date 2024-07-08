@@ -26,10 +26,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.js"></script>
-
 </head>
 <%@include file="/WEB-INF/include/header.jsp"%>
-
 <%@include file="/WEB-INF/include/nav.jsp"%>
 <body>
 	<div id="Mrt3Payment-react-component-c5d425dd-cea4-4303-ac5a-7455c0f62caf">
@@ -45,6 +43,7 @@
 	          <div class="css-1m3cfk7--SettledInfo--Info--SettledInfo--TotalSalePriceInfo e1hjiljs1">
 	            <span class="css-ce8b5w--SettledInfo--Text e1hjiljs3">주문 금액</span>
 	            <span class="css-bawng7--SettledInfo--Text--SettledInfo--Price e1hjiljs2"><c:out value="${finalPrice}"/>원</span>
+	            <input type="hidden" value="${finalPrice}" id="finalPrice">
 	          </div>
 	        </div>
 	        <div class="css-1ar0af1--TotalPriceInfo--Info e14xhkix2">
@@ -70,10 +69,7 @@
 	</div>
 	
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const 
-	}
+
 </script>	
 </body>
-
 </html>

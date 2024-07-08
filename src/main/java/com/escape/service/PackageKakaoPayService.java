@@ -3,6 +3,7 @@ package com.escape.service;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,25 +17,28 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.escape.accommodation.config.HotelKakaoPayConfig;
+import com.escape.accommodation.config.PackageKakaoPayConfig;
 
 @Service("packageKakaoPayService")
 public class PackageKakaoPayService  {
 
     @Autowired
-    private HotelKakaoPayConfig hotelKakaoPayConfig;
+    private HotelKakaoPayConfig packageKakaoPayConfig;
+    
+
 
     public String initiatePayment(int amount, String orderId, String itemName) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
-        String url = hotelKakaoPayConfig.getUrl();
+        String url = packageKakaoPayConfig.getUrl();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "KakaoAK " + hotelKakaoPayConfig.getKey());
+        headers.set("Authorization", "KakaoAK " + packageKakaoPayConfig.getKey());
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("cid", hotelKakaoPayConfig.getCid());
+        params.add("cid", packageKakaoPayConfig.getCid());
         params.add("partner_order_id", orderId);
         params.add("partner_user_id", "user_id");
         params.add("item_name", itemName);
@@ -43,6 +47,8 @@ public class PackageKakaoPayService  {
         params.add("vat_amount", "0");
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:9089/PackageApi/payment/success");
+        //params.add("approval_url", "http://localhost:9089/AccommodationApi/payment/success");
+
         params.add("cancel_url", "http://localhost:9089/payment/cancel");
         params.add("fail_url", "http://localhost:9089/payment/fail");
 

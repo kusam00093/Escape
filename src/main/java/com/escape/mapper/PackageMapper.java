@@ -58,5 +58,29 @@ public interface PackageMapper {
 	int getReservation_su(int package_idx);
 	int insertPackage_Reservation(Package_ReservationVo reservationVo);
 	int insertPackage_Payment(Payment payment);
+	void package_incHit(int package_idx);
+	List<PackageVo> getPackageList(int user_idx);
+	Integer getDiscountPrice(int package_idx);
+	int getRemainPerson(int package_idx);
+	//int getPackageListCount();
+	List<PackageVo> getPackageListPaging(int userIdx, int offset, int recordSize);
+	int getPackageListCount(int user_idx);
+	//int getPackageListCount(int userIdx, Integer category_idx, String keyword);
+	//List<PackageVo> getPackageListPaging(int userIdx, Integer category_idx, String keyword, int offset, int limit);
+	String getPeriodDate(int package_idx);
+	List<CategoryVo> getCategorybyCategory(int package_idx);
+	List<LocationVo> getLocationbyLocation(int package_idx);
+	List<ConvenienceVo> getConvenienceByConvenience(int package_idx);
+	void deletePakcageCategory(int package_idx);
+	void deletePakcageConvenience(int package_idx);
+	void deletePakcageLocation(int package_idx);
+	void deletePackageImg(int package_idx);
+	void updatePackage(PackageVo2 packageVo);
+	void deletePakcageDiscount(int package_idx);
+	PackageVo getDateToString(int package_idx);
+	Package_ReviewVo getMaxReview(int package_idx);
+	String getPackageDateTime(int package_idx);
+	int getPersonIdx(int user_idx);
+	void deletePackageReview(int package_review_idx);
 
 }

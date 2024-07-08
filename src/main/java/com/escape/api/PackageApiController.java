@@ -96,7 +96,6 @@ public class PackageApiController {
         int finalPrice;
         int pointsToUse;
         String paymentMethod = (String) paymentData.get("paymentMethod");
-        System.out.println(paymentMethod+"========================================결제방법");
 
         
         try {
@@ -104,9 +103,9 @@ public class PackageApiController {
             reservationPrice = Integer.parseInt(paymentData.get("reservationPrice").toString());
             finalPrice = Integer.parseInt(paymentData.get("finalPrice").toString());
             reservation_su = Integer.parseInt(paymentData.get("reservationCount").toString());
+            
             pointsToUse = Integer.parseInt(paymentData.get("pointsToUse").toString());
             paymentMethod = (String) paymentData.get("paymentMethod");
-            System.out.println(paymentMethod+"========================================결제방법");
 
         } catch (ClassCastException | NumberFormatException e) {
             e.printStackTrace(); // 예외 로그 출력
@@ -142,17 +141,16 @@ public class PackageApiController {
 //        String checkInDateFormatted = checkInDate.format(dateFormatter);
 //        String checkOutDateFormatted = checkOutDate.format(dateFormatter);
         
-        // RoomReservation 객체 생성 및 설정
         Package_ReservationVo reservationVo = new Package_ReservationVo();
         reservationVo.setUser_idx(user.getUser_idx());
         reservationVo.setPackage_idx(package_idx);
 //        roomReservation.setReservation_guest(guest);
         reservationVo.setReservation_price(finalPrice);
+        reservationVo.setReservation_su(reservation_su);
 //        roomReservation.setCheck_in_date(checkInDateFormatted); // 문자열로 설정
 //        roomReservation.setCheck_out_date(checkOutDateFormatted); // 문자열로 설정
         reservationVo.setState(2); // 예약 상태를 대기 중으로 설정
 //        reservationVo.setCreated(LocalDateTime.now());
-
         Payment payment = new Payment();
         payment.setUser_idx(user.getUser_idx());
         payment.setPrice(finalPrice);
@@ -171,10 +169,13 @@ public class PackageApiController {
             }
 
             if ("KAKAOPAY".equals(paymentMethod)) {
+            	System.out.println("여기까지 오나?111111111111111111111");
                 String orderId = "order_" + System.currentTimeMillis();
                 String itemName = "패키지 예약";
                 String paymentResponse = kakaoPayService.initiatePayment(finalPrice, orderId, itemName);
+                System.out.println("paymentResponse1111111111111111"+paymentResponse);
                 String redirectUrl = "/PackageApi/payment/success";
+                session.setAttribute("finalPrice", finalPrice); // 최종 금액 세션에 저장
                 return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse, "redirectUrl", redirectUrl));
             } //else if ("NAVERPAY".equals(paymentMethod)) {
 //                String orderId = "order_" + System.currentTimeMillis();
@@ -183,11 +184,13 @@ public class PackageApiController {
 //                String redirectUrl = "/AccommodationApi/payment/success";
 //                return ResponseEntity.ok(Map.of("success", true, "paymentResponse", paymentResponse, "redirectUrl", redirectUrl));
 //            }
-            
+            System.out.println("여기까지 오나?22222222222222222222222222");
             session.setAttribute("finalPrice", finalPrice); // 최종 금액 세션에 저장
-            String redirectUrl1 = "/PackageApi/payment/success";
-            return ResponseEntity.ok(Map.of("success", true, "redirectUrl", redirectUrl1));
+            System.out.println("최종금액"+finalPrice);
+            String redirectUrl = "/PackageApi/payment/success";
+            return ResponseEntity.ok(Map.of("success", true, "redirectUrl", redirectUrl));
         } else {
+        	System.out.println("여기까지 오나?33333333333333333333333333333");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Payment or Reservation failed"));
         }
@@ -197,10 +200,10 @@ public class PackageApiController {
     @GetMapping("/payment/success") 
     public ModelAndView paymentSuccess(@RequestParam Map<String, String> params, HttpSession session) {
         // 결제 완료 처리 로직 추가 (예: 결제 검증, DB 업데이트 등)
-        
+        System.out.println("결제 금액=================================="+session.getAttribute("finalPrice"));
         ModelAndView mv = new ModelAndView();
         mv.addObject("finalPrice", session.getAttribute("finalPrice")); // 세션에서 최종 금액 가져와서 추가
-        mv.setViewName("accommodation/roomOrderCompleted");
+        mv.setViewName("package/package_reservation_completed");
         return mv;
     }
 }

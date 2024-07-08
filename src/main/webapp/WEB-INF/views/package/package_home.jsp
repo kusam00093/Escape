@@ -442,72 +442,89 @@ body {
     <div class="card-container">
   
     <c:forEach var="pa" items="${ packageList }">
-      <div class="card">
-        <a href="/Package/Detail?package_idx=${ pa.package_idx }">
-    <div class="image" style="margin-bottom:10px;">
-        <img src="${ pa.image }" style="width : 305px; height: 240px;">
-        <div class="icon-container">
-            <img src="/images/icons_best.png" class="nav_icon" />
-        </div>
-        <div><i class="fas fa-external-link-alt"></i></div>
+      <div class="card" style="text-decoration: none;">
+                <!-- 상위 링크는 카드 내용 전체를 클릭해도 이동하도록 유지 -->
+                <a href="/Package/Detail?package_idx=${ pa.package_idx }">
+                    <div class="image" style="margin-bottom:10px;">
+                        <img src="${ pa.image }" style="width: 305px; height: 240px;">
+                    </div>
+                    <div><i class="fas fa-external-link-alt"></i></div>
+                </a>
+<c:if test="${not empty user_idx && user_idx != 0}">
+    <!-- 북마크 버튼은 링크 밖에 배치 -->
+    <div class="icon-container" style="display: inline-block; text-align: center; margin-left:120px; width: 24px; height: 24px;">
+        <img src="${pa.state == 1 ? '/img/like_on.png' : '/img/like_off.png'}" class="nav_icon bookmarkbtn" data-package-idx="${pa.package_idx}" data-state="${pa.state == 1 ? 1 : 0}" />
     </div>
-    <div class="details packageList" >
-    
-    <div class="package1">
-<div style="display: flex; align-items: center;" >
-    <c:choose>
-        <c:when test="${not empty pa.category_name}">
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
-        </c:when>
-    </c:choose>
+</c:if>
+                <div class="details packageList">
+                    <div class="package1">
+                        <div style="display: flex; align-items: center;">
+                            <c:choose>
+                                <c:when test="${not empty pa.category_name}">
+                                    <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
+                                </c:when>
+                            </c:choose>
 
-    <c:choose>
-        <c:when test="${not empty pa.location_name}" >
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
-        </c:when>
-    </c:choose>
-</div>
+                            <c:choose>
+                                <c:when test="${not empty pa.location_name}">
+                                    <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
+                                </c:when>
+                            </c:choose>
+                        </div>
 
-    <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
-<div style="display: flex; align-items: center;">
-    <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-    </div>
-    <p style="margin-top:20px;">(${pa.count})</p>
-</div>
+                        <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
+                        <div style="display: flex; align-items: center;">
+                            <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
+                                <!-- 스타 아이콘 생성 -->
+                                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                            </div>
+                            <p style="margin-top:20px;">(${pa.count})</p>
+                        </div>
 <c:choose>
     <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
-        <div style="display: flex; align-items: center; margin-left:10px;;">
+        <div style="display: flex; align-items: center; margin-left:10px;">
             <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
             <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
-            <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
+
+            <!-- 남은 인원 조건 처리 -->
+            <c:choose>
+                <c:when test="${pa.remaining_person == 0}">
+                    <p>마감된 패키지입니다</p>
+                </c:when>
+                <c:otherwise>
+                    <p>남은 인원: ${pa.remaining_person}/${pa.limited_person}</p>
+                </c:otherwise>
+            </c:choose>
         </div>
     </c:when>
     <c:otherwise>
-<div style="display: flex; align-items: center; gap: 10px;">
-    <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
-    <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
-</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
+
+            <!-- 남은 인원 조건 처리 -->
+            <c:choose>
+                <c:when test="${pa.remaining_person == 0}">
+                    <p>마감된 패키지입니다</p>
+                </c:when>
+                <c:otherwise>
+                    <p>남은 인원: ${pa.remaining_person}/${pa.limited_person}</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </c:otherwise>
 </c:choose>
-
-
-        
-    </div>
-    </div>
-    
-    
-    </a>
-</div>
+                    </div>
+                </div>
+            </div>
 </c:forEach>
 
 
@@ -545,7 +562,52 @@ body {
 //     });
 // });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bookmarkbtn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();  // 기본 동작(링크 이동) 방지
+            console.log('Bookmark button clicked!');  // 디버깅 메시지 확인
 
+            const packageIdx = parseInt(e.target.dataset.packageIdx);
+            let currentState = parseInt(e.target.dataset.state);
+            const newState = (currentState === 1) ? 0 : 1;  // currentState가 1이면 0, 아니면 1
+
+            console.log(currentState);  // 현재 상태를 콘솔에 출력
+            console.log(newState);  // 새 상태를 콘솔에 출력
+
+            // 서버에 상태 업데이트 요청
+            fetch('/Bookmark', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    package_idx: packageIdx,
+                    state: newState
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();  // JSON 응답을 반환
+                } else {
+                    throw new Error('Failed to update bookmark');  // 실패 시 에러 발생
+                }
+            })
+            .then(result => {
+                console.log(result.state);  // 서버에서 반환하는 state 값
+
+                // 새 상태에 따라 이미지와 상태 업데이트
+                e.target.src = newState === 1 ? '/img/like_on.png' : '/img/like_off.png';
+                e.target.dataset.state = newState;
+            })
+            .catch(error => {
+                console.error('Error:', error);  // 에러 처리
+            });
+        });
+    });
+});
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const categoryButtons = document.querySelectorAll(".category_btn");
