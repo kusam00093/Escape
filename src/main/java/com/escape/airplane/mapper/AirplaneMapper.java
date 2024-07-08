@@ -24,7 +24,7 @@ public interface AirplaneMapper {
 
 	int getUserIdx(Object object);
 	
-	int getPriceInfo(int airplaneTimeIdx, int ptypeIdx, int stype);
+	int getPriceInfo(int airplane_time_idx1, int ptypeIdx, int stype);
 	
 	List<Map<String, Object>> getFilteredFlights(AirplaneSearchVo airplaneSearchVo);
 	//List<Map<String, Object>> getFilteredFlights(List<AirplaneSearchVo> airplaneSearchVo);

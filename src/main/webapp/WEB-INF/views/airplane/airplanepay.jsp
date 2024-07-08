@@ -72,48 +72,48 @@ h1 {
 <%@include file="/WEB-INF/include/nav.jsp"%>
 
 <body>
+    <div class="paycontainer">
+        <h1>결제 정보</h1>
+        <div class="flight-info">
+            <div>
+                <span>항공편 이름:</span> ${itemName1}
+            </div>
+            <div>
+                <span>좌석 등급:</span> ${seatClass}
+            </div>
+            <div>
+                <span>성인 수:</span> ${adultCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${adultPrice}
+            </div>
+            <div>
+                <span>아동 수:</span> ${childCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${childPrice}
+            </div>
+            <div>
+                <span>유아 수:</span> ${infantCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${infantPrice}
+            </div>
+        </div>
 
-	<div class="paycontainer">
-		<h1>결제 정보</h1>
-		<div class="flight-info">
-			<div>
-				<span>항공편 이름:</span> ${itemName}
-			</div>
-			<div>
-				<span>좌석 등급:</span> ${seatClass}
-			</div>
-			<div>
-				<span>성인 수:</span> ${adultCount}
-				<span>
-					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-				</span>
-				<span>1인당 가격:</span> ${adultPrice}
-			</div>
-			<div>
-				<span>아동 수:</span> ${childCount}
-				<span>
-					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-				</span>
-				<span>1인당 가격:</span> ${childPrice}
-			</div>
-			<div>
-				<span>유아 수:</span> ${infantCount}
-				<span>
-					<img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-				</span>
-				<span>1인당 가격:</span> ${infantPrice}
-			</div>
-			<div>
-				<span>총 가격:</span> ${totalPrice}
-			</div>
-		</div>
-		
-		<div class="payment-section">
+        <div>
+            <span>총 가격:</span> ${totalPrice}
+        </div>
+
+        <div class="payment-section">
 			<button type="button" class="payBtn"
-				data-airplane-time-idx="${ orderId }" 
+				data-airplane-time-idx="${ orderId1 }" 
 				data-user-id="${ sessionScope.login.id }"
 				data-user-idx="${ user_idx }"
-				data-airplane-name="${ itemName }"
+				data-airplane-name="${ itemName1 }"
 				data-seatClass="${ seatClass }"
 				data-adultCount="${ adultCount }"
 				data-childCount="${ childCount }"
@@ -125,12 +125,10 @@ h1 {
 			>결제</button>
             <script src="/js/main.js"></script>
 		</div>
-		
-	</div>
+    </div>
 
-	<%@include file="/WEB-INF/include/footer.jsp"%>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+    <%@include file="/WEB-INF/include/footer.jsp"%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </body>
+
 </html>

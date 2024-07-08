@@ -407,7 +407,9 @@ function confirmPayment(event) {
             { name: 'adultCount', value: adultCount },
             { name: 'childCount', value: childCount },
             { name: 'infantCount', value: infantCount },
-            { name: 'totalPrice', value: totalPrice }
+            { name: 'totalPrice', value: totalPrice },
+            { name: 'stype', value: stype },
+            { name: 'initform', value: initform }
         ];
 
         params.forEach(function(inputData) {
@@ -738,8 +740,8 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                     flightWrapper.className = 'flight-wrapper';
                     flightWrapper.setAttribute('data-time', flight.startTime1);
                     flightWrapper.setAttribute('data-day', '가는날');
-                    flightWrapper.setAttribute('data-airplane-time-idx', flight.airplane_time_idx);
-                    flightWrapper.setAttribute('data-b-airplane-time-idx', flight.b_airplane_time_idx);
+                    flightWrapper.setAttribute('data-airplane-time-idx', flight.airplane_time_idx1);
+                    flightWrapper.setAttribute('data-b-airplane-time-idx', flight.airplane_time_idx2);
                     flightWrapper.setAttribute('data-name1', flight.name1);
                     flightWrapper.setAttribute('data-name2', flight.name2);
 
@@ -832,7 +834,7 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                         flightWrapper.className = 'flight-wrapper';
                         flightWrapper.setAttribute('data-time', flight.startTime1);
                         flightWrapper.setAttribute('data-day', '가는날');
-                        flightWrapper.setAttribute('data-airplane-time-idx', flight.airplane_time_idx);
+                        flightWrapper.setAttribute('data-airplane-time-idx', flight.airplane_time_idx1);
                         flightWrapper.setAttribute('data-name1', flight.name1);
 
                         flightWrapper.innerHTML = `

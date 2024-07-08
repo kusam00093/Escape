@@ -87,77 +87,83 @@ public class AirplaneController {
     }
 	
 	@RequestMapping("/AirplanePay")
-	public ModelAndView airplanepay(
-				@RequestParam Map<Object, Object> params
-			) {
-		
-		System.out.println("===== AirplanePay === params: " + params);
-		
-		int user_idx = airplaneMapper.getUserIdx( params.get("userId") );
-		System.out.println("===== Airplane/AirplanePay === user_idx: " + user_idx);
-		
-		String orderId1 = (String) params.get("orderId1");
-		String orderId2 = (String) params.get("orderId2");
-		String userId = (String) params.get("userId");
-		String itemName1 = (String) params.get("itemName1");
-		String itemName2 = (String) params.get("itemName2");
-		String seatClass = (String) params.get("seatClass");
-		String adultCount = (String) params.get("adultCount");
-		String childCount = (String) params.get("childCount");
-		String infantCount = (String) params.get("infantCount");
-		int totalCount = Integer.parseInt( adultCount ) + Integer.parseInt( childCount ) + Integer.parseInt( infantCount );
-		//String adultPrice = (String) params.get("adultPrice");
-		//String childPrice = (String) params.get("childPrice");
-		//String infantPrice = (String) params.get("infantPrice");
-		String totalPrice = (String) params.get("totalPrice");
+    public ModelAndView airplanepay(
+        @RequestParam Map<Object, Object> params,
+        AirplaneTimeVo airplaneTimeVo
+    ) {
 
-		System.out.println("===== AirplanePay === orderId1: " + orderId1);
+        System.out.println("===== AirplanePay === params: " + params);
+
+        int user_idx = airplaneMapper.getUserIdx(params.get("userId"));
+        System.out.println("===== Airplane/AirplanePay === user_idx: " + user_idx);
+
+        int orderId1 = Integer.parseInt((String) params.get("orderId1"));
+        int orderId2 = Integer.parseInt((String) params.get("orderId2"));
+        String userId = (String) params.get("userId");
+        String itemName1 = (String) params.get("itemName1");
+        String itemName2 = (String) params.get("itemName2");
+        String seatClass = (String) params.get("seatClass");
+        int stype = Integer.parseInt((String) params.get("stype"));
+        int adultCount = Integer.parseInt((String) params.get("adultCount"));
+        int childCount = Integer.parseInt((String) params.get("childCount"));
+        int infantCount = Integer.parseInt((String) params.get("infantCount"));
+        int totalCount = adultCount + childCount + infantCount;
+        String initform = (String) params.get("initform");
+
+        // ptype_idx 별 가격 계산
+        int adultPrice = airplaneMapper.getPriceInfo(orderId1, 1, stype) * adultCount;
+        int childPrice = airplaneMapper.getPriceInfo(orderId1, 2, stype) * childCount;
+        int infantPrice = airplaneMapper.getPriceInfo(orderId1, 3, stype) * infantCount;
+        String totalPrice = (String) params.get("totalPrice");
+        
+        System.out.println("===== AirplanePay === orderId1: " + orderId1);
 		System.out.println("===== AirplanePay === orderId2: " + orderId2);
 		System.out.println("===== AirplanePay === userId: " + userId);
 		System.out.println("===== AirplanePay === itemName1: " + itemName1);
 		System.out.println("===== AirplanePay === itemName2: " + itemName2);
 		System.out.println("===== AirplanePay === seatClass: " + seatClass);
+		System.out.println("===== AirplanePay === stype: " + stype);
 		System.out.println("===== AirplanePay === adultCount: " + adultCount);
 		System.out.println("===== AirplanePay === childCount: " + childCount);
 		System.out.println("===== AirplanePay === infantCount: " + infantCount);
 		System.out.println("===== AirplanePay === totalCount: " + totalCount);
-		//System.out.println("===== AirplanePay === adultPrice: " + adultPrice);
-		//System.out.println("===== AirplanePay === childPrice: " + childPrice);
-		//System.out.println("===== AirplanePay === infantPrice: " + infantPrice);
+		System.out.println("===== AirplanePay === initform: " + initform);
+		System.out.println("===== AirplanePay === adultPrice: " + adultPrice);
+		System.out.println("===== AirplanePay === childPrice: " + childPrice);
+		System.out.println("===== AirplanePay === infantPrice: " + infantPrice);
 		System.out.println("===== AirplanePay === totalPrice: " + totalPrice);
-		
-		//kakaoPayService.readyToPay(orderId, userId, itemName, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx);
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("orderId1", orderId1);
-		mv.addObject("orderId2", orderId2);
-		mv.addObject("userId", userId);
-		mv.addObject("user_idx", user_idx);
-		mv.addObject("itemName1", itemName1);
-		mv.addObject("itemName2", itemName2);
-		mv.addObject("seatClass", seatClass);
-		mv.addObject("adultCount", adultCount);
-		mv.addObject("childCount", childCount);
-		mv.addObject("infantCount", infantCount);
-		mv.addObject("totalCount", totalCount);
-		//mv.addObject("adultPrice", adultPrice);
-		//mv.addObject("childPrice", childPrice);
-		//mv.addObject("infantPrice", infantPrice);
-		mv.addObject("totalPrice", totalPrice);
-		mv.setViewName("airplane/airplanepay");
-		return mv;
-		
-	}
-	
-	@RequestMapping("/PaySuccess")
+
+        String paymentUrl = kakaoPayService.readyToPay(orderId1, orderId2, userId, itemName1, itemName2, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx);
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("orderId1", orderId1);
+        mv.addObject("orderId2", orderId2);
+        mv.addObject("userId", userId);
+        mv.addObject("user_idx", user_idx);
+        mv.addObject("itemName1", itemName1);
+        mv.addObject("itemName2", itemName2);
+        mv.addObject("seatClass", seatClass);
+        mv.addObject("adultCount", adultCount);
+        mv.addObject("childCount", childCount);
+        mv.addObject("infantCount", infantCount);
+        mv.addObject("totalCount", totalCount);
+        mv.addObject("adultPrice", adultPrice);
+        mv.addObject("childPrice", childPrice);
+        mv.addObject("infantPrice", infantPrice);
+        mv.addObject("totalPrice", totalPrice);
+        mv.addObject("paymentUrl", paymentUrl); // 결제 URL 추가
+        mv.setViewName("airplane/airplanepay");
+        return mv;
+    }
+
+    @RequestMapping("/PaySuccess")
     @ResponseBody
     public ResponseEntity<Map<String, String>> PaySuccess(@RequestBody PaymentVo paymentVo) {
-        
         kakaoPayService.savePayment(paymentVo);
-        
+
         Map<String, String> response = new HashMap<>();
         response.put("status", "success");
-        
+
         return ResponseEntity.ok(response);
     }
 	

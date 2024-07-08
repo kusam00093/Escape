@@ -30,7 +30,7 @@ public interface PaymentMapper {
             ")"
         )
         void insertReservation(@Param("user_idx") int user_idx,
-                               @Param("orderId") String orderId,
+                               @Param("orderId") int orderId1,
                                @Param("quantity") int quantity,
                                @Param("total_amount") int totalAmount);
     
@@ -41,7 +41,7 @@ public interface PaymentMapper {
     	    "WHERE USER_IDX = #{user_idx} AND AIRPLANE_TIME_IDX = #{orderId}"
     	)
     	int checkReservationExists(@Param("user_idx") int user_idx,
-    	                           @Param("orderId") String orderId);
+    	                           @Param("orderId") int orderId1);
     
     /*
     @Insert(

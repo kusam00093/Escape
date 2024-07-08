@@ -94,7 +94,8 @@ public class AirlineController {
 	// 가격 계산
 	private void calculatePrice(List<AirplaneTimeVo> flightInfo, int adultCount, int childCount, int infantCount, int stype, String initform) {
 	    for (AirplaneTimeVo flight : flightInfo) {
-	        int airplaneTimeIdx = flight.getAirplane_time_idx();
+	        int airplaneTimeIdx = flight.getAirplane_time_idx1();
+	        System.out.println("===== Airline/calculatePrice === airplaneTimeIdx: " + airplaneTimeIdx);
 
 	        // 성인 가격 계산
 	        int adultPrice = airplaneMapper.getPriceInfo(airplaneTimeIdx, 1, stype) * adultCount;
@@ -120,7 +121,8 @@ public class AirlineController {
             @RequestParam Map<String, Object> params,
             @RequestParam(value = "checkboxId[]", required = false) List<String> checkboxIds,
             @RequestParam(value = "airlineNames[]", required = false) List<String> airlineNames,
-            @RequestParam(value = "priceRange", required = false) String priceRange
+            @RequestParam(value = "priceRange", required = false) String priceRange,
+            @RequestParam(value = "airplaneTimeIdx[]", required = false) List<Integer> airplaneTimeIdx
             ) throws JsonMappingException, JsonProcessingException {
 		
         System.out.println("Airline/Filter-params1: " + params);
@@ -168,6 +170,8 @@ public class AirlineController {
         } else {
             flightInfo = flightService.getRoundTripFilterInfo(params);
         }
+        
+        System.out.println("Airline/Filter-flightInfo: " + flightInfo);
 
         calculateDuration(flightInfo);
         calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
