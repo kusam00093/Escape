@@ -103,7 +103,41 @@ h1 {
                 <span>1인당 가격:</span> ${infantPrice}
             </div>
         </div>
+        
+        <hr />
+        <!-- =========================================================== -->
+        <div class="flight-info">
+            <div>
+                <span>항공편 이름:</span> ${itemName2}
+            </div>
+            <div>
+                <span>좌석 등급:</span> ${seatClass}
+            </div>
+            <div>
+                <span>성인 수:</span> ${adultCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${adultPrice}
+            </div>
+            <div>
+                <span>아동 수:</span> ${childCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${childPrice}
+            </div>
+            <div>
+                <span>유아 수:</span> ${infantCount}
+                <span>
+                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
+                </span>
+                <span>1인당 가격:</span> ${infantPrice}
+            </div>
+        </div>
 
+		<hr/>
+		
         <div>
             <span>총 가격:</span> ${totalPrice}
         </div>

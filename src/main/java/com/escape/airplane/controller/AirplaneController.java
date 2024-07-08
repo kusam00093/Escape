@@ -133,7 +133,7 @@ public class AirplaneController {
 		System.out.println("===== AirplanePay === infantPrice: " + infantPrice);
 		System.out.println("===== AirplanePay === totalPrice: " + totalPrice);
 
-        String paymentUrl = kakaoPayService.readyToPay(orderId1, orderId2, userId, itemName1, itemName2, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx);
+        String paymentUrl = kakaoPayService.readyToPay(orderId1, orderId2, userId, itemName1, itemName2, seatClass, adultCount, childCount, infantCount, totalPrice, user_idx, airplaneTimeVo );
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("orderId1", orderId1);
@@ -159,6 +159,7 @@ public class AirplaneController {
     @RequestMapping("/PaySuccess")
     @ResponseBody
     public ResponseEntity<Map<String, String>> PaySuccess(@RequestBody PaymentVo paymentVo) {
+    	
         kakaoPayService.savePayment(paymentVo);
 
         Map<String, String> response = new HashMap<>();

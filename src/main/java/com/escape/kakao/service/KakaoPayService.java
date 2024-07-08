@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.escape.airplane.domain.AirplaneTimeVo;
 import com.escape.kakao.domain.PaymentVo;
 import com.escape.kakao.mapper.PaymentMapper;
 
@@ -36,8 +37,11 @@ public class KakaoPayService {
     private String kakaoPayUrl;
 
     public String readyToPay(int orderId1, int orderId2, String userId, String itemName1, String itemName2, String seatClass, int adultCount,
-            int childCount, int infantCount, String totalPrice, int user_idx) {
+            int childCount, int infantCount, String totalPrice, int user_idx, AirplaneTimeVo airplaneTimeVo) {
 
+    	
+    	
+    	System.out.println("airplaneTimeVo: " + airplaneTimeVo);
 		System.out.println("Admin Key: " + adminKey);
 		System.out.println("CID: " + cid);
 		System.out.println("KakaoPay URL: " + kakaoPayUrl);
@@ -60,11 +64,8 @@ public class KakaoPayService {
 		int totalAmount = Integer.parseInt(params.getFirst("total_amount"));
 		int existingRecords = paymentMapper.checkReservationExists(user_idx, orderId1);
 		
-		if (existingRecords == 0) {
 		paymentMapper.insertReservation(user_idx, orderId1, quantity, totalAmount);
-		} else {
-		throw new DuplicateReservationException("이미 예약된 목록입니다.");
-		}
+		paymentMapper.updateReservation( orderId1 );	// status : 1 → 2
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "KakaoAK " + adminKey);
@@ -96,14 +97,7 @@ public class KakaoPayService {
 		System.out.println("===== savePayment === Reservationidx: " + Reservationidx);
 		
 		paymentMapper.insertPayment( paymentVo, Reservationidx );
-		//paymentMapper.updateReservation();	// status : 1 → 2
 
 	}
-
-//	public void savePayment(int applyIdx, int userIdx, int state, int price) {
-//
-//		paymentMapper.insertPayment( applyIdx, userIdx, state, price );
-//		
-//	}
 
 }
