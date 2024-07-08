@@ -3,6 +3,112 @@
 <mapper namespace="com.escape.mapper.PackageMapper">  
 
 
+<!-- <select id="getPackageList"> -->
+<!-- WITH AverageRates AS ( -->
+<!--     SELECT  -->
+<!--         pa.package_idx, -->
+<!--         AVG(ra.rate) AS rate -->
+<!--     FROM  -->
+<!--         package_tb pa -->
+<!--     JOIN  -->
+<!--         package_review_tb r ON pa.package_idx = r.package_idx -->
+<!--     JOIN  -->
+<!--         package_rate_tb ra ON r.package_review_idx = ra.package_review_idx -->
+<!--     GROUP BY  -->
+<!--         pa.package_idx -->
+<!-- ), -->
+<!-- ReviewCounts AS ( -->
+<!--     SELECT  -->
+<!--         pa.package_idx, -->
+<!--         COUNT(*) AS count -->
+<!--     FROM  -->
+<!--         package_tb pa -->
+<!--     JOIN  -->
+<!--         package_review_tb r ON pa.package_idx = r.package_idx -->
+<!--     JOIN  -->
+<!--         person_tb p ON r.person_idx = p.person_idx -->
+<!--     JOIN  -->
+<!--         package_rate_tb ra ON r.package_review_idx = ra.package_review_idx -->
+<!--     GROUP BY  -->
+<!--         pa.package_idx -->
+<!-- ), -->
+<!-- PackageImages AS ( -->
+<!--     SELECT  -->
+<!--         PACKAGE_IDX, -->
+<!--         IMAGE, -->
+<!--         ROW_NUMBER() OVER (PARTITION BY PACKAGE_IDX ORDER BY IMAGE) AS RN -->
+<!--     FROM  -->
+<!--         PACKAGE_IMAGE_TB -->
+<!-- ), -->
+<!-- PackageLocations AS ( -->
+<!--     SELECT  -->
+<!--         pl.package_idx, -->
+<!--         l.name AS location_name, -->
+<!--         ROW_NUMBER() OVER (PARTITION BY pl.package_idx ORDER BY l.location_idx) AS rn -->
+<!--     FROM  -->
+<!--         package_location_tb pl -->
+<!--     JOIN  -->
+<!--         location_tb l ON pl.location_idx = l.location_idx -->
+<!-- ), -->
+<!-- PackageCategories AS ( -->
+<!--     SELECT  -->
+<!--         PC.PACKAGE_IDX, -->
+<!--         C.NAME AS CATEGORY_NAME, -->
+<!--         ROW_NUMBER() OVER (PARTITION BY PC.PACKAGE_IDX ORDER BY C.CATEGORY_IDX) AS RN -->
+<!--     FROM  -->
+<!--         CATEGORY_TB C -->
+<!--     JOIN  -->
+<!--         PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX -->
+<!-- ) -->
+<!-- SELECT  -->
+<!--     P.PACKAGE_IDX, -->
+<!--     P.USER_IDX, -->
+<!--     P.TITLE, -->
+<!--     P.START_DATE, -->
+<!--     P.END_DATE, -->
+<!--     P.LIMITED_PERSON, -->
+<!--     P.PRICE, -->
+<!--     P.PTYPE_IDX, -->
+<!--     P.HIT, -->
+<!--     P.PACKAGE_CATEGORY_IDX, -->
+<!--     PI.IMAGE, -->
+<!--     AR.rate, -->
+<!--     RC.count, -->
+<!--     PL.location_name, -->
+<!--     PCAT.category_name, -->
+<!--     PD.DISCOUNT_PERCENT, -->
+<!--     PD.DISCOUNT_INTEGER, -->
+<!--     ROUND(COALESCE(( (100.0 - PD.DISCOUNT_PERCENT)/100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price, -->
+<!--     P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person -->
+<!-- FROM  -->
+<!--     PACKAGE_TB P -->
+<!-- LEFT JOIN  -->
+<!--     PackageImages PI ON P.PACKAGE_IDX = PI.PACKAGE_IDX AND PI.RN = 1 -->
+<!-- LEFT JOIN  -->
+<!--     AverageRates AR ON P.PACKAGE_IDX = AR.package_idx -->
+<!-- LEFT JOIN  -->
+<!--     ReviewCounts RC ON P.PACKAGE_IDX = RC.package_idx -->
+<!-- LEFT JOIN  -->
+<!--     (SELECT package_idx, location_name FROM PackageLocations WHERE rn = 1) PL ON P.PACKAGE_IDX = PL.package_idx -->
+<!-- LEFT JOIN  -->
+<!--     (SELECT PACKAGE_IDX, CATEGORY_NAME FROM PackageCategories WHERE RN = 1) PCAT ON P.PACKAGE_IDX = PCAT.PACKAGE_IDX -->
+<!-- LEFT JOIN  -->
+<!--     PACKAGE_DISCOUNT_TB PD ON P.PACKAGE_IDX = PD.PACKAGE_IDX -->
+<!-- LEFT JOIN  -->
+<!--     ( -->
+<!--         SELECT  -->
+<!--             package_idx,  -->
+<!--             COUNT(package_reservation_idx) AS reserved_count -->
+<!--         FROM  -->
+<!--             package_reservation_tb -->
+<!--         GROUP BY  -->
+<!--             package_idx -->
+<!--     ) PR ON P.PACKAGE_IDX = PR.package_idx -->
+
+
+
+<!-- </select> -->
+
 <select id="getPackageList">
 WITH AverageRates AS (
     SELECT 
@@ -59,6 +165,17 @@ PackageCategories AS (
         CATEGORY_TB C
     JOIN 
         PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX
+),
+BookmarkState AS (
+    SELECT 
+        P.PACKAGE_IDX,
+        COALESCE(MAX(CASE WHEN ppb.user_idx = #{user_idx} THEN ppb.state ELSE 0 END), 0) AS state
+    FROM 
+        PACKAGE_TB P
+    LEFT JOIN 
+        package_bookmark_tb ppb ON P.PACKAGE_IDX = ppb.package_idx
+    GROUP BY 
+        P.PACKAGE_IDX
 )
 SELECT 
     P.PACKAGE_IDX,
@@ -70,6 +187,7 @@ SELECT
     P.PRICE,
     P.PTYPE_IDX,
     P.HIT,
+    P.CREATED,
     P.PACKAGE_CATEGORY_IDX,
     PI.IMAGE,
     AR.rate,
@@ -79,7 +197,8 @@ SELECT
     PD.DISCOUNT_PERCENT,
     PD.DISCOUNT_INTEGER,
     ROUND(COALESCE(( (100.0 - PD.DISCOUNT_PERCENT)/100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price,
-    P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person
+    P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person,
+    BS.state  
 FROM 
     PACKAGE_TB P
 LEFT JOIN 
@@ -98,16 +217,278 @@ LEFT JOIN
     (
         SELECT 
             package_idx, 
-            COUNT(package_reservation_idx) AS reserved_count
+            SUM(reservation_su) AS reserved_count
         FROM 
             package_reservation_tb
         GROUP BY 
             package_idx
     ) PR ON P.PACKAGE_IDX = PR.package_idx
+LEFT JOIN 
+    BookmarkState BS ON P.PACKAGE_IDX = BS.PACKAGE_IDX
 
+</select>
+
+
+<select id="getPackageListCount">
+
+WITH AverageRates AS (
+    SELECT 
+        pa.package_idx,
+        AVG(ra.rate) AS rate
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+ReviewCounts AS (
+    SELECT 
+        pa.package_idx,
+        COUNT(*) AS count
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        person_tb p ON r.person_idx = p.person_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+PackageImages AS (
+    SELECT 
+        PACKAGE_IDX,
+        IMAGE,
+        ROW_NUMBER() OVER (PARTITION BY PACKAGE_IDX ORDER BY IMAGE) AS RN
+    FROM 
+        PACKAGE_IMAGE_TB
+),
+PackageLocations AS (
+    SELECT 
+        pl.package_idx,
+        l.name AS location_name,
+        ROW_NUMBER() OVER (PARTITION BY pl.package_idx ORDER BY l.location_idx) AS rn
+    FROM 
+        package_location_tb pl
+    JOIN 
+        location_tb l ON pl.location_idx = l.location_idx
+),
+PackageCategories AS (
+    SELECT 
+        PC.PACKAGE_IDX,
+        C.NAME AS CATEGORY_NAME,
+        ROW_NUMBER() OVER (PARTITION BY PC.PACKAGE_IDX ORDER BY C.CATEGORY_IDX) AS RN
+    FROM 
+        CATEGORY_TB C
+    JOIN 
+        PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX
+),
+BookmarkState AS (
+    SELECT 
+        P.PACKAGE_IDX,
+        COALESCE(MAX(CASE WHEN ppb.user_idx = #{user_idx} THEN ppb.state ELSE 0 END), 0) AS state
+    FROM 
+        PACKAGE_TB P
+    LEFT JOIN 
+        package_bookmark_tb ppb ON P.PACKAGE_IDX = ppb.package_idx
+    GROUP BY 
+        P.PACKAGE_IDX
+)
+SELECT 
+    COUNT(*)
+FROM 
+    PACKAGE_TB P
+LEFT JOIN 
+    PackageImages PI ON P.PACKAGE_IDX = PI.PACKAGE_IDX AND PI.RN = 1
+LEFT JOIN 
+    AverageRates AR ON P.PACKAGE_IDX = AR.package_idx
+LEFT JOIN 
+    ReviewCounts RC ON P.PACKAGE_IDX = RC.package_idx
+LEFT JOIN 
+    (SELECT package_idx, location_name FROM PackageLocations WHERE rn = 1) PL ON P.PACKAGE_IDX = PL.package_idx
+LEFT JOIN 
+    (SELECT PACKAGE_IDX, CATEGORY_NAME FROM PackageCategories WHERE RN = 1) PCAT ON P.PACKAGE_IDX = PCAT.PACKAGE_IDX
+LEFT JOIN 
+    PACKAGE_DISCOUNT_TB PD ON P.PACKAGE_IDX = PD.PACKAGE_IDX
+LEFT JOIN 
+    (
+        SELECT 
+            package_idx, 
+            SUM(reservation_su) AS reserved_count
+        FROM 
+            package_reservation_tb
+        GROUP BY 
+            package_idx
+    ) PR ON P.PACKAGE_IDX = PR.package_idx
+LEFT JOIN 
+    BookmarkState BS ON P.PACKAGE_IDX = BS.PACKAGE_IDX
+
+</select>
+
+<select id="getPackageListPaging">
+WITH AverageRates AS (
+    SELECT 
+        pa.package_idx,
+        AVG(ra.rate) AS rate
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+ReviewCounts AS (
+    SELECT 
+        pa.package_idx,
+        COUNT(*) AS count
+    FROM 
+        package_tb pa
+    JOIN 
+        package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN 
+        person_tb p ON r.person_idx = p.person_idx
+    JOIN 
+        package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    GROUP BY 
+        pa.package_idx
+),
+PackageImages AS (
+    SELECT 
+        PACKAGE_IDX,
+        IMAGE,
+        ROW_NUMBER() OVER (PARTITION BY PACKAGE_IDX ORDER BY IMAGE) AS RN
+    FROM 
+        PACKAGE_IMAGE_TB
+),
+PackageLocations AS (
+    SELECT 
+        pl.package_idx,
+        l.name AS location_name,
+        ROW_NUMBER() OVER (PARTITION BY pl.package_idx ORDER BY l.location_idx) AS rn
+    FROM 
+        package_location_tb pl
+    JOIN 
+        location_tb l ON pl.location_idx = l.location_idx
+),
+PackageCategories AS (
+    SELECT 
+        PC.PACKAGE_IDX,
+        C.NAME AS CATEGORY_NAME,
+        ROW_NUMBER() OVER (PARTITION BY PC.PACKAGE_IDX ORDER BY C.CATEGORY_IDX) AS RN
+    FROM 
+        CATEGORY_TB C
+    JOIN 
+        PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX
+),
+BookmarkState AS (
+    SELECT 
+        P.PACKAGE_IDX,
+        COALESCE(MAX(CASE WHEN ppb.user_idx = #{arg0} THEN ppb.state ELSE 0 END), 0) AS state
+    FROM 
+        PACKAGE_TB P
+    LEFT JOIN 
+        package_bookmark_tb ppb ON P.PACKAGE_IDX = ppb.package_idx
+    GROUP BY 
+        P.PACKAGE_IDX
+)
+SELECT 
+    P.PACKAGE_IDX,
+    P.USER_IDX,
+    P.TITLE,
+    P.START_DATE,
+    P.END_DATE,
+    P.LIMITED_PERSON,
+    P.PRICE,
+    P.PTYPE_IDX,
+    P.HIT,
+    P.CREATED,
+    P.PACKAGE_CATEGORY_IDX,
+    PI.IMAGE,
+    AR.rate,
+    RC.count,
+    PL.location_name,
+    PCAT.category_name,
+    PD.DISCOUNT_PERCENT,
+    PD.DISCOUNT_INTEGER,
+    ROUND(COALESCE(( (100.0 - PD.DISCOUNT_PERCENT)/100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price,
+    P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person,
+    BS.state  
+FROM 
+    PACKAGE_TB P
+LEFT JOIN 
+    PackageImages PI ON P.PACKAGE_IDX = PI.PACKAGE_IDX AND PI.RN = 1
+LEFT JOIN 
+    AverageRates AR ON P.PACKAGE_IDX = AR.package_idx
+LEFT JOIN 
+    ReviewCounts RC ON P.PACKAGE_IDX = RC.package_idx
+LEFT JOIN 
+    (SELECT package_idx, location_name FROM PackageLocations WHERE rn = 1) PL ON P.PACKAGE_IDX = PL.package_idx
+LEFT JOIN 
+    (SELECT PACKAGE_IDX, CATEGORY_NAME FROM PackageCategories WHERE RN = 1) PCAT ON P.PACKAGE_IDX = PCAT.PACKAGE_IDX
+LEFT JOIN 
+    PACKAGE_DISCOUNT_TB PD ON P.PACKAGE_IDX = PD.PACKAGE_IDX
+LEFT JOIN 
+    (
+        SELECT 
+            package_idx, 
+            SUM(reservation_su) AS reserved_count
+        FROM 
+            package_reservation_tb
+        GROUP BY 
+            package_idx
+    ) PR ON P.PACKAGE_IDX = PR.package_idx
+LEFT JOIN 
+    BookmarkState BS ON P.PACKAGE_IDX = BS.PACKAGE_IDX
+OFFSET #{arg1} ROWS FETCH NEXT #{arg2} ROWS ONLY
+
+</select>
+
+
+
+
+
+
+
+
+
+<select id="getRemainPerson">
+SELECT
+    COALESCE(P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0), 0) AS remaining_person
+FROM
+    package_tb P
+LEFT JOIN
+    (
+        SELECT 
+            package_idx, 
+            SUM(reservation_su) AS reserved_count
+        FROM 
+            package_reservation_tb
+        GROUP BY 
+            package_idx
+    ) PR
+ON
+    P.PACKAGE_IDX = PR.package_idx
+WHERE
+    P.package_idx = #{arg0}
 
 
 </select>
+<select id="getDiscountPrice">
+select
+    ROUND(COALESCE(((100.0 - PD.DISCOUNT_PERCENT) / 100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price
+from package_tb p
+join package_discount_tb pd on p.package_idx = pd.package_idx
+where p.package_idx = #{arg0}
+
+
+</select>
+
 <select id="getPackageDetailImgList">
 select
     image
@@ -352,11 +733,30 @@ SELECT
 	NAME
 FROM CATEGORY_TB	
 </select>
+<select id="getCategorybyCategory">
+SELECT
+	c.CATEGORY_IDX,
+	c.NAME
+FROM CATEGORY_TB c
+join package_category_tb p
+on c.category_idx = p.category_idx
+where p.package_idx = #{arg0}
+</select>
 <select id="getLocation">
 SELECT
 	LOCATION_IDX,
     NAME
 FROM LOCATION_TB
+
+</select>
+<select id="getLocationbyLocation">
+SELECT
+	l.LOCATION_IDX,
+    l.NAME
+FROM LOCATION_TB l
+join package_location_tb p
+on l.location_idx = p.location_idx
+where p.package_idx =#{arg0}
 
 </select>
 <select id="getConvenienceList">
@@ -365,6 +765,17 @@ SELECT
 	CONVENIENCE_IDX,
     NAME
 FROM CONVENIENCE_TB
+
+</select>
+<select id="getConvenienceByConvenience">
+
+SELECT
+	c.CONVENIENCE_IDX,
+    c.NAME
+FROM CONVENIENCE_TB c
+join package_convenience_tb p
+on c.convenience_idx = p.convenience_idx
+where p.package_idx = #{arg0}
 
 </select>
 
@@ -397,6 +808,28 @@ JOIN  PACKAGE_CONVENIENCE_TB CB
 ON    C.CONVENIENCE_IDX = CB.CONVENIENCE_IDX
 WHERE CB.PACKAGE_IDX = #{param1}
 
+</select>
+<select id="getPeriodDate">
+SELECT 
+    CASE 
+        WHEN TO_NUMBER(end_date - start_date) IS NULL OR TO_NUMBER(end_date - start_date) = 0 THEN '당일'
+        ELSE TO_CHAR(TO_NUMBER(end_date - start_date))
+    END AS duration
+FROM 
+    package_Tb
+WHERE 
+    package_idx = #{arg0}
+
+
+</select>
+
+<select id="getDateToString">
+
+SELECT
+    TO_CHAR(end_date, 'YY"년" MM"월" DD"일"') AS end_date,
+    TO_CHAR(start_date, 'YY"년" MM"월" DD"일"') AS start_date
+FROM package_tb
+WHERE package_idx = #{arg0}
 </select>
 
 <select id="getPackage">
@@ -448,6 +881,65 @@ GROUP BY
     P.FIRST_NAME, 
     P.LAST_NAME,  
     ra.rate
+
+</select>
+<select id="getPersonIdx">
+SELECT NVL(MAX(p.person_idx), 0) AS person_idx
+FROM person_tb p
+JOIN user_tb u ON p.user_idx = u.user_idx
+WHERE p.user_idx = #{arg0}
+
+
+</select>
+
+<select id="getMaxReview">
+WITH RankedReviews AS (
+    SELECT
+        R.PACKAGE_REVIEW_IDX,
+        R.PACKAGE_IDX,
+        R.CONTENT,
+        R.PERSON_IDX,
+        R.CREATED,
+        P.FIRST_NAME || ' ' || P.LAST_NAME AS FULL_NAME,
+        ra.rate,
+        TRIM(LISTAGG(pi.image, ', ') WITHIN GROUP (ORDER BY pi.image)) AS image,
+        ROW_NUMBER() OVER (PARTITION BY r.package_idx ORDER BY ra.rate DESC) AS rn
+    FROM package_tb pa
+    JOIN package_review_tb r ON pa.package_idx = r.package_idx
+    JOIN person_tb p ON r.person_idx = p.person_idx
+    JOIN package_rate_tb ra ON r.package_review_idx = ra.package_review_idx
+    JOIN package_review_image_tb pi ON r.package_review_idx = pi.package_review_idx 
+    WHERE pa.package_idx = #{param1}
+    GROUP BY
+        R.PACKAGE_REVIEW_IDX,
+        R.PACKAGE_IDX,
+        R.CONTENT,
+        R.PERSON_IDX,
+        R.CREATED,
+        P.FIRST_NAME, 
+        P.LAST_NAME,  
+        ra.rate
+)
+SELECT
+    PACKAGE_REVIEW_IDX,
+    PACKAGE_IDX,
+    CONTENT,
+    PERSON_IDX,
+    CREATED,
+    FULL_NAME,
+    rate,
+    image
+FROM RankedReviews
+WHERE rn = 1
+
+</select>
+<select id="getPackageDateTime">
+SELECT
+     to_char(start_date, 'MM"월 " DD"일 "HH"시 "mm"분 "') as start_time
+FROM 
+    package_tb
+WHERE 
+    package_idx = #{arg0}
 
 </select>
 
@@ -881,5 +1373,62 @@ INSERT INTO package_pay_tb (
 
 
 </insert>
+
+<!-- update -->
+
+
+<update id="package_incHit">
+UPDATE PACKAGE_TB
+  SET  HIT = hit + 1
+ WHERE PACKAGE_IDX = #{package_idx} 
+</update>
+
+
+<update id="updatePackage">
+	update package_tb
+		set 
+			title = #{title},
+			start_date = #{start_date},
+			end_date = #{end_date},
+			limited_person = #{limited_person},
+			price = #{price},
+			detail1 = #{detail1},
+			detail2 = #{detail2},
+			detail3 = #{detail3},
+			zip_code = #{zip_code},
+			address1 = #{address1},
+			address2 = #{address2}
+	where package_idx = #{package_idx}
+</update>
+<!-- update -->
+
+<delete id="deletePackageImg">
+	delete from package_image_tb
+	where package_idx = #{arg0}
+</delete>
+<delete id="deletePakcageCategory">
+	delete from package_category_tb
+	where package_idx = #{arg0}
+</delete>
+<delete id="deletePakcageConvenience">
+	delete from package_convenience_tb
+	where package_idx = #{arg0}
+</delete>
+<delete id="deletePakcageLocation">
+	delete from package_location_tb
+	where package_idx = #{arg0}
+</delete>
+<delete id="deletePakcageDiscount">
+	delete from package_discount_tb
+	where package_idx = #{arg0}
+
+</delete>
+
+<delete id="deletePakcageReview">
+	delete from package_review_tb
+	where package_review_idx =#{arg0}
+
+</delete>
+
 
 </mapper>

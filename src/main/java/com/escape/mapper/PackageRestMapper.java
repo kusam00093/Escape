@@ -31,6 +31,18 @@ public interface PackageRestMapper {
 
 	List<PackageVo> getRecentPackageList_Sub_Search(String keyword);
 
+	int getBookmark(int package_idx);
+
+	int insertBookmark(int package_idx, int user_idx);
+
+	//void deleteBookmark(int package_idx);
+
+	void deleteBookmark(int package_idx, int userIdx);
+
+	List<PackageVo> getPackageList_Sub(int user_idx);
+
+	void deleteReview(int package_review_idx);
+
 	
 
 }

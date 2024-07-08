@@ -51,6 +51,15 @@ where user_idx=#{user_idx}
 
 </select>
 
+<select id="findUserType1">
+select
+    type
+from user_tb
+where user_idx=#{arg0}
+
+
+</select>
+
 
 <select id="findUserType">
 select
