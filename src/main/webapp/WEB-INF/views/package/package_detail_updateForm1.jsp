@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -229,32 +231,33 @@
 <div class="container1">
   <h1>패키지 작성</h1>
 
-  <form action="/Package/Write" method="post" id="myForm" enctype="multipart/form-data">
+  <form action="/Package/Detail/Update" method="post" id="myForm" enctype="multipart/form-data">
+  	<input type="hidden" value="${ packageVo.package_idx }" name="package_idx">
     <input type="hidden" value="${ user_idx }" name="user_idx">
 
     <div class="form-group">
       <label for="title" class="form-label">제목</label>
-      <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required value="제목1">
+      <input type="text" id="title" name="title" class="form-control"  value="${ packageVo.title }">
     </div>
     <hr>
 
     <div class="form-group">
       <label for="price" class="form-label">가격</label>
-      <input type="text" id="price" name="price" class="form-control" placeholder="가격을 입력하세요" required value="10000">
+      <input type="text" id="price" name="price" class="form-control" placeholder="가격을 입력하세요"  value="${ packageVo.price }">
     </div>
     <hr>
 
     <div class="form-group">
       <label for="detail1" class="form-label">상세 내용 1</label>
-      <textarea id="detail1" name="detail1" class="form-control" rows="4" placeholder="상세 내용 1">ㅇㅁㄴㅇㄻㄴㅇ</textarea>
+      <textarea id="detail1" name="detail1" class="form-control" rows="4" placeholder="상세 내용 1">${ pcakageVo.detail1 }</textarea>
     </div>
     <div class="form-group">
       <label for="detail2" class="form-label">상세 내용 2</label>
-      <textarea id="detail2" name="detail2" class="form-control" rows="4" placeholder="상세 내용 2">ㅁㄴㅇㄹㄴㅁㅇ</textarea>
+      <textarea id="detail2" name="detail2" class="form-control" rows="4" placeholder="상세 내용 2">${ pcakageVo.detail2 }</textarea>
     </div>
     <div class="form-group">
       <label for="detail3" class="form-label">상세 내용 3</label>
-      <textarea id="detail3" name="detail3" class="form-control" rows="4" placeholder="상세 내용 3">ㅅㅁㄴㅇㄹㄴㅁ</textarea>
+      <textarea id="detail3" name="detail3" class="form-control" rows="4" placeholder="상세 내용 3">${ pcakageVo.detail3 }</textarea>
     </div>
 
     <hr>
@@ -262,37 +265,90 @@
     <div class="form-group">
       <label for="location" class="form-label">국가를 선택하세요 (중복가능)</label>
       <div class="btn-group">
-        <c:forEach var="lo" items="${ locationList }">
-          <button type="button" class="btn btn-outline-primary location-btn" name="location_idx" value="${ lo.location_idx }">${lo.name }</button>
-        </c:forEach>
-      </div>
-      <input type="hidden" id="selectedLocation" name="location_idx">
-    </div>
+            <c:forEach var="lo" items="${locationList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary location-btn" name="location_idx" value="${lo.location_idx}">
+                        ${lo.name}
+                        <c:forEach var="plo" items="${package_locationList}">
+                            <c:if test="${plo.location_idx == lo.location_idx}">
+                                &#x2713;
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedLocation" name="location_idx">
+
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_locationList}">
+                    <button type="button" class="btn btn-outline-danger location-btn" name="location_idx" value="${lo.location_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
+            </div>
+            </div>
+            
 
     <hr>
 
     <div class="form-group">
       <label for="category" class="form-label">카테고리를 선택하세요 (중복가능)</label>
       <div class="btn-group">
-        <c:forEach var="ca" items="${ categoryList }">
-          <button type="button" class="btn btn-outline-primary category-btn" name="category_idx" value="${ ca.category_idx }">${ca.name }</button>
-        </c:forEach>
-      </div>
-      <input type="hidden" id="selectedCategory" name="category_idx">
-    </div>
+            <c:forEach var="lo" items="${categoryList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary category-btn" name="category_idx" value="${lo.category_idx}">
+                        ${lo.name}
+                        <c:forEach var="plo" items="${package_categoryList}">
+                            <c:if test="${plo.category_idx == lo.category_idx}">
+                                &#x2713;
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedCategory" name="category_idx">
 
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_categotyList}">
+                    <button type="button" class="btn btn-outline-danger category-btn" name="category_idx" value="${lo.category_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
+     </div>
+            </div>
     <hr>
 
     <div class="form-group">
       <label for="convenience" class="form-label">기타 사항을 선택하세요 (중복가능)</label>
       <div class="btn-group">
-        <c:forEach var="co" items="${ convenienceList }">
-          <button type="button" class="btn btn-outline-primary convenience-btn" name="convenience_idx" value="${ co.convenience_idx }">${co.name }</button>
-        </c:forEach>
-      </div>
-      <input type="hidden" id="selectedConvenience" name="convenience_idx">
-    </div>
+           <c:forEach var="lo" items="${convenienceList}">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary convenience-btn" name="convenience_idx" value="${lo.convenience_idx}">
+                        ${lo.name}
+                        <c:forEach var="plo" items="${package_convenienceList}">
+                            <c:if test="${plo.convenience_idx == lo.convenience_idx}">
+                                &#x2713; 
+                                <c:set var="found" value="true" scope="page" />
+                            </c:if>
+                        </c:forEach>
+                    </button>
+                </div>
+            </c:forEach>
+            <input type="hidden" id="selectedConvenience" name="convenience_idx">
 
+            <div style="display: none;">
+                <c:forEach var="lo" items="${package_convenienceList}">
+                    <button type="button" class="btn btn-outline-danger convenience-btn" name="convenience_idx" value="${lo.convenience_idx}">
+                        ${lo.name}
+                    </button>
+                </c:forEach>
+            </div>
+     </div>
+            </div>
     <hr>
 
     <div class="form-group">
@@ -310,9 +366,11 @@
     </div>
 
     <hr>
-
     <div class="form-group">
       <label for="file" class="form-label">이미지 추가</label>
+                  <c:forEach var="lo" items="${imageList}">
+                <div><img alt="" src="${lo.image}" style="width: 100px; height: 100px; margin: 10px;"></div>
+            </c:forEach>
       <button type="button" id="AddFileBtn" class="btn btn-secondary">이미지 추가</button>
       <input type="file" name="file" id="file" multiple style="display: none;">
       <div id="preview-container" class="mt-3"></div>
@@ -322,16 +380,16 @@
 
     <div class="form-group">
       <label for="limited_person" class="form-label">제한 인원</label>
-      <input type="number" id="limited_person" name="limited_person" class="form-control" min="1" max="2000" step="1" value="44">
+      <input type="number" id="limited_person" name="limited_person" class="form-control" min="1" max="2000" step="1" value="${ packageVo.limited_person }">
     </div>
 
     <hr>
 
     <div class="form-group">
       <label for="datePickerInput" class="form-label">날짜 선택</label>
-      <input type="text" id="datePickerInput" class="date-input" placeholder="날짜를 선택하세요" readonly>
-      <input type="text" name="start_date" id="start_date" class="form-control" placeholder="시작 날짜" readonly>
-      <input type="text" name="end_date" id="end_date" class="form-control" placeholder="끝 날짜" readonly>
+      <input type="text" id="datePickerInput" class="date-input" placeholder="날짜를 선택하세요" >
+      <input type="text" name="start_date" id="start_date" class="form-control" placeholder="시작 날짜" value="${packageVo.start_date }">
+      <input type="text" name="end_date" id="end_date" class="form-control" placeholder="끝 날짜" value="${packageVo.end_date }">
     </div>
 
     <hr>

@@ -15,6 +15,7 @@
 	  NAME = #{ depCity }
 </select>
 
+
 <select id="getArrivalInfo">
 	SELECT
 	  CITY_IDX,
@@ -26,6 +27,7 @@
 	WHERE
 	  NAME = #{ ariCity }
 </select>
+
 
 <select id="getDepAirportName">
 	SELECT
@@ -46,6 +48,7 @@
 	  CT.CITY_IDX = #{arg1}
 </select>
 
+
 <select id="getArrAirportName">
 	SELECT
 	  AP.AIRPORT_IDX,
@@ -65,6 +68,7 @@
 	  CT.CITY_IDX = #{arg1}
 </select>
 
+
 <select id="getUserIdx">
 	SELECT
 	  USER_IDX
@@ -74,49 +78,6 @@
 	  ID = #{ userId }
 </select>
 
-<select id="getTimeList" parameterType="map" resultType="java.util.Map">
-    SELECT 
-        AT.AIRPLANE_TIME_IDX,
-        AT.AIRPLANE_IDX,
-        AT.DEPARTURE_LOC,
-        AT.ARRIVAL_LOC,
-        TO_CHAR(AT.START_DATE, 'YYYY-MM-DD') AS START_DATE,
-        TO_CHAR(AT.END_DATE, 'YYYY-MM-DD') AS END_DATE,
-        TO_CHAR(AT.START_TIME, 'HH24:MI:SS') AS START_TIME,
-        TO_CHAR(AT.END_TIME, 'HH24:MI:SS') AS END_TIME,
-        AP.AIRPLANE_PRICE_IDX,
-        AP.PRICE,
-        AP.PTYPE_IDX,
-        AP.STYPE_IDX,
-        AL.NAME AS AIRLINE_NAME,
-        A.NAME AS AIRPLANE_NAME,
-        CT.NAME AS DEPCITY_NAME,
-        CT2.NAME AS ARRCITY_NAME,
-        CT.ENAME AS DEPCITY_ENAME,
-        CT2.ENAME AS ARRCITY_ENAME,
-        AL.LOGO,
-        CT.COUNTRY_IDX AS COUNTRY_IDX
-    FROM 
-        AIRPLANE_TIME_TB AT
-    JOIN
-        AIRPLANE_PRICE_TB AP ON AT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
-    JOIN
-        AIRPLANE_TB A ON AT.AIRPLANE_IDX = A.AIRPLANE_IDX
-    JOIN
-        CITY_TB CT ON AT.DEPARTURE_LOC = CT.CITY_IDX
-    JOIN
-        CITY2_TB CT2 ON AT.ARRIVAL_LOC = CT2.CITY_IDX    
-    JOIN
-        AIRLINE_TB AL ON A.AIRLINE_IDX = AL.AIRLINE_IDX
-    WHERE 
-        AT.START_DATE = TO_DATE(#{arg0}, 'YYYY-MM-DD')
-    AND
-        AT.DEPARTURE_LOC = #{arg1}
-    AND
-        AT.ARRIVAL_LOC = #{arg2}
-    AND
-        AP.STYPE_IDX = #{arg3}
-</select>
 
 <select id="getPriceInfo">
 	SELECT
@@ -131,52 +92,703 @@
 	  STYPE_IDX = #{arg2}
 </select>
 
-<select id="getFilteredFlights" parameterType="com.escape.airplane.domain.AirplaneSearchVo" resultType="java.util.Map">
-    SELECT 
-        AT.AIRPLANE_TIME_IDX,
-        AT.AIRPLANE_IDX,
-        AT.DEPARTURE_LOC,
-        AT.ARRIVAL_LOC,
-        TO_CHAR(AT.START_DATE, 'YYYY-MM-DD') AS START_DATE,
-        TO_CHAR(AT.END_DATE, 'YYYY-MM-DD') AS END_DATE,
-        TO_CHAR(AT.START_TIME, 'HH24:MI:SS') AS START_TIME,
-        TO_CHAR(AT.END_TIME, 'HH24:MI:SS') AS END_TIME,
-        AP.AIRPLANE_PRICE_IDX,
-        AP.PRICE,
-        AP.PTYPE_IDX,
-        AP.STYPE_IDX,
-        AL.NAME AS AIRLINE_NAME,
-        A.NAME AS AIRPLANE_NAME,
-        CT.NAME AS DEPCITY_NAME,
-        CT2.NAME AS ARRCITY_NAME,
-        CT.ENAME AS DEPCITY_ENAME,
-        CT2.ENAME AS ARRCITY_ENAME,
+
+<select id="getOneWayFlightInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+	SELECT 
+       CT1.NAME AS DEPCITY1,
+       CT1.ENAME AS DEPCITYCODE1,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY1,
+       CT2.ENAME AS ARRCITYCODE1,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME1,
+       ATT.END_TIME AS ENDTIME1,
+       LISTAGG(AT.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY AT.PTYPE_IDX) AS PTYPE_IDX_COMBINED,
+       LISTAGG(AT.PRICE, ', ') WITHIN GROUP (ORDER BY AT.PTYPE_IDX) AS PRICE_COMBINED,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX,
+       AL.AIRLINE_IDX,
+       AL.NAME AS NAME1,
+       AL.LOGO AS LOGO1
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{depDate} AND ATT.START_TIME &lt;= #{depDate2}
+       AND CT1.NAME = #{depCity1} AND CT2.NAME = #{arrCity1}
+       AND AT.PTYPE_IDX IN 
+           <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+             #{ptype}
+           </foreach>
+       AND AT.STYPE_IDX=#{stype}
+   GROUP BY 
+        ATT.AIRPLANE_TIME_IDX,
+        AP.AIRPLANE_IDX,
+        AL.AIRLINE_IDX,
+        AL.NAME,
         AL.LOGO,
-        CT.COUNTRY_IDX AS COUNTRY_IDX
-    FROM 
-        AIRPLANE_TIME_TB AT
-    JOIN
-        AIRPLANE_PRICE_TB AP ON AT.AIRPLANE_TIME_IDX = AP.AIRPLANE_TIME_IDX
-    JOIN
-        AIRPLANE_TB A ON AT.AIRPLANE_IDX = A.AIRPLANE_IDX
-    JOIN
-        CITY_TB CT ON AT.DEPARTURE_LOC = CT.CITY_IDX
-    JOIN
-        CITY2_TB CT2 ON AT.ARRIVAL_LOC = CT2.CITY_IDX    
-    JOIN
-        AIRLINE_TB AL ON A.AIRLINE_IDX = AL.AIRLINE_IDX
-    WHERE 
-        AT.START_DATE = TO_DATE(#{start_date}, 'YYYY-MM-DD')
-    AND
-        AT.DEPARTURE_LOC = #{departure_loc}
-    AND
-        AT.ARRIVAL_LOC = #{arrival_loc}
-    AND
-        AP.STYPE_IDX = #{stype_idx}
-    <!-- 추가 조건이 필요하면 여기에 추가 -->
+        ATT.DEPARTURE_LOC,
+        CT1.NAME,
+        CT1.ENAME,
+        ATT.ARRIVAL_LOC,
+        CT2.NAME,
+        CT2.ENAME,
+        ATT.START_TIME,
+        ATT.END_TIME,
+        AT.STYPE_IDX
+    ORDER BY
+        ATT.AIRPLANE_TIME_IDX
 </select>
 
 
+<!-- <select id="getRoundTripFlightInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+	SELECT 
+		A.AIRPLANE_TIME_IDX,
+		B.AIRPLANE_TIME_IDX AS B_AIRPLANE_TIME_IDX,
+	    A.AIRPLANE_IDX,
+		A.AIRLINE_IDX,
+		A.NAME AS NAME1,
+		A.LOGO AS LOGO1,
+		A.DEPARTURE_LOC,
+		A.DEPCITY1,
+		A.DEPCITYCODE1,
+		A.ARRIVAL_LOC,
+		A.ARRCITY1,
+		A.ARRCITYCODE1,
+		A.STARTTIME1,
+		A.ENDTIME1,
+		A.PTYPE_IDX,
+		A.STYPE_IDX,
+		A.PRICE,
+		B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+		B.AIRLINE_IDX AS B_AIRLINE_IDX,
+		B.NAME AS NAME2,
+		B.LOGO AS LOGO2,
+		B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+		B.DEPCITY2 AS DEPCITY2,
+		B.DEPCITYCODE2 AS DEPCITYCODE2,
+		B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+		B.ARRCITY2 AS ARRCITY2,
+		B.ARRCITYCODE2 AS ARRCITYCODE2,
+		B.STARTTIME2 AS STARTTIME2,
+		B.ENDTIME2 AS ENDTIME2,
+		B.PTYPE_IDX AS B_PTYPE_IDX,
+		B.STYPE_IDX AS B_STYPE_IDX,
+		B.PRICE AS B_PRICE,
+	    A.PRICE+B.PRICE AS TOTALPRICE
+	FROM    
+	(SELECT 
+	    CT1.NAME AS DEPCITY1,
+	    CT1.ENAME AS DEPCITYCODE1,
+	    ATT.DEPARTURE_LOC,
+	    CT2.NAME AS ARRCITY1,
+	    CT2.ENAME AS ARRCITYCODE1,
+	    ATT.ARRIVAL_LOC,
+	    ATT.START_TIME AS STARTTIME1,
+	    ATT.END_TIME AS ENDTIME1,
+	    AT.PRICE,
+	    AT.PTYPE_IDX,
+	    AT.STYPE_IDX,
+	    AP.AIRPLANE_IDX,
+	    ATT.AIRPLANE_TIME_IDX,
+	    AL.AIRLINE_IDX,
+	    AL.NAME,
+	    AL.LOGO
+	
+	FROM     
+	    AIRPLANE_TIME_TB ATT,
+	    CITY_TB CT1,
+	    CITY_TB CT2,
+	    AIRPLANE_TB AP,
+	    AIRLINE_TB AL,
+	    AIRPLANE_PRICE_TB AT
+	    
+	WHERE
+	    ATT.START_TIME>=#{depDate} AND ATT.START_TIME&lt;=#{depDate2}
+	AND 
+	    ATT.DEPARTURE_LOC=CT1.CITY_IDX AND ATT.ARRIVAL_LOC =CT2.CITY_IDX
+	AND
+	    CT1.NAME=#{depCity1} AND CT2.NAME=#{arrCity1}
+	AND 
+	    ATT.AIRPLANE_IDX=AP.AIRPLANE_IDX
+	AND 
+	    AP.AIRLINE_IDX=AL.AIRLINE_IDX
+	AND 
+	    AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+	AND
+		AT.STYPE_IDX=#{stype}
+	AND
+	    ATT.AIRPLANE_TIME_IDX=AT.AIRPLANE_TIME_IDX) A,
+	(SELECT 
+	    CT1.NAME AS DEPCITY2,
+	    CT1.ENAME AS DEPCITYCODE2,
+	    ATT.DEPARTURE_LOC,
+	    CT2.NAME AS ARRCITY2,
+	    CT2.ENAME AS ARRCITYCODE2,
+	    ATT.ARRIVAL_LOC,
+	    ATT.START_TIME AS STARTTIME2,
+	    ATT.END_TIME AS ENDTIME2,
+	    AT.PRICE,
+	    AT.PTYPE_IDX,
+	    AT.STYPE_IDX,
+	    AP.AIRPLANE_IDX,
+	    ATT.AIRPLANE_TIME_IDX,
+	    AL.AIRLINE_IDX,
+	    AL.NAME,
+	    AL.LOGO
+	
+	FROM     
+	    AIRPLANE_TIME_TB ATT,
+	    CITY_TB CT1,
+	    CITY_TB CT2,
+	    AIRPLANE_TB AP,
+	    AIRLINE_TB AL,
+	    AIRPLANE_PRICE_TB AT
+	    
+	WHERE
+	    ATT.START_TIME>=#{arrDate} AND ATT.START_TIME&lt;=#{arrDate2}
+	AND 
+	    ATT.DEPARTURE_LOC=CT1.CITY_IDX AND ATT.ARRIVAL_LOC =CT2.CITY_IDX
+	AND
+	    CT1.NAME=#{depCity2} AND CT2.NAME=#{arrCity2}
+	AND 
+	    ATT.AIRPLANE_IDX=AP.AIRPLANE_IDX
+	AND 
+	    AP.AIRLINE_IDX=AL.AIRLINE_IDX
+	AND 
+	    AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+	AND
+		AT.STYPE_IDX=#{stype}
+	AND
+	    ATT.AIRPLANE_TIME_IDX=AT.AIRPLANE_TIME_IDX) B
+	    
+	WHERE
+	    A.PTYPE_IDX = B.PTYPE_IDX
+</select> -->
+
+<select id="getRoundTripFlightInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+	SELECT 
+      A.AIRPLANE_TIME_IDX1,
+      B.AIRPLANE_TIME_IDX2,
+      A.KNOWN AS KNOWN1,
+      B.KNOWN AS KNOWN2,
+      A.AIRPLANE_IDX,
+      A.AIRLINE_IDX,
+      A.NAME AS NAME1,
+      A.LOGO AS LOGO1,
+      A.DEPARTURE_LOC,
+      A.DEPCITY1,
+      A.DEPCITYCODE1,
+      A.ARRIVAL_LOC,
+      A.ARRCITY1,
+      A.ARRCITYCODE1,
+      A.STARTTIME1,
+      A.ENDTIME1,
+      LISTAGG(A.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY A.PTYPE_IDX) AS A_PTYPE_IDX_COMBINED,
+      LISTAGG(A.PRICE, ', ') WITHIN GROUP (ORDER BY A.PTYPE_IDX) AS A_PRICE_COMBINED,
+      LISTAGG(B.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY B.PTYPE_IDX) AS B_PTYPE_IDX_COMBINED,
+      LISTAGG(B.PRICE, ', ') WITHIN GROUP (ORDER BY B.PTYPE_IDX) AS B_PRICE_COMBINED,
+      A.STYPE_IDX,
+      B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+      B.AIRLINE_IDX AS B_AIRLINE_IDX,
+      B.NAME AS NAME2,
+      B.LOGO AS LOGO2,
+      B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+      B.DEPCITY2 AS DEPCITY2,
+      B.DEPCITYCODE2 AS DEPCITYCODE2,
+      B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+      B.ARRCITY2 AS ARRCITY2,
+      B.ARRCITYCODE2 AS ARRCITYCODE2,
+      B.STARTTIME2 AS STARTTIME2,
+      B.ENDTIME2 AS ENDTIME2,
+      B.STYPE_IDX AS B_STYPE_IDX
+FROM    
+   (SELECT 
+       CT1.NAME AS DEPCITY1,
+       CT1.ENAME AS DEPCITYCODE1,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY1,
+       CT2.ENAME AS ARRCITYCODE1,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME1,
+       ATT.END_TIME AS ENDTIME1,
+       AT.PRICE,
+       AT.PTYPE_IDX,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX AS AIRPLANE_TIME_IDX1,
+       AL.AIRLINE_IDX,
+       AL.NAME,
+       AL.LOGO,
+       ATT.KNOWN
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{depDate} AND ATT.START_TIME &lt;= #{depDate2}
+       AND CT1.NAME = #{depCity1} AND CT2.NAME = #{arrCity1}
+       AND AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+       AND AT.STYPE_IDX=#{stype}
+   ) A
+JOIN
+   (SELECT 
+       CT1.NAME AS DEPCITY2,
+       CT1.ENAME AS DEPCITYCODE2,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY2,
+       CT2.ENAME AS ARRCITYCODE2,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME2,
+       ATT.END_TIME AS ENDTIME2,
+       AT.PRICE,
+       AT.PTYPE_IDX,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX AS AIRPLANE_TIME_IDX2,
+       AL.AIRLINE_IDX,
+       AL.NAME,
+       AL.LOGO,
+       ATT.KNOWN
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{arrDate} AND ATT.START_TIME &lt;= #{arrDate2}
+       AND CT1.NAME = #{depCity2} AND CT2.NAME = #{arrCity2}
+       AND AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+       AND AT.STYPE_IDX=#{stype}
+   ) B
+ON A.PTYPE_IDX = B.PTYPE_IDX
+GROUP BY 
+    A.AIRPLANE_TIME_IDX1,
+    B.AIRPLANE_TIME_IDX2,
+    A.KNOWN,
+    B.KNOWN,
+    A.AIRPLANE_IDX,
+    A.AIRLINE_IDX,
+    A.NAME,
+    A.LOGO,
+    A.DEPARTURE_LOC,
+    A.DEPCITY1,
+    A.DEPCITYCODE1,
+    A.ARRIVAL_LOC,
+    A.ARRCITY1,
+    A.ARRCITYCODE1,
+    A.STARTTIME1,
+    A.ENDTIME1,
+    A.STYPE_IDX,
+    B.AIRPLANE_IDX,
+    B.AIRLINE_IDX,
+    B.NAME,
+    B.LOGO,
+    B.DEPARTURE_LOC,
+    B.DEPCITY2,
+    B.DEPCITYCODE2,
+    B.ARRIVAL_LOC,
+    B.ARRCITY2,
+    B.ARRCITYCODE2,
+    B.STARTTIME2,
+    B.ENDTIME2,
+    B.STYPE_IDX
+ORDER BY
+    A.AIRPLANE_TIME_IDX1,
+    B.AIRPLANE_TIME_IDX2
+</select>
+
+<!-- Filter -->
+
+<!-- <select id="getRoundTripFilterInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+    SELECT 
+        A.AIRPLANE_TIME_IDX,
+        B.AIRPLANE_TIME_IDX AS B_AIRPLANE_TIME_IDX,
+        A.AIRPLANE_IDX,
+        A.AIRLINE_IDX,
+        A.NAME AS NAME1,
+        A.LOGO AS LOGO1,
+        A.DEPARTURE_LOC,
+        A.DEPCITY1,
+        A.DEPCITYCODE1,
+        A.ARRIVAL_LOC,
+        A.ARRCITY1,
+        A.ARRCITYCODE1,
+        A.STARTTIME1,
+        A.ENDTIME1,
+        A.PTYPE_IDX,
+        A.STYPE_IDX,
+        A.PRICE,
+        B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+        B.AIRLINE_IDX AS B_AIRLINE_IDX,
+        B.NAME AS NAME2,
+        B.LOGO AS LOGO2,
+        B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+        B.DEPCITY2 AS DEPCITY2,
+        B.DEPCITYCODE2 AS DEPCITYCODE2,
+        B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+        B.ARRCITY2 AS ARRCITY2,
+        B.ARRCITYCODE2 AS ARRCITYCODE2,
+        B.STARTTIME2 AS STARTTIME2,
+        B.ENDTIME2 AS ENDTIME2,
+        B.PTYPE_IDX AS B_PTYPE_IDX,
+        B.STYPE_IDX AS B_STYPE_IDX,
+        B.PRICE AS B_PRICE,
+        A.PRICE + B.PRICE AS TOTALPRICE
+    FROM    
+        (SELECT 
+            CT1.NAME AS DEPCITY1,
+            CT1.ENAME AS DEPCITYCODE1,
+            ATT.DEPARTURE_LOC,
+            CT2.NAME AS ARRCITY1,
+            CT2.ENAME AS ARRCITYCODE1,
+            ATT.ARRIVAL_LOC,
+            ATT.START_TIME AS STARTTIME1,
+            ATT.END_TIME AS ENDTIME1,
+            AT.PRICE,
+            AT.PTYPE_IDX,
+            AT.STYPE_IDX,
+            AP.AIRPLANE_IDX,
+            ATT.AIRPLANE_TIME_IDX,
+            AL.AIRLINE_IDX,
+            AL.NAME,
+            AL.LOGO
+        FROM     
+            AIRPLANE_TIME_TB ATT,
+            CITY_TB CT1,
+            CITY_TB CT2,
+            AIRPLANE_TB AP,
+            AIRLINE_TB AL,
+            AIRPLANE_PRICE_TB AT
+        WHERE
+            ATT.START_TIME >= #{depDate} AND ATT.START_TIME &lt;= #{depDate2}
+        AND 
+            ATT.DEPARTURE_LOC = CT1.CITY_IDX AND ATT.ARRIVAL_LOC = CT2.CITY_IDX
+        AND
+            CT1.NAME = #{depCity1} AND CT2.NAME = #{arrCity1}
+        AND 
+            ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+        AND 
+            AP.AIRLINE_IDX = AL.AIRLINE_IDX
+        AND 
+            AT.PTYPE_IDX IN 
+                <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+                    #{ptype}
+                </foreach>
+        AND
+            AT.STYPE_IDX = #{stype}
+        AND
+            ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+        AND
+            (
+                <foreach item="timeRange" collection="timeRanges1" open="(" separator="OR" close=")">
+                    (TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') >= #{timeRange.startTime1} AND TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') &lt;= #{timeRange.startTime2})
+                </foreach>
+            )
+        ) A,
+        (SELECT 
+            CT1.NAME AS DEPCITY2,
+            CT1.ENAME AS DEPCITYCODE2,
+            ATT.DEPARTURE_LOC,
+            CT2.NAME AS ARRCITY2,
+            CT2.ENAME AS ARRCITYCODE2,
+            ATT.ARRIVAL_LOC,
+            ATT.START_TIME AS STARTTIME2,
+            ATT.END_TIME AS ENDTIME2,
+            AT.PRICE,
+            AT.PTYPE_IDX,
+            AT.STYPE_IDX,
+            AP.AIRPLANE_IDX,
+            ATT.AIRPLANE_TIME_IDX,
+            AL.AIRLINE_IDX,
+            AL.NAME,
+            AL.LOGO
+        FROM     
+            AIRPLANE_TIME_TB ATT,
+            CITY_TB CT1,
+            CITY_TB CT2,
+            AIRPLANE_TB AP,
+            AIRLINE_TB AL,
+            AIRPLANE_PRICE_TB AT
+        WHERE
+            ATT.START_TIME >= #{arrDate} AND ATT.START_TIME &lt;= #{arrDate2}
+        AND 
+            ATT.DEPARTURE_LOC = CT1.CITY_IDX AND ATT.ARRIVAL_LOC = CT2.CITY_IDX
+        AND
+            CT1.NAME = #{depCity2} AND CT2.NAME = #{arrCity2}
+        AND 
+            ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+        AND 
+            AP.AIRLINE_IDX = AL.AIRLINE_IDX
+        AND 
+            AT.PTYPE_IDX IN 
+                <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+                    #{ptype}
+                </foreach>
+        AND
+            AT.STYPE_IDX = #{stype}
+        AND
+            ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+        AND
+            (
+                <foreach item="timeRange" collection="timeRanges2" open="(" separator="OR" close=")">
+                    (TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') >= #{timeRange.startTime1} AND TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') &lt;= #{timeRange.startTime2})
+                </foreach>
+            )
+        ) B
+    WHERE
+        A.PTYPE_IDX = B.PTYPE_IDX
+</select> -->
+
+<select id="getRoundTripFilterInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+    SELECT 
+      A.AIRPLANE_TIME_IDX1,
+      B.AIRPLANE_TIME_IDX2,
+      A.KNOWN AS KNOWN1,
+      B.KNOWN AS KNOWN2,
+      A.AIRPLANE_IDX,
+      A.AIRLINE_IDX,
+      A.NAME AS NAME1,
+      A.LOGO AS LOGO1,
+      A.DEPARTURE_LOC,
+      A.DEPCITY1,
+      A.DEPCITYCODE1,
+      A.ARRIVAL_LOC,
+      A.ARRCITY1,
+      A.ARRCITYCODE1,
+      A.STARTTIME1,
+      A.ENDTIME1,
+      LISTAGG(A.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY A.PTYPE_IDX) AS A_PTYPE_IDX_COMBINED,
+      LISTAGG(A.PRICE, ', ') WITHIN GROUP (ORDER BY A.PTYPE_IDX) AS A_PRICE_COMBINED,
+      LISTAGG(B.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY B.PTYPE_IDX) AS B_PTYPE_IDX_COMBINED,
+      LISTAGG(B.PRICE, ', ') WITHIN GROUP (ORDER BY B.PTYPE_IDX) AS B_PRICE_COMBINED,
+      A.STYPE_IDX,
+      B.AIRPLANE_IDX AS B_AIRPLANE_IDX,
+      B.AIRLINE_IDX AS B_AIRLINE_IDX,
+      B.NAME AS NAME2,
+      B.LOGO AS LOGO2,
+      B.DEPARTURE_LOC AS B_DEPARTURE_LOC,
+      B.DEPCITY2 AS DEPCITY2,
+      B.DEPCITYCODE2 AS DEPCITYCODE2,
+      B.ARRIVAL_LOC AS B_ARRIVAL_LOC,
+      B.ARRCITY2 AS ARRCITY2,
+      B.ARRCITYCODE2 AS ARRCITYCODE2,
+      B.STARTTIME2 AS STARTTIME2,
+      B.ENDTIME2 AS ENDTIME2,
+      B.STYPE_IDX AS B_STYPE_IDX
+FROM    
+   (SELECT 
+       CT1.NAME AS DEPCITY1,
+       CT1.ENAME AS DEPCITYCODE1,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY1,
+       CT2.ENAME AS ARRCITYCODE1,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME1,
+       ATT.END_TIME AS ENDTIME1,
+       AT.PRICE,
+       AT.PTYPE_IDX,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX AS AIRPLANE_TIME_IDX1,
+       AL.AIRLINE_IDX,
+       AL.NAME,
+       AL.LOGO,
+       ATT.KNOWN
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{depDate} AND ATT.START_TIME &lt;= #{depDate2}
+       AND CT1.NAME = #{depCity1} AND CT2.NAME = #{arrCity1}
+       AND AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+       AND AT.STYPE_IDX=#{stype}
+       AND 
+           (
+            <foreach item="timeRange" collection="timeRanges1" open="(" separator="OR" close=")">
+              (TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') >= #{timeRange.startTime1} AND TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') &lt;= #{timeRange.startTime2})
+            </foreach>
+           )
+       AND 
+           (
+            <foreach item="airlineName" collection="airlineNames" open="(" separator="OR" close=")">
+              (AL.NAME = #{airlineName})
+            </foreach>
+           )
+       AND AT.PRICE &lt;= #{priceRange}
+   ) A
+JOIN
+   (SELECT 
+       CT1.NAME AS DEPCITY2,
+       CT1.ENAME AS DEPCITYCODE2,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY2,
+       CT2.ENAME AS ARRCITYCODE2,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME2,
+       ATT.END_TIME AS ENDTIME2,
+       AT.PRICE,
+       AT.PTYPE_IDX,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX AS AIRPLANE_TIME_IDX2,
+       AL.AIRLINE_IDX,
+       AL.NAME,
+       AL.LOGO,
+       ATT.KNOWN
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{arrDate} AND ATT.START_TIME &lt;= #{arrDate2}
+       AND CT1.NAME = #{depCity2} AND CT2.NAME = #{arrCity2}
+       AND AT.PTYPE_IDX IN 
+	        <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+	          #{ptype}
+	        </foreach>
+       AND AT.STYPE_IDX=#{stype}
+       AND 
+           (
+             <foreach item="timeRange" collection="timeRanges2" open="(" separator="OR" close=")">
+                 (TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') >= #{timeRange.startTime1} AND TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') &lt;= #{timeRange.startTime2})
+             </foreach>
+           )
+       AND 
+           (
+            <foreach item="airlineName" collection="airlineNames" open="(" separator="OR" close=")">
+              (AL.NAME = #{airlineName})
+            </foreach>
+           )
+       AND AT.PRICE &lt;= #{priceRange}
+   ) B
+ON A.PTYPE_IDX = B.PTYPE_IDX
+GROUP BY 
+    A.AIRPLANE_TIME_IDX1,
+    B.AIRPLANE_TIME_IDX2,
+    A.KNOWN,
+    B.KNOWN,
+    A.AIRPLANE_IDX,
+    A.AIRLINE_IDX,
+    A.NAME,
+    A.LOGO,
+    A.DEPARTURE_LOC,
+    A.DEPCITY1,
+    A.DEPCITYCODE1,
+    A.ARRIVAL_LOC,
+    A.ARRCITY1,
+    A.ARRCITYCODE1,
+    A.STARTTIME1,
+    A.ENDTIME1,
+    A.STYPE_IDX,
+    B.AIRPLANE_IDX,
+    B.AIRLINE_IDX,
+    B.NAME,
+    B.LOGO,
+    B.DEPARTURE_LOC,
+    B.DEPCITY2,
+    B.DEPCITYCODE2,
+    B.ARRIVAL_LOC,
+    B.ARRCITY2,
+    B.ARRCITYCODE2,
+    B.STARTTIME2,
+    B.ENDTIME2,
+    B.STYPE_IDX
+ORDER BY
+    A.AIRPLANE_TIME_IDX1,
+    B.AIRPLANE_TIME_IDX2
+</select>
+
+
+<select id="getOneWayFilterInfo" resultType="com.escape.airplane.domain.AirplaneTimeVo">
+	SELECT 
+       CT1.NAME AS DEPCITY1,
+       CT1.ENAME AS DEPCITYCODE1,
+       ATT.DEPARTURE_LOC,
+       CT2.NAME AS ARRCITY1,
+       CT2.ENAME AS ARRCITYCODE1,
+       ATT.ARRIVAL_LOC,
+       ATT.START_TIME AS STARTTIME1,
+       ATT.END_TIME AS ENDTIME1,
+       LISTAGG(AT.PTYPE_IDX, ', ') WITHIN GROUP (ORDER BY AT.PTYPE_IDX) AS PTYPE_IDX_COMBINED,
+       LISTAGG(AT.PRICE, ', ') WITHIN GROUP (ORDER BY AT.PTYPE_IDX) AS PRICE_COMBINED,
+       AT.STYPE_IDX,
+       AP.AIRPLANE_IDX,
+       ATT.AIRPLANE_TIME_IDX,
+       AL.AIRLINE_IDX,
+       AL.NAME AS NAME1,
+       AL.LOGO AS LOGO1
+   FROM     
+       AIRPLANE_TIME_TB ATT
+       JOIN CITY_TB CT1 ON ATT.DEPARTURE_LOC = CT1.CITY_IDX
+       JOIN CITY_TB CT2 ON ATT.ARRIVAL_LOC = CT2.CITY_IDX
+       JOIN AIRPLANE_TB AP ON ATT.AIRPLANE_IDX = AP.AIRPLANE_IDX
+       JOIN AIRLINE_TB AL ON AP.AIRLINE_IDX = AL.AIRLINE_IDX
+       JOIN AIRPLANE_PRICE_TB AT ON ATT.AIRPLANE_TIME_IDX = AT.AIRPLANE_TIME_IDX
+   WHERE
+       ATT.START_TIME >= #{depDate} AND ATT.START_TIME &lt;= #{depDate2}
+       AND CT1.NAME = #{depCity1} AND CT2.NAME = #{arrCity1}
+       AND AT.PTYPE_IDX IN 
+           <foreach item="ptype" collection="ptypeList" open="(" separator="," close=")">
+             #{ptype}
+           </foreach>
+       AND AT.STYPE_IDX=#{stype}
+       AND
+           (
+           <foreach item="timeRange" collection="timeRanges1" open="(" separator="OR" close=")">
+             (TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') >= #{timeRange.startTime1} AND TO_CHAR(ATT.START_TIME, 'HH24:MI:SS') &lt;= #{timeRange.startTime2})
+           </foreach>
+           )
+   GROUP BY 
+        ATT.AIRPLANE_TIME_IDX,
+        AP.AIRPLANE_IDX,
+        AL.AIRLINE_IDX,
+        AL.NAME,
+        AL.LOGO,
+        ATT.DEPARTURE_LOC,
+        CT1.NAME,
+        CT1.ENAME,
+        ATT.ARRIVAL_LOC,
+        CT2.NAME,
+        CT2.ENAME,
+        ATT.START_TIME,
+        ATT.END_TIME,
+        AT.STYPE_IDX
+    ORDER BY
+        ATT.AIRPLANE_TIME_IDX
+</select>
 
 
 </mapper>

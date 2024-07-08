@@ -59,6 +59,17 @@ PackageCategories AS (
         CATEGORY_TB C
     JOIN 
         PACKAGE_CATEGORY_TB PC ON C.CATEGORY_IDX = PC.CATEGORY_IDX
+),
+BookmarkState AS (
+    SELECT 
+        P.PACKAGE_IDX,
+        COALESCE(MAX(CASE WHEN ppb.user_idx = #{user_idx} THEN ppb.state ELSE 0 END), 0) AS state
+    FROM 
+        PACKAGE_TB P
+    LEFT JOIN 
+        package_bookmark_tb ppb ON P.PACKAGE_IDX = ppb.package_idx
+    GROUP BY 
+        P.PACKAGE_IDX
 )
 SELECT 
     P.PACKAGE_IDX,
@@ -70,6 +81,7 @@ SELECT
     P.PRICE,
     P.PTYPE_IDX,
     P.HIT,
+    P.CREATED,
     P.PACKAGE_CATEGORY_IDX,
     PI.IMAGE,
     AR.rate,
@@ -78,8 +90,9 @@ SELECT
     PCAT.category_name,
     PD.DISCOUNT_PERCENT,
     PD.DISCOUNT_INTEGER,
-    ROUND(COALESCE(((100.0 - PD.DISCOUNT_PERCENT) / 100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price,
-    P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person
+    ROUND(COALESCE(( (100.0 - PD.DISCOUNT_PERCENT)/100) * TO_NUMBER(REPLACE(P.PRICE, ',', '')), 0), -2) AS discounted_price,
+    P.LIMITED_PERSON - COALESCE(PR.reserved_count, 0) AS remaining_person,
+    BS.state  -- 서브쿼리에서 가져온 state 값
 FROM 
     PACKAGE_TB P
 LEFT JOIN 
@@ -98,12 +111,14 @@ LEFT JOIN
     (
         SELECT 
             package_idx, 
-            COUNT(package_reservation_idx) AS reserved_count
+            SUM(reservation_su) AS reserved_count
         FROM 
             package_reservation_tb
         GROUP BY 
             package_idx
     ) PR ON P.PACKAGE_IDX = PR.package_idx
+LEFT JOIN 
+    BookmarkState BS ON P.PACKAGE_IDX = BS.PACKAGE_IDX
 ORDER BY 
     P.HIT DESC
 
@@ -658,5 +673,42 @@ ORDER BY
 
 
 </select>
+
+<select id="package_bookmark">
+select
+    count(state)
+from package_bookmark_tb
+where package_idx =#{package_idx}
+
+</select>
+
+
+<insert id="insertBookmark">
+INSERT INTO package_bookmark_tb (
+    package_bookmark_idx,
+    user_idx,
+    package_idx,
+    state
+) VALUES ((
+    select 
+    nvl(max(package_bookmark_idx),0)+1
+from package_bookmark_tb),
+    #{arg1},
+    #{arg0},
+    1
+)
+</insert>
+
+<delete id="deleteBookmark">
+delete from package_bookmark_tb
+where package_idx = #{arg0}
+
+</delete>
+<delete id="deleteReview">
+delete from package_review_tb
+where package_review_idx = #{arg0}
+
+
+</delete>
 
 </mapper>
