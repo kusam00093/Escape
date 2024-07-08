@@ -251,7 +251,7 @@
                             <c:forEach var="Room" items="${room}" varStatus="status">
                                 <tr>
                                     <td>${status.index + 1}</td>
-                                    <td>${Room.title}</td>
+                                    <td><a href="/Accommodation/Hotel/${ Room.hotel_idx }">${Room.title}</a></td>
                                     <td>${Room.price}</td>
                                     <td>${Room.max_preson}</td>
                                     <td>${Room.available_date}</td>
@@ -282,7 +282,7 @@
                             <c:forEach var="Pkg" items="${pkg}" varStatus="status">
                                 <tr >
                                     <td>${status.index + 1}</td>
-                                    <td>${Pkg.title}</td>
+                                    <td><a href="/Package/Detail?package_idx=${ Pkg.package_idx }">${Pkg.title}</a></td>
                                     <td>${Pkg.start_date}</td>
                                     <td>${Pkg.end_date}</td>
                                     <td>${Pkg.limited_person}</td>

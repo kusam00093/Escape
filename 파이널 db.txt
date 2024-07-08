@@ -399,7 +399,7 @@ CREATE TABLE room_tb (
     CONSTRAINT fk_hotel_1 
     FOREIGN KEY (hotel_idx)
     REFERENCES hotel_tb(hotel_idx) 
-    ON DELETE CASCADE
+    ON DELETE CASCAD
 );
 
 ALTER TABLE room_tb ADD (AVAILABLE_ROOMS NUMBER DEFAULT 0);

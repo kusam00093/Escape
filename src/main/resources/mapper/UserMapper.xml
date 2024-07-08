@@ -51,6 +51,15 @@ where user_idx=#{user_idx}
 
 </select>
 
+<select id="findUserType1">
+select
+    type
+from user_tb
+where user_idx=#{arg0}
+
+
+</select>
+
 
 <select id="findUserType">
 select
@@ -60,6 +69,27 @@ where user_idx=#{user_idx}
 
 </select>
 
+<select id="getPoint">
+
+select
+    pp.point
+from person_tb p
+join user_tb u on p.user_idx = u.user_idx
+join point_tb pp on p.person_idx = pp.point_idx
+where u.user_idx=#{arg0}
+</select>
+
+<select id="getUserInfo">
+select
+ p.first_name,
+ p.last_name,
+ u.email,
+ p.phone
+from user_tb u
+join person_tb p on u.user_idx = p.user_idx
+where u.user_idx =#{arg0}
+
+</select>
 
 	
 </mapper>

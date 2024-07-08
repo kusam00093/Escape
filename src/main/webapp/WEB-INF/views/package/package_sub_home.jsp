@@ -84,6 +84,7 @@ h2 {
   transform:translateX(0);
   opacity:1;
   visibility:visible;
+  text-decoration: none;
 }
 
 @media (max-width: 767px) {
@@ -281,7 +282,7 @@ h2 {
 }
 a {
     text-decoration: none;
-    transition: all 0.2s ease;
+/*     transition: all 0.2s ease; */
 }
 .theme-btn-s2{
     background-color: rgba(255, 255, 255, 0.9);
@@ -389,11 +390,13 @@ a:hover {
 
 
 
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 body {
   font-family: Arial, sans-serif;
 }
+
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
@@ -404,35 +407,60 @@ body {
 }
 
 .container1 {
-  width : 70%;
-  margin : 0 auto;
+  width: 70%;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   place-items: center;
   justify-content: center;
 }
 
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows the cards to wrap onto the next line */
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center align the cards horizontally */
+  max-width: 100%; /* Ensure it does not exceed the container width */
+}
+
 .card {
-  width: 18rem;
+  width: 18rem; /* Fixed width for each card */
   display: grid;
   overflow: hidden;
   transition: 0.4s;
-  margin: 10px 10px;
+  margin: 0; /* Remove margin here */
   position: relative;
   border-radius: 5px;
   place-items: center;
   justify-content: center;
   background-color: #fff;
   box-shadow: 0px 0px 10px 0.1rem rgb(0 0 0 / 8%);
+  text-decoration: none !important; /* Ensure text-decoration is none */
 }
 
 .card:hover {
-  transform: translate(0px, -10px);
-  box-shadow: 0px 10px 10px 0.1rem rgb(0 0 0 / 15%);
+  transform: translate(0px, -10px) !important;
+  box-shadow: 0px 10px 10px 0.1rem rgb(0 0 0 / 15%) !important;
+  text-decoration: none !important; /* Ensure text-decoration is none on hover */
+}
+
+.card a {
+  display: block;
+  color: inherit;
+  text-decoration: none; /* Ensure text-decoration is none for links inside the card */
+}
+
+.card a:hover {
+  text-decoration: none; /* Ensure text-decoration is none for link hover state */
 }
 
 .card h2 {
   letter-spacing: 1px;
+  text-decoration: none; /* Ensure text-decoration is none for h2 inside the card */
+}
+
+.card h2:hover {
+  text-decoration: none; /* Ensure text-decoration is none for h2 hover state */
 }
 
 .image {
@@ -456,12 +484,12 @@ body {
 }
 
 .image:hover div {
-  opacity: 0.4;
-  background-color: #202020;
+  text-decoration: none; /* Ensure text-decoration is none on hover */
 }
 
 .image:hover div a {
   display: block;
+  text-decoration: none; /* Ensure text-decoration is none for link inside hovered div */
 }
 
 .image div a {
@@ -497,59 +525,50 @@ body {
   margin: 0 10px;
   cursor: pointer;
 }
-.card-container {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-}
 
-.card {
-    flex: 0 0 0 25%;
-}
 .image {
-    position: relative;
+  position: relative;
 }
 
 .icon-container {
-    position: absolute;
-    top: 10px; /* 상단에서의 거리 */
-    right: 10px; /* 오른쪽에서의 거리 */
+  position: absolute;
+  top: 10px; /* 상단에서의 거리 */
+  right: 10px; /* 오른쪽에서의 거리 */
 }
 
 .nav_icon {
-    width: 30px; /* 아이콘의 크기 */
-    height: 30px;
+  width: 30px; /* 아이콘의 크기 */
+  height: 30px;
 }
 
-  .category {
-    width: 60%;
-    display: flex;
-    padding: 10px;
-    margin: 10px auto;
-    gap: 10px;
-    flex-wrap: wrap; /* 요소가 너비를 넘어갈 경우 줄 바꿈 */
-    justify-content: flex-start; /* 가로 중앙 정렬 */
-  }
+.category {
+  width: 60%;
+  display: flex;
+  padding: 10px;
+  margin: 10px auto;
+  gap: 10px;
+  flex-wrap: wrap; /* 요소가 너비를 넘어갈 경우 줄 바꿈 */
+  justify-content: flex-start; /* 가로 중앙 정렬 */
+}
 
-  .category_container {
-    margin: 2px; /* 버튼 간격 조절을 위해 사용 */
-  }
+.category_container {
+  margin: 2px; /* 버튼 간격 조절을 위해 사용 */
+}
 
-  .category_btn {
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f5f6f7;
-    transition: box-shadow 0.3s, background-color 0.3s;
-  }
+.category_btn {
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f5f6f7;
+  transition: box-shadow 0.3s, background-color 0.3s;
+  text-decoration: none; /* Ensure text-decoration is none for category buttons */
+}
 
-  .category_btn:hover {
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-    background-color: #d9d9d9;
-  }
-
-
-
-
+.category_btn:hover {
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #d9d9d9;
+  text-decoration: none; /* Ensure text-decoration is none for category button hover state */
+}
 
 
 .rating {
@@ -616,6 +635,48 @@ body {
 	margin-left: 250px;
 }
 
+
+.icon-container img {
+    pointer-events: auto;  /* 클릭 이벤트가 아이콘에만 적용되도록 설정 */
+}
+
+
+
+
+
+
+
+
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination a, .pagination span {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .current {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+.pagination a[aria-label="Previous"], .pagination a[aria-label="Next"] {
+    font-weight: bold;
+}
 
 </style> 
 <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-97/variables.css">
@@ -694,9 +755,11 @@ body {
 <div id="sortbox">
   <label for="sortOption">정렬선택</label>
   <select id="sortOption" name="sortOption">
-    <option value="">-----</option>
+    <option value="__">-----</option>
     <option value="hit">조회수</option>
     <option value="date">최근순</option>
+    <option value="low_price">가격낮은순</option>
+    <option value="high_price">가격높은순</option>
   </select>
 </div>
 
@@ -712,80 +775,125 @@ body {
     <h2 class="sub_title">패키지 리스트 입니다</h2>
   </c:otherwise>
 </c:choose>
+   <c:if test="${user_type==2}">
     <a href="/Package/WriteForm?user_idx=${user_idx}">글쓰기</a>
-   <div class="container1">
-    <div class="card-container">
-        <c:forEach var="pa" items="${ packageList_sub }">
-      <div class="card">
-        <a href="/Package/Detail?package_idx=${ pa.package_idx }">
-    <div class="image" style="margin-bottom:10px;">
-        <img src="${ pa.image }" style="width : 305px; height: 240px;">
-        <div class="icon-container">
-            <img src="/images/icons_best.png" class="nav_icon" />
+</c:if>
+    <div class="container1">
+        <div class="card-container">
+            <c:forEach var="pa" items="${packageList_sub}">
+                <div class="card" data-hit="${pa.hit}" data-created="${pa.created}" data-price="${pa.price}">
+                    <input type="hidden" value="${pa.hit}">
+                    <input type="hidden" value="${pa.created}">
+                    <input type="hidden" value="${pa.price}"> 
+                    <input type="hidden" value="${pa.discounted_price}"> 
+                    <a href="/Package/Detail?package_idx=${pa.package_idx}">
+                        <div class="image" style="margin-bottom:10px;">
+                            <img src="${pa.image}" style="width: 305px; height: 240px;">
+                        </div>
+                        <div><i class="fas fa-external-link-alt"></i></div>
+                    </a>
+                    <c:if test="${not empty user_idx && user_idx != 0}">
+                        <!-- 북마크 버튼은 링크 밖에 배치 -->
+                        <div class="icon-container" style="display: inline-block; text-align: center; margin-left:120px; width: 24px; height: 24px;">
+                            <img src="${pa.state == 1 ? '/img/like_on.png' : '/img/like_off.png'}" class="nav_icon bookmarkbtn" data-package-idx="${pa.package_idx}" data-state="${pa.state == 1 ? 1 : 0}" />
+                        </div>
+                    </c:if>
+                    <div class="details packageList">
+                        <div class="package1">
+                            <div style="display: flex; align-items: center;">
+                                <c:choose>
+                                    <c:when test="${not empty pa.category_name}">
+                                        <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
+                                    </c:when>
+                                </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${not empty pa.location_name}">
+                                        <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
+                                    </c:when>
+                                </c:choose>
+                            </div>
+
+                            <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
+                            <div style="display: flex; align-items: center;">
+                                <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
+                                    <!-- 스타 아이콘 생성 -->
+                                    <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
+                                    <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
+                                </div>
+                                <p style="margin-top:20px;">(${pa.count})</p>
+                            </div>
+                            <c:choose>
+                                <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
+                                    <div style="display: flex; align-items: center; margin-left:10px;">
+                                        <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
+                                        <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
+
+                                        <!-- 남은 인원 조건 처리 -->
+                                        <c:choose>
+                                            <c:when test="${pa.remaining_person == 0}">
+                                                <p>마감된 패키지입니다</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p>남은 인원: ${pa.remaining_person}/${pa.limited_person}</p>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
+
+                                        <!-- 남은 인원 조건 처리 -->
+                                        <c:choose>
+                                            <c:when test="${pa.remaining_person == 0}">
+                                                <p>마감된 패키지입니다</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p>남은 인원: ${pa.remaining_person}/${pa.limited_person}</p>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
-        <div><i class="fas fa-external-link-alt"></i></div>
     </div>
-    <div class="details packageList" >
+</div>
+<div class="pagination">
+    <!-- 이전 페이지 버튼 -->
+    <c:if test="${pagination.existPrevPage}">
+        <a href="?nowpage=${pagination.startPage - 1}" aria-label="Previous">«</a>
+    </c:if>
     
-    <div class="package1">
-<div style="display: flex; align-items: center;" >
-    <c:choose>
-        <c:when test="${not empty pa.category_name}">
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
-        </c:when>
-    </c:choose>
-
-    <c:choose>
-        <c:when test="${not empty pa.location_name}" >
-            <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
-        </c:when>
-    </c:choose>
-</div>
-
-    <div class="package_title" style="margin-right: 10px;">${pa.title}</div>
-<div style="display: flex; align-items: center;">
-    <div class="rating" data-rate="${pa.rate}" style="display: flex; margin-right: 10px;">
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--half"><span class="star-icon"></span></div>
-        <div class="rating__label rating__label--full"><span class="star-icon"></span></div>
-    </div>
-    <p style="margin-top:20px;">(${pa.count})</p>
-</div>
-<c:choose>
-    <c:when test="${(not empty pa.discount_percent and pa.discount_percent != 0) or (not empty pa.discount_integer and pa.discount_integer != 0)}">
-        <div style="display: flex; align-items: center; margin-left:10px;;">
-            <p style="color: gray; text-decoration: line-through; margin-right: 10px;">${pa.price}/1인</p>
-            <p style="font-size: 1.2rem; font-weight: bold;">${pa.discounted_price}/1인</p>
-            <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
-        </div>
-    </c:when>
-    <c:otherwise>
-<div style="display: flex; align-items: center; gap: 10px;">
-    <p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">${pa.price}/1인</p>
-    <p>남은인원: ${pa.remaining_person}/${ pa.limited_person }</p>
-</div>
-    </c:otherwise>
-</c:choose>
-
-
-        
-    </div>
-    </div>
+    <!-- 페이지 번호 링크 -->
+    <c:forEach var="pageNum" begin="${pagination.startPage}" end="${pagination.endPage}">
+        <c:choose>
+            <c:when test="${pageNum == nowpage}">
+                <span class="current">${pageNum}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="?nowpage=${pageNum}">${pageNum}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
     
-    
-    </a>
+    <!-- 다음 페이지 버튼 -->
+    <c:if test="${pagination.existNextPage}">
+        <a href="?nowpage=${pagination.endPage + 1}" aria-label="Next">»</a>
+    </c:if>
 </div>
-</c:forEach>
-</div>
-</div>
-
 
 
 <div>&nbsp;</div>
@@ -798,6 +906,53 @@ body {
 <%@include file="/WEB-INF/include/footer.jsp"%>
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bookmarkbtn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();  // 기본 동작(링크 이동) 방지
+            console.log('Bookmark button clicked!');  // 디버깅 메시지 확인
+
+            const packageIdx = parseInt(e.target.dataset.packageIdx);
+            let currentState = parseInt(e.target.dataset.state);
+            const newState = (currentState === 1) ? 0 : 1;  // currentState가 1이면 0, 아니면 1
+
+            console.log(currentState);  // 현재 상태를 콘솔에 출력
+            console.log(newState);  // 새 상태를 콘솔에 출력
+
+            // 서버에 상태 업데이트 요청
+            fetch('/Bookmark', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    package_idx: packageIdx,
+                    state: newState
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();  // JSON 응답을 반환
+                } else {
+                    throw new Error('Failed to update bookmark');  // 실패 시 에러 발생
+                }
+            })
+            .then(result => {
+                console.log(result.state);  // 서버에서 반환하는 state 값
+
+                // 새 상태에 따라 이미지와 상태 업데이트
+                e.target.src = newState === 1 ? '/img/like_on.png' : '/img/like_off.png';
+                e.target.dataset.state = newState;
+            })
+            .catch(error => {
+                console.error('Error:', error);  // 에러 처리
+            });
+        });
+    });
+});
+</script>
 
 <script>
 let currentIndex = 0;
@@ -949,177 +1104,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const sortOption = document.getElementById("sortOption");
-    sortOption.addEventListener("change", function() {
-        const selectedOption = sortOption.value;
-        
-        let url = ""; // 초기화된 URL 변수
-        
-        // categoryVo.category_idx와 keyword 값을 가져옵니다.
-        const categoryIdx = "${categoryVo.category_idx}";
-        const keyword = "${keyword}";
 
-        // 첫 번째 조건: categoryVo.category_idx가 존재할 경우
-        if (categoryIdx) {
-            if (selectedOption === "hit") {
-                url = "/Category/Hit?category_idx=" + categoryIdx;
-            } else if (selectedOption === "date") {
-                url = "/Category/Recent?category_idx=" + categoryIdx;
-            }
-        }
-        // 두 번째 조건: keyword가 존재할 경우
-        else if (keyword) {
-            if (selectedOption === "hit") {
-                url = "/Search/Hit?keyword=" + encodeURIComponent(keyword);
-            } else if (selectedOption === "date") {
-                url = "/Search/Recent?keyword=" + encodeURIComponent(keyword);
-            }
-        }
-        // 세 번째 조건: 둘 다 값이 없을 경우
-        else {
-            if (selectedOption === "hit") {
-                url = "/Hit";
-            } else if (selectedOption === "date") {
-                url = "/Recent";
-            }
-        }
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortOption = document.getElementById('sortOption');
+        const cardContainer = document.querySelector('.card-container');
 
-        // fetch를 사용하여 데이터를 가져옵니다.
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                renderPackages(data);
-                updateStarRating(); 
-                updateCardDisplay(); // 데이터를 받아온 후 카드를 업데이트
-            })
-            .catch(error => {
-                console.error("Error fetching package data:", error);
-            });
+        sortOption.addEventListener('change', function () {
+            const selectedValue = this.value;
+            const cards = Array.from(cardContainer.querySelectorAll('.card'));
+
+            // 정렬 기준에 따라 카드를 정렬하는 함수
+            function sortCards(a, b) {
+                let priceA = a.dataset.discountedPrice ? parseInt(a.dataset.discountedPrice.replace(/,/g, '')) : parseInt(a.dataset.price.replace(/,/g, ''));
+                let priceB = b.dataset.discountedPrice ? parseInt(b.dataset.discountedPrice.replace(/,/g, '')) : parseInt(b.dataset.price.replace(/,/g, ''));
+
+                if (selectedValue === 'hit') {
+                    // hit 값이 많은 순으로 정렬
+                    return b.dataset.hit - a.dataset.hit;
+                } else if (selectedValue === 'date') {
+                    // created 값이 최신인 순으로 정렬
+                    return new Date(b.dataset.created) - new Date(a.dataset.created);
+                } else if (selectedValue === 'low_price') {
+                    // 가격 낮은 순으로 정렬
+                    return priceA - priceB;
+                } else if (selectedValue === 'high_price') {
+                    // 가격 높은 순으로 정렬
+                    return priceB - priceA;
+                }
+                return 0;  // 기본 정렬
+            }
+
+            // 카드들을 정렬하고 cardContainer에 다시 추가
+            cards.sort(sortCards);
+            cards.forEach(card => cardContainer.appendChild(card));
+        });
     });
-
-    let currentIndex = 0;
-    const cardsPerPage = 15;
-    let totalCards = 0;
-
-    function renderPackages(packages) {
-        const container = document.querySelector(".card-container");
-        container.innerHTML = ""; // 기존 내용 초기화
-
-        let html = '';
-
-        packages.forEach(function(pa) {
-            // Create card HTML
-            let cardHtml = '<div class="card">';
-            cardHtml += '<a href="/Package/Detail?package_idx=' + pa.package_idx + '">'; // package_idx 링크 추가
-            cardHtml += '<div class="image" style="margin-bottom:10px;">';
-            cardHtml += '<img src="' + pa.image + '" style="width: 305px; height: 240px;">';
-            cardHtml += '<div class="icon-container">';
-            cardHtml += '<img src="/images/icons_best.png" class="nav_icon">';
-            cardHtml += '</div>';
-            cardHtml += '<div><i class="fas fa-external-link-alt"></i></div>';
-            cardHtml += '</div>';
-            cardHtml += '<div class="details packageList">';
-
-            cardHtml += '<div class="package1">';
-            cardHtml += '<div style="display: flex; align-items: center;">'; // 시작 부분 추가
-
-            // Add category button if category_name exists
-            if (pa.category_name) {
-                cardHtml += '<button class="btn btn-primary" style="margin-left: 10px;">' + pa.category_name + '</button>';
-            }
-
-            // Add location button if location_name exists
-            if (pa.location_name) {
-                cardHtml += '<button class="btn btn-primary" style="margin-left: 10px;">' + pa.location_name + '</button>';
-            }
-
-            cardHtml += '</div>'; // Close div for category_name and location_name
-            cardHtml += '<div class="package_title" style="margin-right: 10px;">' + pa.title + '</div>';
+    </script>
 
 
-            cardHtml += '<div style="display: flex; align-items: center;">'; // Start rating and count section
-
-            cardHtml += '<div class="rating" data-rate="' + pa.rate + '" style="display: flex; margin-right: 10px;">';
-            // Add star ratings (10 spans)
-            for (let i = 0; i < 10; i++) {
-                cardHtml += '<div class="rating__label ' + (i % 2 === 0 ? 'rating__label--half' : 'rating__label--full') + '"><span class="star-icon"></span></div>';
-            }
-            cardHtml += '</div>'; // Close rating
-
-            cardHtml += '<p style="margin-top:20px;">(' + pa.count + ')</p>';
-
-            cardHtml += '</div>'; // Close div for rating and count
-
-            cardHtml += '<div style="display: flex; align-items: center;">'; // Start price and remaining_person section
-
-            // Check for discounts
-            if ((pa.discount_percent && pa.discount_percent !== 0) || (pa.discount_integer && pa.discount_integer !== 0)) {
-                cardHtml += '<div style="display: flex; align-items: center; margin-left: 10px;">';
-                cardHtml += '<p style="color: gray; text-decoration: line-through; margin-right: 10px;">' + pa.price + '/1인</p>';
-                cardHtml += '<p style="font-size: 1.2rem; font-weight: bold;">' + pa.discounted_price + '/1인</p>';
-                cardHtml += '<p>남은인원: ' + pa.remaining_person + '/' + pa.limited_person + '</p>';
-                cardHtml += '</div>';
-            } else {
-                cardHtml += '<div style="display: flex; align-items: center; gap: 10px;">';
-                cardHtml += '<p style="font-size: 1.2rem; font-weight: bold; margin-left: 10px;">' + pa.price + '/1인</p>';
-                cardHtml += '<p>남은인원: ' + pa.remaining_person + '/' + pa.limited_person + '</p>';
-                cardHtml += '</div>';
-            }
-
-            cardHtml += '</div>'; // Close div for price and remaining_person
-
-            cardHtml += '</div>'; // Close package1
-            cardHtml += '</div>'; // Close details packageList
-            cardHtml += '</a>'; // Close link
-            cardHtml += '</div>'; // Close card
-
-            html += cardHtml;
-        });
-
-        container.innerHTML = html;
-        totalCards = packages.length; // 전체 카드 수 업데이트
-        updateCardDisplay(); // 카드 표시 업데이트
-    }
-
-    function updateCardDisplay() {
-        const cards = document.querySelectorAll('.card');
-
-        cards.forEach((card, index) => {
-            if (index >= currentIndex && index < currentIndex + cardsPerPage) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    function showPrevCards() {
-        if (currentIndex > 0) {
-            currentIndex -= cardsPerPage;
-            if (currentIndex < 0) {
-                currentIndex = 0;
-            }
-            updateCardDisplay();
-        }
-    }
-
-    function showNextCards() {
-        if (currentIndex < totalCards - cardsPerPage) {
-            currentIndex += cardsPerPage;
-            if (currentIndex > totalCards - cardsPerPage) {
-                currentIndex = totalCards - cardsPerPage;
-            }
-            updateCardDisplay();
-        }
-    }
-
-    updateCardDisplay(); // 초기 화면 설정
-});
-
-
-</script>
 
 </body>
 

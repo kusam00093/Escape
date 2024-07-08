@@ -203,8 +203,9 @@ public class MypageController {
             if (user != null) {
                 if (usertype == 1) {
                 	
-                    int user_idx = user.getUser_idx(); 
+                    int user_idx = user.getUser_idx();
                     Person person = mypageMapper.getPersonByuser_idx(user_idx);
+                    
                    
                     mv.addObject("user", user);
                     mv.addObject("person", person);
@@ -256,9 +257,15 @@ public class MypageController {
   	
     	List<Room> room = mypageMapper.getRoomByuser_idx(user.getUser_idx());
     	
+    	List<Pkg> pkg = mypageMapper.getPkgByuser_idx(user.getUser_idx());
+    	
+    	List<Airplane_time> airtime = mypageMapper.getAirtimeByuser_idx(user.getUser_idx()); 
+    	
     	mv.addObject("user", user);
     	mv.addObject("person", person);
     	mv.addObject("room", room);
+    	mv.addObject("pkg", pkg);
+    	mv.addObject("airtime", airtime);
     	
     	mv.setViewName("member/mypagebuy");
     	

@@ -23,6 +23,8 @@ public class Person {
     private String address2;
     private String nickname;
     private String image;
+    
+    private int point;
 	
     
     
