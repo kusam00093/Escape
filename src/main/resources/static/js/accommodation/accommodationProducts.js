@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const placeDropdown = document.querySelector('.place-dropdown');
 	const dateDropdown = document.querySelector('.date-dropdown');
 	const guestDropdown = document.querySelector('.guest-dropdown');
-
+ 
 	// place 관련 함수
 	const searchInput = document.querySelector('.searchInput');
 	const searchHistoryListBox = document.querySelector('.searchHistoryListBox');
