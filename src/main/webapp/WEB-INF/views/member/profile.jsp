@@ -233,6 +233,10 @@
                         <label for="nickname">Nickname: ${person.nickname}</label>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="point">포인트: ${person.point}</label>
+                    </div>
+                    
                 <button type="submit">정보수정</button>
                 <input type="button" value="취소" id="goList">
                 

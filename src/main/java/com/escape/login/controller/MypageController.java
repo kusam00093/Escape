@@ -203,8 +203,9 @@ public class MypageController {
             if (user != null) {
                 if (usertype == 1) {
                 	
-                    int user_idx = user.getUser_idx(); 
+                    int user_idx = user.getUser_idx();
                     Person person = mypageMapper.getPersonByuser_idx(user_idx);
+                    
                    
                     mv.addObject("user", user);
                     mv.addObject("person", person);

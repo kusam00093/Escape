@@ -253,7 +253,7 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${Room.title}</td>
-                                    <td>${Room.reservation_guest}</td>
+                                    <td>${Room.reservation_su}</td>
                                     <td>${Room.reservation_price}</td>
                                     <td>${Room.max_preson}</td>
                                     <td>${Room.created}</td>
