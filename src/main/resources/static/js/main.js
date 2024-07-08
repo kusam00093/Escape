@@ -69,7 +69,9 @@ const onClickPay = async (event) => {
 			        user_idx : user_idx,
 			        state: 1,
 			        applySu: totalCount,
-			        price : totalPrice
+			        price : totalPrice,
+			        userId: userId,
+			        totalCount : totalCount
 			    })
 			})
 			.then(res => res.json())

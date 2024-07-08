@@ -160,7 +160,16 @@ public class AirplaneController {
     @ResponseBody
     public ResponseEntity<Map<String, String>> PaySuccess(@RequestBody PaymentVo paymentVo) {
     	
-        kakaoPayService.savePayment(paymentVo);
+    	System.out.println("===== PaySuccess/paymentVo: " + paymentVo);
+    	
+    	int orderId = paymentVo.getAirplane_time_idx();
+    	String userId = paymentVo.getUserId();
+    	int user_idx = paymentVo.getUser_idx();
+    	
+    	System.out.println("===== PaySuccess/orderId: " + orderId);
+    	System.out.println("===== PaySuccess/userId: " + userId);
+    	
+        kakaoPayService.savePayment(paymentVo, orderId, userId, user_idx);
 
         Map<String, String> response = new HashMap<>();
         response.put("status", "success");

@@ -39,8 +39,6 @@ public class KakaoPayService {
     public String readyToPay(int orderId1, int orderId2, String userId, String itemName1, String itemName2, String seatClass, int adultCount,
             int childCount, int infantCount, String totalPrice, int user_idx, AirplaneTimeVo airplaneTimeVo) {
 
-    	
-    	
     	System.out.println("airplaneTimeVo: " + airplaneTimeVo);
 		System.out.println("Admin Key: " + adminKey);
 		System.out.println("CID: " + cid);
@@ -91,7 +89,26 @@ public class KakaoPayService {
 
 	//-------------------------------------------------------------------------------------------------------
 	
-	public void savePayment(PaymentVo paymentVo) {
+	public void savePayment(PaymentVo paymentVo, int orderId, String userId, int user_idx) {
+		
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("cid", cid);
+		params.add("partner_order_id", String.valueOf(orderId));
+		params.add("partner_user_id", userId);
+		//params.add("item_name", itemName1);
+		//params.add("quantity", String.valueOf(totalCount));
+		//params.add("total_amount", totalPrice);
+		params.add("tax_free_amount", "0");
+		params.add("approval_url", "http://localhost:9089/kakaoPaySuccess");
+		params.add("cancel_url", "http://localhost:9089/kakaoPayCancel");
+		params.add("fail_url", "http://localhost:9089/kakaoPayFail");
+		
+		int quantity = Integer.parseInt(params.getFirst("quantity"));
+		int totalAmount = Integer.parseInt(params.getFirst("total_amount"));
+		int existingRecords = paymentMapper.checkReservationExists(user_idx, orderId);
+		
+		paymentMapper.insertReservation(user_idx, orderId, quantity, totalAmount);
+		paymentMapper.updateReservation( orderId );	// status : 1 → 2
 
 		int Reservationidx = paymentMapper.getReservationIdx( paymentVo );
 		System.out.println("===== savePayment === Reservationidx: " + Reservationidx);

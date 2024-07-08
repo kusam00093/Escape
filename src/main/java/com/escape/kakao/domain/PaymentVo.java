@@ -9,10 +9,11 @@ public class PaymentVo {
 	private int state;
 	private String created;
 	private int airplane_time_idx;
+	private String userId;
 
 	public PaymentVo() {}
 	public PaymentVo(int airplane_pay_idx, int user_idx, int airplane_reservation_idx, int price, int state,
-			String created, int airplane_time_idx) {
+			String created, int airplane_time_idx, String userId) {
 		super();
 		this.airplane_pay_idx = airplane_pay_idx;
 		this.user_idx = user_idx;
@@ -21,7 +22,9 @@ public class PaymentVo {
 		this.state = state;
 		this.created = created;
 		this.airplane_time_idx = airplane_time_idx;
+		this.userId = userId;
 	}
+
 	public int getAirplane_pay_idx() {
 		return airplane_pay_idx;
 	}
@@ -64,13 +67,18 @@ public class PaymentVo {
 	public void setAirplane_time_idx(int airplane_time_idx) {
 		this.airplane_time_idx = airplane_time_idx;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	@Override
 	public String toString() {
 		return "PaymentVo [airplane_pay_idx=" + airplane_pay_idx + ", user_idx=" + user_idx
 				+ ", airplane_reservation_idx=" + airplane_reservation_idx + ", price=" + price + ", state=" + state
-				+ ", created=" + created + ", airplane_time_idx=" + airplane_time_idx + "]";
+				+ ", created=" + created + ", airplane_time_idx=" + airplane_time_idx + ", userId=" + userId + "]";
 	}
-
-	
 	
 }
