@@ -64,7 +64,7 @@ public class AirlineController {
 	      calculateDuration(flightInfo);
 	      calculatePrice(flightInfo, adultCount, childCount, infantCount, stype, initform);
 	      System.out.println("===== Airline/Search === flightInfo: " + flightInfo);
-    	
+	      
         Map<String, Object> response = new HashMap<>();
         response.put("params", params);
         response.put("flightInfo", flightInfo);
@@ -78,11 +78,11 @@ public class AirlineController {
 		
 		for (AirplaneTimeVo flight : flightInfo) {
 			
-			String startTime1 = flight.getStartTime1().toString();
-			String endTime1 = flight.getEndTime1().toString();
+			String startTime = flight.getStartTime1().toString();
+			String endTime = flight.getEndTime1().toString();
 
-			LocalDateTime startDateTime = LocalDateTime.parse(startTime1, formatter);
-	        LocalDateTime endDateTime = LocalDateTime.parse(endTime1, formatter);
+			LocalDateTime startDateTime = LocalDateTime.parse(startTime, formatter);
+	        LocalDateTime endDateTime = LocalDateTime.parse(endTime, formatter);
 	        
 	        Duration duration = Duration.between(startDateTime, endDateTime);
 

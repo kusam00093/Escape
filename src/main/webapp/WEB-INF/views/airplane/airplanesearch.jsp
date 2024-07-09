@@ -22,10 +22,6 @@ body {
 
 main {
 	margin-top: 20px;
-    /* margin: 0; */
-    /* padding: 0; */
-    /* display: flex; */
-    
     display: flex;
     justify-content: center; /* 중앙 정렬 */
     align-items: flex-start; /* 수직 정렬 (위쪽 정렬) */
@@ -36,9 +32,7 @@ main {
     box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
     background-color: #f9f9f9; /* 배경색 (필요시 조정) */
     border: 1px solid #ddd; /* 테두리 (필요시 조정) */
-    
 }
-
 
 .go_spanImg {
 	border: 1px solid #ccc;
@@ -51,13 +45,6 @@ main {
 	width: 90px;
 	height: 50px;
 }
-
-
-/*.flight-logo > img{
-	border: 1px solid #ccc;
-	width: 90px;
-	height: 50px;
-}*/
 
 .arrowImg {
 	border: none;
@@ -72,7 +59,6 @@ main {
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
     width: 750px;
 }
 
@@ -80,9 +66,7 @@ main {
 	display: flex;
 	align-items: center;
 	width: fit-content;
-	/* border: 1px solid #ccc; */
 	padding: 5px;
-	
   	justify-content: space-between;
 }
 
@@ -117,7 +101,6 @@ main {
 }
 
 .flight-details li {
-	/* border: 1px solid #ccc; */
 	padding: 10px;
 	margin-bottom: 10px;
 }
@@ -138,7 +121,7 @@ main {
     color: #333;
 }
 
-.reservationBtn {
+.reservationBtn1 {
 	background-color: white;
 	border: 1px solid #ccc;
 	color: black;
@@ -153,7 +136,28 @@ main {
 	border-radius: 12px; /* 둥근 모서리 설정 */
 }
 
-.reservationBtn:hover {
+.reservationBtn1:hover {
+	background-color: white; /* 마우스를 올렸을 때 흰색 배경 */
+	color: black; /* 마우스를 올렸을 때 검은색 글자 */
+	border-width: 4px; /* 마우스 커서가 올라갔을 때 테두리 굵기 */
+}
+
+.reservationBtn2 {
+	background-color: white;
+	border: 1px solid #ccc;
+	color: black;
+	padding: 15px 32px; /* 여백 설정 */
+	text-align: center; /* 텍스트 중앙 정렬 */
+	text-decoration: none; /* 밑줄 제거 */
+	display: inline-block; /* 버튼을 인라인 블록으로 설정 */
+	font-size: 16px; /* 글자 크기 설정 */
+	margin: 4px 2px; /* 마진 설정 */
+	transition-duration: 0.4s; /* 0.4초 동안의 전환 효과 */
+	cursor: pointer; /* 마우스 포인터를 손가락 모양으로 변경 */
+	border-radius: 12px; /* 둥근 모서리 설정 */
+}
+
+.reservationBtn2:hover {
 	background-color: white; /* 마우스를 올렸을 때 흰색 배경 */
 	color: black; /* 마우스를 올렸을 때 검은색 글자 */
 	border-width: 4px; /* 마우스 커서가 올라갔을 때 테두리 굵기 */
@@ -169,9 +173,7 @@ main {
 	padding: 20px;
 	z-index: 1000; /* 다른 요소들 위에 표시되도록 높은 z-index 설정 */
 	display: none; /* 초기에는 숨김 */
-	
 	width: 400px;
-	
 }
 
 .priceInfo_wrap {
@@ -202,10 +204,8 @@ main {
   background-color: #f8f8f8;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  
   width: 80px;
   border: 1px solid #ccc;
-  
   margin-top: 20px;
 }
 
@@ -264,7 +264,6 @@ main {
     margin-top: 5px;
 }
 
-/* styles.css */
 .sidebar input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -273,13 +272,11 @@ main {
     cursor: pointer;
 }
 
-/* 선택된 체크박스 스타일 */
 .sidebar input[type="checkbox"]:checked {
     background-color: #2196F3;
     border: 2px solid #2196F3;
 }
 
-/* 커스텀 체크박스 스타일 */
 .sidebar input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -338,6 +335,31 @@ hr.short {
 	margin-left: 80px;
 }
 
+#price-range {
+    width: 100%;
+}
+
+#price-range-text {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+#search-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}
+
 </style>
 
 <!-- jQuery -->
@@ -347,8 +369,8 @@ hr.short {
 
 <script type="text/javascript">
 
-//예약 버튼 클릭 시 실행될 함수
-function confirmPayment(event) {
+//예약 버튼 클릭 시 실행될 함수-왕복
+function confirmPayment1(event) {
 	
 	event.preventDefault(); // 기본 폼 제출 동작 막기
 	
@@ -384,12 +406,10 @@ function confirmPayment(event) {
         var name1 = flightWrapper.getAttribute('data-name1');
         var name2 = flightWrapper.getAttribute('data-name2');
         var totalPrice = flightWrapper.querySelector('.price-info strong').innerText.split(' ')[0];
-        
-        alert(airplaneTimeIdx);
-        alert(bAirplaneTimeIdx);
-        alert(name1);
-        alert(name2);
-        alert(totalPrice);
+        var known1 = flightWrapper.getAttribute('data-known1');
+        var known2 = flightWrapper.getAttribute('data-known2');
+        var seat_su1 = flightWrapper.getAttribute('data-seat-su1');
+        var seat_su2 = flightWrapper.getAttribute('data-seat-su2');
         
      	// 폼 생성
         var form = document.createElement('form');
@@ -409,7 +429,11 @@ function confirmPayment(event) {
             { name: 'infantCount', value: infantCount },
             { name: 'totalPrice', value: totalPrice },
             { name: 'stype', value: stype },
-            { name: 'initform', value: initform }
+            { name: 'initform', value: initform },
+            { name: 'known1', value: known1 },
+            { name: 'known2', value: known2 },
+            { name: 'seat_su1', value: seat_su1 },
+            { name: 'seat_su2', value: seat_su2 }
         ];
 
         params.forEach(function(inputData) {
@@ -426,9 +450,83 @@ function confirmPayment(event) {
     }
 }
 
-// 예약 버튼에 이벤트 리스너 추가
-document.querySelectorAll('.reservationBtn').forEach(function(button) {
-    button.addEventListener('click', confirmPayment);
+//예약 버튼 클릭 시 실행될 함수-편도
+function confirmPayment2(event) {
+	
+	event.preventDefault(); // 기본 폼 제출 동작 막기
+	
+    // 결제 확인 메시지 표시
+    var isConfirmed = confirm("정말 결제하시겠습니까?");
+    
+    // 사용자가 확인을 클릭한 경우
+    if (isConfirmed) {
+
+        // 필요한 데이터셋 값 가져오기
+        const param = '${params}';
+        const id = '${id}';
+        const depCity1 = '${depCity1}';
+        const arrCity1 = '${arrCity1}';
+        const depCityCode1 = '${depCityCode1}';
+        const arrCityCode1 = '${arrCityCode1}';
+        const depDate = '${depDate}';
+        const arrDate = '${arrDate}';
+        const initform = '${initform}';
+        const seatClass = '${seatClass}';
+        const stype = '${stype}';
+        const adultCount = '${adultCount}';
+        const childCount = '${childCount}';
+        const infantCount = '${infantCount}';
+        
+        var flightWrapper = event.target.closest('.flight-wrapper');
+        var airplaneTimeIdx = flightWrapper.getAttribute('data-airplane-time-idx');
+        var name1 = flightWrapper.getAttribute('data-name1');
+        var totalPrice = flightWrapper.querySelector('.price-info strong').innerText.split(' ')[0];
+        var known1 = flightWrapper.getAttribute('data-known1');
+        var seat_su1 = flightWrapper.getAttribute('data-seat-su1');
+        
+     	// 폼 생성
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/Airplane/AirplanePayOW';
+        
+        // 동적으로 hidden input 생성 및 폼에 추가
+        var params = [
+            { name: 'orderId1', value: airplaneTimeIdx },
+            { name: 'userId', value: id },
+            { name: 'itemName1', value: name1 },
+            { name: 'seatClass', value: seatClass },
+            { name: 'adultCount', value: adultCount },
+            { name: 'childCount', value: childCount },
+            { name: 'infantCount', value: infantCount },
+            { name: 'totalPrice', value: totalPrice },
+            { name: 'stype', value: stype },
+            { name: 'initform', value: initform },
+            { name: 'known1', value: known1 },
+            { name: 'seat_su1', value: seat_su1 }
+        ];
+
+        params.forEach(function(inputData) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = inputData.name;
+            input.value = inputData.value;
+            form.appendChild(input);
+        });
+
+        // 폼을 body에 추가하고 제출
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+// 예약 버튼에 이벤트 리스너 추가-왕복
+document.querySelectorAll('.reservationBtn1').forEach(function(button) {
+    button.addEventListener('click', confirmPayment1);
+});
+
+// 예약 버튼에 이벤트 리스너 추가-편도
+document.querySelectorAll('.reservationBtn2').forEach(function(button) {
+    button.addEventListener('click', confirmPayment2);
 });
         
 </script>
@@ -474,33 +572,35 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
 	                        </div>
 	                    </li>
 	                </ul>
-	                <h2>오는날</h2>
-	                <ul>
-	                    <li data-time="06">
-	                        <div class="filter-section">
-	                            <input type="checkbox" id="ckDep_05" name="returnTimes" value="06" class="time-checkbox" checked="checked">
-	                            <label for="ckDep_05"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
-	                        </div>
-	                    </li>
-	                    <li data-time="12">
-	                        <div class="filter-section">
-	                            <input type="checkbox" id="ckDep_06" name="returnTimes" value="12" class="time-checkbox" checked="checked">
-	                            <label for="ckDep_06"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
-	                        </div>
-	                    </li>
-	                    <li data-time="18">
-	                        <div class="filter-section">
-	                            <input type="checkbox" id="ckDep_07" name="returnTimes" value="18" class="time-checkbox" checked="checked">
-	                            <label for="ckDep_07"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
-	                        </div>
-	                    </li>
-	                    <li data-time="24">
-	                        <div class="filter-section">
-	                            <input type="checkbox" id="ckDep_08" name="returnTimes" value="24" class="time-checkbox" checked="checked">
-	                            <label for="ckDep_08"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
-	                        </div>
-	                    </li>
-	                </ul>
+	                <c:if test="${initform == 'RT'}">
+			            <h2>오는날</h2>
+			            <ul>
+			                <li data-time="06">
+			                    <div class="filter-section">
+			                        <input type="checkbox" id="ckDep_05" name="returnTimes" value="06" class="time-checkbox" checked="checked">
+			                        <label for="ckDep_05"><span class="time-label"></span>새벽 00:00 ~ 06:00</label>
+			                    </div>
+			                </li>
+			                <li data-time="12">
+			                    <div class="filter-section">
+			                        <input type="checkbox" id="ckDep_06" name="returnTimes" value="12" class="time-checkbox" checked="checked">
+			                        <label for="ckDep_06"><span class="time-label"></span>오전 06:00 ~ 12:00</label>
+			                    </div>
+			                </li>
+			                <li data-time="18">
+			                    <div class="filter-section">
+			                        <input type="checkbox" id="ckDep_07" name="returnTimes" value="18" class="time-checkbox" checked="checked">
+			                        <label for="ckDep_07"><span class="time-label"></span>오후 12:00 ~ 18:00</label>
+			                    </div>
+			                </li>
+			                <li data-time="24">
+			                    <div class="filter-section">
+			                        <input type="checkbox" id="ckDep_08" name="returnTimes" value="24" class="time-checkbox" checked="checked">
+			                        <label for="ckDep_08"><span class="time-label"></span>야간 18:00 ~ 24:00</label>
+			                    </div>
+			                </li>
+			            </ul>
+			        </c:if>
 	            </div>
 	        </div>
 
@@ -509,15 +609,6 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
 	        <div class="filter-group">
 	            <h2><a href="#" onclick="">항공사</a></h2>
 	            <div>
-	                <ul class="select_all">
-	                    <li>
-	                        <button type="button" id="airAllCheck" title="모두선택" class="select-button">모두 선택</button>
-	                    </li>
-	                    <li class="separator">|</li>
-	                    <li>
-	                        <button type="button" id="airNoneCheck" title="모두해제" class="select-button">모두 해제</button>
-	                    </li>
-	                </ul>
 	                <ul role="airlineChkBox">
 	                    <li>
 	                        <div class="check_wrap">
@@ -734,7 +825,6 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
             if (params.initform == 'RT') {
                 const goingDayWrapper = document.createElement('div');
                 goingDayWrapper.className = 'flight-day-wrapper';
-                goingDayWrapper.innerHTML = '<h2>가는 날</h2>';
                 flightInfo.forEach(flight => {
                     const flightWrapper = document.createElement('div');
                     flightWrapper.className = 'flight-wrapper';
@@ -744,6 +834,10 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                     flightWrapper.setAttribute('data-b-airplane-time-idx', flight.airplane_time_idx2);
                     flightWrapper.setAttribute('data-name1', flight.name1);
                     flightWrapper.setAttribute('data-name2', flight.name2);
+                    flightWrapper.setAttribute('data-known1', flight.known1);
+                    flightWrapper.setAttribute('data-known2', flight.known2);
+                    flightWrapper.setAttribute('data-seat-su1', flight.seat_su1);
+                    flightWrapper.setAttribute('data-seat-su2', flight.seat_su2);
 
                     flightWrapper.innerHTML = `
 	                        <div class="flight-header">
@@ -810,7 +904,7 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
 	                            </div>
 	                            <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
 	                                <span class="price-info">
-	                                    <button type="submit" class="reservationBtn" onclick="confirmPayment(event)">예약</button>
+	                                    <button type="submit" class="reservationBtn1" onclick="confirmPayment1(event)">예약</button>
 	                                    <div>
 	                                        <strong>\${flight.totalPrice} KRW</strong>
 	                                    </div>
@@ -828,7 +922,6 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                 if (params.initform == 'OW') {
                     const comingDayWrapper = document.createElement('div');
                     comingDayWrapper.className = 'flight-day-wrapper';
-                    comingDayWrapper.innerHTML = '<h2>가는 날</h2>';
                     flightInfo.forEach(flight => {
                         const flightWrapper = document.createElement('div');
                         flightWrapper.className = 'flight-wrapper';
@@ -836,6 +929,8 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                         flightWrapper.setAttribute('data-day', '가는날');
                         flightWrapper.setAttribute('data-airplane-time-idx', flight.airplane_time_idx1);
                         flightWrapper.setAttribute('data-name1', flight.name1);
+                        flightWrapper.setAttribute('data-known1', flight.known1);
+                        flightWrapper.setAttribute('data-seat-su1', flight.seat_su1);
 
                         flightWrapper.innerHTML = `
 	                            <div class="flight-header">
@@ -874,7 +969,7 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
 	                                </div>
 	                                <form class="paymentForm" action="/Airplane/AirplanePay" method="POST">
 	                                    <span class="price-info">
-	                                        <button type="submit" class="reservationBtn" onclick="confirmPayment(event)">예약</button>
+	                                        <button type="submit" class="reservationBtn2" onclick="confirmPayment2(event)">예약</button>
 	                                        <div>
 	                                            <strong>\${flight.totalPrice} KRW</strong>
 	                                        </div>
@@ -970,7 +1065,6 @@ document.querySelectorAll('.reservationBtn').forEach(function(button) {
                 url: '/Airline/Filter',
                 data: filters,
                 success: function(data) {
-                	alert('성공');
                     console.log('AJAX_Filter_data:', data);
                     updateFlightInfo(data);
                 },

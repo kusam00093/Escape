@@ -105,47 +105,6 @@ h1 {
             <div>
             	<span>예약현황:</span> ${known1} / ${seat_su1}
             </div>
-            <div>
-            	<span>합계:</span> ${price1}
-            </div>
-        </div>
-        
-        <hr />
-        <!-- =========================================================== -->
-        <div class="flight-info">
-            <div>
-                <span>항공편 이름:</span> ${itemName2}
-            </div>
-            <div>
-                <span>좌석 등급:</span> ${seatClass}
-            </div>
-            <div>
-                <span>성인 수:</span> ${adultCount}
-                <span>
-                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-                </span>
-                <span>1인당 가격:</span> ${adultPrice2}
-            </div>
-            <div>
-                <span>아동 수:</span> ${childCount}
-                <span>
-                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-                </span>
-                <span>1인당 가격:</span> ${childPrice2}
-            </div>
-            <div>
-                <span>유아 수:</span> ${infantCount}
-                <span>
-                    <img src="/images/arrow.jpg" class="arrowImg" alt="arrow" style="width: 40px; height: 20px;">
-                </span>
-                <span>1인당 가격:</span> ${infantPrice2}
-            </div>
-            <div>
-            	<span>예약현황:</span> ${known2} / ${seat_su2}
-            </div>
-            <div>
-            	<span>합계:</span> ${price2}
-            </div>
         </div>
 
 		<hr/>
@@ -157,11 +116,9 @@ h1 {
         <div class="payment-section">
 			<button type="button" class="payBtn"
 				data-airplane-time-idx="${ orderId1 }" 
-				data-b-airplane-time-idx="${ orderId2 }" 
 				data-user-id="${ sessionScope.login.id }"
 				data-user-idx="${ user_idx }"
 				data-airplane-name="${ itemName1 }"
-				data-b-airplane-name="${ itemName2 }"
 				data-seatClass="${ seatClass }"
 				data-adultCount="${ adultCount }"
 				data-childCount="${ childCount }"
@@ -170,13 +127,9 @@ h1 {
 				data-childPrice="${ childPrice1 }"
 				data-infantPrice="${ infantPrice1 }"
 				data-price="${ price1 }"
-				data-b-adultPrice="${ adultPrice2 }"
-				data-b-childPrice="${ childPrice2 }"
-				data-b-infantPrice="${ infantPrice2 }"
-				data-b-price="${ price2 }"
 				data-totalPrice="${ totalPrice }"
 			>결제</button>
-            <script src="/js/main.js"></script>
+            <script src="/js/main2.js"></script>
 		</div>
     </div>
 

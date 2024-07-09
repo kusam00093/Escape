@@ -5,11 +5,9 @@ IMP.init('imp76100125');
 const onClickPay = async (event) => {
     const button = event.target;
     const orderId1 = button.getAttribute('data-airplane-time-idx');
-    const orderId2 = button.getAttribute('data-b-airplane-time-idx');
     const userId = button.getAttribute('data-user-id');
     const user_idx = button.getAttribute('data-user-idx');
     const itemName1 = button.getAttribute('data-airplane-name');
-    const itemName2 = button.getAttribute('data-b-airplane-name');
     const adultCount = button.getAttribute('data-adultCount');
     const childCount = button.getAttribute('data-childCount');
     const infantCount = button.getAttribute('data-infantCount');
@@ -18,18 +16,12 @@ const onClickPay = async (event) => {
     const childPrice1 = button.getAttribute('data-childPrice');
     const infantPrice1 = button.getAttribute('data-infantPrice');
     const price1 = button.getAttribute('data-price');
-    const adultPrice2 = button.getAttribute('data-b-adultPrice');
-    const childPrice2 = button.getAttribute('data-b-childPrice');
-    const infantPrice2 = button.getAttribute('data-b-infantPrice');
-    const price2 = button.getAttribute('data-b-price');
     const totalPrice = button.getAttribute('data-totalPrice');
 
     console.dir(button);
     console.log(orderId1);
-    console.log(orderId2);
     console.log(userId);
     console.log(itemName1);
-    console.log(itemName2);
     console.log(adultCount);
     console.log(childCount);
     console.log(infantCount);
@@ -38,21 +30,16 @@ const onClickPay = async (event) => {
     console.log(childPrice1);
     console.log(infantPrice1);
     console.log(price1);
-    console.log(adultPrice2);
-    console.log(childPrice2);
-    console.log(infantPrice2);
-    console.log(price2);
     console.log(totalPrice);
 
     try {
-        const res = await fetch('/Airplane/CheckReservation', {
+        const res = await fetch('/Airplane/CheckReservationOW', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 airplane_time_idx1: orderId1,
-                airplane_time_idx2: orderId2,
                 user_idx: user_idx
             })
         });
@@ -65,7 +52,7 @@ const onClickPay = async (event) => {
 
         const data = await res.json();
         if (data.status === 'success') {
-            proceedWithPayment(orderId1, orderId2, userId, user_idx, itemName1, itemName2, totalCount, totalPrice, price1, price2);
+            proceedWithPayment(orderId1, userId, user_idx, itemName1, totalCount, totalPrice, price1);
         } else {
             alert('예약 중 문제가 발생했습니다. 다시 시도해 주세요.');
         }
@@ -75,7 +62,7 @@ const onClickPay = async (event) => {
     }
 };
 
-const proceedWithPayment = (orderId1, orderId2, userId, user_idx, itemName1, itemName2, totalCount, totalPrice, price1, price2) => {
+const proceedWithPayment = (orderId1, userId, user_idx, itemName1, totalCount, totalPrice, price1) => {
     IMP.request_pay({
         pg: 'kakaopay',
         pay_method: 'card',
@@ -94,24 +81,21 @@ const proceedWithPayment = (orderId1, orderId2, userId, user_idx, itemName1, ite
 
         if (status === 'paid') {
             const { imp_uid } = response;
-            fetch('/Airplane/PaySuccess', {
+            fetch('/Airplane/PaySuccessOW', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     airplane_time_idx1: orderId1,
-                    airplane_time_idx2: orderId2,
                     user_idx: user_idx,
                     state: 1,
                     applySu: totalCount,
                     price1: price1,
-                    price2: price2,
                     totalPrice: totalPrice,
                     userId: userId,
                     totalCount: totalCount,
-                    itemName1: itemName1,
-                    itemName2: itemName2
+                    itemName1: itemName1
                 })
             })
             .then(res => {

@@ -37,8 +37,14 @@ public class AirplaneTimeVo {
     private int stype_idx;
     private String durationhour;
     private String durationminute;
-    private int price;
+    private int price1;
+    private int price2;
     private int totalPrice;
+    private int known1;
+    private int known2;
+    private int seat_su1;
+    private int seat_su2;
+    private int airplane_reservation_idx;
 	
 	// Constructor
 	public AirplaneTimeVo() {}
@@ -48,7 +54,8 @@ public class AirplaneTimeVo {
 			String arrCityCode2, String startTime1, String endTime1, String startTime2, String endTime2,
 			int airplane_time_idx1, int airplane_time_idx2, int adultCount, int childCount, int infantCount,
 			String seatClass, int stype, String depDate, String arrDate, int ptype_idx, int stype_idx,
-			String durationhour, String durationminute, int price, int totalPrice) {
+			String durationhour, String durationminute, int price1, int price2, int totalPrice, int known1, int known2,
+			int seat_su1, int seat_su2, int airplane_reservation_idx) {
 		super();
 		this.airplane_idx1 = airplane_idx1;
 		this.airplane_idx2 = airplane_idx2;
@@ -84,8 +91,14 @@ public class AirplaneTimeVo {
 		this.stype_idx = stype_idx;
 		this.durationhour = durationhour;
 		this.durationminute = durationminute;
-		this.price = price;
+		this.price1 = price1;
+		this.price2 = price2;
 		this.totalPrice = totalPrice;
+		this.known1 = known1;
+		this.known2 = known2;
+		this.seat_su1 = seat_su1;
+		this.seat_su2 = seat_su2;
+		this.airplane_reservation_idx = airplane_reservation_idx;
 	}
 
 	// Getter/Setter	
@@ -257,11 +270,17 @@ public class AirplaneTimeVo {
 	public void setStype(int stype) {
 		this.stype = stype;
 	}
-	public int getPrice() {
-		return price;
+	public int getPrice1() {
+		return price1;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setPrice1(int price1) {
+		this.price1 = price1;
+	}
+	public int getPrice2() {
+		return price2;
+	}
+	public void setPrice2(int price2) {
+		this.price2 = price2;
 	}
 	public String getDepDate() {
 		return depDate;
@@ -305,6 +324,36 @@ public class AirplaneTimeVo {
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	public int getKnown1() {
+		return known1;
+	}
+	public void setKnown1(int known1) {
+		this.known1 = known1;
+	}
+	public int getKnown2() {
+		return known2;
+	}
+	public void setKnown2(int known2) {
+		this.known2 = known2;
+	}
+	public int getSeat_su1() {
+		return seat_su1;
+	}
+	public void setSeat_su1(int seat_su1) {
+		this.seat_su1 = seat_su1;
+	}
+	public int getSeat_su2() {
+		return seat_su2;
+	}
+	public void setSeat_su2(int seat_su2) {
+		this.seat_su2 = seat_su2;
+	}
+	public int getAirplane_reservation_idx() {
+		return airplane_reservation_idx;
+	}
+	public void setAirplane_reservation_idx(int airplane_reservation_idx) {
+		this.airplane_reservation_idx = airplane_reservation_idx;
+	}
 	
 	// toString
 	@Override
@@ -319,8 +368,10 @@ public class AirplaneTimeVo {
 				+ ", airplane_time_idx2=" + airplane_time_idx2 + ", adultCount=" + adultCount + ", childCount="
 				+ childCount + ", infantCount=" + infantCount + ", seatClass=" + seatClass + ", stype=" + stype
 				+ ", depDate=" + depDate + ", arrDate=" + arrDate + ", ptype_idx=" + ptype_idx + ", stype_idx="
-				+ stype_idx + ", durationhour=" + durationhour + ", durationminute=" + durationminute + ", price="
-				+ price + ", totalPrice=" + totalPrice + "]";
+				+ stype_idx + ", durationhour=" + durationhour + ", durationminute=" + durationminute + ", price1="
+				+ price1 + ", price2=" + price2 + ", totalPrice=" + totalPrice + ", known1=" + known1 + ", known2="
+				+ known2 + ", seat_su1=" + seat_su1 + ", seat_su2=" + seat_su2 + ", airplane_reservation_idx="
+				+ airplane_reservation_idx + "]";
 	}
 	
 }
