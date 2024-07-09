@@ -19,22 +19,20 @@ public interface AirplaneMapper {
 	List<AirportVo> getDepAirportName(AirportVo airportVo, int departure_loc);
 	List<AirportVo> getArrAirportName(AirportVo airportVo, int arrival_loc);
 
-	//List<Map<String, Object>> getTimeList(String depDate, int departure_loc, int arrival_loc);
 	List<Map<String, Object>> getTimeList(String depDate1, int departure_loc1, int arrival_loc1, int stype);
 
 	int getUserIdx(Object object);
 	
-	int getPriceInfo(int airplane_time_idx1, int ptypeIdx, int stype);
+	int getPriceInfo(int airplaneTimeIdx, int ptypeIdx, int stype);
 	
 	List<Map<String, Object>> getFilteredFlights(AirplaneSearchVo airplaneSearchVo);
-	//List<Map<String, Object>> getFilteredFlights(List<AirplaneSearchVo> airplaneSearchVo);
 	
-	//List<AirplaneTimeVo> getFlightInfo(Map<String, Object> params);
 	List<AirplaneTimeVo> getOneWayFlightInfo(Map<String, Object> params);
 	List<AirplaneTimeVo> getRoundTripFlightInfo(Map<String, Object> params);
-	List<AirplaneTimeVo> getRoundTripFlightInfo();
 	
 	List<AirplaneTimeVo> getOneWayFilterInfo(Map<String, Object> params);
 	List<AirplaneTimeVo> getRoundTripFilterInfo(Map<String, Object> params);
+	
+	List<AirplaneTimeVo> getReservationInfo(AirplaneTimeVo airplaneTimeVo);
 	
 }

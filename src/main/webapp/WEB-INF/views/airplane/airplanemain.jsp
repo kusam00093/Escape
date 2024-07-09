@@ -182,8 +182,8 @@ label, input[type="checkbox"], input[type="radio"], button, select {
 				<label for="initFormCode1">왕복</label>
 				<input type="radio" id="initFormCode2" name="initform" onclick="openscriptCode2()" value="OW" class="input_radio">
 				<label for="initFormCode2">편도</label>
-				<input type="radio" id="initFormCode3" name="initform" onclick="openscriptCode3()" value="MT" class="input_radio">
-				<label for="initFormCode3">다구간</label>
+				<!-- <input type="radio" id="initFormCode3" name="initform" onclick="openscriptCode3()" value="MT" class="input_radio">
+				<label for="initFormCode3">다구간</label> -->
 			</li>
 		</ul>
 		
@@ -2729,7 +2729,6 @@ function sendSelectionToController() {
     var form = document.createElement('form');
     form.method = 'POST';
     form.action = '/Airplane/Search?id=${ sessionScope.login.id }';
-    //form.action = '/Airline/Search';
 
     // -----  데이터 추가  -----
     
@@ -2912,22 +2911,6 @@ function sendSelectionToController() {
     // 폼 제출
     document.body.appendChild(form);
     form.submit();
-    
-//  	// Collect form data
-//     let formData = new FormData(form);
-
-//     // Send form data via AJAX
-//     fetch('/Airline/Search', {
-//         method: 'POST',
-//         body: formData
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         // Redirect to search page with data
-//         //window.location.href = `/airplanesearch.jsp?data=` + encodeURIComponent(JSON.stringify(data));
-//     })
-//     .catch(error => console.error('Error:', error));
-    
 }  
 
 </script>
