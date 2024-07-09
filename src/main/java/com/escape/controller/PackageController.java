@@ -103,8 +103,8 @@ public class PackageController {
 	    // PagingVo 객체 생성 및 초기화
 	    PagingVo pagingVo = new PagingVo();
 	    pagingVo.setPage(nowpage);  // 현재 페이지 번호
-	    pagingVo.setRecordSize(1); // 페이지당 출력할 데이터 개수 (예: 10개)
-	    pagingVo.setPageSize(3);    // 화면 하단에 출력할 페이지 사이즈 (예: 5개 페이지씩)
+	    pagingVo.setRecordSize(8); // 페이지당 출력할 데이터 개수 (예: 10개)
+	    pagingVo.setPageSize(5);    // 화면 하단에 출력할 페이지 사이즈 (예: 5개 페이지씩)
 
 	    // 페이징을 위한 OFFSET 계산
 	    int offset = pagingVo.getOffset();
@@ -151,8 +151,8 @@ public class PackageController {
 	    
 	    //PagingVo pagingVo = new PagingVo();
 	    pagingVo.setPage(nowpage);  // 현재 페이지 번호
-	    pagingVo.setRecordSize(1); // 페이지당 출력할 데이터 개수 (예: 10개)
-	    pagingVo.setPageSize(3);    // 화면 하단에 출력할 페이지 사이즈 (예: 5개 페이지씩)
+	    pagingVo.setRecordSize(8); // 페이지당 출력할 데이터 개수 (예: 10개)
+	    pagingVo.setPageSize(5);    // 화면 하단에 출력할 페이지 사이즈 (예: 5개 페이지씩)
 
 	    // 페이징을 위한 OFFSET 계산
 	    offset = pagingVo.getOffset();
