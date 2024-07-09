@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-<h2>CaTch_Work</h2>
 
-=======
-# Project3
->>>>>>> branch 'main' of https://github.com/Luby94/Project3.git
+<h2> Escape 프로젝트</h2>
+
+<p> 숙박 항공 패키지를 한눈에 볼수있는 페이지를 목표로 한다</p>
