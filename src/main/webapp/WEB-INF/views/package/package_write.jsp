@@ -234,7 +234,7 @@
 
     <div class="form-group">
       <label for="title" class="form-label">제목</label>
-      <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required value="제목1">
+      <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required value="파리여행을 떠나요">
     </div>
     <hr>
 
@@ -246,15 +246,15 @@
 
     <div class="form-group">
       <label for="detail1" class="form-label">상세 내용 1</label>
-      <textarea id="detail1" name="detail1" class="form-control" rows="4" placeholder="상세 내용 1">ㅇㅁㄴㅇㄻㄴㅇ</textarea>
+      <textarea id="detail1" name="detail1" class="form-control" rows="4" placeholder="상세 내용 1"></textarea>
     </div>
     <div class="form-group">
       <label for="detail2" class="form-label">상세 내용 2</label>
-      <textarea id="detail2" name="detail2" class="form-control" rows="4" placeholder="상세 내용 2">ㅁㄴㅇㄹㄴㅁㅇ</textarea>
+      <textarea id="detail2" name="detail2" class="form-control" rows="4" placeholder="상세 내용 2"></textarea>
     </div>
     <div class="form-group">
       <label for="detail3" class="form-label">상세 내용 3</label>
-      <textarea id="detail3" name="detail3" class="form-control" rows="4" placeholder="상세 내용 3">ㅅㅁㄴㅇㄹㄴㅁ</textarea>
+      <textarea id="detail3" name="detail3" class="form-control" rows="4" placeholder="상세 내용 3"></textarea>
     </div>
 
     <hr>

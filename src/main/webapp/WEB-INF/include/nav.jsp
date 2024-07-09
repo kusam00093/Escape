@@ -16,9 +16,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/Accommodation/Home"><img src="/images/icons5.png" class="nav_icon"/>&nbsp;숙박</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href=""><img src="/images/icons6.png" class="nav_icon"/>&nbsp;여행자보험</a>
-        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="/Board/Boardhome?id=${ sessionScope.login.id }&nowpage=1"><img src="/images/icons7.png" class="nav_icon"/>&nbsp;커뮤니티</a>
         </li>

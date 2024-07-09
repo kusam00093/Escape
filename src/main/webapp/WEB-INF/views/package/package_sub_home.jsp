@@ -87,6 +87,7 @@ h2 {
   text-decoration: none;
 }
 
+
 @media (max-width: 767px) {
   .hero-slider .swiper-button-prev,
   .hero-slider .swiper-button-next {
@@ -407,7 +408,7 @@ body {
 }
 
 .container1 {
-  width: 70%;
+  width: 60%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -707,15 +708,14 @@ body {
         <div class="slide-inner slide-bg-image" data-background="/package_image/package_paris.jpg">
           <div class="container">
             <div data-swiper-parallax="300" class="slide-title">
-              <h2>GUITAR CLASSESFOR KIDS</h2>
+              <h2>Take a trip to Paris</h2>
             </div>
             <div data-swiper-parallax="400" class="slide-text">
-              <p>Want to see your kid become more expressive?</p>
+              <p>Please select the product you wan</p>
             </div>
             <div class="clearfix"></div>
             <div data-swiper-parallax="500" class="slide-btns">
-              <a href="#" class="theme-btn-s2">Register now</a>
-              <a href="#" class="theme-btn-s3"><i class="fas fa-chevron-circle-right"></i> Get Info</a>
+              <a href="#" class="theme-btn-s2">Leave now</a>
             </div>
           </div>
         </div>
@@ -727,15 +727,14 @@ body {
         <div class="slide-inner slide-bg-image" data-background="/package_image/package_epl.jpg">
           <div class="container">
             <div data-swiper-parallax="300" class="slide-title">
-              <h2>GUITAR CLASSESFOR KIDS</h2>
+              <h2>Take a trip to England</h2>
             </div>
             <div data-swiper-parallax="400" class="slide-text">
-              <p>Want to see your kid become more expressive?</p>
+              <p>let's go watch epl</p>
             </div>
             <div class="clearfix"></div>
             <div data-swiper-parallax="500" class="slide-btns">
-              <a href="#" class="theme-btn-s2">Register now</a>
-              <a href="#" class="theme-btn-s3"><i class="fas fa-chevron-circle-right"></i>Get Info</a>
+              <a href="#" class="theme-btn-s2">Leave now</a>
             </div>
           </div>
         </div>
@@ -762,22 +761,22 @@ body {
     <option value="high_price">가격높은순</option>
   </select>
 </div>
-
+   <c:if test="${user_type==2}">
+    <a href="/Package/WriteForm?user_idx=${user_idx}" class="btn btn-dark" style="float:right; margin-right: 250px;">글쓰기</a>
+</c:if>
 <c:choose>
   <c:when test="${not empty categoryVo.category_idx}">
-    <h2>${ categoryVo.name }의 검색결과입니다</h2>
+    <h2 class="sub_title">${ categoryVo.name }의 검색결과입니다</h2>
     <input type="hidden" value="${ categoryVo.category_idx }" id="category">
   </c:when>
   <c:when test="${not empty keyword}">
-    <h2 class="keyword">${ keyword }의 검색결과입니다</h2>
+    <h2 class="keyword sub_title">${ keyword }의 검색결과입니다</h2>
   </c:when>
   <c:otherwise>
     <h2 class="sub_title">패키지 리스트 입니다</h2>
   </c:otherwise>
 </c:choose>
-   <c:if test="${user_type==2}">
-    <a href="/Package/WriteForm?user_idx=${user_idx}">글쓰기</a>
-</c:if>
+
     <div class="container1">
         <div class="card-container">
             <c:forEach var="pa" items="${packageList_sub}">

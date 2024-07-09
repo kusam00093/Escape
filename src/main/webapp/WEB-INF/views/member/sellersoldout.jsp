@@ -252,7 +252,7 @@
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td>${Room.title}</td>
-                                    <td>${Room.max_preson}</td>
+                                    <td>${Room.max_person}</td>
                                     <td>${Room.reservation_guest}</td>
                                     <td>
                             <c:choose>

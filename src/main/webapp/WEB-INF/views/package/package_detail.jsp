@@ -37,7 +37,7 @@
   top: 20px;
   width: 300px; 
   margin-left: 20px;
-  background-color: #ffe3e3
+   background-color: #fff;
 }
 
 .sidebar-section {
@@ -712,7 +712,109 @@ display:inline-block;
             .delete-button-wrapper {
         text-align: right; /* 삭제하기 버튼을 오른쪽 정렬합니다. */
     }
+    
+    .sidebar1 {
+      width: 320px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      border: 1px solid #eaeaea;
+      margin: 20px auto;
+    }
+
+    .sidebar-section {
+      margin-bottom: 25px;
+    }
+
+    .sidebar-section h4 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+    }
+
+    .sidebar-section p {
+      font-size: 16px;
+      color: #555;
+      margin: 10px 0;
+    }
+
+    .container4 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #333;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 40px;
+      border: 1px solid #ccc;
+      margin: 0 10px;
+      border-radius: 8px;
+    }
+
+    #counter-value {
+      font-size: 18px;
+      color: #333;
+    }
+
+    form1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #finalmoney {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"],
+    #goUpdateForm {
+      width: 100%;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"]:hover,
+    #goUpdateForm:hover {
+      background-color: #333;
+    }
+    
+    
     </style>
+    
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -834,10 +936,10 @@ display:inline-block;
 ${packageVo.detail1}
 </div>
 <div class=detail>
-${packageVo.detail1}
+${packageVo.detail2}
 </div>
 <div class=detail>
-${packageVo.detail1}
+${packageVo.detail3}
 </div>
 <button class="button">더보기</button>
 
@@ -994,15 +1096,6 @@ ${packageVo.detail1}
 
     </div>
 
-    <div class="sidebar-section">
-      <h4>테이블</h4>
-      <table>
-        <tr>
-          <th>헤더</th>
-          <td>내용</td>
-        </tr>
-      </table>
-    </div>
 <c:if test="${usertype.type eq 1}">
   <!-- ${usertype} 값이 1일 때만 보이는 HTML -->
   <div>
@@ -1023,7 +1116,7 @@ ${packageVo.detail1}
         <c:when test="${remain_person > 0 && remain_person <= (packageVo.limited_person * 0.1)}">
             <p>${ remain_person } 명 남았습니다</p>
             <p>곧 마감입니다!!</p>
-                 <input type="submit" value="예약하기" id="goApply">
+                 <input type="submit" value="예약하기" id="goApply" class="btn btn-dark">
         </c:when>
         <c:otherwise>
               <input type="submit" value="예약하기" id="goApply">
@@ -1032,15 +1125,13 @@ ${packageVo.detail1}
       
 
     </form>
-    <button id="bookmarkbtn">스크랩하기</button>
   </div>
 </c:if>
 
     <div class="sidebar-section">
-      <h4>코멘트</h4>
 <c:choose>
     <c:when test="${not empty user_idx and packageVo.user_idx == user_idx}">
-        <button id="goUpdateForm">수정하기</button>
+        <button id="goUpdateForm" class="btn btn-dark">수정하기</button>
     </c:when>
     <c:otherwise>
     </c:otherwise>

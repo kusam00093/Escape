@@ -51,7 +51,7 @@
   }
   .prev {
     left: 0;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
   }
   .next {
     right: 0;
@@ -461,13 +461,13 @@ body {
                         <div style="display: flex; align-items: center;">
                             <c:choose>
                                 <c:when test="${not empty pa.category_name}">
-                                    <button class="btn btn-primary" style="margin-left: 10px;">${pa.category_name}</button>
+                                    <button class="btn btn-dark btna" style="margin-left: 10px;">${pa.category_name}</button>
                                 </c:when>
                             </c:choose>
 
                             <c:choose>
                                 <c:when test="${not empty pa.location_name}">
-                                    <button class="btn btn-primary" style="margin-left: 10px;">${pa.location_name}</button>
+                                    <button class="btn btn-dark btna"  style="margin-left: 10px;">${pa.location_name}</button>
                                 </c:when>
                             </c:choose>
                         </div>
@@ -531,8 +531,8 @@ body {
 
     </div>
     <div class="button-container">
-      <button id="prevButton">이전</button>
-      <button id="nextButton">다음</button>
+      <button class="btn btn-outline-dark"id="prevButton">이전</button>
+      <button class="btn btn-outline-dark" id="nextButton">다음</button>
     </div>
   </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
