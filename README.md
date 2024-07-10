@@ -16,7 +16,7 @@
 <h2>모델링</h2>
 유상훈<br>
 ●패키지-패키지 홈<br>
-●패키지-패키지 검색결과<br>
+●패키지-패키지 검색결과ㅇ
 ●패키지-패키지 상세보기<br> 
 ●패키지-패키지 패키지 등록<br>
 ●패키지-패키지 수정/삭제<br>
@@ -50,9 +50,9 @@
 ●커뮤니티 - 뉴스<br>
 ●커뮤니티 - Q&A<br>
 ●커뮤니티 - 공지사<br>
-<h2>데이터베이스 설계</h2>
-![image](https://github.com/joyeonw/Return-zero/assets/106740152/323d12a9-8ac7-4057-82e1-1d8ecd712acf)
-![image](https://github.com/joyeonw/Return-zero/assets/106740152/d08858a4-bc0c-4df6-a703-904f0e845b79)
-![image](https://github.com/joyeonw/Return-zero/assets/106740152/8a565ced-3e45-4e83-ab3a-bc6985c8bde2)
-![image](https://github.com/joyeonw/Return-zero/assets/106740152/19bf88e4-1f8a-465d-89bb-5f3c8608da8a)
+<h2>데이터베이스 설계</h2><br>
+![image](https://github.com/joyeonw/Return-zero/assets/106740152/323d12a9-8ac7-4057-82e1-1d8ecd712acf)<br>
+![image](https://github.com/joyeonw/Return-zero/assets/106740152/d08858a4-bc0c-4df6-a703-904f0e845b79)<br>
+![image](https://github.com/joyeonw/Return-zero/assets/106740152/8a565ced-3e45-4e83-ab3a-bc6985c8bde2)<br>
+![image](https://github.com/joyeonw/Return-zero/assets/106740152/19bf88e4-1f8a-465d-89bb-5f3c8608da8a)<br>
 ![image](https://github.com/joyeonw/Return-zero/assets/106740152/001244d3-2aad-4be3-a7c3-2e7e37de0031)
