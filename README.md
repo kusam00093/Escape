@@ -51,7 +51,6 @@
 ●커뮤니티 - Q&A<br>
 ●커뮤니티 - 공지사<br>
 <h2>데이터베이스 설계</h2><br>
-![2024-07-10 14 30 36](https://github.com/kusam00093/Escape/assets/106740152/12b4ac6f-330d-46b0-95c4-b5244242a694)<br>
 
 ![image](https://github.com/joyeonw/Return-zero/assets/106740152/d08858a4-bc0c-4df6-a703-904f0e845b79)<br>
 ![image](https://github.com/joyeonw/Return-zero/assets/106740152/8a565ced-3e45-4e83-ab3a-bc6985c8bde2)<br>
